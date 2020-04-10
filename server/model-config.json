@@ -1,4 +1,7 @@
 {
+  "Application": {
+    "dataSource": "db"
+  },
   "_meta": {
     "sources": [
       "loopback/common/models",
@@ -34,5 +37,9 @@
   "Role": {
     "dataSource": "db",
     "public": false
+  },
+  "person": {
+    "dataSource": "db",
+    "public": true
   }
 }
