@@ -1,4 +1,3 @@
-import {authenticate} from '@loopback/authentication';
 import {Count, CountSchema, Filter, FilterExcludingWhere, repository, Where} from '@loopback/repository';
 import {del, get, getModelSchemaRef, param, patch, post, put, requestBody} from '@loopback/rest';
 import {VehicleMaster} from '../models';
@@ -18,7 +17,7 @@ export class VehicleMasterController {
       },
     },
   })
-  @authenticate('jwt')
+  // @authenticate('jwt')
   async create(
     @requestBody({
       content: {
@@ -43,7 +42,7 @@ export class VehicleMasterController {
       },
     },
   })
-  @authenticate('jwt')
+  // @authenticate('jwt')
   async count(
     @param.where(VehicleMaster) where?: Where<VehicleMaster>,
   ): Promise<Count> {
@@ -65,7 +64,7 @@ export class VehicleMasterController {
       },
     },
   })
-  @authenticate('jwt')
+  // @authenticate('jwt')
   async find(
     @param.filter(VehicleMaster) filter?: Filter<VehicleMaster>,
   ): Promise<VehicleMaster[]> {
@@ -80,7 +79,7 @@ export class VehicleMasterController {
       },
     },
   })
-  @authenticate('jwt')
+  // @authenticate('jwt')
   async updateAll(
     @requestBody({
       content: {
@@ -107,7 +106,7 @@ export class VehicleMasterController {
       },
     },
   })
-  @authenticate('jwt')
+  // @authenticate('jwt')
   async findById(
     @param.path.number('id') id: number,
     @param.filter(VehicleMaster, {exclude: 'where'}) filter?: FilterExcludingWhere<VehicleMaster>
@@ -122,7 +121,7 @@ export class VehicleMasterController {
       },
     },
   })
-  @authenticate('jwt')
+  // @authenticate('jwt')
   async updateById(
     @param.path.number('id') id: number,
     @requestBody({
@@ -144,7 +143,7 @@ export class VehicleMasterController {
       },
     },
   })
-  @authenticate('jwt')
+  // @authenticate('jwt')
   async replaceById(
     @param.path.number('id') id: number,
     @requestBody() vehicleMaster: VehicleMaster,
@@ -159,7 +158,7 @@ export class VehicleMasterController {
       },
     },
   })
-  @authenticate('jwt')
+  // @authenticate('jwt')
   async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.vehicleMasterRepository.deleteById(id);
   }
