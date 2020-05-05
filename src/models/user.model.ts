@@ -39,9 +39,15 @@ export class User extends Entity {
   })
   mobileNumber: string;
 
+  @property({
+    type: 'boolean',
+    required: true,
+  })
+  isadmin: boolean;
+
   @property.array(String)
   permissions: String[];
-  
+
   constructor(data?: Partial<User>) {
     super(data);
   }

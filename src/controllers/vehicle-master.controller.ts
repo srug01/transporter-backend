@@ -1,5 +1,21 @@
-import {Count, CountSchema, Filter, FilterExcludingWhere, repository, Where} from '@loopback/repository';
-import {del, get, getModelSchemaRef, param, patch, post, put, requestBody} from '@loopback/rest';
+import {
+  Count,
+  CountSchema,
+  Filter,
+  FilterExcludingWhere,
+  repository,
+  Where,
+} from '@loopback/repository';
+import {
+  del,
+  get,
+  getModelSchemaRef,
+  param,
+  patch,
+  post,
+  put,
+  requestBody,
+} from '@loopback/rest';
 import {VehicleMaster} from '../models';
 import {VehicleMasterRepository} from '../repositories';
 
@@ -13,7 +29,9 @@ export class VehicleMasterController {
     responses: {
       '200': {
         description: 'VehicleMaster model instance',
-        content: {'application/json': {schema: getModelSchemaRef(VehicleMaster)}},
+        content: {
+          'application/json': {schema: getModelSchemaRef(VehicleMaster)},
+        },
       },
     },
   })
@@ -24,7 +42,6 @@ export class VehicleMasterController {
         'application/json': {
           schema: getModelSchemaRef(VehicleMaster, {
             title: 'NewVehicleMaster',
-
           }),
         },
       },
@@ -109,7 +126,8 @@ export class VehicleMasterController {
   // @authenticate('jwt')
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(VehicleMaster, {exclude: 'where'}) filter?: FilterExcludingWhere<VehicleMaster>
+    @param.filter(VehicleMaster, {exclude: 'where'})
+    filter?: FilterExcludingWhere<VehicleMaster>,
   ): Promise<VehicleMaster> {
     return this.vehicleMasterRepository.findById(id, filter);
   }

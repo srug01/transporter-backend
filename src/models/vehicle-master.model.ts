@@ -28,7 +28,7 @@ export class VehicleMaster extends Entity {
   vehicle_capacity: string;
 
   @property({
-    type: 'number',
+    type: 'string',
   })
   weight?: number;
 
@@ -38,19 +38,18 @@ export class VehicleMaster extends Entity {
   manufacture_year?: string;
 
   @property({
-    type: 'number',
+    type: 'string',
   })
   state_syscode?: number;
 
   @property({
-    type: 'boolean',
+    type: 'string',
     required: true,
   })
   owned: boolean;
 
-
   @property({
-    type: 'boolean',
+    type: 'string',
     required: true,
     default: true,
   })
