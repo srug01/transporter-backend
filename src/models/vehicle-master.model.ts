@@ -1,6 +1,6 @@
 import {Entity, model, property} from '@loopback/repository';
 
-@model({settings: {strict: false}})
+@model()
 export class VehicleMaster extends Entity {
   @property({
     type: 'number',
@@ -28,7 +28,7 @@ export class VehicleMaster extends Entity {
   vehicle_capacity: string;
 
   @property({
-    type: 'string',
+    type: 'number',
   })
   weight?: number;
 
@@ -38,18 +38,19 @@ export class VehicleMaster extends Entity {
   manufacture_year?: string;
 
   @property({
-    type: 'string',
+    type: 'number',
   })
   state_syscode?: number;
 
   @property({
-    type: 'string',
+    type: 'boolean',
     required: true,
   })
   owned: boolean;
 
+
   @property({
-    type: 'string',
+    type: 'boolean',
     required: true,
     default: true,
   })

@@ -32,31 +32,30 @@ export class JWTService {
   }
   async verifyToken(token: string): Promise<MyUserProfile> {
     //return Promise.resolve({[securityId] : '123',  name: 'utsav', id: '2'});
-    if(!token){
-        throw new HttpErrors.Unauthorized(
-            `Error Verifying Token : 'token' is null`,
-        );
+    if (!token) {
+      throw new HttpErrors.Unauthorized(
+        `Error Verifying Token : 'token' is null`,
+      );
     }
-    let userProfile : MyUserProfile;
+    let userProfile: MyUserProfile;
     try {
-        // decode user profile from token
-        const decryptedToken = await verifyAsync(token, this.jwtSecret);
-        // don't copy over  token field 'iat' and 'exp', nor 'email' to user profile
-        userProfile = Object.assign(
-          {[securityId] : '', id: '', name: '', permissions: [], isadmin: true},
-          {
-            [securityId] : decryptedToken.id,
-            id: decryptedToken.id,
-            name: decryptedToken.name,
-            permissions: decryptedToken.permissions,
-            isadmin: decryptedToken.isadmin
-          },
-        );
-      } catch (error) {
-        throw new HttpErrors.Unauthorized(
-          `Error verifying token : ${error.message}`,
-        );
-      }
-      return userProfile;
+      // decode user profile from token
+      const decryptedToken = await verifyAsync(token, this.jwtSecret);
+      // don't copy over  token field 'iat' and 'exp', nor 'email' to user profile
+      userProfile = Object.assign(
+        {[securityId]: '', id: '', name: '', permissions: []},
+        {
+          [securityId]: decryptedToken.id,
+          id: decryptedToken.id,
+          name: decryptedToken.name,
+          permissions: decryptedToken.permissions,
+        },
+      );
+    } catch (error) {
+      throw new HttpErrors.Unauthorized(
+        `Error verifying token : ${error.message}`,
+      );
+    }
+    return userProfile;
   }
 }
