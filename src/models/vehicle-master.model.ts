@@ -58,15 +58,16 @@ export class VehicleMaster extends Entity {
 
   @property({
     type: 'number',
-    required: true,
+    default: () => 1
   })
   created_by: number;
 
   @property({
     type: 'date',
-    required: true,
+    default: () => new Date()
   })
   created_on: string;
+
 
   @property({
     type: 'number',
@@ -75,6 +76,7 @@ export class VehicleMaster extends Entity {
 
   @property({
     type: 'date',
+    default: () => new Date()
   })
   modified_on?: string;
 
