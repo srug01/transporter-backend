@@ -4,7 +4,7 @@
   "url": "",
   "host": "54.237.6.61",
   "port": 3306,
-  "user": "root",
-  "password": "root",
+  "user": "admin",
+  "password": "admin",
   "database": "transporter"
 }
