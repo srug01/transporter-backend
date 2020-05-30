@@ -1,17 +1,14 @@
 import {UserService} from '@loopback/authentication';
-import {UserProfile,securityId} from '@loopback/security';
-import {Credentials, UserRepository} from '../repositories/user.repository';
-import {User} from '../models';
+import {inject} from '@loopback/core';
 import {repository} from '@loopback/repository';
 import {HttpErrors} from '@loopback/rest';
-import {inject} from '@loopback/core';
-import {BcryptHasher} from './hash.password.bcrypt';
-import {
-  PasswordHasherBindings
-} from '../keys';
-import {MyUserProfile} from '../types';
-import {pick} from 'lodash';
 import {toJSON} from '@loopback/testlab';
+import {pick} from 'lodash';
+import {PasswordHasherBindings} from '../keys';
+import {User} from '../models';
+import {Credentials, UserRepository} from '../repositories/user.repository';
+import {MyUserProfile} from '../types';
+import {BcryptHasher} from './hash.password.bcrypt';
 
 export class MyUserService implements UserService<User, Credentials> {
   constructor(
@@ -45,23 +42,29 @@ export class MyUserService implements UserService<User, Credentials> {
   convertToUserProfile(user: User): MyUserProfile {
     let userName = '';
     let idString = '';
+    let userEmail = '';
     if (user.firstName) {
       userName = user.firstName;
+    }
+    if (user.email) {
+      userEmail = user.email;
     }
     if (user.lastName) {
       userName = user.firstName
         ? `${user.firstName} ${user.lastName}`
         : user.lastName;
     }
-    if(user.id){
+    if (user.id) {
       idString = user.id.toString();
     }
 
     const currentUser: MyUserProfile = pick(toJSON(user), [
       'id',
       'permissions',
+      'email'
     ]) as MyUserProfile;
     currentUser.name = userName;
+    currentUser.email = userEmail;
     return currentUser;
   }
 }
