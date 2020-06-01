@@ -2,9 +2,9 @@
   "name": "test",
   "connector": "mysql",
   "url": "",
-  "host": "34.237.91.144",
+  "host": "localhost",
   "port": 3306,
-  "user": "admin",
-  "password": "admin",
-  "database": "transporter"
+  "user": "root",
+  "password": "utsav@mysql",
+  "database": "transporter2"
 }

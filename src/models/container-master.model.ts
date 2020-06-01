@@ -15,7 +15,6 @@ export class ContainerMaster extends Entity {
   })
   container_name: string;
 
-
   @property({
     type: 'boolean',
     required: true,
@@ -25,13 +24,13 @@ export class ContainerMaster extends Entity {
 
   @property({
     type: 'number',
-    required: true,
+    default: 1,
   })
   created_by: number;
 
   @property({
     type: 'date',
-    required: true,
+    default: new Date(),
   })
   created_on: string;
 
@@ -54,4 +53,5 @@ export interface ContainerMasterRelations {
   // describe navigational properties here
 }
 
-export type ContainerMasterWithRelations = ContainerMaster & ContainerMasterRelations;
+export type ContainerMasterWithRelations = ContainerMaster &
+  ContainerMasterRelations;
