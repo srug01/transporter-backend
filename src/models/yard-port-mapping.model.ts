@@ -21,7 +21,6 @@ export class YardPortMapping extends Entity {
   })
   port_syscode: number;
 
-
   @property({
     type: 'boolean',
     required: true,
@@ -31,13 +30,13 @@ export class YardPortMapping extends Entity {
 
   @property({
     type: 'number',
-    required: true,
+    default: 1,
   })
   created_by: number;
 
   @property({
     type: 'date',
-    required: true,
+    default: new Date(),
   })
   created_on: string;
 
@@ -60,4 +59,5 @@ export interface YardPortMappingRelations {
   // describe navigational properties here
 }
 
-export type YardPortMappingWithRelations = YardPortMapping & YardPortMappingRelations;
+export type YardPortMappingWithRelations = YardPortMapping &
+  YardPortMappingRelations;
