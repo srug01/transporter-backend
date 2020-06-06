@@ -18,3 +18,5 @@ export * from './zone-master.model';
 
 
 
+export * from './cfs-user-registration.model';
+export * from './user-type-master.model';

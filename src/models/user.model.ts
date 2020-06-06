@@ -43,10 +43,13 @@ export class User extends Entity {
     type: 'number',
     required: true,
   })
-  typeSyscode: number;
+  typeSyscode?: number;
 
   @property.array(String)
   permissions: String[];
+
+  // @hasOne(() => UserTypeMaster, {keyTo: 'type_syscode'})
+  // typeSyscode: UserTypeMaster;
 
   constructor(data?: Partial<User>) {
     super(data);
