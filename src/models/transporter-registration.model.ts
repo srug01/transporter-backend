@@ -129,13 +129,13 @@ export class TransporterRegistration extends Entity {
 
   @property({
     type: 'number',
-    required: true,
+    default: 2
   })
   created_by: number;
 
   @property({
     type: 'date',
-    required: true,
+    default: new Date()
   })
   created_on: string;
 
