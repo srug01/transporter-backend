@@ -43,6 +43,7 @@ export class MyUserService implements UserService<User, Credentials> {
     let userName = '';
     let idString = '';
     let userEmail = '';
+    let userType = 0;
     if (user.firstName) {
       userName = user.firstName;
     }
@@ -57,14 +58,19 @@ export class MyUserService implements UserService<User, Credentials> {
     if (user.id) {
       idString = user.id.toString();
     }
+    if (user.typeSyscode) {
+      userType = user.typeSyscode;
+    }
 
     const currentUser: MyUserProfile = pick(toJSON(user), [
       'id',
       'permissions',
-      'email'
+      'email',
+      'typeSyscode',
     ]) as MyUserProfile;
     currentUser.name = userName;
     currentUser.email = userEmail;
+    currentUser.typeSyscode = userType;
     return currentUser;
   }
 }

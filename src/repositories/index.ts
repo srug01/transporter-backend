@@ -16,3 +16,5 @@ export * from './yard-port-mapping.repository';
 export * from './zone-day-master.repository';
 export * from './zone-master.repository';
 
+export * from './cfs-user-registration.repository';
+export * from './transporter-registration.repository';

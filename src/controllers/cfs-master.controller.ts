@@ -1,12 +1,29 @@
-import {Count, CountSchema, Filter, FilterExcludingWhere, repository, Where} from '@loopback/repository';
-import {del, get, getModelSchemaRef, param, patch, post, put, requestBody} from '@loopback/rest';
+import {authenticate} from '@loopback/authentication';
+import {
+  Count,
+  CountSchema,
+  Filter,
+  FilterExcludingWhere,
+  repository,
+  Where,
+} from '@loopback/repository';
+import {
+  del,
+  get,
+  getModelSchemaRef,
+  param,
+  patch,
+  post,
+  put,
+  requestBody,
+} from '@loopback/rest';
 import {CfsMaster} from '../models';
 import {CfsMasterRepository} from '../repositories';
 
 export class CfsMasterController {
   constructor(
     @repository(CfsMasterRepository)
-    public cfsMasterRepository : CfsMasterRepository,
+    public cfsMasterRepository: CfsMasterRepository,
   ) {}
 
   @post('/cfs-masters', {
@@ -17,13 +34,13 @@ export class CfsMasterController {
       },
     },
   })
+  @authenticate('jwt')
   async create(
     @requestBody({
       content: {
         'application/json': {
           schema: getModelSchemaRef(CfsMaster, {
             title: 'NewCfsMaster',
-
           }),
         },
       },
@@ -41,6 +58,7 @@ export class CfsMasterController {
       },
     },
   })
+  @authenticate('jwt')
   async count(
     @param.where(CfsMaster) where?: Where<CfsMaster>,
   ): Promise<Count> {
@@ -62,6 +80,7 @@ export class CfsMasterController {
       },
     },
   })
+  @authenticate('jwt')
   async find(
     @param.filter(CfsMaster) filter?: Filter<CfsMaster>,
   ): Promise<CfsMaster[]> {
@@ -76,6 +95,7 @@ export class CfsMasterController {
       },
     },
   })
+  @authenticate('jwt')
   async updateAll(
     @requestBody({
       content: {
@@ -102,9 +122,11 @@ export class CfsMasterController {
       },
     },
   })
+  @authenticate('jwt')
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(CfsMaster, {exclude: 'where'}) filter?: FilterExcludingWhere<CfsMaster>
+    @param.filter(CfsMaster, {exclude: 'where'})
+    filter?: FilterExcludingWhere<CfsMaster>,
   ): Promise<CfsMaster> {
     return this.cfsMasterRepository.findById(id, filter);
   }
@@ -116,6 +138,7 @@ export class CfsMasterController {
       },
     },
   })
+  @authenticate('jwt')
   async updateById(
     @param.path.number('id') id: number,
     @requestBody({
@@ -137,6 +160,7 @@ export class CfsMasterController {
       },
     },
   })
+  @authenticate('jwt')
   async replaceById(
     @param.path.number('id') id: number,
     @requestBody() cfsMaster: CfsMaster,
@@ -151,6 +175,7 @@ export class CfsMasterController {
       },
     },
   })
+  @authenticate('jwt')
   async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.cfsMasterRepository.deleteById(id);
   }

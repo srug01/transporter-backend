@@ -39,6 +39,12 @@ export class User extends Entity {
   })
   mobileNumber: string;
 
+  @property({
+    type: 'number',
+    required: true,
+  })
+  typeSyscode: number;
+
   @property.array(String)
   permissions: String[];
 
