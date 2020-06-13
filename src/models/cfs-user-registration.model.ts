@@ -38,10 +38,10 @@ export class CfsUserRegistration extends Entity {
   cfs_user_department?: string;
 
   @property({
-    type: 'number',
+    type: 'string',
     required: true,
   })
-  cfs_user_mobile_no: number;
+  cfs_user_mobile_no: string;
 
   @property({
     type: 'string',
@@ -72,13 +72,13 @@ export class CfsUserRegistration extends Entity {
 
   @property({
     type: 'number',
-    required: true,
+    default: () => 1,
   })
   created_by: number;
 
   @property({
     type: 'date',
-    default: new Date(),
+    default: () => new Date(),
   })
   created_on?: string;
 
@@ -92,7 +92,6 @@ export class CfsUserRegistration extends Entity {
   })
   modified_on?: string;
 
-
   constructor(data?: Partial<CfsUserRegistration>) {
     super(data);
   }
@@ -102,4 +101,5 @@ export interface CfsUserRegistrationRelations {
   // describe navigational properties here
 }
 
-export type CfsUserRegistrationWithRelations = CfsUserRegistration & CfsUserRegistrationRelations;
+export type CfsUserRegistrationWithRelations = CfsUserRegistration &
+  CfsUserRegistrationRelations;
