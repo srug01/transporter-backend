@@ -149,7 +149,6 @@ export class TransporterRegistration extends Entity {
   })
   modified_on?: string;
 
-
   constructor(data?: Partial<TransporterRegistration>) {
     super(data);
   }
@@ -159,4 +158,5 @@ export interface TransporterRegistrationRelations {
   // describe navigational properties here
 }
 
-export type TransporterRegistrationWithRelations = TransporterRegistration & TransporterRegistrationRelations;
+export type TransporterRegistrationWithRelations = TransporterRegistration &
+  TransporterRegistrationRelations;

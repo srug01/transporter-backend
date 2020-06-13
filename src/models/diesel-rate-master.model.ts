@@ -21,7 +21,6 @@ export class DieselRateMaster extends Entity {
   })
   date: string;
 
-
   @property({
     type: 'boolean',
     required: true,
@@ -31,19 +30,18 @@ export class DieselRateMaster extends Entity {
 
   @property({
     type: 'number',
-    required: true,
+    default: () => 1,
   })
   created_by: number;
 
   @property({
     type: 'date',
-    required: true,
+    default: () => new Date(),
   })
   created_on: string;
 
   @property({
     type: 'number',
-
   })
   modified_by: number;
 
@@ -61,4 +59,5 @@ export interface DieselRateMasterRelations {
   // describe navigational properties here
 }
 
-export type DieselRateMasterWithRelations = DieselRateMaster & DieselRateMasterRelations;
+export type DieselRateMasterWithRelations = DieselRateMaster &
+  DieselRateMasterRelations;
