@@ -42,19 +42,18 @@ export class CfsRateMaster extends Entity {
 
   @property({
     type: 'number',
-    required: true,
+    default: () => 1,
   })
   created_by: number;
 
   @property({
     type: 'date',
-    required: true,
+    default: () => new Date(),
   })
   created_on: string;
 
   @property({
     type: 'number',
-
   })
   modified_by: number;
 
@@ -62,7 +61,6 @@ export class CfsRateMaster extends Entity {
     type: 'date',
   })
   modified_on?: string;
-
 
   constructor(data?: Partial<CfsRateMaster>) {
     super(data);
