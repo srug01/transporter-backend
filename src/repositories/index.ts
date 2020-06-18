@@ -18,3 +18,6 @@ export * from './zone-master.repository';
 
 export * from './cfs-user-registration.repository';
 export * from './transporter-registration.repository';
+export * from './orders.repository';
+export * from './ordercontainerdetails.repository';
+export * from './ordertruckdetails.repository';

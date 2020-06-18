@@ -20,3 +20,6 @@ export * from './zone-master.model';
 
 export * from './cfs-user-registration.model';
 export * from './transporter-registration.model';
+export * from './orders.model';
+export * from './ordercontainerdetails.model';
+export * from './ordertruckdetails.model';

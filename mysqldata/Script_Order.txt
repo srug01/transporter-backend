@@ -1,0 +1,45 @@
+
+CREATE TABLE `transporter2`.`orders` (
+  `order_syscode` INT NOT NULL AUTO_INCREMENT,
+  `order_type_syscode` INT NOT NULL,
+  `order_date` DATETIME NOT NULL,
+  `source_syscode` INT NOT NULL,
+  `source_type_syscode` INT NOT NULL,
+  `destination_syscode` INT NOT NULL,
+  `destination_type_syscode` INT NOT NULL,
+  `order_remarks` MEDIUMTEXT NULL,
+  `order_address` MEDIUMTEXT NULL,
+  `is_delete` TINYINT NULL,
+  `created_by` INT NOT NULL,
+  `created_on` DATETIME NOT NULL,
+  `modify_by` INT NULL,
+  `modify_on` DATETIME NULL,
+  PRIMARY KEY (`order_syscode`));
+
+CREATE TABLE `transporter2`.`ordercontainerdetails` (
+  `order_container_syscode` INT NOT NULL,
+  `order_syscode` INT NOT NULL,
+  `container_type` INT NOT NULL,
+  `weight_type` INT NOT NULL,
+  `no_of_truck` INT NOT NULL,
+  `is_delete` TINYINT NULL,
+  `created_by` INT NOT NULL,
+  `created_on` DATETIME NOT NULL,
+  `modify_by` INT NULL,
+  `modify_on` DATETIME NULL,
+  PRIMARY KEY (`order_container_syscode`));
+ALTER TABLE `transporter2`.`ordercontainerdetails` 
+CHANGE COLUMN `order_container_syscode` `order_container_syscode` INT NOT NULL AUTO_INCREMENT ;
+
+
+CREATE TABLE `transporter2`.`ordertruckdetails` (
+  `order_truck_syscode` INT NOT NULL,
+  `order_syscode` INT NOT NULL,
+  `order_container_syscode` INT NOT NULL,
+  `truck_no` VARCHAR(45) NULL,
+  `is_delete` TINYINT NULL,
+  `created_by` INT NOT NULL,
+  `created_on` DATETIME NOT NULL,
+  `modify_by` INT NULL,
+  `modify_on` DATETIME NULL,
+  PRIMARY KEY (`order_truck_syscode`));
