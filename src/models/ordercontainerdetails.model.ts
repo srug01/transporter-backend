@@ -1,4 +1,5 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, hasMany, model, property} from '@loopback/repository';
+import {Ordertruckdetails} from './ordertruckdetails.model';
 
 @model()
 export class Ordercontainerdetails extends Entity {
@@ -59,6 +60,9 @@ export class Ordercontainerdetails extends Entity {
     type: 'date',
   })
   modify_on?: string;
+
+  @hasMany(() => Ordertruckdetails, {keyTo: 'order_container_syscode'})
+  order_container_numbers: Ordertruckdetails[];
 
   // @belongsTo(() => Orders, {name: 'belongsTo'})
   // order_syscode: number;

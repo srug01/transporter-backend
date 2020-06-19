@@ -25,6 +25,9 @@ export async function migrate(args: string[]) {
       'YardPortMapping',
       'ZoneDayMaster',
       'ZoneMaster',
+      'Orders',
+      'Ordertruckdetails',
+      'Ordercontainerdetails'
     ],
   });
 

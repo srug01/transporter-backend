@@ -83,6 +83,9 @@ export class Orders extends Entity {
   })
   modify_on?: string;
 
+  @property({
+    type: 'any'
+  })
   @hasMany(() => Ordercontainerdetails, {keyTo: 'order_syscode'})
   ordercontainers: Ordercontainerdetails[];
 
