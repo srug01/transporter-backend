@@ -3,26 +3,29 @@ import {
   CountSchema,
   Filter,
   FilterExcludingWhere,
-  repository,
-  Where,
+  Order, repository,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+  del, get,
+  getModelSchemaRef, param,
+  patch, post,
   put,
-  del,
-  requestBody,
+  requestBody
 } from '@loopback/rest';
 import {Orders} from '../models';
-import {OrdersRepository} from '../repositories';
+import {OrdercontainerdetailsRepository, OrdersRepository, OrdertruckdetailsRepository} from '../repositories';
+
 
 export class OrdersController {
   constructor(
     @repository(OrdersRepository)
-    public ordersRepository : OrdersRepository,
+    public ordersRepository: OrdersRepository,
+    @repository(OrdercontainerdetailsRepository)
+    public OrdercontainerdetailsRepository: OrdercontainerdetailsRepository,
+    @repository(OrdertruckdetailsRepository)
+    public ordertruckdetailsRepository: OrdertruckdetailsRepository,
+
   ) {}
 
   @post('/orders', {
@@ -46,6 +49,11 @@ export class OrdersController {
     })
     orders: Omit<Orders, 'order_syscode'>,
   ): Promise<Orders> {
+    const containers = orders.ordercontainers;
+    console.log(containers);
+    delete orders.ordercontainers;
+    const order = this.ordersRepository.create(orders);
+    console.log(order);
     return this.ordersRepository.create(orders);
   }
 
@@ -169,5 +177,13 @@ export class OrdersController {
   })
   async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.ordersRepository.deleteById(id);
+  }
+
+
+  @post('/orders/create') // same as @operation('post', '/todos');
+  async createOrder(@requestBody() order: Order) {
+    console.log(order);
+    return this.ordersRepository.create(order);
+    // data creating logic goes here
   }
 }
