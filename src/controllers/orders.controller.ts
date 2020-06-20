@@ -13,7 +13,7 @@ import {
   put,
   requestBody
 } from '@loopback/rest';
-import {Orders} from '../models';
+import {Ordercontainerdetails, Orders} from '../models';
 import {OrdercontainerdetailsRepository, OrdersRepository, OrdertruckdetailsRepository} from '../repositories';
 
 
@@ -49,12 +49,19 @@ export class OrdersController {
     })
     orders: Omit<Orders, 'order_syscode'>,
   ): Promise<Orders> {
-    const containers = orders.ordercontainers;
-    console.log(containers);
+    const containers: Ordercontainerdetails[] = orders.ordercontainers;
     delete orders.ordercontainers;
-    const order = this.ordersRepository.create(orders);
-    console.log(order);
-    return this.ordersRepository.create(orders);
+    const order = await this.ordersRepository.create(orders);
+    for (let i = 0; i < containers.length; i++) {
+      const container = containers[i];
+      delete container.order_syscode_key;
+      delete container.order_container_syscode;
+      delete container.order_container_numbers;
+      console.log(container);
+      this.ordersRepository
+        .ordercontainers(order.order_syscode).create(container);
+    }
+    return order;
   }
 
   @get('/orders/count', {
