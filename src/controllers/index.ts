@@ -5,8 +5,9 @@ export * from './cfs-user-registration.controller';
 export * from './container-master.controller';
 export * from './diesel-rate-master.controller';
 export * from './mileage-master.controller';
-export * from './orders-ordercontainerdetails.controller';
-export * from './orders.controller';
+// export * from './ordercontainerdetails-orders.controller';
+export * from './order-container.controller';
+export * from './order.controller';
 export * from './ping.controller';
 export * from './port-master.controller';
 export * from './product.controller';
@@ -22,4 +23,3 @@ export * from './yard-port-mapping.controller';
 export * from './zone-day-master.controller';
 export * from './zone-master.controller';
 
-// export * from './ordercontainerdetails-orders.controller';
