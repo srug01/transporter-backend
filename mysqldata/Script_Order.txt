@@ -52,3 +52,14 @@ CREATE TABLE `transporter2`.`settings` (
   PRIMARY KEY (`settings_syscode`));
 ALTER TABLE `transporter2`.`settings` 
 ADD COLUMN `is_active` TINYINT NOT NULL AFTER `settings_value`;
+
+
+CREATE TABLE `transporter2`.`userrolemapping` (
+  `userroleId` INT NOT NULL,
+  `userId` INT NOT NULL,
+  `roleId` INT NOT NULL,
+  `isActive` TINYINT NOT NULL,
+  `description` VARCHAR(145) NULL,
+  PRIMARY KEY (`userroleId`));
+ALTER TABLE `transporter2`.`userrolemapping` 
+CHANGE COLUMN `userroleId` `userroleId` INT NOT NULL AUTO_INCREMENT ;

@@ -24,3 +24,4 @@ export * from './zone-master.controller';
 
 // export * from './ordercontainerdetails-orders.controller';
 export * from './settings.controller';
+export * from './user-userrolemapping.controller';

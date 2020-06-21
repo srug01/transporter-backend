@@ -24,3 +24,4 @@ export * from './orders.model';
 export * from './ordercontainerdetails.model';
 export * from './ordertruckdetails.model';
 export * from './settings.model';
+export * from './userrolemapping.model';

@@ -5,7 +5,7 @@ import {HttpErrors} from '@loopback/rest';
 import {toJSON} from '@loopback/testlab';
 import {pick} from 'lodash';
 import {PasswordHasherBindings} from '../keys';
-import {User} from '../models';
+import {User, Userrolemapping} from '../models';
 import {Credentials, UserRepository} from '../repositories/user.repository';
 import {MyUserProfile} from '../types';
 import {BcryptHasher} from './hash.password.bcrypt';
@@ -15,7 +15,7 @@ export class MyUserService implements UserService<User, Credentials> {
     @repository(UserRepository)
     public userRepository: UserRepository,
     @inject(PasswordHasherBindings.PASSWORD_HASHER)
-    public hasher: BcryptHasher,
+    public hasher: BcryptHasher, // public roles: Userrolemapping[],
   ) {}
   async verifyCredentials(credentials: Credentials): Promise<User> {
     //
@@ -39,11 +39,19 @@ export class MyUserService implements UserService<User, Credentials> {
     }
     return foundUser;
   }
+
+  async UserRoles(id: string): Promise<Userrolemapping[]> {
+    //Get User Roles
+    const roles = await this.userRepository.userroles(+id).find();
+    return roles;
+  }
+
   convertToUserProfile(user: User): MyUserProfile {
     let userName = '';
     let idString = '';
     let userEmail = '';
     let userType = 0;
+
     if (user.firstName) {
       userName = user.firstName;
     }
@@ -57,6 +65,7 @@ export class MyUserService implements UserService<User, Credentials> {
     }
     if (user.id) {
       idString = user.id.toString();
+      // this.roles = this.userRepository.userroles(user.id).find();
     }
     if (user.typeSyscode) {
       userType = user.typeSyscode;

@@ -22,3 +22,4 @@ export * from './orders.repository';
 export * from './ordercontainerdetails.repository';
 export * from './ordertruckdetails.repository';
 export * from './settings.repository';
+export * from './userrolemapping.repository';
