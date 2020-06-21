@@ -22,6 +22,7 @@ import {
 } from '@loopback/rest';
 import {Order} from '../models';
 import {OrderRepository} from '../repositories';
+import {Container} from './../models/container.model';
 
 export class OrderController {
   constructor(
@@ -50,7 +51,15 @@ export class OrderController {
     })
     order: Omit<Order, 'orderId'>,
   ): Promise<Order> {
-    return this.orderRepository.create(order);
+    const containers: Container[] = order.containers;
+    delete order.containers;
+    const createdOrder = await this.orderRepository.create(order);
+    for (let i = 0; i < containers.length; i++) {
+      const container = containers[i];
+      container.orderId = createdOrder.getId();
+      this.orderRepository.containers(createdOrder.getId()).create(container);
+    }
+    return createdOrder;
   }
 
   @get('/orders/count', {
