@@ -21,3 +21,4 @@ export * from './zone-day-master.repository';
 export * from './zone-master.repository';
 
 
+export * from './truck.repository';

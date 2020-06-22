@@ -1,43 +1,29 @@
-import {Entity, model, property, hasMany} from '@loopback/repository';
-import {Truck} from './truck.model';
+import {Entity, model, property} from '@loopback/repository';
 
 @model({settings: {strict: false}})
-export class Container extends Entity {
+export class Truck extends Entity {
   @property({
     type: 'number',
     id: true,
     generated: true,
   })
+  truckId?: number;
+
+  @property({
+    type: 'number',
+  })
   containerId?: number;
 
   @property({
-    type: 'number',
+    type: 'string',
   })
-  orderId?: number;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  container_type: number;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  weight_type: number;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  no_of_trucks: number;
+  truck_no?: string;
 
   @property({
     type: 'boolean',
-    required: true,
+    default: false,
   })
-  is_delete: boolean;
+  is_delete?: boolean;
 
   @property({
     type: 'number',
@@ -59,21 +45,19 @@ export class Container extends Entity {
   })
   modify_on?: string;
 
-  @hasMany(() => Truck)
-  trucks: Truck[];
   // Define well-known properties here
 
   // Indexer property to allow additional data
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [prop: string]: any;
 
-  constructor(data?: Partial<Container>) {
+  constructor(data?: Partial<Truck>) {
     super(data);
   }
 }
 
-export interface ContainerRelations {
+export interface TruckRelations {
   // describe navigational properties here
 }
 
-export type ContainerWithRelations = Container & ContainerRelations;
+export type TruckWithRelations = Truck & TruckRelations;

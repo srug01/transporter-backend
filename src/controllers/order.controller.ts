@@ -23,11 +23,15 @@ import {
 import {Order} from '../models';
 import {OrderRepository} from '../repositories';
 import {Container} from './../models/container.model';
+import {Truck} from './../models/truck.model';
+import {ContainerRepository} from './../repositories/container.repository';
 
 export class OrderController {
   constructor(
     @repository(OrderRepository)
     public orderRepository: OrderRepository,
+    @repository(ContainerRepository)
+    public containerRepository: ContainerRepository
   ) {}
 
   @post('/orders', {
@@ -56,8 +60,14 @@ export class OrderController {
     const createdOrder = await this.orderRepository.create(order);
     for (let i = 0; i < containers.length; i++) {
       const container = containers[i];
+      const trucks: Truck[] = container.trucks;
+      delete container.trucks;
       container.orderId = createdOrder.getId();
-      this.orderRepository.containers(createdOrder.getId()).create(container);
+      const createdContainer = await this.orderRepository.containers(createdOrder.getId()).create(container);
+      for (const truck of trucks) {
+        truck.containerId = createdContainer.getId();
+        this.containerRepository.trucks(createdContainer.getId()).create(truck);
+      }
     }
     return createdOrder;
   }

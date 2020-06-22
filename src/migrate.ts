@@ -26,7 +26,8 @@ export async function migrate(args: string[]) {
       'ZoneDayMaster',
       'ZoneMaster',
       'Order',
-      'Container'
+      'Container',
+      'Truck'
     ],
   });
 
