@@ -1,4 +1,5 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, hasMany, model, property} from '@loopback/repository';
+import {Userrolemapping} from './userrolemapping.model';
 
 @model()
 export class User extends Entity {
@@ -47,6 +48,9 @@ export class User extends Entity {
 
   @property.array(String)
   permissions: String[];
+
+  @hasMany(() => Userrolemapping)
+  roles: Userrolemapping[];
 
   constructor(data?: Partial<User>) {
     super(data);

@@ -50,6 +50,7 @@ export class JWTService {
           email: '',
           typeSyscode: 0,
           permissions: [],
+          roles: [],
         },
         {
           [securityId]: decryptedToken.id,
@@ -58,6 +59,7 @@ export class JWTService {
           email: decryptedToken.email,
           typeSyscode: decryptedToken.typeSyscode,
           permissions: decryptedToken.permissions,
+          roles: decryptedToken.roles,
         },
       );
     } catch (error) {

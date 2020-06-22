@@ -8,9 +8,14 @@ export * from './mileage-master.repository';
 export * from './order.repository';
 export * from './port-master.repository';
 export * from './product.repository';
+/*export * from './orders.repository';
+export * from './ordercontainerdetails.repository';
+export * from './ordertruckdetails.repository';*/
+export * from './settings.repository';
 export * from './state-master.repository';
 export * from './transporter-registration.repository';
 export * from './user.repository';
+export * from './userrolemapping.repository';
 export * from './vehicle-master.repository';
 export * from './vehicle.repository';
 export * from './weight-master.repository';
@@ -19,6 +24,3 @@ export * from './yard-master.repository';
 export * from './yard-port-mapping.repository';
 export * from './zone-day-master.repository';
 export * from './zone-master.repository';
-
-
-export * from './truck.repository';
