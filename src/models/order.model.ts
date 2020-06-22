@@ -1,50 +1,44 @@
 import {Entity, hasMany, model, property} from '@loopback/repository';
-import {Ordercontainerdetails} from './ordercontainerdetails.model';
+import {Container} from './container.model';
 
 @model()
-export class Orders extends Entity {
+export class Order extends Entity {
+  @property({
+    type: 'number',
+  })
+  order_type_syscode?: number;
+
   @property({
     type: 'number',
     id: true,
     generated: true,
   })
-  order_syscode?: number;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  order_type_syscode: number;
+  orderId?: number;
 
   @property({
     type: 'date',
-    required: true,
   })
-  order_date: string;
+  order_date?: string;
 
   @property({
     type: 'number',
-    required: true,
   })
-  source_syscode: number;
+  source_syscode?: number;
 
   @property({
     type: 'number',
-    required: true,
   })
-  source_type_syscode: number;
+  destination_syscode?: number;
 
   @property({
     type: 'number',
-    required: true,
   })
-  destination_syscode: number;
+  destination_type_syscode?: number;
 
   @property({
     type: 'number',
-    required: true,
   })
-  destination_type_syscode: number;
+  source_type_syscode?: number;
 
   @property({
     type: 'string',
@@ -63,15 +57,13 @@ export class Orders extends Entity {
 
   @property({
     type: 'number',
-    required: true,
   })
-  created_by: number;
+  created_by?: number;
 
   @property({
     type: 'date',
-    required: true,
   })
-  created_on: string;
+  created_on?: string;
 
   @property({
     type: 'number',
@@ -84,18 +76,18 @@ export class Orders extends Entity {
   modify_on?: string;
 
   @property({
-    type: 'any'
+    type: 'any',
   })
-  @hasMany(() => Ordercontainerdetails, {keyTo: 'order_syscode'})
-  ordercontainers: Ordercontainerdetails[];
+  @hasMany(() => Container)
+  containers: Container[];
 
-  constructor(data?: Partial<Orders>) {
+  constructor(data?: Partial<Order>) {
     super(data);
   }
 }
 
-export interface OrdersRelations {
+export interface OrderRelations {
   // describe navigational properties here
 }
 
-export type OrdersWithRelations = Orders & OrdersRelations;
+export type OrderWithRelations = Order & OrderRelations;

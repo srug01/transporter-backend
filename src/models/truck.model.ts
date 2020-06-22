@@ -1,25 +1,18 @@
 import {Entity, model, property} from '@loopback/repository';
 
-@model()
-export class Ordertruckdetails extends Entity {
+@model({settings: {strict: false}})
+export class Truck extends Entity {
   @property({
     type: 'number',
     id: true,
     generated: true,
   })
-  order_truck_syscode?: number;
+  truckId?: number;
 
   @property({
     type: 'number',
-    required: true,
   })
-  order_syscode: number;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  order_container_syscode: number;
+  containerId?: number;
 
   @property({
     type: 'string',
@@ -28,20 +21,19 @@ export class Ordertruckdetails extends Entity {
 
   @property({
     type: 'boolean',
+    default: false,
   })
   is_delete?: boolean;
 
   @property({
     type: 'number',
-    required: true,
   })
-  created_by: number;
+  created_by?: number;
 
   @property({
     type: 'date',
-    required: true,
   })
-  created_on: string;
+  created_on?: string;
 
   @property({
     type: 'number',
@@ -53,14 +45,19 @@ export class Ordertruckdetails extends Entity {
   })
   modify_on?: string;
 
+  // Define well-known properties here
 
-  constructor(data?: Partial<Ordertruckdetails>) {
+  // Indexer property to allow additional data
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [prop: string]: any;
+
+  constructor(data?: Partial<Truck>) {
     super(data);
   }
 }
 
-export interface OrdertruckdetailsRelations {
+export interface TruckRelations {
   // describe navigational properties here
 }
 
-export type OrdertruckdetailsWithRelations = Ordertruckdetails & OrdertruckdetailsRelations;
+export type TruckWithRelations = Truck & TruckRelations;
