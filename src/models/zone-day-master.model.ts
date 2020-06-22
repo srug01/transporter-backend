@@ -40,15 +40,15 @@ export class ZoneDayMaster extends Entity {
 
   @property({
     type: 'number',
-    default: () => 1
+    required: true,
   })
   created_by: number;
 
   @property({
     type: 'date',
-    default: () => new Date()
+    required: true,
   })
-  created_on?: string;
+  created_on: string;
 
   @property({
     type: 'number',

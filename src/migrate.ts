@@ -8,9 +8,28 @@ export async function migrate(args: string[]) {
   await app.boot();
   await app.migrateSchema({
     existingSchema,
-    models: ['User', 'Vehicle', 'WeightMaster', 'CfsRateMaster', 'CfsMaster', 'ContainerMaster', 'DieselRateMaster', 'MileageMaster', 'PortMaster', 'StateMaster', 'VehicleMaster', 'YardCfsRateMaster', 'YardMaster', 'YardPortMapping', 'ZoneDayMaster', 'ZoneMaster']
+    models: [
+      'User',
+      'Vehicle',
+      'WeightMaster',
+      'CfsRateMaster',
+      'CfsMaster',
+      'ContainerMaster',
+      'DieselRateMaster',
+      'MileageMaster',
+      'PortMaster',
+      'StateMaster',
+      'VehicleMaster',
+      'YardCfsRateMaster',
+      'YardMaster',
+      'YardPortMapping',
+      'ZoneDayMaster',
+      'ZoneMaster',
+      'Order',
+      'Container',
+      'Truck'
+    ],
   });
-
 
   // Connectors usually keep a pool of opened connections,
   // this keeps the process running even after all work is done.

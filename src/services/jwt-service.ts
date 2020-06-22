@@ -43,13 +43,23 @@ export class JWTService {
       const decryptedToken = await verifyAsync(token, this.jwtSecret);
       // don't copy over  token field 'iat' and 'exp', nor 'email' to user profile
       userProfile = Object.assign(
-        {[securityId]: '', id: '', name: '', email: '', permissions: []},
+        {
+          [securityId]: '',
+          id: '',
+          name: '',
+          email: '',
+          typeSyscode: 0,
+          permissions: [],
+          roles: [],
+        },
         {
           [securityId]: decryptedToken.id,
           id: decryptedToken.id,
           name: decryptedToken.name,
           email: decryptedToken.email,
+          typeSyscode: decryptedToken.typeSyscode,
           permissions: decryptedToken.permissions,
+          roles: decryptedToken.roles,
         },
       );
     } catch (error) {

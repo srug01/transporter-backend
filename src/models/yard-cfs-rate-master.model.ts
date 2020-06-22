@@ -47,8 +47,8 @@ export class YardCfsRateMaster extends Entity {
   is_active: boolean;
 
   @property({
-    type: 'number' //,
-    //  required: true,
+    type: 'number',
+    required: true,
   })
   created_by: number;
 

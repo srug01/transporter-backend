@@ -10,14 +10,14 @@ export class MileageMaster extends Entity {
   mileage_syscode?: number;
 
   @property({
-    type: 'number'//,
-    //required: true,
+    type: 'number',
+    required: true,
   })
   container_syscode: number;
 
   @property({
-    type: 'number'//,
-    // required: true,
+    type: 'number',
+    required: true,
   })
   weight_syscode: number;
 
@@ -35,20 +35,19 @@ export class MileageMaster extends Entity {
   is_active: boolean;
 
   @property({
-    type: 'number'//,
-    // required: true,
+    type: 'number',
+    default: () => 1,
   })
   created_by: number;
 
   @property({
-    type: 'date'//,
-    // required: true,
+    type: 'date',
+    default: () => new Date(),
   })
   created_on: string;
 
   @property({
     type: 'number',
-
   })
   modified_by: number;
 

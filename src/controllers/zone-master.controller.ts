@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {Count, CountSchema, Filter, FilterExcludingWhere, repository, Where} from '@loopback/repository';
 import {del, get, getModelSchemaRef, param, patch, post, put, requestBody} from '@loopback/rest';
 import {ZoneMaster} from '../models';
@@ -17,7 +18,7 @@ export class ZoneMasterController {
       },
     },
   })
-  // @authenticate('jwt')
+  @authenticate('jwt')
   async create(
     @requestBody({
       content: {
@@ -42,7 +43,7 @@ export class ZoneMasterController {
       },
     },
   })
-  // @authenticate('jwt')
+  @authenticate('jwt')
   async count(
     @param.where(ZoneMaster) where?: Where<ZoneMaster>,
   ): Promise<Count> {
@@ -64,7 +65,7 @@ export class ZoneMasterController {
       },
     },
   })
-  // @authenticate('jwt')
+  @authenticate('jwt')
   async find(
     @param.filter(ZoneMaster) filter?: Filter<ZoneMaster>,
   ): Promise<ZoneMaster[]> {
@@ -79,7 +80,7 @@ export class ZoneMasterController {
       },
     },
   })
-  // @authenticate('jwt')
+  @authenticate('jwt')
   async updateAll(
     @requestBody({
       content: {
@@ -106,7 +107,7 @@ export class ZoneMasterController {
       },
     },
   })
-  // @authenticate('jwt')
+  @authenticate('jwt')
   async findById(
     @param.path.number('id') id: number,
     @param.filter(ZoneMaster, {exclude: 'where'}) filter?: FilterExcludingWhere<ZoneMaster>
@@ -121,7 +122,7 @@ export class ZoneMasterController {
       },
     },
   })
-  //@authenticate('jwt')
+  @authenticate('jwt')
   async updateById(
     @param.path.number('id') id: number,
     @requestBody({
@@ -143,7 +144,7 @@ export class ZoneMasterController {
       },
     },
   })
-  //@authenticate('jwt')
+  @authenticate('jwt')
   async replaceById(
     @param.path.number('id') id: number,
     @requestBody() zoneMaster: ZoneMaster,
@@ -158,7 +159,7 @@ export class ZoneMasterController {
       },
     },
   })
-  // @authenticate('jwt')
+  @authenticate('jwt')
   async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.zoneMasterRepository.deleteById(id);
   }
