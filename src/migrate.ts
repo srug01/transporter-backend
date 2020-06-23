@@ -29,7 +29,8 @@ export async function migrate(args: string[]) {
       'Container',
       'Truck',
       'Userrolemapping',
-      'Settings'
+      'Settings',
+      'LocationMaster'
     ],
   });
 

@@ -23,3 +23,4 @@ export * from './yard-port-mapping.model';
 export * from './zone-day-master.model';
 export * from './zone-master.model';
 
+export * from './location-master.model';
