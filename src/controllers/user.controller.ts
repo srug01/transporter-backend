@@ -1,23 +1,23 @@
+import {authenticate, AuthenticationBindings} from '@loopback/authentication';
+import {inject} from '@loopback/core';
 import {repository} from '@loopback/repository';
-import {UserRepository} from '../repositories';
-import {post, getJsonSchemaRef, requestBody, get} from '@loopback/rest';
-import {User} from '../models';
-import {validateCredentials} from '../services/validator';
+import {get, getJsonSchemaRef, post, requestBody} from '@loopback/rest';
 import * as _ from 'lodash';
-import { inject } from '@loopback/core';
-import { BcryptHasher } from '../services/hash.password.bcrypt';
-import {Credentials} from '../repositories/user.repository';
-import {CredentialsRequestBody} from './specs/user.controller.spec';
-import {MyUserService} from '../services/user-service';
-import { JWTService } from '../services/jwt-service';
+import {PermissionKeys} from '../authorization/permission-keys';
 import {
   PasswordHasherBindings,
-  UserServiceBindings,
   TokenServiceBindings,
+  UserServiceBindings,
 } from '../keys';
-import {authenticate, AuthenticationBindings} from '@loopback/authentication';
-import {UserProfile,securityId} from  '@loopback/security'
-import { PermissionKeys } from '../authorization/permission-keys';
+import {User} from '../models';
+import {UserRepository} from '../repositories';
+import {Credentials} from '../repositories/user.repository';
+import {BcryptHasher} from '../services/hash.password.bcrypt';
+import {JWTService} from '../services/jwt-service';
+import {MyUserService} from '../services/user-service';
+import {validateCredentials} from '../services/validator';
+import {MyUserProfile} from '../types';
+import {CredentialsRequestBody} from './specs/user.controller.spec';
 // Uncomment these imports to begin using these cool features!
 
 // import {inject} from '@loopback/context';
@@ -27,11 +27,11 @@ export class UserController {
     @repository(UserRepository)
     public userRepository: UserRepository,
     @inject(PasswordHasherBindings.PASSWORD_HASHER)
-    public hasher : BcryptHasher,
+    public hasher: BcryptHasher,
     @inject(UserServiceBindings.USER_SERVICE)
     public userService: MyUserService,
     @inject(TokenServiceBindings.TOKEN_SERVICE)
-    public jwtService : JWTService
+    public jwtService: JWTService,
   ) {}
 
   @post('/users/signup', {
@@ -82,7 +82,8 @@ export class UserController {
     //console.log(user);
     const userProfile = this.userService.convertToUserProfile(user);
     //console.log(userProfile);
-
+    // get user roles
+    userProfile.roles = await this.userService.UserRoles(userProfile.id);
     //generate a json web token
     const token = await this.jwtService.generateToken(userProfile);
     return Promise.resolve({token});
@@ -92,9 +93,8 @@ export class UserController {
   @authenticate('jwt')
   async me(
     @inject(AuthenticationBindings.CURRENT_USER)
-    currentUser: UserProfile 
-  ): Promise<UserProfile> {
+    currentUser: MyUserProfile,
+  ): Promise<MyUserProfile> {
     return Promise.resolve(currentUser);
   }
-
 }
