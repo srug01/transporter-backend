@@ -27,7 +27,9 @@ export async function migrate(args: string[]) {
       'ZoneMaster',
       'Order',
       'Container',
-      'Truck'
+      'Truck',
+      'Userrolemapping',
+      'Settings'
     ],
   });
 
