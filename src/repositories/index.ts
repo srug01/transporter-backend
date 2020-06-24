@@ -4,6 +4,8 @@ export * from './cfs-user-registration.repository';
 export * from './container-master.repository';
 export * from './container.repository';
 export * from './diesel-rate-master.repository';
+export * from './location-master.repository';
+export * from './master-type.repository';
 export * from './mileage-master.repository';
 export * from './order.repository';
 export * from './port-master.repository';
