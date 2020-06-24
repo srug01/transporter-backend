@@ -14,6 +14,7 @@ export * from './ordertruckdetails.model';*/
 export * from './settings.model';
 export * from './state-master.model';
 export * from './transporter-registration.model';
+export * from './truck.model';
 export * from './user.model';
 export * from './userrolemapping.model';
 export * from './vehicle-master.model';
@@ -24,3 +25,4 @@ export * from './yard-master.model';
 export * from './yard-port-mapping.model';
 export * from './zone-day-master.model';
 export * from './zone-master.model';
+
