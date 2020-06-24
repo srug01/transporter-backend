@@ -4,10 +4,15 @@ export * from './cfs-user-registration.model';
 export * from './container-master.model';
 export * from './container.model';
 export * from './diesel-rate-master.model';
+export * from './location-master.model';
+export * from './master-type.model';
 export * from './mileage-master.model';
 export * from './order.model';
 export * from './port-master.model';
 export * from './product.model';
+/*export * from './orders.model';
+export * from './ordercontainerdetails.model';
+export * from './ordertruckdetails.model';*/
 export * from './settings.model';
 export * from './state-master.model';
 export * from './transporter-registration.model';
@@ -23,5 +28,3 @@ export * from './yard-port-mapping.model';
 export * from './zone-day-master.model';
 export * from './zone-master.model';
 
-export * from './location-master.model';
-export * from './master-type.model';
