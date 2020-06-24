@@ -14,6 +14,7 @@ export * from './ordertruckdetails.repository';*/
 export * from './settings.repository';
 export * from './state-master.repository';
 export * from './transporter-registration.repository';
+export * from './truck.repository';
 export * from './user.repository';
 export * from './userrolemapping.repository';
 export * from './vehicle-master.repository';

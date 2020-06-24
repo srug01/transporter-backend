@@ -1,8 +1,15 @@
-import {BindingKey} from '@loopback/core';
 import {TokenService, UserService} from '@loopback/authentication';
-import {Credentials} from './repositories/user.repository';
+import {BindingKey} from '@loopback/core';
 import {User} from './models';
+import {Credentials} from './repositories/user.repository';
 import {PasswordHasher} from './services/hash.password.bcrypt';
+import {FileUploadHandler} from './types';
+
+export const FILE_UPLOAD_SERVICE = BindingKey.create<FileUploadHandler>(
+  'services.FileUpload',
+);
+
+export const STORAGE_DIRECTORY = BindingKey.create<string>('storage.directory');
 
 export namespace TokenServiceConstants {
   export const TOKEN_SECRET_VALUE = '138asda8213';
