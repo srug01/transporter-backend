@@ -80,9 +80,15 @@ export class CfsMaster extends Entity {
 
   @property({
     type: 'number',
-    required: true,
+    required: true
   })
   port_syscode: number;
+
+  @property({
+    type: 'number',
+    required: true
+  })
+  location?: number;
 
   @property({
     type: 'boolean',
