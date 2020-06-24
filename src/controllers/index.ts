@@ -30,3 +30,4 @@ export * from './zone-master.controller';
 
 
 export * from './location-master.controller';
+export * from './master-type.controller';

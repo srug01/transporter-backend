@@ -24,3 +24,4 @@ export * from './zone-day-master.model';
 export * from './zone-master.model';
 
 export * from './location-master.model';
+export * from './master-type.model';

@@ -30,7 +30,8 @@ export async function migrate(args: string[]) {
       'Truck',
       'Userrolemapping',
       'Settings',
-      'LocationMaster'
+      'LocationMaster',
+      'MasterType'
     ],
   });
 

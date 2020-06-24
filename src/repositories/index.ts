@@ -24,3 +24,4 @@ export * from './zone-day-master.repository';
 export * from './zone-master.repository';
 
 export * from './location-master.repository';
+export * from './master-type.repository';
