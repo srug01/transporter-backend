@@ -5,7 +5,7 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
   del,
@@ -15,7 +15,7 @@ import {
   patch,
   post,
   put,
-  requestBody,
+  requestBody
 } from '@loopback/rest';
 import {CfsMaster} from '../models';
 import {CfsMasterRepository} from '../repositories';
@@ -47,7 +47,8 @@ export class CfsMasterController {
     })
     cfsMaster: CfsMaster,
   ): Promise<CfsMaster> {
-    return this.cfsMasterRepository.create(cfsMaster);
+    const createdCfs = await this.cfsMasterRepository.create(cfsMaster);
+    return createdCfs;
   }
 
   @get('/cfs-masters/count', {

@@ -9,9 +9,10 @@ export class CfsMasterRepository extends DefaultCrudRepository<
   CfsMaster,
   typeof CfsMaster.prototype.cfs_syscode,
   CfsMasterRelations
-> {
+  > {
+
   constructor(
-    @inject('datasources.test') dataSource: TestDataSource,
+    @inject('datasources.test') dataSource: TestDataSource
   ) {
     super(CfsMaster, dataSource);
   }
