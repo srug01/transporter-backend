@@ -61,6 +61,16 @@ export class Order extends Entity {
   is_delete?: boolean;
 
   @property({
+    type: 'boolean',
+  })
+  is_verified?: boolean;
+
+  @property({
+    type: 'string',
+  })
+  status?: string;
+
+  @property({
     type: 'number',
   })
   created_by?: number;
