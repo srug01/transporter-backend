@@ -23,6 +23,11 @@ export class Order extends Entity {
   @property({
     type: 'number',
   })
+  master_type_syscode?: number;
+
+  @property({
+    type: 'number',
+  })
   source_syscode?: number;
 
   @property({
@@ -31,14 +36,14 @@ export class Order extends Entity {
   destination_syscode?: number;
 
   @property({
-    type: 'number',
+    type: 'string',
   })
-  destination_type_syscode?: number;
+  destination_type?: string;
 
   @property({
-    type: 'number',
+    type: 'string',
   })
-  source_type_syscode?: number;
+  source_type?: string;
 
   @property({
     type: 'string',
