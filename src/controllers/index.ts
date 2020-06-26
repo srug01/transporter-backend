@@ -30,3 +30,4 @@ export * from './yard-port-mapping.controller';
 export * from './zone-day-master.controller';
 export * from './zone-master.controller';
 
+export * from './storage.controller';
