@@ -1,7 +1,14 @@
+import {
+  AuthenticateFn,
+  AuthenticationBindings,
+  AUTHENTICATION_STRATEGY_NOT_FOUND,
+  USER_PROFILE_NOT_FOUND,
+} from '@loopback/authentication';
 import {inject} from '@loopback/context';
 import {
   FindRoute,
   InvokeMethod,
+  //InvokeMiddleware,
   ParseParams,
   Reject,
   RequestContext,
@@ -10,16 +17,12 @@ import {
   SequenceHandler,
 } from '@loopback/rest';
 
-import {
-  AuthenticateFn,
-  AUTHENTICATION_STRATEGY_NOT_FOUND,
-  USER_PROFILE_NOT_FOUND,
-  AuthenticationBindings,
-} from '@loopback/authentication';
-
 const SequenceActions = RestBindings.SequenceActions;
 
 export class MySequence implements SequenceHandler {
+  //@inject(SequenceActions.INVOKE_MIDDLEWARE, {optional: true})
+  //protected invokeMiddleware: InvokeMiddleware = () => false;
+
   constructor(
     @inject(SequenceActions.FIND_ROUTE) protected findRoute: FindRoute,
     @inject(SequenceActions.PARSE_PARAMS) protected parseParams: ParseParams,
