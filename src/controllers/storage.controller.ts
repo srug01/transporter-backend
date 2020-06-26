@@ -26,8 +26,8 @@ function bufferToStream(buffer: any) {
 
 const config = {
   region: 'Asia Pacific (Mumbai)',
-  accessKeyId: 'AKIAIBKD3BP2KXX2S6VA',
-  secretAccessKey: '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',
+  accessKeyId: '',
+  secretAccessKey: '',
   //endpoint: process.env.S3_ENDPOINT,
 };
 const s3 = new AWS.S3(config);

@@ -2,6 +2,7 @@ import {Entity, model, property} from '@loopback/repository';
 
 @model({settings: {strict: false}})
 export class LocationMaster extends Entity {
+
   @property({
     type: 'number',
     id: true,
