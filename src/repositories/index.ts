@@ -28,3 +28,4 @@ export * from './yard-port-mapping.repository';
 export * from './zone-day-master.repository';
 export * from './zone-master.repository';
 
+export * from './userrole.repository';

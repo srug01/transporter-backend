@@ -31,3 +31,4 @@ export * from './zone-day-master.controller';
 export * from './zone-master.controller';
 
 export * from './storage.controller';
+export * from './userrole.controller';
