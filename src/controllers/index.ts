@@ -18,6 +18,7 @@ export * from './product.controller';
 // export * from './ordercontainerdetails-orders.controller';
 export * from './settings.controller';
 export * from './state-master.controller';
+export * from './storage.controller';
 export * from './transporter-registration.controller';
 export * from './truck.controller';
 export * from './user-userrolemapping.controller';

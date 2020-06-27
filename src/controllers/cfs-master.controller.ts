@@ -31,7 +31,8 @@ export class CfsMasterController {
     })
     cfsMaster: CfsMaster,
   ): Promise<CfsMaster> {
-    return this.cfsMasterRepository.create(cfsMaster);
+    const createdCfs = await this.cfsMasterRepository.create(cfsMaster);
+    return createdCfs;
   }
 
   @get('/cfs-masters/count', {
