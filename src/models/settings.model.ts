@@ -19,6 +19,10 @@ export class Settings extends Entity {
     type: 'string',
   })
   settings_value?: string;
+  @property({
+    type: 'boolean'
+  })
+  is_active: boolean;
 
 
   constructor(data?: Partial<Settings>) {
