@@ -23,6 +23,7 @@ export * from './transporter-registration.controller';
 export * from './truck.controller';
 export * from './user-userrolemapping.controller';
 export * from './user.controller';
+export * from './userrole.controller';
 export * from './vehicle-master.controller';
 export * from './vehicle.controller';
 export * from './weight-master.controller';

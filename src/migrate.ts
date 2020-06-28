@@ -31,7 +31,8 @@ export async function migrate(args: string[]) {
       'Userrolemapping',
       'Settings',
       'LocationMaster',
-      'MasterType'
+      'MasterType',
+      'Userrole',
     ],
   });
 

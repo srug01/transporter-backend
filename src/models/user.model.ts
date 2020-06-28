@@ -47,7 +47,7 @@ export class User extends Entity {
   typeSyscode: number;
 
   @property.array(String)
-  permissions: String[];
+  permissions?: String[];
 
   @hasMany(() => Userrolemapping)
   roles: Userrolemapping[];

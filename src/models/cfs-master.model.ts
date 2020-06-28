@@ -7,7 +7,7 @@ export class CfsMaster extends Entity {
     id: true,
     generated: true,
   })
-  cfs_syscode?: number;
+  cfsMasterId?: number;
 
   @property({
     type: 'string',
@@ -80,7 +80,7 @@ export class CfsMaster extends Entity {
 
   @property({
     type: 'number',
-    required: true
+    required: true,
   })
   port_syscode: number;
 
@@ -117,6 +117,16 @@ export class CfsMaster extends Entity {
     type: 'number',
   })
   locationId?: number;
+
+  @property({
+    type: 'number',
+  })
+  roleId?: number;
+
+  @property({
+    type: 'number',
+  })
+  userId?: number;
 
   constructor(data?: Partial<CfsMaster>) {
     super(data);
