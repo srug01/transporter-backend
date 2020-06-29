@@ -98,22 +98,22 @@ export class TransporterRegistration extends Entity {
   @property({
     type: 'string',
   })
-  transporter_pan_file?: string;
+  transporter_pan_card?: string;
 
   @property({
     type: 'string',
   })
-  transporter_cheque_file?: string;
+  transporter_permit_card?: string;
 
   @property({
     type: 'string',
   })
-  transporter_partner_pan_file?: string;
+  transporter_license_card?: string;
 
   @property({
     type: 'string',
   })
-  transporter_partner_address_file?: string;
+  transporter_other_card?: string;
 
   @property({
     type: 'boolean',

@@ -7,7 +7,7 @@ import {
   Request,
   requestBody,
   Response,
-  RestBindings,
+  RestBindings
 } from '@loopback/rest';
 import AWS from 'aws-sdk';
 import HttpErrors from 'http-errors';
@@ -25,9 +25,8 @@ function bufferToStream(buffer: any) {
 }
 
 const config = {
-  region: 'Asia Pacific (Mumbai)',
   accessKeyId: '',
-  secretAccessKey: '',
+  secretAccessKey: ''
   //endpoint: process.env.S3_ENDPOINT,
 };
 const s3 = new AWS.S3(config);
@@ -176,6 +175,8 @@ export class StorageController {
       upload.any()(request, response, async err => {
         if (err) reject(err);
         else {
+          const buckets = await s3.listBuckets().promise();
+          console.log(buckets);
           const res = [];
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           for (const file of (request as any).files) {
