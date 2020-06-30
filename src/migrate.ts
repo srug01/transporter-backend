@@ -33,6 +33,8 @@ export async function migrate(args: string[]) {
       'LocationMaster',
       'MasterType',
       'Userrole',
+      'TransporterRegistration',
+      'Notification'
     ],
   });
 

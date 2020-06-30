@@ -4,6 +4,7 @@ export * from './cfs-user-registration.model';
 export * from './container-master.model';
 export * from './container.model';
 export * from './diesel-rate-master.model';
+export * from './driver.model';
 export * from './location-master.model';
 export * from './master-type.model';
 export * from './mileage-master.model';
@@ -29,3 +30,4 @@ export * from './zone-day-master.model';
 export * from './zone-master.model';
 
 export * from './userrole.model';
+export * from './notification.model';

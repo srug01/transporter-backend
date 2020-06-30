@@ -4,11 +4,7 @@ import {Filter, FilterExcludingWhere, repository} from '@loopback/repository';
 import {get, getJsonSchemaRef, getModelSchemaRef, param, post, requestBody} from '@loopback/rest';
 import * as _ from 'lodash';
 import {PermissionKeys} from '../authorization/permission-keys';
-import {
-  PasswordHasherBindings,
-  TokenServiceBindings,
-  UserServiceBindings
-} from '../keys';
+import {PasswordHasherBindings, TokenServiceBindings, UserServiceBindings} from '../keys';
 import {User} from '../models';
 import {UserRepository} from '../repositories';
 import {Credentials} from '../repositories/user.repository';
