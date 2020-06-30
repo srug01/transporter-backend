@@ -30,3 +30,4 @@ export * from './zone-day-master.repository';
 export * from './zone-master.repository';
 
 export * from './userrole.repository';
+export * from './notification.repository';
