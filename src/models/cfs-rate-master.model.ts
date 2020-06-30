@@ -31,6 +31,12 @@ export class CfsRateMaster extends Entity {
     type: 'number',
     required: true,
   })
+  container_syscode: number;
+
+  @property({
+    type: 'number',
+    required: true,
+  })
   rate: number;
 
   @property({

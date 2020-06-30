@@ -1,0 +1,14 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `MULTIPLETABLES`(IN userid varchar(10),IN roleid varchar(10))
+BEGIN
+SELECT c.* FROM transporter2.cfsmaster c
+Inner Join transporter2.user u 
+on c.userId = u.id and c.roleId = u.typeSyscode
+Where c.userId = userid and c.roleId = roleid;
+END
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SEARCHCFSLOCATION`(IN userId varchar(10))
+BEGIN
+	SELECT l.*,m.cfsMasterId,m.cfs_name FROM transporter2.locationmaster l
+    Inner join transporter2.cfsmaster m
+    on l.locationId = m.locationId 
+    WHERE m.userId = userId;
+END
