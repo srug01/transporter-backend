@@ -4,34 +4,32 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where
+  Where,
 } from '@loopback/repository';
 import {
-  del, get,
-  getModelSchemaRef, param,
-
-
-  patch, post,
-
-
-
-
+  del,
+  get,
+  getModelSchemaRef,
+  param,
+  patch,
+  post,
   put,
-
-  requestBody
+  requestBody,
 } from '@loopback/rest';
 import {Order} from '../models';
 import {OrderRepository} from '../repositories';
 import {Container} from './../models/container.model';
 import {Truck} from './../models/truck.model';
 import {ContainerRepository} from './../repositories/container.repository';
+import {CallProcedureService} from './../services/call-procedure.service';
 
 export class OrderController {
   constructor(
     @repository(OrderRepository)
     public orderRepository: OrderRepository,
     @repository(ContainerRepository)
-    public containerRepository: ContainerRepository
+    public containerRepository: ContainerRepository,
+    public _callProcedureService: CallProcedureService,
   ) {}
 
   @post('/orders', {
@@ -63,12 +61,17 @@ export class OrderController {
       const trucks: Truck[] = container.trucks;
       delete container.trucks;
       container.orderId = createdOrder.getId();
-      const createdContainer = await this.orderRepository.containers(createdOrder.getId()).create(container);
+      const createdContainer = await this.orderRepository
+        .containers(createdOrder.getId())
+        .create(container);
       for (const truck of trucks) {
         truck.containerId = createdContainer.getId();
         this.containerRepository.trucks(createdContainer.getId()).create(truck);
       }
     }
+    const placebid = await this._callProcedureService.PostOrderProcessing(
+      createdOrder.getId(),
+    );
     return createdOrder;
   }
 
@@ -80,9 +83,7 @@ export class OrderController {
       },
     },
   })
-  async count(
-    @param.where(Order) where?: Where<Order>,
-  ): Promise<Count> {
+  async count(@param.where(Order) where?: Where<Order>): Promise<Count> {
     return this.orderRepository.count(where);
   }
 
@@ -101,9 +102,7 @@ export class OrderController {
       },
     },
   })
-  async find(
-    @param.filter(Order) filter?: Filter<Order>,
-  ): Promise<Order[]> {
+  async find(@param.filter(Order) filter?: Filter<Order>): Promise<Order[]> {
     return this.orderRepository.find(filter);
   }
 
@@ -143,7 +142,8 @@ export class OrderController {
   })
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(Order, {exclude: 'where'}) filter?: FilterExcludingWhere<Order>
+    @param.filter(Order, {exclude: 'where'})
+    filter?: FilterExcludingWhere<Order>,
   ): Promise<Order> {
     return this.orderRepository.findById(id, filter);
   }
