@@ -35,6 +35,7 @@ export async function migrate(args: string[]) {
       'Userrole',
       'TransporterRegistration',
       'Notification',
+      'Bid',
       'CfsUserRegistration'
     ],
   });

@@ -7,7 +7,7 @@ export class CfsMaster extends Entity {
     id: true,
     generated: true,
   })
-  cfs_syscode?: number;
+  cfsMasterId?: number;
 
   @property({
     type: 'string',

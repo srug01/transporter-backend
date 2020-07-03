@@ -1,28 +1,29 @@
-import {BootMixin} from '@loopback/boot';
-import {ApplicationConfig} from '@loopback/core';
-import {
-  RestExplorerBindings,
-  RestExplorerComponent,
-} from '@loopback/rest-explorer';
-import {RepositoryMixin} from '@loopback/repository';
-import {RestApplication} from '@loopback/rest';
-import {ServiceMixin} from '@loopback/service-proxy';
-import path from 'path';
-import {MySequence} from './sequence';
-import { BcryptHasher } from './services/hash.password.bcrypt';
-import { MyUserService } from './services/user-service';
-import { JWTService } from './services/jwt-service';
-import {
-  TokenServiceConstants,
-  TokenServiceBindings,
-  PasswordHasherBindings,
-  UserServiceBindings,
-} from './keys';
 import {
   AuthenticationComponent,
-  registerAuthenticationStrategy,
+  registerAuthenticationStrategy
 } from '@loopback/authentication';
-import { JWTStrategy } from './authentication-strategies/jwt-strategy';
+import {BootMixin} from '@loopback/boot';
+import {ApplicationConfig} from '@loopback/core';
+import {RepositoryMixin} from '@loopback/repository';
+import {RestApplication} from '@loopback/rest';
+import {
+  RestExplorerBindings,
+  RestExplorerComponent
+} from '@loopback/rest-explorer';
+import {ServiceMixin} from '@loopback/service-proxy';
+import path from 'path';
+import {JWTStrategy} from './authentication-strategies/jwt-strategy';
+import {
+  CallProcedureServiceBindings, PasswordHasherBindings, TokenServiceBindings, TokenServiceConstants,
+
+
+  UserServiceBindings
+} from './keys';
+import {MySequence} from './sequence';
+import {CallProcedureService} from './services/call-procedure.service';
+import {BcryptHasher} from './services/hash.password.bcrypt';
+import {JWTService} from './services/jwt-service';
+import {MyUserService} from './services/user-service';
 
 export class BackendApplication extends BootMixin(
   ServiceMixin(RepositoryMixin(RestApplication)),
@@ -65,11 +66,12 @@ export class BackendApplication extends BootMixin(
     this.bind(PasswordHasherBindings.ROUNDS).to(10);
     this.bind(UserServiceBindings.USER_SERVICE).toClass(MyUserService);
     this.bind(TokenServiceBindings.TOKEN_SERVICE).toClass(JWTService);
+    this.bind(CallProcedureServiceBindings.CALL_PROCEDURE_SERVICE).toClass(CallProcedureService);
     this.bind(TokenServiceBindings.TOKEN_SECRET).to(
       TokenServiceConstants.TOKEN_SECRET_VALUE,
     );
     this.bind(TokenServiceBindings.TOKEN_EXPIRES_IN).to(
       TokenServiceConstants.TOKEN_EXPIRES_IN_VALUE,
     );
-  } 
+  }
 }

@@ -91,6 +91,26 @@ export class Order extends Entity {
   modify_on?: string;
 
   @property({
+    type: 'number',
+  })
+  totalRate?: number;
+
+  @property({
+    type: 'number',
+  })
+  profitRate?: number;
+
+  @property({
+    type: 'number',
+  })
+  profitMarginPercentage?: number;
+
+  @property({
+    type: 'number',
+  })
+  rateexcludingProfit?: number;
+
+  @property({
     type: 'any',
   })
   @hasMany(() => Container)

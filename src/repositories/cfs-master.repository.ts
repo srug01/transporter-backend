@@ -7,9 +7,9 @@ import {CfsMaster, CfsMasterRelations} from '../models';
 
 export class CfsMasterRepository extends DefaultCrudRepository<
   CfsMaster,
-  typeof CfsMaster.prototype.cfs_syscode,
+  typeof CfsMaster.prototype.cfsMasterId,
   CfsMasterRelations
-  > {
+> {
   constructor(@inject('datasources.test') dataSource: TestDataSource) {
     super(CfsMaster, dataSource);
   }
