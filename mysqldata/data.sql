@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
 --
--- Host: localhost    Database: transporter2
+-- Host: localhost    Database: transporter
 -- ------------------------------------------------------
 -- Server version	8.0.19
 
@@ -876,7 +876,7 @@ LOCK TABLES `zonemaster` WRITE;
 UNLOCK TABLES;
 
 --
--- Dumping routines for database 'transporter2'
+-- Dumping routines for database 'transporter'
 --
 /*!50003 DROP FUNCTION IF EXISTS `GetBidNumber` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -895,8 +895,8 @@ BEGIN
 declare returnVal varchar(250);
 declare maxVal int;
 
-Select  max(bidId) + 1 into maxVal from transporter2.bid;
-if maxVal is null then 
+Select  max(bidId) + 1 into maxVal from transporter.bid;
+if maxVal is null then
 set maxVal:= 1;
 end if;
 SELECT concat('BID' , LPAD(maxVal, 8, '0')) into returnVal;
@@ -920,7 +920,7 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllBids`(IN OrderId int )
 BEGIN
 
-Select * from transporter2.bid;
+Select * from transporter.bid;
 
 END ;;
 DELIMITER ;
@@ -940,8 +940,8 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `MULTIPLETABLES`(IN userid varchar(10),IN roleid varchar(10))
 BEGIN
-SELECT c.* FROM transporter2.cfsmaster c
-Inner Join transporter2.user u 
+SELECT c.* FROM transporter.cfsmaster c
+Inner Join transporter.user u
 on c.userId = u.id and c.roleId = u.typeSyscode
 Where c.userId = userid and c.roleId = roleid;
 END ;;
@@ -967,116 +967,116 @@ Declare containerType int default 0;
 Declare weightType int default 0;
 Declare trucks int default 0;
 Declare orderRate decimal(10,2) default 0.00;
-Declare masterType int default 0; 
+Declare masterType int default 0;
 Declare sourceID int default 0;
 Declare destinationID int default 0;
 Declare profit_margin decimal(10,2);
 Declare profit_Rate decimal(10,2);
 
-Select master_type_syscode,source_syscode,destination_syscode 
+Select master_type_syscode,source_syscode,destination_syscode
 into masterType,sourceID,destinationID
-FROM transporter2.order where orderid = order_Id;
+FROM transporter.order where orderid = order_Id;
 
 Select settings_value into profit_margin
 from settings Where settings_name = 'cfs_order_profit';
 
 Begin
-   DECLARE exit_loop int default 0; 
+   DECLARE exit_loop int default 0;
    DECLARE order_cursor CURSOR FOR
      Select container_type, weight_type,no_of_trucks
-     from transporter2.container where orderId = order_Id;
+     from transporter.container where orderId = order_Id;
    DECLARE CONTINUE HANDLER FOR NOT FOUND SET exit_loop = 1;
    OPEN order_cursor;
-   
+
    REPEAT
-  
+
      FETCH  order_cursor INTO containerType,weightType,trucks;
-     
+
      IF NOT exit_loop  THEN
 		If masterType = 1 then
 			Set cfsRate := (select rate * trucks
-			from transporter2.cfsratemaster
+			from transporter.cfsratemaster
 			Where port_syscode = sourceID and cfs_syscode = destinationID
 			and weight_syscode = weightType and container_syscode = containerType);
 			Set orderRate = orderRate + cfsRate;
 		ElseIf masterType = 2 then
 			Set cfsRate := (select rate * trucks
-			from transporter2.cfsratemaster
+			from transporter.cfsratemaster
 			Where port_syscode = destinationID and cfs_syscode = sourceID
 			and weight_syscode = weightType and container_syscode = containerType);
 			Set orderRate = orderRate + cfsRate;
         ElseIf masterType = 3 then
 			Set cfsRate := (select rate * trucks
-			from transporter2.yardcfsratemaster
+			from transporter.yardcfsratemaster
 			Where yard_syscode = sourceID and cfs_syscode = destinationID
 			and weight_syscode = weightType and container_syscode = containerType);
 			Set orderRate = orderRate + cfsRate;
         ElseIf masterType = 4 then
 			Set cfsRate := (select rate * trucks
-			from transporter2.yardcfsratemaster
+			from transporter.yardcfsratemaster
 			Where yard_syscode = destinationID and cfs_syscode = sourceID
 			and weight_syscode = weightType and container_syscode = containerType);
 			Set orderRate = orderRate + cfsRate;
 		End if;
-        
+
      END IF;
      UNTIL exit_loop END REPEAT;
-    
+
    close order_cursor;
-   
+
 	Set profit_Rate = (orderRate * profit_margin)/ 100;
-	Update transporter2.order set totalRate = orderRate,
+	Update transporter.order set totalRate = orderRate,
     profitMarginPercentage = profit_margin,
     profitRate = profit_Rate,
     rateexcludingProfit = orderRate - profit_Rate
     Where orderId = order_Id;
-    
-    
-    Insert into transporter2.bid(bidName,containerId,container_type,
+
+
+    Insert into transporter.bid(bidName,containerId,container_type,
     container_weight_type,source_type,destination_type,original_rate,
     bid_rate,margin_percent,order_master_type_syscode,
-    source_name,destination_name,orderId,is_active,created_by,created_on) 
+    source_name,destination_name,orderId,is_active,created_by,created_on)
 	Select GetBidNumber(),t.containerId,c.container_type,c.weight_type,
     ord.source_type,ord.destination_type,cr.rate,
     (cr.rate - ((cr.rate * s.settings_value) / 100)),
     s.settings_value,ord.master_type_syscode,
-    case 
-    When ord.master_type_syscode = 1 then 
+    case
+    When ord.master_type_syscode = 1 then
     p.port_name
-    When ord.master_type_syscode = 2 then 
+    When ord.master_type_syscode = 2 then
     cm.cfs_name
-    When ord.master_type_syscode = 3 then 
+    When ord.master_type_syscode = 3 then
     y.yard_name
-    When ord.master_type_syscode = 4 then 
+    When ord.master_type_syscode = 4 then
     ycm.cfs_name
     end,
-    case 
-    When ord.master_type_syscode = 1 then 
+    case
+    When ord.master_type_syscode = 1 then
     cm.cfs_name
-    When ord.master_type_syscode = 2 then 
+    When ord.master_type_syscode = 2 then
     p.port_name
-    When ord.master_type_syscode = 3 then 
+    When ord.master_type_syscode = 3 then
     ycm.cfs_name
-    When ord.master_type_syscode = 4 then 
+    When ord.master_type_syscode = 4 then
     y.yard_name
     end,
 	ord.orderId,1,1,CURDATE()
- 	From transporter2.order ord
-	Inner join transporter2.container c
+ 	From transporter.order ord
+	Inner join transporter.container c
 	on ord.orderId = c.orderId
-	Inner Join transporter2.truck t
+	Inner Join transporter.truck t
 	on c.containerId = t.containerId
-    Left Outer Join transporter2.cfsratemaster cr on
+    Left Outer Join transporter.cfsratemaster cr on
     c.container_type = cr.container_syscode and c.weight_type = cr.weight_syscode
-    Left Outer Join transporter2.yardcfsratemaster ym on
+    Left Outer Join transporter.yardcfsratemaster ym on
     c.container_type = ym.container_syscode and c.weight_type = ym.weight_syscode
-        Left Outer Join transporter2.portmaster p on cr.port_syscode = p.port_syscode
-    Left Outer Join transporter2.cfsmaster cm on cr.cfs_syscode = cm.cfsMasterId 
-    Left Outer Join transporter2.yardmaster y on ym.yard_syscode = y.yard_syscode
-    Left Outer Join transporter2.cfsmaster ycm on ym.cfs_syscode = ycm.cfsMasterId 
-    Left Outer join settings s on settings_name = 'cfs_order_profit' 
+        Left Outer Join transporter.portmaster p on cr.port_syscode = p.port_syscode
+    Left Outer Join transporter.cfsmaster cm on cr.cfs_syscode = cm.cfsMasterId
+    Left Outer Join transporter.yardmaster y on ym.yard_syscode = y.yard_syscode
+    Left Outer Join transporter.cfsmaster ycm on ym.cfs_syscode = ycm.cfsMasterId
+    Left Outer join settings s on settings_name = 'cfs_order_profit'
 	where ord.orderId = order_Id and
-    case 
+    case
     when ord.master_type_syscode = 1 then
      cr.port_syscode = ord.source_syscode and cr.cfs_syscode = ord.destination_syscode
 	when ord.master_type_syscode = 2 then
@@ -1086,7 +1086,7 @@ Begin
 	when ord.master_type_syscode = 4 then
 	 ym.yard_syscode = ord.destination_syscode and ym.cfs_syscode = ord.source_syscode
      end;
-    
+
   End;
 END ;;
 DELIMITER ;
@@ -1106,9 +1106,9 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SEARCHCFSLOCATION`(IN userId varchar(10))
 BEGIN
-	SELECT l.*,m.cfsMasterId,m.cfs_name FROM transporter2.locationmaster l
-    Inner join transporter2.cfsmaster m
-    on l.locationId = m.locationId 
+	SELECT l.*,m.cfsMasterId,m.cfs_name FROM transporter.locationmaster l
+    Inner join transporter.cfsmaster m
+    on l.locationId = m.locationId
     WHERE m.userId = userId;
 END ;;
 DELIMITER ;
