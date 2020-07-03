@@ -1,10 +1,11 @@
+import {inject} from '@loopback/core';
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
   del,
@@ -14,8 +15,9 @@ import {
   patch,
   post,
   put,
-  requestBody,
+  requestBody
 } from '@loopback/rest';
+import {CallProcedureServiceBindings} from '../keys';
 import {Order} from '../models';
 import {OrderRepository} from '../repositories';
 import {Container} from './../models/container.model';
@@ -29,6 +31,7 @@ export class OrderController {
     public orderRepository: OrderRepository,
     @repository(ContainerRepository)
     public containerRepository: ContainerRepository,
+    @inject(CallProcedureServiceBindings.CALL_PROCEDURE_SERVICE)
     public _callProcedureService: CallProcedureService,
   ) {}
 
@@ -54,6 +57,7 @@ export class OrderController {
     order: Omit<Order, 'orderId'>,
   ): Promise<Order> {
     const containers: Container[] = order.containers;
+    console.log(containers);
     delete order.containers;
     const createdOrder = await this.orderRepository.create(order);
     for (let i = 0; i < containers.length; i++) {
@@ -69,6 +73,7 @@ export class OrderController {
         this.containerRepository.trucks(createdContainer.getId()).create(truck);
       }
     }
+    console.log(createdOrder.getId());
     const placebid = await this._callProcedureService.PostOrderProcessing(
       createdOrder.getId(),
     );

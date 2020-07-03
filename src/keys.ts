@@ -2,6 +2,7 @@ import {TokenService, UserService} from '@loopback/authentication';
 import {BindingKey} from '@loopback/core';
 import {User} from './models';
 import {Credentials} from './repositories/user.repository';
+import {CallProcedureService} from './services/call-procedure.service';
 import {PasswordHasher} from './services/hash.password.bcrypt';
 import {FileUploadHandler} from './types';
 
@@ -37,5 +38,11 @@ export namespace PasswordHasherBindings {
 export namespace UserServiceBindings {
   export const USER_SERVICE = BindingKey.create<UserService<Credentials, User>>(
     'services.user.service',
+  );
+}
+
+export namespace CallProcedureServiceBindings {
+  export const CALL_PROCEDURE_SERVICE = BindingKey.create<CallProcedureService>(
+    'services.call-procedure.service',
   );
 }

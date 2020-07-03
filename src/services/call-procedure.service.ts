@@ -21,7 +21,7 @@ export class CallProcedureService {
     id: string,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Promise<any> {
-    const sqlStmt = mysql.format('postOrderProcessing(?)', [id]);
+    const sqlStmt = mysql.format('CALL postOrderProcessing(?)', [id]);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return new Promise<any>(function (resolve, reject) {

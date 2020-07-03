@@ -34,7 +34,8 @@ export async function migrate(args: string[]) {
       'MasterType',
       'Userrole',
       'TransporterRegistration',
-      'Notification'
+      'Notification',
+      'Bid',
     ],
   });
 

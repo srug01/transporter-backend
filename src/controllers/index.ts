@@ -35,3 +35,4 @@ export * from './zone-master.controller';
 
 
 export * from './notification.controller';
+export * from './bid.controller';
