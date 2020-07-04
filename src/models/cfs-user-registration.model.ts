@@ -59,6 +59,11 @@ export class CfsUserRegistration extends Entity {
   cfs_user_confirm_password?: string;
 
   @property({
+    type: 'number',
+  })
+  userId?: number;
+
+  @property({
     type: 'boolean',
     required: true,
   })

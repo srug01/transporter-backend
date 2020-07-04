@@ -4,9 +4,11 @@ import {repository} from '@loopback/repository';
 import {HttpErrors} from '@loopback/rest';
 import {toJSON} from '@loopback/testlab';
 import {pick} from 'lodash';
+import {PermissionKeys} from '../authorization/permission-keys';
 import {PasswordHasherBindings} from '../keys';
 import {User, Userrolemapping} from '../models';
 import {Credentials, UserRepository} from '../repositories/user.repository';
+import {validateCredentials} from '../services/validator';
 import {MyUserProfile} from '../types';
 import {BcryptHasher} from './hash.password.bcrypt';
 
@@ -81,5 +83,16 @@ export class MyUserService implements UserService<User, Credentials> {
     currentUser.email = userEmail;
     currentUser.typeSyscode = userType;
     return currentUser;
+  }
+
+  async createUser(userData: User) {
+    validateCredentials(pick(userData, ['email', 'password']));
+    userData.permissions = [PermissionKeys.AccessAuthFeature];
+    //encrypt the user password
+    userData.password = await this.hasher.hashPassword(userData.password);
+
+    const savedUser = await this.userRepository.create(userData);
+    delete savedUser.password;
+    return savedUser;
   }
 }

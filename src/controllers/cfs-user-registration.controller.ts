@@ -1,4 +1,5 @@
 import {authenticate} from '@loopback/authentication';
+import {inject} from '@loopback/core';
 import {
   Count,
   CountSchema,
@@ -17,13 +18,21 @@ import {
   put,
   requestBody,
 } from '@loopback/rest';
-import {CfsUserRegistration} from '../models';
-import {CfsUserRegistrationRepository} from '../repositories';
+import {toJSON} from '@loopback/testlab';
+import {pick} from 'lodash';
+import {UserServiceBindings} from '../keys';
+import {CfsUserRegistration, User} from '../models';
+import {CfsUserRegistrationRepository, UserRepository} from '../repositories';
+import {MyUserService} from '../services/user-service';
 
 export class CfsUserRegistrationController {
   constructor(
+    @inject(UserServiceBindings.USER_SERVICE)
+    public userService: MyUserService,
+    @repository(UserRepository)
+    public userRepository: UserRepository,
     @repository(CfsUserRegistrationRepository)
-    public cfsUserRegistrationRepository: CfsUserRegistrationRepository,
+    public cfsUserRegistrationRepository: CfsUserRegistrationRepository, // @inject('user') // public user: User,
   ) {}
 
   @post('/cfs-user-registrations', {
@@ -53,6 +62,42 @@ export class CfsUserRegistrationController {
       'cfs_user_registration_syscode'
     >,
   ): Promise<CfsUserRegistration> {
+    //Need to Create a User first.
+    let email = '';
+    let passwordStr = '';
+    let userName = '';
+    let mobileNumber = '';
+    if (cfsUserRegistration.cfs_user_email) {
+      email = cfsUserRegistration.cfs_user_email;
+    }
+    if (cfsUserRegistration.cfs_user_password) {
+      passwordStr = cfsUserRegistration.cfs_user_password;
+    }
+    if (cfsUserRegistration.cfs_user_name) {
+      userName = cfsUserRegistration.cfs_user_name;
+    }
+    if (cfsUserRegistration.cfs_user_mobile_no) {
+      mobileNumber = cfsUserRegistration.cfs_user_mobile_no;
+    }
+    const createUser: User = pick(toJSON(cfsUserRegistration), [
+      'firstName',
+      'lastName',
+      'mobileNumber',
+      'email',
+      'password',
+      'typeSyscode',
+    ]) as User;
+    createUser.firstName = cfsUserRegistration.cfs_user_name;
+    createUser.email = email;
+    createUser.password = passwordStr;
+    createUser.typeSyscode = cfsUserRegistration.user_type_syscode;
+    createUser.firstName = userName;
+    createUser.lastName = userName;
+    createUser.mobileNumber = mobileNumber;
+    //console.log('User Name' + user.firstName);
+    const createdUser = await this.userService.createUser(createUser);
+    cfsUserRegistration.userId = createdUser.getId();
+    //const createdUser = await this.orderRepository.create(order);
     return this.cfsUserRegistrationRepository.create(cfsUserRegistration);
   }
 
