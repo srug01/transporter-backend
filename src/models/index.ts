@@ -32,3 +32,4 @@ export * from './zone-master.model';
 export * from './userrole.model';
 export * from './notification.model';
 export * from './bid.model';
+export * from './bidusermapping.model';

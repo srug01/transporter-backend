@@ -1,6 +1,6 @@
 import {
   AuthenticationComponent,
-  registerAuthenticationStrategy
+  registerAuthenticationStrategy,
 } from '@loopback/authentication';
 import {BootMixin} from '@loopback/boot';
 import {ApplicationConfig} from '@loopback/core';
@@ -8,17 +8,19 @@ import {RepositoryMixin} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
 import {
   RestExplorerBindings,
-  RestExplorerComponent
+  RestExplorerComponent,
 } from '@loopback/rest-explorer';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {JWTStrategy} from './authentication-strategies/jwt-strategy';
 import {
-  CallProcedureServiceBindings, PasswordHasherBindings, TokenServiceBindings, TokenServiceConstants,
-
-
-  UserServiceBindings
+  CallProcedureServiceBindings,
+  PasswordHasherBindings,
+  TokenServiceBindings,
+  TokenServiceConstants,
+  UserServiceBindings,
 } from './keys';
+import {User} from './models/user.model';
 import {MySequence} from './sequence';
 import {CallProcedureService} from './services/call-procedure.service';
 import {BcryptHasher} from './services/hash.password.bcrypt';
@@ -66,12 +68,15 @@ export class BackendApplication extends BootMixin(
     this.bind(PasswordHasherBindings.ROUNDS).to(10);
     this.bind(UserServiceBindings.USER_SERVICE).toClass(MyUserService);
     this.bind(TokenServiceBindings.TOKEN_SERVICE).toClass(JWTService);
-    this.bind(CallProcedureServiceBindings.CALL_PROCEDURE_SERVICE).toClass(CallProcedureService);
+    this.bind(CallProcedureServiceBindings.CALL_PROCEDURE_SERVICE).toClass(
+      CallProcedureService,
+    );
     this.bind(TokenServiceBindings.TOKEN_SECRET).to(
       TokenServiceConstants.TOKEN_SECRET_VALUE,
     );
     this.bind(TokenServiceBindings.TOKEN_EXPIRES_IN).to(
       TokenServiceConstants.TOKEN_EXPIRES_IN_VALUE,
     );
+    this.bind('user').toClass(User);
   }
 }
