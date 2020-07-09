@@ -1,8 +1,6 @@
-CREATE DATABASE  IF NOT EXISTS `transporter2` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `transporter2`;
 -- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
 --
--- Host: localhost    Database: transporter2
+-- Host: localhost    Database: transporter
 -- ------------------------------------------------------
 -- Server version	8.0.19
 
@@ -27,14 +25,9 @@ DROP TABLE IF EXISTS `bid`;
 CREATE TABLE `bid` (
   `bidId` int NOT NULL AUTO_INCREMENT,
   `bidName` varchar(512) NOT NULL,
-  `containerId` int NOT NULL,
-  `container_type` int NOT NULL,
-  `container_weight_type` int NOT NULL,
-  `source_type` varchar(512) NOT NULL,
-  `destination_type` varchar(512) NOT NULL,
   `original_rate` int DEFAULT NULL,
   `exhibition_date` datetime DEFAULT NULL,
-  `orderId` int NOT NULL,
+  `suborderId` int NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   `created_by` int NOT NULL,
   `created_on` datetime NOT NULL,
@@ -42,13 +35,12 @@ CREATE TABLE `bid` (
   `modified_on` datetime DEFAULT NULL,
   `bid_upper_limit` int DEFAULT NULL,
   `bid_lower_limit` int DEFAULT NULL,
-  `order_master_type_syscode` int DEFAULT NULL,
-  `source_name` varchar(512) DEFAULT NULL,
-  `destination_name` varchar(512) DEFAULT NULL,
   `bid_rate` int DEFAULT NULL,
   `margin_percent` int DEFAULT NULL,
-  PRIMARY KEY (`bidId`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`bidId`),
+  KEY `suborderId_idx` (`suborderId`),
+  CONSTRAINT `suborderId` FOREIGN KEY (`suborderId`) REFERENCES `suborder` (`suborderId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -57,7 +49,6 @@ CREATE TABLE `bid` (
 
 LOCK TABLES `bid` WRITE;
 /*!40000 ALTER TABLE `bid` DISABLE KEYS */;
-INSERT INTO `bid` VALUES (22,'BID00000001',14,1,1,'port','cfs',500,NULL,9,1,1,'2020-07-03 00:00:00',NULL,NULL,NULL,NULL,1,'Mumbai Port','CFS1',450,10),(23,'BID00000023',14,1,1,'port','cfs',500,NULL,9,1,1,'2020-07-03 00:00:00',NULL,NULL,NULL,NULL,1,'Mumbai Port','CFS1',450,10),(24,'BID00000024',14,1,1,'port','cfs',500,NULL,9,1,1,'2020-07-03 00:00:00',NULL,NULL,NULL,NULL,1,'Mumbai Port','CFS1',450,10),(25,'BID00000025',15,1,1,'port','cfs',500,NULL,10,1,1,'2020-07-05 00:00:00',NULL,NULL,NULL,NULL,1,'Mumbai Port','CFS1',450,10),(26,'BID00000026',15,1,1,'port','cfs',500,NULL,10,1,1,'2020-07-05 00:00:00',NULL,NULL,NULL,NULL,1,'Mumbai Port','CFS1',450,10),(27,'BID00000027',15,1,1,'port','cfs',500,NULL,10,1,1,'2020-07-05 00:00:00',NULL,NULL,NULL,NULL,1,'Mumbai Port','CFS1',450,10),(28,'BID00000028',15,1,1,'port','cfs',500,NULL,10,1,1,'2020-07-05 00:00:00',NULL,NULL,NULL,NULL,1,'Mumbai Port','CFS1',450,10),(29,'BID00000029',15,1,1,'port','cfs',500,NULL,10,1,1,'2020-07-05 00:00:00',NULL,NULL,NULL,NULL,1,'Mumbai Port','CFS1',450,10);
 /*!40000 ALTER TABLE `bid` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -75,8 +66,12 @@ CREATE TABLE `bidusermapping` (
   `bidName` varchar(512) NOT NULL,
   `bidValue` int NOT NULL,
   `bidStatus` varchar(512) NOT NULL,
-  PRIMARY KEY (`bidusermappingId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`bidusermappingId`),
+  KEY `bidId_idx` (`bidId`),
+  KEY `biduserId_idx` (`userId`),
+  CONSTRAINT `bidId` FOREIGN KEY (`bidId`) REFERENCES `bid` (`bidId`),
+  CONSTRAINT `biduserId` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -85,7 +80,6 @@ CREATE TABLE `bidusermapping` (
 
 LOCK TABLES `bidusermapping` WRITE;
 /*!40000 ALTER TABLE `bidusermapping` DISABLE KEYS */;
-INSERT INTO `bidusermapping` VALUES (1,29,5,'BID00000029',500,'confirmed');
 /*!40000 ALTER TABLE `bidusermapping` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -110,18 +104,16 @@ CREATE TABLE `cfsmaster` (
   `primary_mobile_no` varchar(512) DEFAULT NULL,
   `additional_contact_name` varchar(512) DEFAULT NULL,
   `additional_mobile_no` varchar(512) DEFAULT NULL,
-  `port_syscode` int NOT NULL,
-  `is_active` tinyint(1) NOT NULL,
+  `portId` int NOT NULL,
   `created_by` int DEFAULT NULL,
   `created_on` datetime DEFAULT NULL,
   `modified_by` int DEFAULT NULL,
   `modified_on` datetime DEFAULT NULL,
-  `locationId` int DEFAULT NULL,
-  `roleId` int DEFAULT NULL,
-  `userId` int DEFAULT NULL,
   `cfsMasterId` int NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`cfsMasterId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`cfsMasterId`),
+  KEY `portId_idx` (`portId`),
+  CONSTRAINT `cfsportId` FOREIGN KEY (`portId`) REFERENCES `portmaster` (`portId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,7 +122,6 @@ CREATE TABLE `cfsmaster` (
 
 LOCK TABLES `cfsmaster` WRITE;
 /*!40000 ALTER TABLE `cfsmaster` DISABLE KEYS */;
-INSERT INTO `cfsmaster` VALUES ('CFS1','77855544','cfs@user.in','A-13,Agatsya CHS','401107','CFS01','44778','PANNO','4478','Primary Contact','9004944647','additional','4478896',1,1,1,'2020-07-01 20:49:44',NULL,NULL,1,NULL,2,1),('New CFS Master','224465578','cfs@master.in','Address1','4457786','CFS02','GST','PAN','TAN','5557789','55241447','Additional Name','5522178',1,1,1,'2020-07-05 11:44:25',NULL,NULL,1,NULL,NULL,2),('CFS Master 3','445789','cfs@master3.in','CFS Master','5544789','CFS03','GST','PAN','TAN','Primary Name','5544788','Additional Name','4455788',2,1,1,'2020-07-05 12:22:25',NULL,NULL,2,NULL,NULL,3);
 /*!40000 ALTER TABLE `cfsmaster` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -142,19 +133,27 @@ DROP TABLE IF EXISTS `cfsratemaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cfsratemaster` (
-  `cfs_rate_syscode` int NOT NULL AUTO_INCREMENT,
-  `cfs_syscode` int NOT NULL,
-  `port_syscode` int NOT NULL,
-  `weight_syscode` int NOT NULL,
+  `cfs_rateId` int NOT NULL AUTO_INCREMENT,
+  `cfsId` int NOT NULL,
+  `portId` int NOT NULL,
+  `weightId` int NOT NULL,
   `rate` int NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   `created_by` int DEFAULT NULL,
   `created_on` datetime DEFAULT NULL,
   `modified_by` int DEFAULT NULL,
   `modified_on` datetime DEFAULT NULL,
-  `container_syscode` int NOT NULL,
-  PRIMARY KEY (`cfs_rate_syscode`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `containerId` int NOT NULL,
+  PRIMARY KEY (`cfs_rateId`),
+  KEY `cfsratecfsId_idx` (`cfsId`),
+  KEY `cfsrateportId_idx` (`portId`),
+  KEY `cfsratecontainerId_idx` (`containerId`),
+  KEY `cfsrateweightId_idx` (`weightId`),
+  CONSTRAINT `cfsratecfsId` FOREIGN KEY (`cfsId`) REFERENCES `cfsmaster` (`cfsMasterId`),
+  CONSTRAINT `cfsratecontainerId` FOREIGN KEY (`containerId`) REFERENCES `containermaster` (`containerId`),
+  CONSTRAINT `cfsrateportId` FOREIGN KEY (`portId`) REFERENCES `portmaster` (`portId`),
+  CONSTRAINT `cfsrateweightId` FOREIGN KEY (`weightId`) REFERENCES `weightmaster` (`weightId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -163,7 +162,6 @@ CREATE TABLE `cfsratemaster` (
 
 LOCK TABLES `cfsratemaster` WRITE;
 /*!40000 ALTER TABLE `cfsratemaster` DISABLE KEYS */;
-INSERT INTO `cfsratemaster` VALUES (1,1,1,1,500,1,1,'2020-07-02 00:00:00',NULL,NULL,1),(2,1,1,2,1000,1,1,'2020-07-02 00:00:00',NULL,NULL,2);
 /*!40000 ALTER TABLE `cfsratemaster` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -175,9 +173,9 @@ DROP TABLE IF EXISTS `cfsuserregistration`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cfsuserregistration` (
-  `cfs_user_registration_syscode` int NOT NULL AUTO_INCREMENT,
-  `cfs_syscode` int NOT NULL,
-  `user_type_syscode` int NOT NULL,
+  `cfs_user_registrationId` int NOT NULL AUTO_INCREMENT,
+  `cfsId` int NOT NULL,
+  `user_typeId` int NOT NULL,
   `cfs_user_name` varchar(512) NOT NULL,
   `cfs_user_designation` varchar(512) DEFAULT NULL,
   `cfs_user_department` varchar(512) DEFAULT NULL,
@@ -192,7 +190,7 @@ CREATE TABLE `cfsuserregistration` (
   `created_on` datetime DEFAULT NULL,
   `modified_by` int DEFAULT NULL,
   `modified_on` datetime DEFAULT NULL,
-  PRIMARY KEY (`cfs_user_registration_syscode`)
+  PRIMARY KEY (`cfs_user_registrationId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -246,14 +244,14 @@ DROP TABLE IF EXISTS `containermaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `containermaster` (
-  `container_syscode` int NOT NULL AUTO_INCREMENT,
+  `containerId` int NOT NULL AUTO_INCREMENT,
   `container_name` varchar(512) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   `created_by` int DEFAULT NULL,
   `created_on` datetime DEFAULT NULL,
   `modified_by` int DEFAULT NULL,
   `modified_on` datetime DEFAULT NULL,
-  PRIMARY KEY (`container_syscode`)
+  PRIMARY KEY (`containerId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -275,7 +273,7 @@ DROP TABLE IF EXISTS `dieselratemaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `dieselratemaster` (
-  `diesel_rate_syscode` int NOT NULL AUTO_INCREMENT,
+  `diesel_rateId` int NOT NULL AUTO_INCREMENT,
   `diesel_rate` int NOT NULL,
   `date` datetime NOT NULL,
   `is_active` tinyint(1) NOT NULL,
@@ -283,7 +281,7 @@ CREATE TABLE `dieselratemaster` (
   `created_on` datetime DEFAULT NULL,
   `modified_by` int DEFAULT NULL,
   `modified_on` datetime DEFAULT NULL,
-  PRIMARY KEY (`diesel_rate_syscode`)
+  PRIMARY KEY (`diesel_rateId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -357,16 +355,16 @@ DROP TABLE IF EXISTS `mileagemaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `mileagemaster` (
-  `mileage_syscode` int NOT NULL AUTO_INCREMENT,
-  `container_syscode` int NOT NULL,
-  `weight_syscode` int NOT NULL,
+  `mileageId` int NOT NULL AUTO_INCREMENT,
+  `containerId` int NOT NULL,
+  `weightId` int NOT NULL,
   `mileage` varchar(512) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   `created_by` int DEFAULT NULL,
   `created_on` datetime DEFAULT NULL,
   `modified_by` int DEFAULT NULL,
   `modified_on` datetime DEFAULT NULL,
-  PRIMARY KEY (`mileage_syscode`)
+  PRIMARY KEY (`mileageId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -419,11 +417,11 @@ DROP TABLE IF EXISTS `order`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order` (
   `orderId` int NOT NULL AUTO_INCREMENT,
-  `order_type_syscode` int DEFAULT NULL,
+  `order_typeId` int DEFAULT NULL,
   `order_date` datetime DEFAULT NULL,
-  `master_type_syscode` int DEFAULT NULL,
-  `source_syscode` int DEFAULT NULL,
-  `destination_syscode` int DEFAULT NULL,
+  `master_typeId` int DEFAULT NULL,
+  `sourceId` int DEFAULT NULL,
+  `destinationId` int DEFAULT NULL,
   `destination_type` varchar(512) DEFAULT NULL,
   `source_type` varchar(512) DEFAULT NULL,
   `order_remarks` varchar(512) DEFAULT NULL,
@@ -440,7 +438,9 @@ CREATE TABLE `order` (
   `profitRate` int DEFAULT NULL,
   `profitMarginPercentage` int DEFAULT NULL,
   `rateexcludingProfit` int DEFAULT NULL,
-  PRIMARY KEY (`orderId`)
+  PRIMARY KEY (`orderId`),
+  KEY `mastertype_idx` (`master_typeId`),
+  CONSTRAINT `mastertype` FOREIGN KEY (`master_typeId`) REFERENCES `mastertype` (`masterTypeId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -462,16 +462,20 @@ DROP TABLE IF EXISTS `portmaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `portmaster` (
-  `port_syscode` int NOT NULL AUTO_INCREMENT,
+  `portId` int NOT NULL AUTO_INCREMENT,
   `port_name` varchar(512) NOT NULL,
-  `state_syscode` int NOT NULL,
-  `location_syscode` int NOT NULL,
+  `stateId` int NOT NULL,
+  `location` varchar(500) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   `created_by` int DEFAULT NULL,
   `created_on` datetime DEFAULT NULL,
   `modified_by` int DEFAULT NULL,
   `modified_on` datetime DEFAULT NULL,
-  PRIMARY KEY (`port_syscode`)
+  `latitude` varchar(145) DEFAULT NULL,
+  `longitude` varchar(145) DEFAULT NULL,
+  PRIMARY KEY (`portId`),
+  KEY `stateId_idx` (`stateId`),
+  CONSTRAINT `stateId` FOREIGN KEY (`stateId`) REFERENCES `statemaster` (`stateId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -481,8 +485,40 @@ CREATE TABLE `portmaster` (
 
 LOCK TABLES `portmaster` WRITE;
 /*!40000 ALTER TABLE `portmaster` DISABLE KEYS */;
-INSERT INTO `portmaster` VALUES (1,'Mumbai Port',1,1,1,1,'2020-06-26 21:10:57',1,'2020-06-26 21:10:57'),(2,'JNPT',2,2,1,1,'2020-06-26 21:31:29',1,'2020-06-26 21:31:29');
+INSERT INTO `portmaster` VALUES (1,'Mumbai Port',1,'1',1,1,'2020-06-26 21:10:57',1,'2020-06-26 21:10:57',NULL,NULL),(2,'JNPT',2,'2',1,1,'2020-06-26 21:31:29',1,'2020-06-26 21:31:29',NULL,NULL);
 /*!40000 ALTER TABLE `portmaster` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `portterminalmaster`
+--
+
+DROP TABLE IF EXISTS `portterminalmaster`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `portterminalmaster` (
+  `portterminalId` int NOT NULL AUTO_INCREMENT,
+  `portId` int NOT NULL,
+  `terminal` varchar(45) NOT NULL,
+  `latitude` varchar(145) DEFAULT NULL,
+  `longitude` varchar(145) DEFAULT NULL,
+  `created_by` int NOT NULL,
+  `created_on` datetime NOT NULL,
+  `modified_by` int DEFAULT NULL,
+  `modified_on` datetime DEFAULT NULL,
+  PRIMARY KEY (`portterminalId`),
+  KEY `portId_idx` (`portId`),
+  CONSTRAINT `portId` FOREIGN KEY (`portId`) REFERENCES `portmaster` (`portId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `portterminalmaster`
+--
+
+LOCK TABLES `portterminalmaster` WRITE;
+/*!40000 ALTER TABLE `portterminalmaster` DISABLE KEYS */;
+/*!40000 ALTER TABLE `portterminalmaster` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -493,11 +529,11 @@ DROP TABLE IF EXISTS `settings`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `settings` (
-  `settings_syscode` int NOT NULL AUTO_INCREMENT,
+  `settingsId` int NOT NULL AUTO_INCREMENT,
   `settings_name` varchar(512) NOT NULL,
   `settings_value` varchar(512) DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`settings_syscode`)
+  PRIMARY KEY (`settingsId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -519,14 +555,14 @@ DROP TABLE IF EXISTS `statemaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `statemaster` (
-  `state_syscode` int NOT NULL AUTO_INCREMENT,
+  `stateId` int NOT NULL AUTO_INCREMENT,
   `state` varchar(512) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   `created_by` int DEFAULT NULL,
   `created_on` datetime DEFAULT NULL,
   `modified_by` int DEFAULT NULL,
   `modified_on` datetime DEFAULT NULL,
-  PRIMARY KEY (`state_syscode`)
+  PRIMARY KEY (`stateId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -541,6 +577,41 @@ INSERT INTO `statemaster` VALUES (1,'Maharashtra',1,1,'2020-06-26 21:10:09',1,'2
 UNLOCK TABLES;
 
 --
+-- Table structure for table `suborder`
+--
+
+DROP TABLE IF EXISTS `suborder`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `suborder` (
+  `suborderId` int NOT NULL AUTO_INCREMENT,
+  `orderId` int NOT NULL,
+  `subordertotal` decimal(10,2) DEFAULT NULL,
+  `is_delete` tinyint DEFAULT NULL,
+  `created_by` int NOT NULL,
+  `created_on` datetime NOT NULL,
+  `modified_by` int DEFAULT NULL,
+  `modified_on` datetime DEFAULT NULL,
+  `containerId` int NOT NULL,
+  `container_type` int NOT NULL,
+  `container_weight_type` int NOT NULL,
+  `subordertotal_margin` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`suborderId`),
+  KEY `orderId_idx` (`orderId`),
+  CONSTRAINT `orderId` FOREIGN KEY (`orderId`) REFERENCES `order` (`orderId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `suborder`
+--
+
+LOCK TABLES `suborder` WRITE;
+/*!40000 ALTER TABLE `suborder` DISABLE KEYS */;
+/*!40000 ALTER TABLE `suborder` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `transporterregistration`
 --
 
@@ -548,7 +619,7 @@ DROP TABLE IF EXISTS `transporterregistration`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `transporterregistration` (
-  `transporter_syscode` int NOT NULL AUTO_INCREMENT,
+  `transporterId` int NOT NULL AUTO_INCREMENT,
   `transporter_name` varchar(512) DEFAULT NULL,
   `transporter_mobile_no` varchar(512) NOT NULL,
   `transporter_email` varchar(512) DEFAULT NULL,
@@ -576,7 +647,7 @@ CREATE TABLE `transporterregistration` (
   `created_on` datetime DEFAULT NULL,
   `modified_by` int DEFAULT NULL,
   `modified_on` datetime DEFAULT NULL,
-  PRIMARY KEY (`transporter_syscode`)
+  PRIMARY KEY (`transporterId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -691,8 +762,12 @@ CREATE TABLE `userrolemapping` (
   `roleId` int NOT NULL,
   `isActive` tinyint(1) NOT NULL,
   `description` varchar(512) DEFAULT NULL,
-  PRIMARY KEY (`userroleId`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`userroleId`),
+  KEY `userroleId_idx` (`roleId`),
+  KEY `usermappingId_idx` (`userId`),
+  CONSTRAINT `usermappingId` FOREIGN KEY (`userId`) REFERENCES `user` (`id`),
+  CONSTRAINT `userroleId` FOREIGN KEY (`roleId`) REFERENCES `userrole` (`roleId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -701,7 +776,6 @@ CREATE TABLE `userrolemapping` (
 
 LOCK TABLES `userrolemapping` WRITE;
 /*!40000 ALTER TABLE `userrolemapping` DISABLE KEYS */;
-INSERT INTO `userrolemapping` VALUES (1,1,1,1,'Admin Role'),(2,2,4,1,'CFS Customer Role'),(3,3,5,1,'Transporter Role'),(4,4,6,1,'Driver Role'),(5,5,4,1,'CFS Customer Role'),(6,6,4,1,'CFS Customer Role'),(7,7,5,1,'Transporter Role'),(8,8,6,1,'Driver Role');
 /*!40000 ALTER TABLE `userrolemapping` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -737,20 +811,20 @@ DROP TABLE IF EXISTS `vehiclemaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `vehiclemaster` (
-  `vehicle_syscode` int NOT NULL AUTO_INCREMENT,
+  `vehicleId` int NOT NULL AUTO_INCREMENT,
   `vehicle_no` varchar(512) NOT NULL,
   `vehicle_type` varchar(512) NOT NULL,
   `vehicle_capacity` varchar(512) NOT NULL,
   `weight` int DEFAULT NULL,
   `manufacture_year` varchar(512) DEFAULT NULL,
-  `state_syscode` int DEFAULT NULL,
+  `stateId` int DEFAULT NULL,
   `owned` tinyint(1) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   `created_by` int DEFAULT NULL,
   `created_on` datetime DEFAULT NULL,
   `modified_by` int DEFAULT NULL,
   `modified_on` datetime DEFAULT NULL,
-  PRIMARY KEY (`vehicle_syscode`)
+  PRIMARY KEY (`vehicleId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -771,15 +845,18 @@ DROP TABLE IF EXISTS `weightmaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `weightmaster` (
-  `weight_syscode` int NOT NULL AUTO_INCREMENT,
+  `weightId` int NOT NULL AUTO_INCREMENT,
   `weight_description` varchar(512) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   `created_by` int DEFAULT NULL,
   `created_on` datetime DEFAULT NULL,
   `modified_by` int DEFAULT NULL,
   `modified_on` datetime DEFAULT NULL,
-  PRIMARY KEY (`weight_syscode`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `containerId` int NOT NULL,
+  PRIMARY KEY (`weightId`),
+  KEY `containerId_idx` (`containerId`),
+  CONSTRAINT `containerId` FOREIGN KEY (`containerId`) REFERENCES `containermaster` (`containerId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -788,7 +865,6 @@ CREATE TABLE `weightmaster` (
 
 LOCK TABLES `weightmaster` WRITE;
 /*!40000 ALTER TABLE `weightmaster` DISABLE KEYS */;
-INSERT INTO `weightmaster` VALUES (1,'1TON',1,1,'2020-06-28 18:32:27',NULL,NULL),(2,'2TON',1,1,'2020-06-28 18:32:45',NULL,NULL),(3,'4TON',1,1,'2020-06-28 18:32:56',NULL,NULL);
 /*!40000 ALTER TABLE `weightmaster` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -800,18 +876,27 @@ DROP TABLE IF EXISTS `yardcfsratemaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `yardcfsratemaster` (
-  `yard_cfs_rate_syscode` int NOT NULL AUTO_INCREMENT,
-  `cfs_syscode` int NOT NULL,
-  `yard_syscode` int NOT NULL,
-  `container_syscode` int NOT NULL,
-  `weight_syscode` int NOT NULL,
+  `yard_cfs_rateId` int NOT NULL AUTO_INCREMENT,
+  `cfsId` int NOT NULL,
+  `yardId` int NOT NULL,
+  `containerId` int NOT NULL,
+  `weightId` int NOT NULL,
   `rate` int NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   `created_by` int NOT NULL,
   `created_on` datetime NOT NULL,
   `modified_by` int DEFAULT NULL,
   `modified_on` datetime DEFAULT NULL,
-  PRIMARY KEY (`yard_cfs_rate_syscode`)
+  `portId` int NOT NULL,
+  PRIMARY KEY (`yard_cfs_rateId`),
+  KEY `yardratecfsId_idx` (`cfsId`),
+  KEY `yardrateyardId_idx` (`yardId`),
+  KEY `yardratecontainerId_idx` (`containerId`),
+  KEY `yardrateweightId_idx` (`weightId`),
+  CONSTRAINT `yardratecfsId` FOREIGN KEY (`cfsId`) REFERENCES `cfsmaster` (`cfsMasterId`),
+  CONSTRAINT `yardratecontainerId` FOREIGN KEY (`containerId`) REFERENCES `containermaster` (`containerId`),
+  CONSTRAINT `yardrateweightId` FOREIGN KEY (`weightId`) REFERENCES `weightmaster` (`weightId`),
+  CONSTRAINT `yardrateyardId` FOREIGN KEY (`yardId`) REFERENCES `yardmaster` (`yardId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -832,15 +917,21 @@ DROP TABLE IF EXISTS `yardmaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `yardmaster` (
-  `yard_syscode` int NOT NULL AUTO_INCREMENT,
+  `yardId` int NOT NULL AUTO_INCREMENT,
   `yard_name` varchar(512) NOT NULL,
-  `port_syscode` int NOT NULL,
+  `portId` int NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   `created_by` int DEFAULT NULL,
   `created_on` datetime DEFAULT NULL,
   `modified_by` int DEFAULT NULL,
   `modified_on` datetime DEFAULT NULL,
-  PRIMARY KEY (`yard_syscode`)
+  `address` mediumtext,
+  `pincode` varchar(15) DEFAULT NULL,
+  `latitude` varchar(145) DEFAULT NULL,
+  `longitude` varchar(145) DEFAULT NULL,
+  PRIMARY KEY (`yardId`),
+  KEY `portId_idx` (`portId`),
+  CONSTRAINT `yardportId` FOREIGN KEY (`portId`) REFERENCES `portmaster` (`portId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -850,37 +941,8 @@ CREATE TABLE `yardmaster` (
 
 LOCK TABLES `yardmaster` WRITE;
 /*!40000 ALTER TABLE `yardmaster` DISABLE KEYS */;
-INSERT INTO `yardmaster` VALUES (1,'New Yard',1,1,1,'2020-07-01 21:07:46',NULL,NULL);
+INSERT INTO `yardmaster` VALUES (1,'New Yard',1,1,1,'2020-07-01 21:07:46',NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `yardmaster` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `yardportmapping`
---
-
-DROP TABLE IF EXISTS `yardportmapping`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `yardportmapping` (
-  `yard_port_mapping_syscode` int NOT NULL AUTO_INCREMENT,
-  `yard_syscode` int NOT NULL,
-  `port_syscode` int NOT NULL,
-  `is_active` tinyint(1) NOT NULL,
-  `created_by` int DEFAULT NULL,
-  `created_on` datetime DEFAULT NULL,
-  `modified_by` int DEFAULT NULL,
-  `modified_on` datetime DEFAULT NULL,
-  PRIMARY KEY (`yard_port_mapping_syscode`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `yardportmapping`
---
-
-LOCK TABLES `yardportmapping` WRITE;
-/*!40000 ALTER TABLE `yardportmapping` DISABLE KEYS */;
-/*!40000 ALTER TABLE `yardportmapping` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -891,9 +953,9 @@ DROP TABLE IF EXISTS `zonedaymaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `zonedaymaster` (
-  `zone_day_syscode` int NOT NULL AUTO_INCREMENT,
+  `zone_dayId` int NOT NULL AUTO_INCREMENT,
   `zone_name` varchar(512) NOT NULL,
-  `port_syscode` int NOT NULL,
+  `portId` int NOT NULL,
   `import` datetime DEFAULT NULL,
   `export` datetime DEFAULT NULL,
   `is_active` tinyint(1) NOT NULL,
@@ -901,7 +963,7 @@ CREATE TABLE `zonedaymaster` (
   `created_on` datetime NOT NULL,
   `modified_by` int DEFAULT NULL,
   `modified_on` datetime DEFAULT NULL,
-  PRIMARY KEY (`zone_day_syscode`)
+  PRIMARY KEY (`zone_dayId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -922,7 +984,7 @@ DROP TABLE IF EXISTS `zonemaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `zonemaster` (
-  `zone_syscode` int NOT NULL AUTO_INCREMENT,
+  `zoneId` int NOT NULL AUTO_INCREMENT,
   `zone_name` varchar(512) NOT NULL,
   `zone_description` varchar(512) NOT NULL,
   `pincode` varchar(512) DEFAULT NULL,
@@ -931,7 +993,7 @@ CREATE TABLE `zonemaster` (
   `created_on` datetime DEFAULT NULL,
   `modified_by` int DEFAULT NULL,
   `modified_on` datetime DEFAULT NULL,
-  PRIMARY KEY (`zone_syscode`)
+  PRIMARY KEY (`zoneId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -945,7 +1007,7 @@ LOCK TABLES `zonemaster` WRITE;
 UNLOCK TABLES;
 
 --
--- Dumping routines for database 'transporter2'
+-- Dumping routines for database 'transporter'
 --
 /*!50003 DROP FUNCTION IF EXISTS `GetBidNumber` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -1086,7 +1148,7 @@ Declare destinationID int default 0;
 Declare profit_margin decimal(10,2);
 Declare profit_Rate decimal(10,2);
 
-Select master_type_syscode,source_syscode,destination_syscode 
+Select master_typeId,sourceId,destinationId 
 into masterType,sourceID,destinationID
 FROM transporter2.order where orderid = order_Id;
 
@@ -1109,26 +1171,26 @@ Begin
 		If masterType = 1 then
 			Set cfsRate := (select rate * trucks
 			from transporter2.cfsratemaster
-			Where port_syscode = sourceID and cfs_syscode = destinationID
-			and weight_syscode = weightType and container_syscode = containerType);
+			Where portId = sourceID and cfsId = destinationID
+			and weightId = weightType and containerId = containerType);
 			Set orderRate = orderRate + cfsRate;
 		ElseIf masterType = 2 then
 			Set cfsRate := (select rate * trucks
 			from transporter2.cfsratemaster
-			Where port_syscode = destinationID and cfs_syscode = sourceID
-			and weight_syscode = weightType and container_syscode = containerType);
+			Where portId = destinationID and cfsId = sourceID
+			and weightId = weightType and containerId = containerType);
 			Set orderRate = orderRate + cfsRate;
         ElseIf masterType = 3 then
 			Set cfsRate := (select rate * trucks
 			from transporter2.yardcfsratemaster
-			Where yard_syscode = sourceID and cfs_syscode = destinationID
-			and weight_syscode = weightType and container_syscode = containerType);
+			Where yardId = sourceID and cfsId = destinationID
+			and weightId = weightType and containerId = containerType);
 			Set orderRate = orderRate + cfsRate;
         ElseIf masterType = 4 then
 			Set cfsRate := (select rate * trucks
 			from transporter2.yardcfsratemaster
-			Where yard_syscode = destinationID and cfs_syscode = sourceID
-			and weight_syscode = weightType and container_syscode = containerType);
+			Where yardId = destinationID and cfsId = sourceID
+			and weightId = weightType and containerId = containerType);
 			Set orderRate = orderRate + cfsRate;
 		End if;
         
@@ -1147,30 +1209,30 @@ Begin
     
     Insert into transporter2.bid(bidName,containerId,container_type,
     container_weight_type,source_type,destination_type,original_rate,
-    bid_rate,margin_percent,order_master_type_syscode,
+    bid_rate,margin_percent,order_master_typeId,
     source_name,destination_name,orderId,is_active,created_by,created_on) 
 	Select GetBidNumber(),t.containerId,c.container_type,c.weight_type,
     ord.source_type,ord.destination_type,cr.rate,
     (cr.rate - ((cr.rate * s.settings_value) / 100)),
-    s.settings_value,ord.master_type_syscode,
+    s.settings_value,ord.master_typeId,
     case 
-    When ord.master_type_syscode = 1 then 
+    When ord.master_typeId = 1 then 
     p.port_name
-    When ord.master_type_syscode = 2 then 
+    When ord.master_typeId = 2 then 
     cm.cfs_name
-    When ord.master_type_syscode = 3 then 
+    When ord.master_typeId = 3 then 
     y.yard_name
-    When ord.master_type_syscode = 4 then 
+    When ord.master_typeId = 4 then 
     ycm.cfs_name
     end,
     case 
-    When ord.master_type_syscode = 1 then 
+    When ord.master_typeId = 1 then 
     cm.cfs_name
-    When ord.master_type_syscode = 2 then 
+    When ord.master_typeId = 2 then 
     p.port_name
-    When ord.master_type_syscode = 3 then 
+    When ord.master_typeId = 3 then 
     ycm.cfs_name
-    When ord.master_type_syscode = 4 then 
+    When ord.master_typeId = 4 then 
     y.yard_name
     end,
 	ord.orderId,1,1,CURDATE()
@@ -1180,24 +1242,24 @@ Begin
 	Inner Join transporter2.truck t
 	on c.containerId = t.containerId
     Left Outer Join transporter2.cfsratemaster cr on
-    c.container_type = cr.container_syscode and c.weight_type = cr.weight_syscode
+    c.container_type = cr.containerId and c.weight_type = cr.weightId
     Left Outer Join transporter2.yardcfsratemaster ym on
-    c.container_type = ym.container_syscode and c.weight_type = ym.weight_syscode
-        Left Outer Join transporter2.portmaster p on cr.port_syscode = p.port_syscode
-    Left Outer Join transporter2.cfsmaster cm on cr.cfs_syscode = cm.cfsMasterId 
-    Left Outer Join transporter2.yardmaster y on ym.yard_syscode = y.yard_syscode
-    Left Outer Join transporter2.cfsmaster ycm on ym.cfs_syscode = ycm.cfsMasterId 
+    c.container_type = ym.containerId and c.weight_type = ym.weightId
+        Left Outer Join transporter2.portmaster p on cr.portId = p.portId
+    Left Outer Join transporter2.cfsmaster cm on cr.cfsId = cm.cfsMasterId 
+    Left Outer Join transporter2.yardmaster y on ym.yardId = y.yardId
+    Left Outer Join transporter2.cfsmaster ycm on ym.cfsId = ycm.cfsMasterId 
     Left Outer join settings s on settings_name = 'cfs_order_profit' 
 	where ord.orderId = order_Id and
     case 
-    when ord.master_type_syscode = 1 then
-     cr.port_syscode = ord.source_syscode and cr.cfs_syscode = ord.destination_syscode
-	when ord.master_type_syscode = 2 then
-	 cr.port_syscode = ord.destination_syscode and cr.cfs_syscode = ord.source_syscode
-	when ord.master_type_syscode = 3 then
-	 ym.yard_syscode = ord.source_syscode and ym.cfs_syscode = ord.destination_syscode
-	when ord.master_type_syscode = 4 then
-	 ym.yard_syscode = ord.destination_syscode and ym.cfs_syscode = ord.source_syscode
+    when ord.master_typeId = 1 then
+     cr.portId = ord.sourceId and cr.cfsId = ord.destinationId
+	when ord.master_typeId = 2 then
+	 cr.portId = ord.destinationId and cr.cfsId = ord.sourceId
+	when ord.master_typeId = 3 then
+	 ym.yardId = ord.sourceId and ym.cfsId = ord.destinationId
+	when ord.master_typeId = 4 then
+	 ym.yardId = ord.destinationId and ym.cfsId = ord.sourceId
      end;
     
   End;
@@ -1239,4 +1301,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-05 19:22:55
+-- Dump completed on 2020-07-10  3:26:29
