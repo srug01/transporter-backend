@@ -65,8 +65,8 @@ export class MyUserService implements UserService<User, Credentials> {
         ? `${user.firstName} ${user.lastName}`
         : user.lastName;
     }
-    if (user.id) {
-      idString = user.id.toString();
+    if (user.userId) {
+      idString = user.userId.toString();
       // this.roles = this.userRepository.userroles(user.id).find();
     }
     if (user.typeSyscode) {
@@ -74,7 +74,7 @@ export class MyUserService implements UserService<User, Credentials> {
     }
 
     const currentUser: MyUserProfile = pick(toJSON(user), [
-      'id',
+      'userId',
       'permissions',
       'email',
       'typeSyscode',

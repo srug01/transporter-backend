@@ -10,7 +10,7 @@ export interface RequiredPermissions {
 export type FileUploadHandler = RequestHandler;
 export interface MyUserProfile {
   [securityId]: string;
-  id: string;
+  userId: string;
   email?: string;
   name: string;
   typeSyscode: number;

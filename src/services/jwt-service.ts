@@ -45,7 +45,7 @@ export class JWTService {
       userProfile = Object.assign(
         {
           [securityId]: '',
-          id: '',
+          userId: '',
           name: '',
           email: '',
           typeSyscode: 0,

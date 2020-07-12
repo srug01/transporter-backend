@@ -1,10 +1,21 @@
 import {authenticate, AuthenticationBindings} from '@loopback/authentication';
 import {inject} from '@loopback/core';
 import {Filter, FilterExcludingWhere, repository} from '@loopback/repository';
-import {get, getJsonSchemaRef, getModelSchemaRef, param, post, requestBody} from '@loopback/rest';
+import {
+  get,
+  getJsonSchemaRef,
+  getModelSchemaRef,
+  param,
+  post,
+  requestBody
+} from '@loopback/rest';
 import * as _ from 'lodash';
 import {PermissionKeys} from '../authorization/permission-keys';
-import {PasswordHasherBindings, TokenServiceBindings, UserServiceBindings} from '../keys';
+import {
+  PasswordHasherBindings,
+  TokenServiceBindings,
+  UserServiceBindings
+} from '../keys';
 import {User} from '../models';
 import {UserRepository} from '../repositories';
 import {Credentials} from '../repositories/user.repository';
@@ -30,7 +41,6 @@ export class UserController {
     public jwtService: JWTService,
   ) {}
 
-
   @get('/users', {
     responses: {
       '200': {
@@ -47,9 +57,7 @@ export class UserController {
     },
   })
   @authenticate('jwt')
-  async find(
-    @param.filter(User) filter?: Filter<User>,
-  ): Promise<User[]> {
+  async find(@param.filter(User) filter?: Filter<User>): Promise<User[]> {
     return this.userRepository.find(filter);
   }
 
@@ -102,7 +110,7 @@ export class UserController {
     const userProfile = this.userService.convertToUserProfile(user);
     //console.log(userProfile);
     // get user roles
-    userProfile.roles = await this.userService.UserRoles(userProfile.id);
+    userProfile.roles = await this.userService.UserRoles(userProfile.userId);
     //generate a json web token
     const token = await this.jwtService.generateToken(userProfile);
     return Promise.resolve({token});

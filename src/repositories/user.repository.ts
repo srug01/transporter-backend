@@ -2,7 +2,7 @@ import {Getter, inject} from '@loopback/core';
 import {
   DefaultCrudRepository,
   HasManyRepositoryFactory,
-  repository,
+  repository
 } from '@loopback/repository';
 import {TestDataSource} from '../datasources';
 import {User, UserRelations, Userrolemapping} from '../models';
@@ -15,12 +15,12 @@ export type Credentials = {
 
 export class UserRepository extends DefaultCrudRepository<
   User,
-  typeof User.prototype.id,
+  typeof User.prototype.userId,
   UserRelations
-> {
+  > {
   public readonly userroles: HasManyRepositoryFactory<
     Userrolemapping,
-    typeof User.prototype.id
+    typeof User.prototype.userId
   >;
 
   constructor(
