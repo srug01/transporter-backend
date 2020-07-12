@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
 --
--- Host: localhost    Database: transporter
+-- Host: localhost    Database: transporter2
 -- ------------------------------------------------------
 -- Server version	8.0.19
 
@@ -612,52 +612,52 @@ LOCK TABLES `suborder` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `transporterregistration`
+-- Table structure for table `transporter2registration`
 --
 
-DROP TABLE IF EXISTS `transporterregistration`;
+DROP TABLE IF EXISTS `transporter2registration`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `transporterregistration` (
-  `transporterId` int NOT NULL AUTO_INCREMENT,
-  `transporter_name` varchar(512) DEFAULT NULL,
-  `transporter_mobile_no` varchar(512) NOT NULL,
-  `transporter_email` varchar(512) DEFAULT NULL,
-  `transporter_address` varchar(512) DEFAULT NULL,
-  `transporter_pincode` varchar(512) DEFAULT NULL,
-  `transporter_GSTIN` varchar(512) DEFAULT NULL,
-  `transporter_PAN` varchar(512) DEFAULT NULL,
-  `transporter_partner` varchar(512) DEFAULT NULL,
-  `transporter_partner_PAN` varchar(512) DEFAULT NULL,
-  `transporter_partner_address` varchar(512) DEFAULT NULL,
-  `transporter_bank_acno` varchar(512) DEFAULT NULL,
-  `transporter_ac_type` varchar(512) DEFAULT NULL,
-  `transporter_bank_name` varchar(512) DEFAULT NULL,
-  `transporter_bank_branch` varchar(512) DEFAULT NULL,
-  `transporter_bank_ifsc` varchar(512) DEFAULT NULL,
-  `transporter_address_file` varchar(512) DEFAULT NULL,
-  `transporter_gst_file` varchar(512) DEFAULT NULL,
-  `transporter_pan_card` varchar(512) DEFAULT NULL,
-  `transporter_permit_card` varchar(512) DEFAULT NULL,
-  `transporter_license_card` varchar(512) DEFAULT NULL,
-  `transporter_other_card` varchar(512) DEFAULT NULL,
-  `transporter_is_active` tinyint(1) NOT NULL,
-  `transporter_is_verify` tinyint(1) NOT NULL,
+CREATE TABLE `transporter2registration` (
+  `transporter2Id` int NOT NULL AUTO_INCREMENT,
+  `transporter2_name` varchar(512) DEFAULT NULL,
+  `transporter2_mobile_no` varchar(512) NOT NULL,
+  `transporter2_email` varchar(512) DEFAULT NULL,
+  `transporter2_address` varchar(512) DEFAULT NULL,
+  `transporter2_pincode` varchar(512) DEFAULT NULL,
+  `transporter2_GSTIN` varchar(512) DEFAULT NULL,
+  `transporter2_PAN` varchar(512) DEFAULT NULL,
+  `transporter2_partner` varchar(512) DEFAULT NULL,
+  `transporter2_partner_PAN` varchar(512) DEFAULT NULL,
+  `transporter2_partner_address` varchar(512) DEFAULT NULL,
+  `transporter2_bank_acno` varchar(512) DEFAULT NULL,
+  `transporter2_ac_type` varchar(512) DEFAULT NULL,
+  `transporter2_bank_name` varchar(512) DEFAULT NULL,
+  `transporter2_bank_branch` varchar(512) DEFAULT NULL,
+  `transporter2_bank_ifsc` varchar(512) DEFAULT NULL,
+  `transporter2_address_file` varchar(512) DEFAULT NULL,
+  `transporter2_gst_file` varchar(512) DEFAULT NULL,
+  `transporter2_pan_card` varchar(512) DEFAULT NULL,
+  `transporter2_permit_card` varchar(512) DEFAULT NULL,
+  `transporter2_license_card` varchar(512) DEFAULT NULL,
+  `transporter2_other_card` varchar(512) DEFAULT NULL,
+  `transporter2_is_active` tinyint(1) NOT NULL,
+  `transporter2_is_verify` tinyint(1) NOT NULL,
   `created_by` int DEFAULT NULL,
   `created_on` datetime DEFAULT NULL,
   `modified_by` int DEFAULT NULL,
   `modified_on` datetime DEFAULT NULL,
-  PRIMARY KEY (`transporterId`)
+  PRIMARY KEY (`transporter2Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `transporterregistration`
+-- Dumping data for table `transporter2registration`
 --
 
-LOCK TABLES `transporterregistration` WRITE;
-/*!40000 ALTER TABLE `transporterregistration` DISABLE KEYS */;
-/*!40000 ALTER TABLE `transporterregistration` ENABLE KEYS */;
+LOCK TABLES `transporter2registration` WRITE;
+/*!40000 ALTER TABLE `transporter2registration` DISABLE KEYS */;
+/*!40000 ALTER TABLE `transporter2registration` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -745,7 +745,7 @@ CREATE TABLE `userrole` (
 
 LOCK TABLES `userrole` WRITE;
 /*!40000 ALTER TABLE `userrole` DISABLE KEYS */;
-INSERT INTO `userrole` VALUES (1,'Admin',1,1,'2020-06-26 21:11:31',NULL,NULL),(2,'Import Customer',1,1,'2020-06-26 21:12:54',NULL,NULL),(3,'Export Customer',1,1,'2020-06-26 21:12:54',NULL,NULL),(4,'CFS Customer',1,1,'2020-06-26 21:12:54',NULL,NULL),(5,'Transporter',1,1,'2020-06-26 21:12:54',NULL,NULL),(6,'Driver',1,1,'2020-06-26 21:12:54',NULL,NULL);
+INSERT INTO `userrole` VALUES (1,'Admin',1,1,'2020-06-26 21:11:31',NULL,NULL),(2,'Import Customer',1,1,'2020-06-26 21:12:54',NULL,NULL),(3,'Export Customer',1,1,'2020-06-26 21:12:54',NULL,NULL),(4,'CFS Customer',1,1,'2020-06-26 21:12:54',NULL,NULL),(5,'transporter2',1,1,'2020-06-26 21:12:54',NULL,NULL),(6,'Driver',1,1,'2020-06-26 21:12:54',NULL,NULL);
 /*!40000 ALTER TABLE `userrole` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1007,7 +1007,7 @@ LOCK TABLES `zonemaster` WRITE;
 UNLOCK TABLES;
 
 --
--- Dumping routines for database 'transporter'
+-- Dumping routines for database 'transporter2'
 --
 /*!50003 DROP FUNCTION IF EXISTS `GetBidNumber` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -1026,7 +1026,7 @@ BEGIN
 declare returnVal varchar(250);
 declare maxVal int;
 
-Select  max(bidId) + 1 into maxVal from transporter2.bid;
+Select  max(bidId) + 1 into maxVal from transporter22.bid;
 if maxVal is null then 
 set maxVal:= 1;
 end if;
@@ -1051,7 +1051,7 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllBids`(IN OrderId int )
 BEGIN
 
-Select * from transporter2.bid;
+Select * from transporter22.bid;
 
 END ;;
 DELIMITER ;
@@ -1074,15 +1074,15 @@ BEGIN
 
 declare roleId int;
 
-Select typeSyscode into roleId from transporter2.user
+Select typeSyscode into roleId from transporter22.user
 where id = user_Id;
 
 
-if roleId = 5 then -- Transporter
+if roleId = 5 then -- transporter2
 	Select b.bidName,b.source_name,b.destination_name,
     b.container_type, b.container_weight_type,
     bm.bidValue
-    from transporter2.bid b
+    from transporter22.bid b
     Left Outer Join bidusermapping bm on b.bidId = bm.bidId
     and bm.userId = user_Id;
     
@@ -1090,7 +1090,7 @@ else -- Admin User
     Select b.bidName,b.source_name,b.destination_name,
     b.container_type, b.container_weight_type,
     bm.bidValue
-    from transporter2.bid b
+    from transporter22.bid b
     Left Outer Join bidusermapping bm on b.bidId = bm.bidId;
     
 End if;
@@ -1113,10 +1113,10 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `MULTIPLETABLES`(IN userid varchar(10),IN roleid varchar(10))
 BEGIN
-SELECT c.* FROM transporter2.cfsmaster c
+SELECT c.* FROM transporter22.cfsmaster c
 Left Outer Join locationmaster l on c.locationId = l.locationId;
 
-/*Inner Join transporter2.user u 
+/*Inner Join transporter22.user u 
 on c.userId = u.id and c.roleId = u.typeSyscode
 Where c.userId = userid and c.roleId = roleid;*/
 END ;;
@@ -1150,7 +1150,7 @@ Declare profit_Rate decimal(10,2);
 
 Select master_typeId,sourceId,destinationId 
 into masterType,sourceID,destinationID
-FROM transporter2.order where orderid = order_Id;
+FROM transporter22.order where orderid = order_Id;
 
 Select settings_value into profit_margin
 from settings Where settings_name = 'cfs_order_profit';
@@ -1159,7 +1159,7 @@ Begin
    DECLARE exit_loop int default 0; 
    DECLARE order_cursor CURSOR FOR
      Select container_type, weight_type,no_of_trucks
-     from transporter2.container where orderId = order_Id;
+     from transporter22.container where orderId = order_Id;
    DECLARE CONTINUE HANDLER FOR NOT FOUND SET exit_loop = 1;
    OPEN order_cursor;
    
@@ -1170,25 +1170,25 @@ Begin
      IF NOT exit_loop  THEN
 		If masterType = 1 then
 			Set cfsRate := (select rate * trucks
-			from transporter2.cfsratemaster
+			from transporter22.cfsratemaster
 			Where portId = sourceID and cfsId = destinationID
 			and weightId = weightType and containerId = containerType);
 			Set orderRate = orderRate + cfsRate;
 		ElseIf masterType = 2 then
 			Set cfsRate := (select rate * trucks
-			from transporter2.cfsratemaster
+			from transporter22.cfsratemaster
 			Where portId = destinationID and cfsId = sourceID
 			and weightId = weightType and containerId = containerType);
 			Set orderRate = orderRate + cfsRate;
         ElseIf masterType = 3 then
 			Set cfsRate := (select rate * trucks
-			from transporter2.yardcfsratemaster
+			from transporter22.yardcfsratemaster
 			Where yardId = sourceID and cfsId = destinationID
 			and weightId = weightType and containerId = containerType);
 			Set orderRate = orderRate + cfsRate;
         ElseIf masterType = 4 then
 			Set cfsRate := (select rate * trucks
-			from transporter2.yardcfsratemaster
+			from transporter22.yardcfsratemaster
 			Where yardId = destinationID and cfsId = sourceID
 			and weightId = weightType and containerId = containerType);
 			Set orderRate = orderRate + cfsRate;
@@ -1200,14 +1200,14 @@ Begin
    close order_cursor;
    
 	Set profit_Rate = (orderRate * profit_margin)/ 100;
-	Update transporter2.order set totalRate = orderRate,
+	Update transporter22.order set totalRate = orderRate,
     profitMarginPercentage = profit_margin,
     profitRate = profit_Rate,
     rateexcludingProfit = orderRate - profit_Rate
     Where orderId = order_Id;
     
     
-    Insert into transporter2.bid(bidName,containerId,container_type,
+    Insert into transporter22.bid(bidName,containerId,container_type,
     container_weight_type,source_type,destination_type,original_rate,
     bid_rate,margin_percent,order_master_typeId,
     source_name,destination_name,orderId,is_active,created_by,created_on) 
@@ -1236,19 +1236,19 @@ Begin
     y.yard_name
     end,
 	ord.orderId,1,1,CURDATE()
- 	From transporter2.order ord
-	Inner join transporter2.container c
+ 	From transporter22.order ord
+	Inner join transporter22.container c
 	on ord.orderId = c.orderId
-	Inner Join transporter2.truck t
+	Inner Join transporter22.truck t
 	on c.containerId = t.containerId
-    Left Outer Join transporter2.cfsratemaster cr on
+    Left Outer Join transporter22.cfsratemaster cr on
     c.container_type = cr.containerId and c.weight_type = cr.weightId
-    Left Outer Join transporter2.yardcfsratemaster ym on
+    Left Outer Join transporter22.yardcfsratemaster ym on
     c.container_type = ym.containerId and c.weight_type = ym.weightId
-        Left Outer Join transporter2.portmaster p on cr.portId = p.portId
-    Left Outer Join transporter2.cfsmaster cm on cr.cfsId = cm.cfsMasterId 
-    Left Outer Join transporter2.yardmaster y on ym.yardId = y.yardId
-    Left Outer Join transporter2.cfsmaster ycm on ym.cfsId = ycm.cfsMasterId 
+        Left Outer Join transporter22.portmaster p on cr.portId = p.portId
+    Left Outer Join transporter22.cfsmaster cm on cr.cfsId = cm.cfsMasterId 
+    Left Outer Join transporter22.yardmaster y on ym.yardId = y.yardId
+    Left Outer Join transporter22.cfsmaster ycm on ym.cfsId = ycm.cfsMasterId 
     Left Outer join settings s on settings_name = 'cfs_order_profit' 
 	where ord.orderId = order_Id and
     case 
@@ -1281,8 +1281,8 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SEARCHCFSLOCATION`(IN userId varchar(10))
 BEGIN
-	SELECT l.*,m.cfsMasterId,m.cfs_name FROM transporter2.locationmaster l
-    Inner join transporter2.cfsmaster m
+	SELECT l.*,m.cfsMasterId,m.cfs_name FROM transporter22.locationmaster l
+    Inner join transporter22.cfsmaster m
     on l.locationId = m.locationId; 
     -- WHERE m.userId = userId;
 END ;;
