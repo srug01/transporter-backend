@@ -29,7 +29,9 @@ export async function migrate(args: string[]) {
       'Settings',
       'StateMaster',
       'SubOrder',
-      'TransporterRegistration'
+      'TransporterRegistration',
+      'Truck',
+      'Vehicle'
     ],
   });
 
