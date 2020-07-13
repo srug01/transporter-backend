@@ -20,5 +20,11 @@ export * from './truck.repository';
 export * from './user.repository';
 export * from './userrole.repository';
 export * from './userrolemapping.repository';
+export * from './vehicle-master.repository';
 export * from './vehicle.repository';
+export * from './weight-master.repository';
+export * from './yard-cfs-rate-master.repository';
+export * from './yard-master.repository';
+export * from './zone-day-master.repository';
+export * from './zone-master.repository';
 

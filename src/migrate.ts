@@ -31,7 +31,13 @@ export async function migrate(args: string[]) {
       'SubOrder',
       'TransporterRegistration',
       'Truck',
-      'Vehicle'
+      'Vehicle',
+      'VehicleMaster',
+      'WeightMaster',
+      'YardCfsRateMaster',
+      'YardMaster',
+      'ZoneDayMaster',
+      'ZoneMaster'
     ],
   });
 
