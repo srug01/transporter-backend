@@ -52,8 +52,8 @@ export class JWTService {
         roles: [],
       },
         {
-          [securityId]: decryptedToken.id,
-          userId: decryptedToken.id,
+          [securityId]: decryptedToken.userId,
+          userId: decryptedToken.userId,
           name: decryptedToken.name,
           email: decryptedToken.email,
           typeSyscode: decryptedToken.typeSyscode,

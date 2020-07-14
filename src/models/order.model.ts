@@ -1,4 +1,5 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, hasMany} from '@loopback/repository';
+import {Container} from './container.model';
 
 @model({settings: {strict: false}})
 export class Order extends Entity {
@@ -109,6 +110,8 @@ export class Order extends Entity {
   })
   rateExcludingProfit?: number;
 
+  @hasMany(() => Container)
+  containers: Container[];
   // Define well-known properties here
 
   // Indexer property to allow additional data

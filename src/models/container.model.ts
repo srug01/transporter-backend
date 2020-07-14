@@ -1,4 +1,5 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, hasMany} from '@loopback/repository';
+import {Truck} from './truck.model';
 
 @model({settings: {strict: false}})
 export class Container extends Entity {
@@ -49,6 +50,8 @@ export class Container extends Entity {
   })
   modifiedOn?: string;
 
+  @hasMany(() => Truck)
+  trucks: Truck[];
   // Define well-known properties here
 
   // Indexer property to allow additional data
