@@ -1,4 +1,5 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, hasMany} from '@loopback/repository';
+import {LocationMaster} from './location-master.model';
 
 @model()
 export class StateMaster extends Entity {
@@ -39,6 +40,8 @@ export class StateMaster extends Entity {
   })
   modifiedOn?: string;
 
+  @hasMany(() => LocationMaster)
+  locationMasters: LocationMaster[];
 
   constructor(data?: Partial<StateMaster>) {
     super(data);

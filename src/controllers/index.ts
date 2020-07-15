@@ -29,3 +29,4 @@ export * from './zone-day-master.controller';
 export * from './zone-master.controller';
 export * from './order-container.controller';
 export * from './container-truck.controller';
+export * from './state-master-location-master.controller';

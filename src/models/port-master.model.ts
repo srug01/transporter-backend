@@ -20,9 +20,9 @@ export class PortMaster extends Entity {
   stateMasterId?: number;
 
   @property({
-    type: 'string',
+    type: 'number',
   })
-  location?: string;
+  locationMasterId?: number;
 
   @property({
     type: 'boolean',

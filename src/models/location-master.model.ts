@@ -39,6 +39,10 @@ export class LocationMaster extends Entity {
   })
   modifiedOn?: string;
 
+  @property({
+    type: 'number',
+  })
+  stateMasterId?: number;
   // Define well-known properties here
 
   // Indexer property to allow additional data
