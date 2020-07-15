@@ -12,22 +12,22 @@ export class YardCfsRateMaster extends Entity {
   @property({
     type: 'number',
   })
-  cfsId?: number;
+  cfsMasterId?: number;
 
   @property({
     type: 'number',
   })
-  yardId?: number;
+  yardMasterId?: number;
 
   @property({
     type: 'number',
   })
-  containerId?: number;
+  containerMasterId?: number;
 
   @property({
     type: 'number',
   })
-  weightId?: number;
+  weightMasterId?: number;
 
   @property({
     type: 'number',
@@ -62,7 +62,7 @@ export class YardCfsRateMaster extends Entity {
   @property({
     type: 'number',
   })
-  portId?: number;
+  portMasterId?: number;
 
   // Define well-known properties here
 
@@ -79,4 +79,5 @@ export interface YardCfsRateMasterRelations {
   // describe navigational properties here
 }
 
-export type YardCfsRateMasterWithRelations = YardCfsRateMaster & YardCfsRateMasterRelations;
+export type YardCfsRateMasterWithRelations = YardCfsRateMaster &
+  YardCfsRateMasterRelations;

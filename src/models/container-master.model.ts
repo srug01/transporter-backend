@@ -1,4 +1,5 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, hasMany} from '@loopback/repository';
+import {WeightMaster} from './weight-master.model';
 
 @model({settings: {strict: false}})
 export class ContainerMaster extends Entity {
@@ -39,6 +40,8 @@ export class ContainerMaster extends Entity {
   })
   modifiedOn?: string;
 
+  @hasMany(() => WeightMaster)
+  weightMasters: WeightMaster[];
   // Define well-known properties here
 
   // Indexer property to allow additional data

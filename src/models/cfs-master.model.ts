@@ -1,4 +1,5 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, hasMany, model, property} from '@loopback/repository';
+import {CfsUserRegistration} from './cfs-user-registration.model';
 
 @model({settings: {strict: false}})
 export class CfsMaster extends Entity {
@@ -104,6 +105,8 @@ export class CfsMaster extends Entity {
   })
   isActive?: boolean;
 
+  @hasMany(() => CfsUserRegistration)
+  cfsUserRegistrations: CfsUserRegistration[];
   // Define well-known properties here
 
   // Indexer property to allow additional data

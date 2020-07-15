@@ -1,4 +1,6 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, hasMany} from '@loopback/repository';
+import {CfsMaster} from './cfs-master.model';
+import {YardMaster} from './yard-master.model';
 
 @model({settings: {strict: false}})
 export class PortMaster extends Entity {
@@ -59,6 +61,11 @@ export class PortMaster extends Entity {
   })
   longitude?: string;
 
+  @hasMany(() => CfsMaster)
+  cfsMasters: CfsMaster[];
+
+  @hasMany(() => YardMaster)
+  yardMasters: YardMaster[];
   // Define well-known properties here
 
   // Indexer property to allow additional data

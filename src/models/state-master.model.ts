@@ -1,5 +1,6 @@
-import {Entity, model, property, hasMany} from '@loopback/repository';
+import {Entity, hasMany, model, property} from '@loopback/repository';
 import {LocationMaster} from './location-master.model';
+import {PortMaster} from './port-master.model';
 
 @model()
 export class StateMaster extends Entity {
@@ -42,6 +43,8 @@ export class StateMaster extends Entity {
 
   @hasMany(() => LocationMaster)
   locationMasters: LocationMaster[];
+  @hasMany(() => PortMaster)
+  portMasters: PortMaster[];
 
   constructor(data?: Partial<StateMaster>) {
     super(data);

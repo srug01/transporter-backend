@@ -1,4 +1,5 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, belongsTo} from '@loopback/repository';
+import {CfsMaster} from './cfs-master.model';
 
 @model({settings: {strict: false}})
 export class CfsRateMaster extends Entity {
@@ -8,21 +9,15 @@ export class CfsRateMaster extends Entity {
     generated: true,
   })
   cfsRateId?: number;
+  @property({
+    type: 'number',
+  })
+  portMasterId?: number;
 
   @property({
     type: 'number',
   })
-  cfsId?: number;
-
-  @property({
-    type: 'number',
-  })
-  portId?: number;
-
-  @property({
-    type: 'number',
-  })
-  weightId?: number;
+  weightMasterId?: number;
 
   @property({
     type: 'number',
@@ -57,8 +52,10 @@ export class CfsRateMaster extends Entity {
   @property({
     type: 'number',
   })
-  cotainerId?: number;
+  cotainerMasterId?: number;
 
+  @belongsTo(() => CfsMaster)
+  cfsMasterId: number;
   // Define well-known properties here
 
   // Indexer property to allow additional data

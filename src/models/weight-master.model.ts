@@ -44,7 +44,6 @@ export class WeightMaster extends Entity {
   })
   containerMasterId?: number;
 
-
   constructor(data?: Partial<WeightMaster>) {
     super(data);
   }

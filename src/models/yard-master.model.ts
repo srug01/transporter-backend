@@ -15,11 +15,6 @@ export class YardMaster extends Entity {
   yardName?: string;
 
   @property({
-    type: 'number',
-  })
-  portMasterId?: number;
-
-  @property({
     type: 'boolean',
   })
   isActive?: boolean;
@@ -64,6 +59,10 @@ export class YardMaster extends Entity {
   })
   modifiedOn?: string;
 
+  @property({
+    type: 'number',
+  })
+  portMasterId?: number;
 
   constructor(data?: Partial<YardMaster>) {
     super(data);

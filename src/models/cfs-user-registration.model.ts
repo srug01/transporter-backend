@@ -12,7 +12,7 @@ export class CfsUserRegistration extends Entity {
   @property({
     type: 'number',
   })
-  cfsId?: number;
+  cfsMasterId?: number;
 
   @property({
     type: 'number',
@@ -99,4 +99,5 @@ export interface CfsUserRegistrationRelations {
   // describe navigational properties here
 }
 
-export type CfsUserRegistrationWithRelations = CfsUserRegistration & CfsUserRegistrationRelations;
+export type CfsUserRegistrationWithRelations = CfsUserRegistration &
+  CfsUserRegistrationRelations;
