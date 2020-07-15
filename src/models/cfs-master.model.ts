@@ -77,7 +77,7 @@ export class CfsMaster extends Entity {
   @property({
     type: 'number',
   })
-  portId?: number;
+  portMasterId?: number;
 
   @property({
     type: 'number',
@@ -98,6 +98,11 @@ export class CfsMaster extends Entity {
     type: 'date',
   })
   modifiedOn?: string;
+
+  @property({
+    type: 'boolean',
+  })
+  isActive?: boolean;
 
   // Define well-known properties here
 

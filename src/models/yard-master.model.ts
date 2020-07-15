@@ -17,7 +17,7 @@ export class YardMaster extends Entity {
   @property({
     type: 'number',
   })
-  portId?: number;
+  portMasterId?: number;
 
   @property({
     type: 'boolean',

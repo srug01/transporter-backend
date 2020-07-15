@@ -42,7 +42,7 @@ export class WeightMaster extends Entity {
   @property({
     type: 'number',
   })
-  containerId?: number;
+  containerMasterId?: number;
 
 
   constructor(data?: Partial<WeightMaster>) {
