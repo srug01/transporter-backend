@@ -1,3 +1,4 @@
+import {inject} from '@loopback/core';
 import {
   Count,
   CountSchema,
@@ -7,29 +8,39 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
 } from '@loopback/rest';
-import {CfsUserRegistration} from '../models';
-import {CfsUserRegistrationRepository} from '../repositories';
+import {toJSON} from '@loopback/testlab';
+import {pick} from 'lodash';
+import {UserServiceBindings} from '../keys';
+import {CfsUserRegistration, User} from '../models';
+import {CfsUserRegistrationRepository, UserRepository} from '../repositories';
+import {MyUserService} from '../services/user-service';
 
 export class CfsUserRegistrationController {
   constructor(
+    @inject(UserServiceBindings.USER_SERVICE)
+    public userService: MyUserService,
+    @repository(UserRepository)
+    public userRepository: UserRepository,
     @repository(CfsUserRegistrationRepository)
-    public cfsUserRegistrationRepository : CfsUserRegistrationRepository,
+    public cfsUserRegistrationRepository: CfsUserRegistrationRepository,
   ) {}
 
   @post('/cfs-user-registrations', {
     responses: {
       '200': {
         description: 'CfsUserRegistration model instance',
-        content: {'application/json': {schema: getModelSchemaRef(CfsUserRegistration)}},
+        content: {
+          'application/json': {schema: getModelSchemaRef(CfsUserRegistration)},
+        },
       },
     },
   })
@@ -46,6 +57,42 @@ export class CfsUserRegistrationController {
     })
     cfsUserRegistration: Omit<CfsUserRegistration, 'cfsUserRegistrationId'>,
   ): Promise<CfsUserRegistration> {
+    //Need to Create a User first.
+    let email = '';
+    let passwordStr = '';
+    let userName = '';
+    let mobileNumber = '';
+    if (cfsUserRegistration.cfsUserEmail) {
+      email = cfsUserRegistration.cfsUserEmail;
+    }
+    if (cfsUserRegistration.cfsUserPassword) {
+      passwordStr = cfsUserRegistration.cfsUserPassword;
+    }
+    if (cfsUserRegistration.cfsUserName) {
+      userName = cfsUserRegistration.cfsUserName;
+    }
+    if (cfsUserRegistration.cfsUserMobileNumber) {
+      mobileNumber = cfsUserRegistration.cfsUserMobileNumber;
+    }
+    const createUser: User = pick(toJSON(cfsUserRegistration), [
+      'firstName',
+      'lastName',
+      'mobileNumber',
+      'email',
+      'password',
+      'typeSyscode',
+    ]) as User;
+    createUser.firstName = cfsUserRegistration.cfsUserName;
+    createUser.email = email;
+    createUser.password = passwordStr;
+    createUser.typeSyscode = cfsUserRegistration.userTypeId;
+    createUser.firstName = userName;
+    createUser.lastName = userName;
+    createUser.mobileNumber = mobileNumber;
+    //console.log('User Name' + user.firstName);
+    const createdUser = await this.userService.createUser(createUser);
+    cfsUserRegistration.userId = createdUser.getId();
+
     return this.cfsUserRegistrationRepository.create(cfsUserRegistration);
   }
 
@@ -71,7 +118,9 @@ export class CfsUserRegistrationController {
           'application/json': {
             schema: {
               type: 'array',
-              items: getModelSchemaRef(CfsUserRegistration, {includeRelations: true}),
+              items: getModelSchemaRef(CfsUserRegistration, {
+                includeRelations: true,
+              }),
             },
           },
         },
@@ -103,7 +152,10 @@ export class CfsUserRegistrationController {
     cfsUserRegistration: CfsUserRegistration,
     @param.where(CfsUserRegistration) where?: Where<CfsUserRegistration>,
   ): Promise<Count> {
-    return this.cfsUserRegistrationRepository.updateAll(cfsUserRegistration, where);
+    return this.cfsUserRegistrationRepository.updateAll(
+      cfsUserRegistration,
+      where,
+    );
   }
 
   @get('/cfs-user-registrations/{id}', {
@@ -112,7 +164,9 @@ export class CfsUserRegistrationController {
         description: 'CfsUserRegistration model instance',
         content: {
           'application/json': {
-            schema: getModelSchemaRef(CfsUserRegistration, {includeRelations: true}),
+            schema: getModelSchemaRef(CfsUserRegistration, {
+              includeRelations: true,
+            }),
           },
         },
       },
@@ -120,7 +174,8 @@ export class CfsUserRegistrationController {
   })
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(CfsUserRegistration, {exclude: 'where'}) filter?: FilterExcludingWhere<CfsUserRegistration>
+    @param.filter(CfsUserRegistration, {exclude: 'where'})
+    filter?: FilterExcludingWhere<CfsUserRegistration>,
   ): Promise<CfsUserRegistration> {
     return this.cfsUserRegistrationRepository.findById(id, filter);
   }
@@ -143,7 +198,10 @@ export class CfsUserRegistrationController {
     })
     cfsUserRegistration: CfsUserRegistration,
   ): Promise<void> {
-    await this.cfsUserRegistrationRepository.updateById(id, cfsUserRegistration);
+    await this.cfsUserRegistrationRepository.updateById(
+      id,
+      cfsUserRegistration,
+    );
   }
 
   @put('/cfs-user-registrations/{id}', {
@@ -157,7 +215,10 @@ export class CfsUserRegistrationController {
     @param.path.number('id') id: number,
     @requestBody() cfsUserRegistration: CfsUserRegistration,
   ): Promise<void> {
-    await this.cfsUserRegistrationRepository.replaceById(id, cfsUserRegistration);
+    await this.cfsUserRegistrationRepository.replaceById(
+      id,
+      cfsUserRegistration,
+    );
   }
 
   @del('/cfs-user-registrations/{id}', {
