@@ -1,4 +1,4 @@
-import {Entity, model, property, belongsTo} from '@loopback/repository';
+import {belongsTo, Entity, model, property} from '@loopback/repository';
 import {CfsMaster} from './cfs-master.model';
 
 @model({settings: {strict: false}})
@@ -52,7 +52,7 @@ export class CfsRateMaster extends Entity {
   @property({
     type: 'number',
   })
-  cotainerMasterId?: number;
+  containerMasterId?: number;
 
   @belongsTo(() => CfsMaster)
   cfsMasterId: number;
