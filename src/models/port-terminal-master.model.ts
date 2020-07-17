@@ -12,7 +12,7 @@ export class PortTerminalMaster extends Entity {
   @property({
     type: 'number',
   })
-  portId?: number;
+  portMasterId?: number;
 
   @property({
     type: 'string',
@@ -48,6 +48,11 @@ export class PortTerminalMaster extends Entity {
     type: 'date',
   })
   modifiedOn?: string;
+
+  @property({
+    type: 'boolean'
+  })
+  isActive: boolean;
 
   // Define well-known properties here
 
