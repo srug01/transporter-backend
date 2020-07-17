@@ -1,14 +1,28 @@
-import {authenticate} from '@loopback/authentication';
-import {Count, CountSchema, Filter, FilterExcludingWhere, repository, Where} from '@loopback/repository';
-import {del, get, getModelSchemaRef, param, patch, post, put, requestBody} from '@loopback/rest';
+import {
+  Count,
+  CountSchema,
+  Filter,
+  FilterExcludingWhere,
+  repository,
+  Where,
+} from '@loopback/repository';
+import {
+  post,
+  param,
+  get,
+  getModelSchemaRef,
+  patch,
+  put,
+  del,
+  requestBody,
+} from '@loopback/rest';
 import {ContainerMaster} from '../models';
 import {ContainerMasterRepository} from '../repositories';
-
 
 export class ContainerMasterController {
   constructor(
     @repository(ContainerMasterRepository)
-    public containerMasterRepository: ContainerMasterRepository,
+    public containerMasterRepository : ContainerMasterRepository,
   ) {}
 
   @post('/container-masters', {
@@ -19,19 +33,18 @@ export class ContainerMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async create(
     @requestBody({
       content: {
         'application/json': {
           schema: getModelSchemaRef(ContainerMaster, {
             title: 'NewContainerMaster',
-
+            exclude: ['containerMasterId'],
           }),
         },
       },
     })
-    containerMaster: ContainerMaster,
+    containerMaster: Omit<ContainerMaster, 'containerMasterId'>,
   ): Promise<ContainerMaster> {
     return this.containerMasterRepository.create(containerMaster);
   }
@@ -44,7 +57,6 @@ export class ContainerMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async count(
     @param.where(ContainerMaster) where?: Where<ContainerMaster>,
   ): Promise<Count> {
@@ -66,7 +78,6 @@ export class ContainerMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async find(
     @param.filter(ContainerMaster) filter?: Filter<ContainerMaster>,
   ): Promise<ContainerMaster[]> {
@@ -81,7 +92,6 @@ export class ContainerMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async updateAll(
     @requestBody({
       content: {
@@ -108,7 +118,6 @@ export class ContainerMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async findById(
     @param.path.number('id') id: number,
     @param.filter(ContainerMaster, {exclude: 'where'}) filter?: FilterExcludingWhere<ContainerMaster>
@@ -123,7 +132,6 @@ export class ContainerMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async updateById(
     @param.path.number('id') id: number,
     @requestBody({
@@ -145,7 +153,6 @@ export class ContainerMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async replaceById(
     @param.path.number('id') id: number,
     @requestBody() containerMaster: ContainerMaster,
@@ -160,7 +167,6 @@ export class ContainerMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.containerMasterRepository.deleteById(id);
   }

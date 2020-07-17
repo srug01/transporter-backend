@@ -1,62 +1,76 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, hasMany} from '@loopback/repository';
+import {CfsMaster} from './cfs-master.model';
+import {YardMaster} from './yard-master.model';
 
-@model()
+@model({settings: {strict: false}})
 export class PortMaster extends Entity {
   @property({
     type: 'number',
     id: true,
     generated: true,
   })
-  port_syscode?: number;
+  portMasterId?: number;
 
   @property({
     type: 'string',
-    required: true,
   })
-  port_name: string;
+  portName?: string;
 
   @property({
     type: 'number',
-    required: true,
   })
-  state_syscode: number;
+  stateMasterId?: number;
 
   @property({
     type: 'number',
-    required: true,
   })
-  location_syscode: number;
+  locationMasterId?: number;
 
   @property({
     type: 'boolean',
-    required: true,
   })
-  is_active: boolean;
+  isActive?: boolean;
 
   @property({
     type: 'number',
-    default: () => 1
   })
-  created_by: number;
+  createdBy?: number;
 
   @property({
     type: 'date',
-    default: () => new Date()
   })
-  created_on: string;
+  createdOn?: string;
 
   @property({
     type: 'number',
-    default: () => 1
   })
-  modified_by?: number;
+  modifiedBy?: number;
 
   @property({
     type: 'date',
-    default: () => new Date()
   })
-  modified_on?: string;
+  modifiedOn?: string;
 
+  @property({
+    type: 'string',
+  })
+  latitude?: string;
+
+  @property({
+    type: 'string',
+  })
+  longitude?: string;
+
+  @hasMany(() => CfsMaster)
+  cfsMasters: CfsMaster[];
+
+  @hasMany(() => YardMaster)
+  yardMasters: YardMaster[];
+  // Define well-known properties here
+
+  // Indexer property to allow additional data
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [prop: string]: any;
 
   constructor(data?: Partial<PortMaster>) {
     super(data);

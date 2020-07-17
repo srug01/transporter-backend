@@ -1,29 +1,34 @@
 import {Entity, model, property} from '@loopback/repository';
 
-@model()
+@model({settings: {strict: false}})
 export class Settings extends Entity {
   @property({
     type: 'number',
     id: true,
     generated: true,
   })
-  settings_syscode?: number;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  settings_name: string;
+  settingsId?: number;
 
   @property({
     type: 'string',
   })
-  settings_value?: string;
-  @property({
-    type: 'boolean'
-  })
-  is_active: boolean;
+  settingsName?: string;
 
+  @property({
+    type: 'string',
+  })
+  settingsValue?: string;
+
+  @property({
+    type: 'boolean',
+  })
+  isActive?: boolean;
+
+  // Define well-known properties here
+
+  // Indexer property to allow additional data
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [prop: string]: any;
 
   constructor(data?: Partial<Settings>) {
     super(data);

@@ -3,47 +3,16 @@ import {Entity, model, property} from '@loopback/repository';
 @model()
 export class Bid extends Entity {
   @property({
+    type: 'string',
+  })
+  bidName?: string;
+
+  @property({
     type: 'number',
     id: true,
     generated: true,
   })
   bidId?: number;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  bidName: string;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  containerId: number;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  container_type: number;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  container_weight_type: number;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  source_type: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  destination_type: string;
 
   @property({
     type: 'number',
@@ -53,76 +22,57 @@ export class Bid extends Entity {
   @property({
     type: 'date',
   })
-  exhibition_date?: string;
+  exhibitionDate?: string;
 
   @property({
     type: 'number',
-    required: true,
   })
-  orderId: number;
+  subOrderId?: number;
 
   @property({
     type: 'boolean',
-    required: true,
   })
-  is_active: boolean;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  created_by: number;
-
-  @property({
-    type: 'date',
-    required: true,
-  })
-  created_on: string;
+  isActive?: boolean;
 
   @property({
     type: 'number',
   })
-  modified_by?: number;
+  createdBy?: number;
 
   @property({
     type: 'date',
   })
-  modified_on?: string;
+  createdOn?: string;
 
   @property({
     type: 'number',
   })
-  bid_upper_limit?: number;
+  bidUpperLimit?: number;
 
   @property({
     type: 'number',
   })
-  bid_lower_limit?: number;
+  modifiedBy?: number;
+
+  @property({
+    type: 'date',
+  })
+  modifiedOn?: string;
 
   @property({
     type: 'number',
   })
-  order_master_type_syscode?: number;
-
-  @property({
-    type: 'string',
-  })
-  source_name?: string;
-
-  @property({
-    type: 'string',
-  })
-  destination_name?: string;
+  bidLowerLimit?: number;
 
   @property({
     type: 'number',
   })
-  bid_rate?: number;
+  bidRate?: number;
 
   @property({
     type: 'number',
   })
-  margin_percent?: number;
+  marginPercent?: number;
 
 
   constructor(data?: Partial<Bid>) {

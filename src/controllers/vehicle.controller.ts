@@ -1,13 +1,28 @@
-import {authenticate} from '@loopback/authentication';
-import {Count, CountSchema, Filter, FilterExcludingWhere, repository, Where} from '@loopback/repository';
-import {del, get, getModelSchemaRef, param, patch, post, put, requestBody} from '@loopback/rest';
+import {
+  Count,
+  CountSchema,
+  Filter,
+  FilterExcludingWhere,
+  repository,
+  Where,
+} from '@loopback/repository';
+import {
+  post,
+  param,
+  get,
+  getModelSchemaRef,
+  patch,
+  put,
+  del,
+  requestBody,
+} from '@loopback/rest';
 import {Vehicle} from '../models';
 import {VehicleRepository} from '../repositories';
 
 export class VehicleController {
   constructor(
     @repository(VehicleRepository)
-    public vehicleRepository: VehicleRepository,
+    public vehicleRepository : VehicleRepository,
   ) {}
 
   @post('/vehicles', {
@@ -18,20 +33,18 @@ export class VehicleController {
       },
     },
   })
-  //@authenticate('jwt', {required: [PermissionKeys.CreateVehicle]})
-  @authenticate('jwt')
   async create(
     @requestBody({
       content: {
         'application/json': {
           schema: getModelSchemaRef(Vehicle, {
             title: 'NewVehicle',
-            exclude: ['id'],
+            exclude: ['vehicleId'],
           }),
         },
       },
     })
-    vehicle: Omit<Vehicle, 'id'>,
+    vehicle: Omit<Vehicle, 'vehicleId'>,
   ): Promise<Vehicle> {
     return this.vehicleRepository.create(vehicle);
   }
@@ -44,8 +57,9 @@ export class VehicleController {
       },
     },
   })
-  @authenticate('jwt')
-  async count(@param.where(Vehicle) where?: Where<Vehicle>): Promise<Count> {
+  async count(
+    @param.where(Vehicle) where?: Where<Vehicle>,
+  ): Promise<Count> {
     return this.vehicleRepository.count(where);
   }
 
@@ -64,7 +78,6 @@ export class VehicleController {
       },
     },
   })
-  @authenticate('jwt')
   async find(
     @param.filter(Vehicle) filter?: Filter<Vehicle>,
   ): Promise<Vehicle[]> {
@@ -79,7 +92,6 @@ export class VehicleController {
       },
     },
   })
-  @authenticate('jwt')
   async updateAll(
     @requestBody({
       content: {
@@ -106,11 +118,9 @@ export class VehicleController {
       },
     },
   })
-  @authenticate('jwt')
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(Vehicle, {exclude: 'where'})
-    filter?: FilterExcludingWhere<Vehicle>,
+    @param.filter(Vehicle, {exclude: 'where'}) filter?: FilterExcludingWhere<Vehicle>
   ): Promise<Vehicle> {
     return this.vehicleRepository.findById(id, filter);
   }
@@ -122,7 +132,6 @@ export class VehicleController {
       },
     },
   })
-  @authenticate('jwt')
   async updateById(
     @param.path.number('id') id: number,
     @requestBody({
@@ -144,7 +153,6 @@ export class VehicleController {
       },
     },
   })
-  @authenticate('jwt')
   async replaceById(
     @param.path.number('id') id: number,
     @requestBody() vehicle: Vehicle,
@@ -159,7 +167,6 @@ export class VehicleController {
       },
     },
   })
-  @authenticate('jwt')
   async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.vehicleRepository.deleteById(id);
   }

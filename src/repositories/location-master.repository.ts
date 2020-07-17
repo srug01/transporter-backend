@@ -1,16 +1,15 @@
-import {Getter, inject} from '@loopback/core';
-import {DefaultCrudRepository, repository} from '@loopback/repository';
-import {TestDataSource} from '../datasources';
+import {DefaultCrudRepository} from '@loopback/repository';
 import {LocationMaster, LocationMasterRelations} from '../models';
-import {CfsMasterRepository} from './cfs-master.repository';
+import {TestDataSource} from '../datasources';
+import {inject} from '@loopback/core';
 
 export class LocationMasterRepository extends DefaultCrudRepository<
   LocationMaster,
   typeof LocationMaster.prototype.locationId,
   LocationMasterRelations
-  > {
+> {
   constructor(
-    @inject('datasources.test') dataSource: TestDataSource, @repository.getter('CfsMasterRepository') protected cfsMasterRepositoryGetter: Getter<CfsMasterRepository>,
+    @inject('datasources.test') dataSource: TestDataSource,
   ) {
     super(LocationMaster, dataSource);
   }

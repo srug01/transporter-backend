@@ -1,62 +1,53 @@
 import {Entity, model, property} from '@loopback/repository';
 
-@model()
+@model({settings: {strict: false}})
 export class CfsUserRegistration extends Entity {
   @property({
     type: 'number',
     id: true,
     generated: true,
   })
-  cfs_user_registration_syscode?: number;
+  cfsUserRegistrationId?: number;
 
   @property({
     type: 'number',
-    required: true,
   })
-  cfs_syscode: number;
+  cfsMasterId?: number;
 
   @property({
     type: 'number',
-    required: true,
   })
-  user_type_syscode: number;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  cfs_user_name: string;
+  userTypeId?: number;
 
   @property({
     type: 'string',
   })
-  cfs_user_designation?: string;
+  cfsUserName?: string;
 
   @property({
     type: 'string',
   })
-  cfs_user_department?: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  cfs_user_mobile_no: string;
+  cfsUserDesignation?: string;
 
   @property({
     type: 'string',
   })
-  cfs_user_email?: string;
+  cfsUserDepartment?: string;
 
   @property({
     type: 'string',
   })
-  cfs_user_password?: string;
+  cfsUserMobileNumber?: string;
 
   @property({
     type: 'string',
   })
-  cfs_user_confirm_password?: string;
+  cfsUserEmail?: string;
+
+  @property({
+    type: 'string',
+  })
+  cfsUserPassword?: string;
 
   @property({
     type: 'number',
@@ -65,37 +56,39 @@ export class CfsUserRegistration extends Entity {
 
   @property({
     type: 'boolean',
-    required: true,
   })
-  cfs_user_is_active: boolean;
+  isActive?: boolean;
 
   @property({
     type: 'boolean',
-    required: true,
   })
-  cfs_user_is_verify: boolean;
-
-  @property({
-    type: 'number',
-    default: () => 1,
-  })
-  created_by: number;
-
-  @property({
-    type: 'date',
-    default: () => new Date(),
-  })
-  created_on?: string;
+  isVerified?: boolean;
 
   @property({
     type: 'number',
   })
-  modified_by?: number;
+  createdBy?: number;
 
   @property({
     type: 'date',
   })
-  modified_on?: string;
+  createdOn?: string;
+
+  @property({
+    type: 'number',
+  })
+  modifiedBy?: number;
+
+  @property({
+    type: 'date',
+  })
+  modifiedOn?: string;
+
+  // Define well-known properties here
+
+  // Indexer property to allow additional data
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [prop: string]: any;
 
   constructor(data?: Partial<CfsUserRegistration>) {
     super(data);

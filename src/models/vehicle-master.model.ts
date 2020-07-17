@@ -1,31 +1,28 @@
 import {Entity, model, property} from '@loopback/repository';
 
-@model()
+@model({settings: {strict: false}})
 export class VehicleMaster extends Entity {
   @property({
     type: 'number',
     id: true,
     generated: true,
   })
-  vehicle_syscode?: number;
+  vehicleMasterId?: number;
 
   @property({
     type: 'string',
-    required: true,
   })
-  vehicle_no: string;
+  vehicleNumber?: string;
 
   @property({
     type: 'string',
-    required: true,
   })
-  vehicle_type: string;
+  vehicleType?: string;
 
   @property({
     type: 'string',
-    required: true,
   })
-  vehicle_capacity: string;
+  vehicleCapacity?: string;
 
   @property({
     type: 'number',
@@ -33,52 +30,50 @@ export class VehicleMaster extends Entity {
   weight?: number;
 
   @property({
-    type: 'string',
+    type: 'date',
   })
-  manufacture_year?: string;
+  manufactureYear?: string;
 
   @property({
     type: 'number',
   })
-  state_syscode?: number;
+  stateId?: number;
 
   @property({
     type: 'boolean',
-    required: true,
   })
-  owned: boolean;
-
+  owned?: boolean;
 
   @property({
     type: 'boolean',
-    required: true,
-    default: true,
   })
-  is_active: boolean;
-
-  @property({
-    type: 'number',
-    default: () => 1
-  })
-  created_by: number;
-
-  @property({
-    type: 'date',
-    default: () => new Date()
-  })
-  created_on: string;
-
+  isActive?: boolean;
 
   @property({
     type: 'number',
   })
-  modified_by?: number;
+  createdBy?: number;
 
   @property({
     type: 'date',
-    default: () => new Date()
   })
-  modified_on?: string;
+  createdOn?: string;
+
+  @property({
+    type: 'number',
+  })
+  modifiedBy?: number;
+
+  @property({
+    type: 'date',
+  })
+  modifiedOn?: string;
+
+  // Define well-known properties here
+
+  // Indexer property to allow additional data
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [prop: string]: any;
 
   constructor(data?: Partial<VehicleMaster>) {
     super(data);

@@ -1,13 +1,13 @@
-import {inject} from '@loopback/core';
 import {DefaultCrudRepository} from '@loopback/repository';
-import {TestDataSource} from '../datasources';
 import {ZoneDayMaster, ZoneDayMasterRelations} from '../models';
+import {TestDataSource} from '../datasources';
+import {inject} from '@loopback/core';
 
 export class ZoneDayMasterRepository extends DefaultCrudRepository<
   ZoneDayMaster,
-  typeof ZoneDayMaster.prototype.zone_day_syscode,
+  typeof ZoneDayMaster.prototype.zoneDayMasterId,
   ZoneDayMasterRelations
-  > {
+> {
   constructor(
     @inject('datasources.test') dataSource: TestDataSource,
   ) {

@@ -1,153 +1,154 @@
 import {Entity, model, property} from '@loopback/repository';
 
-@model()
+@model({settings: {strict: false}})
 export class TransporterRegistration extends Entity {
   @property({
     type: 'number',
     id: true,
     generated: true,
   })
-  transporter_syscode?: number;
+  transporterId?: number;
 
   @property({
     type: 'string',
   })
-  transporter_name?: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  transporter_mobile_no: string;
+  transporterName?: string;
 
   @property({
     type: 'string',
   })
-  transporter_email?: string;
+  transporterMobileNumber?: string;
 
   @property({
     type: 'string',
   })
-  transporter_address?: string;
+  transporterEmail?: string;
 
   @property({
     type: 'string',
   })
-  transporter_pincode?: string;
+  transporterAddress?: string;
 
   @property({
     type: 'string',
   })
-  transporter_GSTIN?: string;
+  transporterPincode?: string;
 
   @property({
     type: 'string',
   })
-  transporter_PAN?: string;
+  transporterGSTIN?: string;
 
   @property({
     type: 'string',
   })
-  transporter_partner?: string;
+  transporterPAN?: string;
 
   @property({
     type: 'string',
   })
-  transporter_partner_PAN?: string;
+  transporterPartner?: string;
 
   @property({
     type: 'string',
   })
-  transporter_partner_address?: string;
+  transporterPartnerPAN?: string;
 
   @property({
     type: 'string',
   })
-  transporter_bank_acno?: string;
+  transporterPartnerAddress?: string;
 
   @property({
     type: 'string',
   })
-  transporter_ac_type?: string;
+  transporterBankAccNumber?: string;
 
   @property({
     type: 'string',
   })
-  transporter_bank_name?: string;
+  transporterBankAccType?: string;
 
   @property({
     type: 'string',
   })
-  transporter_bank_branch?: string;
+  transporterBankName?: string;
 
   @property({
     type: 'string',
   })
-  transporter_bank_ifsc?: string;
+  transporterBankBranch?: string;
 
   @property({
     type: 'string',
   })
-  transporter_address_file?: string;
+  transporterBankIFSC?: string;
 
   @property({
     type: 'string',
   })
-  transporter_gst_file?: string;
+  transporterAddressFile?: string;
 
   @property({
     type: 'string',
   })
-  transporter_pan_card?: string;
+  transporterGstFile?: string;
 
   @property({
     type: 'string',
   })
-  transporter_permit_card?: string;
+  transporterPanFile?: string;
 
   @property({
     type: 'string',
   })
-  transporter_license_card?: string;
+  transporterPermitFile?: string;
 
   @property({
     type: 'string',
   })
-  transporter_other_card?: string;
+  transporterLicenseFile?: string;
+
+  @property({
+    type: 'string',
+  })
+  transporterOtherFile?: string;
 
   @property({
     type: 'boolean',
-    required: true,
   })
-  transporter_is_active: boolean;
+  isActive?: boolean;
 
   @property({
     type: 'boolean',
-    required: true,
   })
-  transporter_is_verify: boolean;
-
-  @property({
-    type: 'number',
-    default: 2
-  })
-  created_by: number;
-
-  @property({
-    type: 'date',
-    default: new Date()
-  })
-  created_on: string;
+  isVerified?: boolean;
 
   @property({
     type: 'number',
   })
-  modified_by?: number;
+  createdBy?: number;
 
   @property({
     type: 'date',
   })
-  modified_on?: string;
+  createdOn?: string;
+
+  @property({
+    type: 'number',
+  })
+  modifiedBy?: number;
+
+  @property({
+    type: 'date',
+  })
+  modifiedOn?: string;
+
+  // Define well-known properties here
+
+  // Indexer property to allow additional data
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [prop: string]: any;
 
   constructor(data?: Partial<TransporterRegistration>) {
     super(data);
@@ -158,5 +159,4 @@ export interface TransporterRegistrationRelations {
   // describe navigational properties here
 }
 
-export type TransporterRegistrationWithRelations = TransporterRegistration &
-  TransporterRegistrationRelations;
+export type TransporterRegistrationWithRelations = TransporterRegistration & TransporterRegistrationRelations;

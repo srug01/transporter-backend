@@ -7,42 +7,42 @@ export class WeightMaster extends Entity {
     id: true,
     generated: true,
   })
-  weight_syscode?: number;
+  weightMasterId?: number;
 
   @property({
     type: 'string',
-    required: true,
   })
-  weight_description: string;
+  weightDesc?: string;
 
   @property({
     type: 'boolean',
-    required: true,
-    default: true,
   })
-  is_active: boolean;
-
-  @property({
-    type: 'number',
-    default: () => 1,
-  })
-  created_by: number;
-
-  @property({
-    type: 'date',
-    default: () => new Date(),
-  })
-  created_on: string;
+  isActive?: boolean;
 
   @property({
     type: 'number',
   })
-  modified_by?: number;
+  createdBy?: number;
 
   @property({
     type: 'date',
   })
-  modified_on?: string;
+  createdOn?: string;
+
+  @property({
+    type: 'number',
+  })
+  modifiedBy?: number;
+
+  @property({
+    type: 'date',
+  })
+  modifiedOn?: string;
+
+  @property({
+    type: 'number',
+  })
+  containerMasterId?: number;
 
   constructor(data?: Partial<WeightMaster>) {
     super(data);

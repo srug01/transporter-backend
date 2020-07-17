@@ -1,5 +1,6 @@
-import {Entity, hasMany, model, property} from '@loopback/repository';
+import {Entity, hasMany, model, property, hasOne} from '@loopback/repository';
 import {Userrolemapping} from './userrolemapping.model';
+import {CfsUserRegistration} from './cfs-user-registration.model';
 
 @model()
 export class User extends Entity {
@@ -8,7 +9,7 @@ export class User extends Entity {
     id: true,
     generated: true,
   })
-  id?: number;
+  userId?: number;
 
   @property({
     type: 'string',
@@ -51,6 +52,12 @@ export class User extends Entity {
 
   @hasMany(() => Userrolemapping)
   roles: Userrolemapping[];
+
+  @hasMany(() => Userrolemapping)
+  userrolemappings: Userrolemapping[];
+
+  @hasOne(() => CfsUserRegistration)
+  cfsUserRegistration: CfsUserRegistration;
 
   constructor(data?: Partial<User>) {
     super(data);

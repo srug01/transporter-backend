@@ -1,13 +1,28 @@
-import {authenticate} from '@loopback/authentication';
-import {Count, CountSchema, Filter, FilterExcludingWhere, repository, Where} from '@loopback/repository';
-import {del, get, getModelSchemaRef, param, patch, post, put, requestBody} from '@loopback/rest';
+import {
+  Count,
+  CountSchema,
+  Filter,
+  FilterExcludingWhere,
+  repository,
+  Where,
+} from '@loopback/repository';
+import {
+  post,
+  param,
+  get,
+  getModelSchemaRef,
+  patch,
+  put,
+  del,
+  requestBody,
+} from '@loopback/rest';
 import {YardMaster} from '../models';
 import {YardMasterRepository} from '../repositories';
 
 export class YardMasterController {
   constructor(
     @repository(YardMasterRepository)
-    public yardMasterRepository: YardMasterRepository,
+    public yardMasterRepository : YardMasterRepository,
   ) {}
 
   @post('/yard-masters', {
@@ -18,19 +33,18 @@ export class YardMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async create(
     @requestBody({
       content: {
         'application/json': {
           schema: getModelSchemaRef(YardMaster, {
             title: 'NewYardMaster',
-
+            exclude: ['yardMasterId'],
           }),
         },
       },
     })
-    yardMaster: YardMaster,
+    yardMaster: Omit<YardMaster, 'yardMasterId'>,
   ): Promise<YardMaster> {
     return this.yardMasterRepository.create(yardMaster);
   }
@@ -43,7 +57,6 @@ export class YardMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async count(
     @param.where(YardMaster) where?: Where<YardMaster>,
   ): Promise<Count> {
@@ -65,7 +78,6 @@ export class YardMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async find(
     @param.filter(YardMaster) filter?: Filter<YardMaster>,
   ): Promise<YardMaster[]> {
@@ -80,7 +92,6 @@ export class YardMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async updateAll(
     @requestBody({
       content: {
@@ -107,7 +118,6 @@ export class YardMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async findById(
     @param.path.number('id') id: number,
     @param.filter(YardMaster, {exclude: 'where'}) filter?: FilterExcludingWhere<YardMaster>
@@ -122,7 +132,6 @@ export class YardMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async updateById(
     @param.path.number('id') id: number,
     @requestBody({
@@ -144,7 +153,6 @@ export class YardMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async replaceById(
     @param.path.number('id') id: number,
     @requestBody() yardMaster: YardMaster,
@@ -159,7 +167,6 @@ export class YardMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.yardMasterRepository.deleteById(id);
   }

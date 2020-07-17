@@ -5,7 +5,7 @@ import {inject} from '@loopback/core';
 
 export class SettingsRepository extends DefaultCrudRepository<
   Settings,
-  typeof Settings.prototype.settings_syscode,
+  typeof Settings.prototype.settingsId,
   SettingsRelations
 > {
   constructor(

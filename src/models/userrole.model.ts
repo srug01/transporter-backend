@@ -43,6 +43,10 @@ export class Userrole extends Entity {
   })
   modified_on?: string;
 
+  @property({
+    type: 'number',
+  })
+  parentRoleId: number;
 
   constructor(data?: Partial<Userrole>) {
     super(data);

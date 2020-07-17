@@ -1,13 +1,28 @@
-import {authenticate} from '@loopback/authentication';
-import {Count, CountSchema, Filter, FilterExcludingWhere, repository, Where} from '@loopback/repository';
-import {del, get, getModelSchemaRef, param, patch, post, put, requestBody} from '@loopback/rest';
+import {
+  Count,
+  CountSchema,
+  Filter,
+  FilterExcludingWhere,
+  repository,
+  Where,
+} from '@loopback/repository';
+import {
+  post,
+  param,
+  get,
+  getModelSchemaRef,
+  patch,
+  put,
+  del,
+  requestBody,
+} from '@loopback/rest';
 import {PortMaster} from '../models';
 import {PortMasterRepository} from '../repositories';
 
 export class PortMasterController {
   constructor(
     @repository(PortMasterRepository)
-    public portMasterRepository: PortMasterRepository,
+    public portMasterRepository : PortMasterRepository,
   ) {}
 
   @post('/port-masters', {
@@ -18,19 +33,18 @@ export class PortMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async create(
     @requestBody({
       content: {
         'application/json': {
           schema: getModelSchemaRef(PortMaster, {
             title: 'NewPortMaster',
-
+            exclude: ['portMasterId'],
           }),
         },
       },
     })
-    portMaster: PortMaster,
+    portMaster: Omit<PortMaster, 'portMasterId'>,
   ): Promise<PortMaster> {
     return this.portMasterRepository.create(portMaster);
   }
@@ -43,7 +57,6 @@ export class PortMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async count(
     @param.where(PortMaster) where?: Where<PortMaster>,
   ): Promise<Count> {
@@ -65,7 +78,6 @@ export class PortMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async find(
     @param.filter(PortMaster) filter?: Filter<PortMaster>,
   ): Promise<PortMaster[]> {
@@ -80,7 +92,6 @@ export class PortMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async updateAll(
     @requestBody({
       content: {
@@ -107,7 +118,6 @@ export class PortMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async findById(
     @param.path.number('id') id: number,
     @param.filter(PortMaster, {exclude: 'where'}) filter?: FilterExcludingWhere<PortMaster>
@@ -122,7 +132,6 @@ export class PortMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async updateById(
     @param.path.number('id') id: number,
     @requestBody({
@@ -144,7 +153,6 @@ export class PortMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async replaceById(
     @param.path.number('id') id: number,
     @requestBody() portMaster: PortMaster,
@@ -159,7 +167,6 @@ export class PortMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.portMasterRepository.deleteById(id);
   }

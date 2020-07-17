@@ -1,6 +1,7 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, hasMany, model, property} from '@loopback/repository';
+import {CfsUserRegistration} from './cfs-user-registration.model';
 
-@model()
+@model({settings: {strict: false}})
 export class CfsMaster extends Entity {
   @property({
     type: 'number',
@@ -11,21 +12,18 @@ export class CfsMaster extends Entity {
 
   @property({
     type: 'string',
-    required: true,
   })
-  cfs_name: string;
+  cfsName?: string;
 
   @property({
     type: 'string',
-    required: true,
   })
-  contact_no: string;
+  contactNumber?: string;
 
   @property({
     type: 'string',
-    required: true,
   })
-  email_id: string;
+  email?: string;
 
   @property({
     type: 'string',
@@ -34,19 +32,18 @@ export class CfsMaster extends Entity {
 
   @property({
     type: 'string',
-    required: true,
   })
-  pincode: string;
+  pincode?: string;
 
   @property({
     type: 'string',
   })
-  cfs_code_no?: string;
+  cfsCodeNumber?: string;
 
   @property({
     type: 'string',
   })
-  gstn?: string;
+  gstin?: string;
 
   @property({
     type: 'string',
@@ -61,72 +58,60 @@ export class CfsMaster extends Entity {
   @property({
     type: 'string',
   })
-  primary_contact_name?: string;
+  primaryContactName?: string;
 
   @property({
     type: 'string',
   })
-  primary_mobile_no?: string;
+  primaryContactNumber?: string;
 
   @property({
     type: 'string',
   })
-  additional_contact_name?: string;
+  additionalContactName?: string;
 
   @property({
     type: 'string',
   })
-  additional_mobile_no?: string;
+  additionalContactNumber?: string;
 
   @property({
     type: 'number',
-    required: true,
   })
-  port_syscode: number;
+  portMasterId?: number;
+
+  @property({
+    type: 'number',
+  })
+  createdBy?: number;
+
+  @property({
+    type: 'date',
+  })
+  createdOn?: string;
+
+  @property({
+    type: 'number',
+  })
+  modifiedBy?: number;
+
+  @property({
+    type: 'date',
+  })
+  modifiedOn?: string;
 
   @property({
     type: 'boolean',
-    required: true,
-    default: true,
   })
-  is_active: boolean;
+  isActive?: boolean;
 
-  @property({
-    type: 'number',
-    default: () => 1,
-  })
-  created_by: number;
+  @hasMany(() => CfsUserRegistration)
+  cfsUserRegistrations: CfsUserRegistration[];
+  // Define well-known properties here
 
-  @property({
-    type: 'date',
-    default: () => new Date(),
-  })
-  created_on: string;
-
-  @property({
-    type: 'number',
-  })
-  modified_by?: number;
-
-  @property({
-    type: 'date',
-  })
-  modified_on?: string;
-
-  @property({
-    type: 'number',
-  })
-  locationId?: number;
-
-  @property({
-    type: 'number',
-  })
-  roleId?: number;
-
-  @property({
-    type: 'number',
-  })
-  userId?: number;
+  // Indexer property to allow additional data
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [prop: string]: any;
 
   constructor(data?: Partial<CfsMaster>) {
     super(data);

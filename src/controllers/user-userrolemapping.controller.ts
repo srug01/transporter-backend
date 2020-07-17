@@ -3,7 +3,7 @@ import {
   CountSchema,
   Filter,
   repository,
-  Where
+  Where,
 } from '@loopback/repository';
 import {
   del,
@@ -13,18 +13,18 @@ import {
   param,
   patch,
   post,
-  requestBody
+  requestBody,
 } from '@loopback/rest';
 import {
   User,
-  Userrolemapping
+  Userrolemapping,
 } from '../models';
 import {UserRepository} from '../repositories';
 
 export class UserUserrolemappingController {
   constructor(
     @repository(UserRepository) protected userRepository: UserRepository,
-  ) {}
+  ) { }
 
   @get('/users/{id}/userrolemappings', {
     responses: {
@@ -42,7 +42,7 @@ export class UserUserrolemappingController {
     @param.path.number('id') id: number,
     @param.query.object('filter') filter?: Filter<Userrolemapping>,
   ): Promise<Userrolemapping[]> {
-    return this.userRepository.userroles(id).find(filter);
+    return this.userRepository.userrolemappings(id).find(filter);
   }
 
   @post('/users/{id}/userrolemappings', {
@@ -54,7 +54,7 @@ export class UserUserrolemappingController {
     },
   })
   async create(
-    @param.path.number('id') id: typeof User.prototype.id,
+    @param.path.number('id') id: typeof User.prototype.userId,
     @requestBody({
       content: {
         'application/json': {
@@ -67,7 +67,7 @@ export class UserUserrolemappingController {
       },
     }) userrolemapping: Omit<Userrolemapping, 'userroleId'>,
   ): Promise<Userrolemapping> {
-    return this.userRepository.userroles(id).create(userrolemapping);
+    return this.userRepository.userrolemappings(id).create(userrolemapping);
   }
 
   @patch('/users/{id}/userrolemappings', {
@@ -90,7 +90,7 @@ export class UserUserrolemappingController {
     userrolemapping: Partial<Userrolemapping>,
     @param.query.object('where', getWhereSchemaFor(Userrolemapping)) where?: Where<Userrolemapping>,
   ): Promise<Count> {
-    return this.userRepository.userroles(id).patch(userrolemapping, where);
+    return this.userRepository.userrolemappings(id).patch(userrolemapping, where);
   }
 
   @del('/users/{id}/userrolemappings', {
@@ -105,6 +105,6 @@ export class UserUserrolemappingController {
     @param.path.number('id') id: number,
     @param.query.object('where', getWhereSchemaFor(Userrolemapping)) where?: Where<Userrolemapping>,
   ): Promise<Count> {
-    return this.userRepository.userroles(id).delete(where);
+    return this.userRepository.userrolemappings(id).delete(where);
   }
 }

@@ -7,19 +7,17 @@ export class ZoneDayMaster extends Entity {
     id: true,
     generated: true,
   })
-  zone_day_syscode?: number;
+  zoneDayMasterId?: number;
 
   @property({
     type: 'string',
-    required: true,
   })
-  zone_name: string;
+  zoneName?: string;
 
   @property({
     type: 'number',
-    required: true,
   })
-  port_syscode: number;
+  portId?: number;
 
   @property({
     type: 'date',
@@ -33,33 +31,28 @@ export class ZoneDayMaster extends Entity {
 
   @property({
     type: 'boolean',
-    required: true,
-    default: true,
   })
-  is_active: boolean;
+  isActive?: boolean;
 
   @property({
     type: 'number',
-    required: true,
   })
-  created_by: number;
-
-  @property({
-    type: 'date',
-    required: true,
-  })
-  created_on: string;
+  createdBy?: number;
 
   @property({
     type: 'number',
-
   })
-  modified_by: number;
+  modifiedBy?: number;
 
   @property({
     type: 'date',
   })
-  modified_on?: string;
+  createdOn?: string;
+
+  @property({
+    type: 'date',
+  })
+  modifiedOn?: string;
 
 
   constructor(data?: Partial<ZoneDayMaster>) {

@@ -1,21 +1,20 @@
-import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
   repository,
-  Where
+  Where,
 } from '@loopback/repository';
 import {
-  del,
+  post,
+  param,
   get,
   getModelSchemaRef,
-  param,
   patch,
-  post,
   put,
-  requestBody
+  del,
+  requestBody,
 } from '@loopback/rest';
 import {TransporterRegistration} from '../models';
 import {TransporterRegistrationRepository} from '../repositories';
@@ -23,41 +22,31 @@ import {TransporterRegistrationRepository} from '../repositories';
 export class TransporterRegistrationController {
   constructor(
     @repository(TransporterRegistrationRepository)
-    public transporterRegistrationRepository: TransporterRegistrationRepository,
+    public transporterRegistrationRepository : TransporterRegistrationRepository,
   ) {}
 
   @post('/transporter-registrations', {
     responses: {
       '200': {
         description: 'TransporterRegistration model instance',
-        content: {
-          'application/json': {
-            schema: getModelSchemaRef(TransporterRegistration),
-          },
-        },
+        content: {'application/json': {schema: getModelSchemaRef(TransporterRegistration)}},
       },
     },
   })
-  @authenticate('jwt')
   async create(
     @requestBody({
       content: {
         'application/json': {
           schema: getModelSchemaRef(TransporterRegistration, {
             title: 'NewTransporterRegistration',
-            exclude: ['transporter_syscode'],
+            exclude: ['transporterId'],
           }),
         },
       },
     })
-    transporterRegistration: Omit<
-      TransporterRegistration,
-      'transporter_syscode'
-    >,
+    transporterRegistration: Omit<TransporterRegistration, 'transporterId'>,
   ): Promise<TransporterRegistration> {
-    return this.transporterRegistrationRepository.create(
-      transporterRegistration,
-    );
+    return this.transporterRegistrationRepository.create(transporterRegistration);
   }
 
   @get('/transporter-registrations/count', {
@@ -68,10 +57,8 @@ export class TransporterRegistrationController {
       },
     },
   })
-  @authenticate('jwt')
   async count(
-    @param.where(TransporterRegistration)
-    where?: Where<TransporterRegistration>,
+    @param.where(TransporterRegistration) where?: Where<TransporterRegistration>,
   ): Promise<Count> {
     return this.transporterRegistrationRepository.count(where);
   }
@@ -84,19 +71,15 @@ export class TransporterRegistrationController {
           'application/json': {
             schema: {
               type: 'array',
-              items: getModelSchemaRef(TransporterRegistration, {
-                includeRelations: true,
-              }),
+              items: getModelSchemaRef(TransporterRegistration, {includeRelations: true}),
             },
           },
         },
       },
     },
   })
-  @authenticate('jwt')
   async find(
-    @param.filter(TransporterRegistration)
-    filter?: Filter<TransporterRegistration>,
+    @param.filter(TransporterRegistration) filter?: Filter<TransporterRegistration>,
   ): Promise<TransporterRegistration[]> {
     return this.transporterRegistrationRepository.find(filter);
   }
@@ -109,7 +92,6 @@ export class TransporterRegistrationController {
       },
     },
   })
-  @authenticate('jwt')
   async updateAll(
     @requestBody({
       content: {
@@ -119,13 +101,9 @@ export class TransporterRegistrationController {
       },
     })
     transporterRegistration: TransporterRegistration,
-    @param.where(TransporterRegistration)
-    where?: Where<TransporterRegistration>,
+    @param.where(TransporterRegistration) where?: Where<TransporterRegistration>,
   ): Promise<Count> {
-    return this.transporterRegistrationRepository.updateAll(
-      transporterRegistration,
-      where,
-    );
+    return this.transporterRegistrationRepository.updateAll(transporterRegistration, where);
   }
 
   @get('/transporter-registrations/{id}', {
@@ -134,19 +112,15 @@ export class TransporterRegistrationController {
         description: 'TransporterRegistration model instance',
         content: {
           'application/json': {
-            schema: getModelSchemaRef(TransporterRegistration, {
-              includeRelations: true,
-            }),
+            schema: getModelSchemaRef(TransporterRegistration, {includeRelations: true}),
           },
         },
       },
     },
   })
-  @authenticate('jwt')
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(TransporterRegistration, {exclude: 'where'})
-    filter?: FilterExcludingWhere<TransporterRegistration>,
+    @param.filter(TransporterRegistration, {exclude: 'where'}) filter?: FilterExcludingWhere<TransporterRegistration>
   ): Promise<TransporterRegistration> {
     return this.transporterRegistrationRepository.findById(id, filter);
   }
@@ -158,7 +132,6 @@ export class TransporterRegistrationController {
       },
     },
   })
-  @authenticate('jwt')
   async updateById(
     @param.path.number('id') id: number,
     @requestBody({
@@ -170,10 +143,7 @@ export class TransporterRegistrationController {
     })
     transporterRegistration: TransporterRegistration,
   ): Promise<void> {
-    await this.transporterRegistrationRepository.updateById(
-      id,
-      transporterRegistration,
-    );
+    await this.transporterRegistrationRepository.updateById(id, transporterRegistration);
   }
 
   @put('/transporter-registrations/{id}', {
@@ -183,15 +153,11 @@ export class TransporterRegistrationController {
       },
     },
   })
-  @authenticate('jwt')
   async replaceById(
     @param.path.number('id') id: number,
     @requestBody() transporterRegistration: TransporterRegistration,
   ): Promise<void> {
-    await this.transporterRegistrationRepository.replaceById(
-      id,
-      transporterRegistration,
-    );
+    await this.transporterRegistrationRepository.replaceById(id, transporterRegistration);
   }
 
   @del('/transporter-registrations/{id}', {
@@ -201,7 +167,6 @@ export class TransporterRegistrationController {
       },
     },
   })
-  @authenticate('jwt')
   async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.transporterRegistrationRepository.deleteById(id);
   }

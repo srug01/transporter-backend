@@ -1,13 +1,8 @@
-import {Entity, hasMany, model, property} from '@loopback/repository';
+import {Entity, model, property, hasMany} from '@loopback/repository';
 import {Container} from './container.model';
 
-@model()
+@model({settings: {strict: false}})
 export class Order extends Entity {
-  @property({
-    type: 'number',
-  })
-  order_type_syscode?: number;
-
   @property({
     type: 'number',
     id: true,
@@ -16,54 +11,59 @@ export class Order extends Entity {
   orderId?: number;
 
   @property({
+    type: 'number',
+  })
+  orderTypeId?: number;
+
+  @property({
     type: 'date',
   })
-  order_date?: string;
+  orderDate?: string;
 
   @property({
     type: 'number',
   })
-  master_type_syscode?: number;
+  masterTypeId?: number;
 
   @property({
     type: 'number',
   })
-  source_syscode?: number;
+  sourceId?: number;
 
   @property({
     type: 'number',
   })
-  destination_syscode?: number;
+  destinationId?: number;
 
   @property({
     type: 'string',
   })
-  destination_type?: string;
+  sourceType?: string;
 
   @property({
     type: 'string',
   })
-  source_type?: string;
+  destinationType?: string;
 
   @property({
     type: 'string',
   })
-  order_remarks?: string;
+  orderRemarks?: string;
 
   @property({
     type: 'string',
   })
-  order_address?: string;
+  orderAddress?: string;
 
   @property({
     type: 'boolean',
   })
-  is_delete?: boolean;
+  isDeleted?: boolean;
 
   @property({
     type: 'boolean',
   })
-  is_verified?: boolean;
+  isVerified?: boolean;
 
   @property({
     type: 'string',
@@ -73,22 +73,22 @@ export class Order extends Entity {
   @property({
     type: 'number',
   })
-  created_by?: number;
+  createdBy?: number;
 
   @property({
     type: 'date',
   })
-  created_on?: string;
+  createdOn?: string;
 
   @property({
     type: 'number',
   })
-  modify_by?: number;
+  modifiedBy?: number;
 
   @property({
     type: 'date',
   })
-  modify_on?: string;
+  modifiedOn?: string;
 
   @property({
     type: 'number',
@@ -108,13 +108,15 @@ export class Order extends Entity {
   @property({
     type: 'number',
   })
-  rateexcludingProfit?: number;
+  rateExcludingProfit?: number;
 
-  @property({
-    type: 'any',
-  })
   @hasMany(() => Container)
   containers: Container[];
+  // Define well-known properties here
+
+  // Indexer property to allow additional data
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [prop: string]: any;
 
   constructor(data?: Partial<Order>) {
     super(data);

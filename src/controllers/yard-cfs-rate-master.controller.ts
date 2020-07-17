@@ -1,13 +1,28 @@
-import {authenticate} from '@loopback/authentication';
-import {Count, CountSchema, Filter, FilterExcludingWhere, repository, Where} from '@loopback/repository';
-import {del, get, getModelSchemaRef, param, patch, post, put, requestBody} from '@loopback/rest';
+import {
+  Count,
+  CountSchema,
+  Filter,
+  FilterExcludingWhere,
+  repository,
+  Where,
+} from '@loopback/repository';
+import {
+  post,
+  param,
+  get,
+  getModelSchemaRef,
+  patch,
+  put,
+  del,
+  requestBody,
+} from '@loopback/rest';
 import {YardCfsRateMaster} from '../models';
 import {YardCfsRateMasterRepository} from '../repositories';
 
 export class YardCfsRateMasterController {
   constructor(
     @repository(YardCfsRateMasterRepository)
-    public yardCfsRateMasterRepository: YardCfsRateMasterRepository,
+    public yardCfsRateMasterRepository : YardCfsRateMasterRepository,
   ) {}
 
   @post('/yard-cfs-rate-masters', {
@@ -18,19 +33,18 @@ export class YardCfsRateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async create(
     @requestBody({
       content: {
         'application/json': {
           schema: getModelSchemaRef(YardCfsRateMaster, {
             title: 'NewYardCfsRateMaster',
-
+            exclude: ['yardCfsRateMasterId'],
           }),
         },
       },
     })
-    yardCfsRateMaster: YardCfsRateMaster,
+    yardCfsRateMaster: Omit<YardCfsRateMaster, 'yardCfsRateMasterId'>,
   ): Promise<YardCfsRateMaster> {
     return this.yardCfsRateMasterRepository.create(yardCfsRateMaster);
   }
@@ -43,7 +57,6 @@ export class YardCfsRateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async count(
     @param.where(YardCfsRateMaster) where?: Where<YardCfsRateMaster>,
   ): Promise<Count> {
@@ -65,7 +78,6 @@ export class YardCfsRateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async find(
     @param.filter(YardCfsRateMaster) filter?: Filter<YardCfsRateMaster>,
   ): Promise<YardCfsRateMaster[]> {
@@ -80,7 +92,6 @@ export class YardCfsRateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async updateAll(
     @requestBody({
       content: {
@@ -107,7 +118,6 @@ export class YardCfsRateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async findById(
     @param.path.number('id') id: number,
     @param.filter(YardCfsRateMaster, {exclude: 'where'}) filter?: FilterExcludingWhere<YardCfsRateMaster>
@@ -122,7 +132,6 @@ export class YardCfsRateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async updateById(
     @param.path.number('id') id: number,
     @requestBody({
@@ -144,7 +153,6 @@ export class YardCfsRateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async replaceById(
     @param.path.number('id') id: number,
     @requestBody() yardCfsRateMaster: YardCfsRateMaster,
@@ -159,7 +167,6 @@ export class YardCfsRateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.yardCfsRateMasterRepository.deleteById(id);
   }

@@ -1,72 +1,66 @@
-import {Entity, model, property} from '@loopback/repository';
+import {belongsTo, Entity, model, property} from '@loopback/repository';
+import {CfsMaster} from './cfs-master.model';
 
-@model()
+@model({settings: {strict: false}})
 export class CfsRateMaster extends Entity {
   @property({
     type: 'number',
     id: true,
     generated: true,
   })
-  cfs_rate_syscode?: number;
+  cfsRateId?: number;
+  @property({
+    type: 'number',
+  })
+  portMasterId?: number;
 
   @property({
     type: 'number',
-    required: true,
   })
-  cfs_syscode: number;
+  weightMasterId?: number;
 
   @property({
     type: 'number',
-    required: true,
   })
-  port_syscode: number;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  weight_syscode: number;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  container_syscode: number;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  rate: number;
+  rate?: number;
 
   @property({
     type: 'boolean',
-    required: true,
-    default: true,
   })
-  is_active: boolean;
-
-  @property({
-    type: 'number',
-    default: () => 1,
-  })
-  created_by: number;
-
-  @property({
-    type: 'date',
-    default: () => new Date(),
-  })
-  created_on: string;
+  isActive?: boolean;
 
   @property({
     type: 'number',
   })
-  modified_by: number;
+  createdBy?: number;
 
   @property({
     type: 'date',
   })
-  modified_on?: string;
+  createdOn?: string;
+
+  @property({
+    type: 'number',
+  })
+  modifiedBy?: number;
+
+  @property({
+    type: 'date',
+  })
+  modifiedOn?: string;
+
+  @property({
+    type: 'number',
+  })
+  containerMasterId?: number;
+
+  @belongsTo(() => CfsMaster)
+  cfsMasterId: number;
+  // Define well-known properties here
+
+  // Indexer property to allow additional data
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [prop: string]: any;
 
   constructor(data?: Partial<CfsRateMaster>) {
     super(data);

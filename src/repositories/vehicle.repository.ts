@@ -5,7 +5,7 @@ import {inject} from '@loopback/core';
 
 export class VehicleRepository extends DefaultCrudRepository<
   Vehicle,
-  typeof Vehicle.prototype.id,
+  typeof Vehicle.prototype.vehicleId,
   VehicleRelations
 > {
   constructor(

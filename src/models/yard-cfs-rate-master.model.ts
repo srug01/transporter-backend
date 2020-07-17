@@ -1,73 +1,74 @@
 import {Entity, model, property} from '@loopback/repository';
 
-@model()
+@model({settings: {strict: false}})
 export class YardCfsRateMaster extends Entity {
   @property({
     type: 'number',
     id: true,
     generated: true,
   })
-  yard_cfs_rate_syscode?: number;
+  yardCfsRateMasterId?: number;
 
   @property({
     type: 'number',
-    required: true,
   })
-  cfs_syscode: number;
+  cfsMasterId?: number;
 
   @property({
     type: 'number',
-    required: true,
   })
-  yard_syscode: number;
+  yardMasterId?: number;
 
   @property({
     type: 'number',
-    required: true,
   })
-  container_syscode: number;
+  containerMasterId?: number;
 
   @property({
     type: 'number',
-    required: true,
   })
-  weight_syscode: number;
+  weightMasterId?: number;
 
   @property({
     type: 'number',
-    required: true,
   })
-  rate: number;
+  rate?: number;
 
   @property({
     type: 'boolean',
-    required: true,
-    default: true,
   })
-  is_active: boolean;
+  isActive?: boolean;
 
   @property({
     type: 'number',
-    required: true,
   })
-  created_by: number;
-
-  @property({
-    type: 'date',
-    required: true,
-  })
-  created_on: string;
+  createdBy?: number;
 
   @property({
     type: 'number',
-
   })
-  modified_by: number;
+  modifiedBy?: number;
 
   @property({
     type: 'date',
   })
-  modified_on?: string;
+  createdOn?: string;
+
+  @property({
+    type: 'date',
+  })
+  modifiedOn?: string;
+
+  @property({
+    type: 'number',
+  })
+  portMasterId?: number;
+
+  // Define well-known properties here
+
+  // Indexer property to allow additional data
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [prop: string]: any;
 
   constructor(data?: Partial<YardCfsRateMaster>) {
     super(data);
@@ -78,4 +79,5 @@ export interface YardCfsRateMasterRelations {
   // describe navigational properties here
 }
 
-export type YardCfsRateMasterWithRelations = YardCfsRateMaster & YardCfsRateMasterRelations;
+export type YardCfsRateMasterWithRelations = YardCfsRateMaster &
+  YardCfsRateMasterRelations;

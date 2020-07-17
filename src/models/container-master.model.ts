@@ -1,48 +1,52 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, hasMany} from '@loopback/repository';
+import {WeightMaster} from './weight-master.model';
 
-@model()
+@model({settings: {strict: false}})
 export class ContainerMaster extends Entity {
   @property({
     type: 'number',
     id: true,
     generated: true,
   })
-  container_syscode?: number;
+  containerMasterId?: number;
 
   @property({
     type: 'string',
-    required: true,
   })
-  container_name: string;
+  containerMasterName?: string;
 
   @property({
     type: 'boolean',
-    required: true,
-    default: true,
   })
-  is_active: boolean;
-
-  @property({
-    type: 'number',
-    default: () => 1,
-  })
-  created_by: number;
-
-  @property({
-    type: 'date',
-    default: () => new Date(),
-  })
-  created_on: string;
+  isActive?: boolean;
 
   @property({
     type: 'number',
   })
-  modified_by?: number;
+  createdBy?: number;
 
   @property({
     type: 'date',
   })
-  modified_on?: string;
+  createdOn?: string;
+
+  @property({
+    type: 'number',
+  })
+  modifiedBy?: number;
+
+  @property({
+    type: 'date',
+  })
+  modifiedOn?: string;
+
+  @hasMany(() => WeightMaster)
+  weightMasters: WeightMaster[];
+  // Define well-known properties here
+
+  // Indexer property to allow additional data
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [prop: string]: any;
 
   constructor(data?: Partial<ContainerMaster>) {
     super(data);
@@ -53,5 +57,4 @@ export interface ContainerMasterRelations {
   // describe navigational properties here
 }
 
-export type ContainerMasterWithRelations = ContainerMaster &
-  ContainerMasterRelations;
+export type ContainerMasterWithRelations = ContainerMaster & ContainerMasterRelations;

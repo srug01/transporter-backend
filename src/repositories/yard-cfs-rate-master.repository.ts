@@ -1,13 +1,13 @@
-import {inject} from '@loopback/core';
 import {DefaultCrudRepository} from '@loopback/repository';
-import {TestDataSource} from '../datasources';
 import {YardCfsRateMaster, YardCfsRateMasterRelations} from '../models';
+import {TestDataSource} from '../datasources';
+import {inject} from '@loopback/core';
 
 export class YardCfsRateMasterRepository extends DefaultCrudRepository<
   YardCfsRateMaster,
-  typeof YardCfsRateMaster.prototype.yard_cfs_rate_syscode,
+  typeof YardCfsRateMaster.prototype.yardCfsRateMasterId,
   YardCfsRateMasterRelations
-  > {
+> {
   constructor(
     @inject('datasources.test') dataSource: TestDataSource,
   ) {

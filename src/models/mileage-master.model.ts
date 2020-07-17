@@ -1,60 +1,59 @@
 import {Entity, model, property} from '@loopback/repository';
 
-@model()
+@model({settings: {strict: false}})
 export class MileageMaster extends Entity {
   @property({
     type: 'number',
     id: true,
     generated: true,
   })
-  mileage_syscode?: number;
+  mileageId?: number;
 
   @property({
     type: 'number',
-    required: true,
   })
-  container_syscode: number;
+  containerId?: number;
 
   @property({
     type: 'number',
-    required: true,
   })
-  weight_syscode: number;
+  weightId?: number;
 
   @property({
     type: 'string',
-    required: true,
   })
-  mileage: string;
+  mileage?: string;
 
   @property({
     type: 'boolean',
-    required: true,
-    default: true,
   })
-  is_active: boolean;
-
-  @property({
-    type: 'number',
-    default: () => 1,
-  })
-  created_by: number;
-
-  @property({
-    type: 'date',
-    default: () => new Date(),
-  })
-  created_on: string;
+  isActive?: boolean;
 
   @property({
     type: 'number',
   })
-  modified_by: number;
+  createdBy?: number;
 
   @property({
     type: 'date',
   })
-  modified_on?: string;
+  createdOn?: string;
+
+  @property({
+    type: 'number',
+  })
+  modifiedBy?: number;
+
+  @property({
+    type: 'date',
+  })
+  modifiedOn?: string;
+
+  // Define well-known properties here
+
+  // Indexer property to allow additional data
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [prop: string]: any;
 
   constructor(data?: Partial<MileageMaster>) {
     super(data);

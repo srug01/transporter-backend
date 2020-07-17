@@ -17,47 +17,38 @@ export class Container extends Entity {
 
   @property({
     type: 'number',
-    required: true,
   })
-  container_type: number;
+  weightType?: number;
 
   @property({
     type: 'number',
-    required: true,
   })
-  weight_type: number;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  no_of_trucks: number;
+  numberOfTrucks?: number;
 
   @property({
     type: 'boolean',
-    required: true,
   })
-  is_delete: boolean;
+  isDeleted?: boolean;
 
   @property({
     type: 'number',
   })
-  created_by?: number;
+  createdBy?: number;
 
   @property({
     type: 'date',
   })
-  created_on?: string;
+  createdOn?: string;
 
   @property({
     type: 'number',
   })
-  modify_by?: number;
+  modifiedBy?: number;
 
   @property({
     type: 'date',
   })
-  modify_on?: string;
+  modifiedOn?: string;
 
   @hasMany(() => Truck)
   trucks: Truck[];

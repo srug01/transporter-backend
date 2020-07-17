@@ -1,14 +1,28 @@
-import {authenticate} from '@loopback/authentication';
-import {Count, CountSchema, Filter, FilterExcludingWhere, repository, Where} from '@loopback/repository';
-import {del, get, getModelSchemaRef, param, patch, post, put, requestBody} from '@loopback/rest';
+import {
+  Count,
+  CountSchema,
+  Filter,
+  FilterExcludingWhere,
+  repository,
+  Where,
+} from '@loopback/repository';
+import {
+  post,
+  param,
+  get,
+  getModelSchemaRef,
+  patch,
+  put,
+  del,
+  requestBody,
+} from '@loopback/rest';
 import {DieselRateMaster} from '../models';
 import {DieselRateMasterRepository} from '../repositories';
-
 
 export class DieselRateMasterController {
   constructor(
     @repository(DieselRateMasterRepository)
-    public dieselRateMasterRepository: DieselRateMasterRepository,
+    public dieselRateMasterRepository : DieselRateMasterRepository,
   ) {}
 
   @post('/diesel-rate-masters', {
@@ -19,19 +33,18 @@ export class DieselRateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async create(
     @requestBody({
       content: {
         'application/json': {
           schema: getModelSchemaRef(DieselRateMaster, {
             title: 'NewDieselRateMaster',
-
+            exclude: ['dieselRateId'],
           }),
         },
       },
     })
-    dieselRateMaster: DieselRateMaster,
+    dieselRateMaster: Omit<DieselRateMaster, 'dieselRateId'>,
   ): Promise<DieselRateMaster> {
     return this.dieselRateMasterRepository.create(dieselRateMaster);
   }
@@ -44,7 +57,6 @@ export class DieselRateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async count(
     @param.where(DieselRateMaster) where?: Where<DieselRateMaster>,
   ): Promise<Count> {
@@ -66,7 +78,6 @@ export class DieselRateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async find(
     @param.filter(DieselRateMaster) filter?: Filter<DieselRateMaster>,
   ): Promise<DieselRateMaster[]> {
@@ -81,7 +92,6 @@ export class DieselRateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async updateAll(
     @requestBody({
       content: {
@@ -108,7 +118,6 @@ export class DieselRateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async findById(
     @param.path.number('id') id: number,
     @param.filter(DieselRateMaster, {exclude: 'where'}) filter?: FilterExcludingWhere<DieselRateMaster>
@@ -123,7 +132,6 @@ export class DieselRateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async updateById(
     @param.path.number('id') id: number,
     @requestBody({
@@ -145,7 +153,6 @@ export class DieselRateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async replaceById(
     @param.path.number('id') id: number,
     @requestBody() dieselRateMaster: DieselRateMaster,
@@ -160,7 +167,6 @@ export class DieselRateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.dieselRateMasterRepository.deleteById(id);
   }

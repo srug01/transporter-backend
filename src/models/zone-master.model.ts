@@ -7,19 +7,12 @@ export class ZoneMaster extends Entity {
     id: true,
     generated: true,
   })
-  zone_syscode?: number;
+  zoneMasterId?: number;
 
   @property({
     type: 'string',
-    required: true,
   })
-  zone_name: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  zone_description: string;
+  zoneName?: string;
 
   @property({
     type: 'string',
@@ -28,34 +21,34 @@ export class ZoneMaster extends Entity {
 
   @property({
     type: 'boolean',
-    required: true,
-    default: true,
   })
-  is_active: boolean;
+  isActive?: boolean;
 
   @property({
     type: 'number',
-    default: () => 1
   })
-  created_by: number;
+  createdBy?: number;
 
   @property({
     type: 'date',
-    default: () => new Date()
   })
-  created_on: string;
+  createdOn?: string;
 
   @property({
     type: 'number',
-    default: () => 1
   })
-  modified_by: number;
+  modifiedBy?: number;
 
   @property({
     type: 'date',
-    default: () => new Date()
   })
-  modified_on?: string;
+  modifiedOn?: string;
+
+  @property({
+    type: 'string',
+  })
+  zoneDesc?: string;
+
 
   constructor(data?: Partial<ZoneMaster>) {
     super(data);

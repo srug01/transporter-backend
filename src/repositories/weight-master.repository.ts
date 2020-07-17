@@ -1,12 +1,11 @@
-/* eslint-disable @typescript-eslint/camelcase */
-import {inject} from '@loopback/core';
 import {DefaultCrudRepository} from '@loopback/repository';
-import {TestDataSource} from '../datasources';
 import {WeightMaster, WeightMasterRelations} from '../models';
+import {TestDataSource} from '../datasources';
+import {inject} from '@loopback/core';
 
 export class WeightMasterRepository extends DefaultCrudRepository<
   WeightMaster,
-  typeof WeightMaster.prototype.weight_syscode,
+  typeof WeightMaster.prototype.weightMasterId,
   WeightMasterRelations
 > {
   constructor(

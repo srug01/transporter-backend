@@ -1,4 +1,6 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, hasMany, model, property} from '@loopback/repository';
+import {LocationMaster} from './location-master.model';
+import {PortMaster} from './port-master.model';
 
 @model()
 export class StateMaster extends Entity {
@@ -7,46 +9,42 @@ export class StateMaster extends Entity {
     id: true,
     generated: true,
   })
-  state_syscode?: number;
+  stateMasterId?: number;
 
   @property({
     type: 'string',
-    required: true,
   })
-  state: string;
-
+  stateName?: string;
 
   @property({
     type: 'boolean',
-    required: true,
-    default: true,
   })
-  is_active: boolean;
+  isActive?: boolean;
 
   @property({
     type: 'number',
-    default: () => 1
   })
-  created_by: number;
+  createdBy?: number;
 
   @property({
     type: 'date',
-    default: () => new Date()
   })
-  created_on: string;
+  createdOn?: string;
 
   @property({
     type: 'number',
-    default: () => 1
   })
-  modified_by: number;
+  modifiedBy?: number;
 
   @property({
     type: 'date',
-    default: () => new Date()
   })
-  modified_on?: string;
+  modifiedOn?: string;
 
+  @hasMany(() => LocationMaster)
+  locationMasters: LocationMaster[];
+  @hasMany(() => PortMaster)
+  portMasters: PortMaster[];
 
   constructor(data?: Partial<StateMaster>) {
     super(data);

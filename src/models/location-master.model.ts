@@ -2,7 +2,6 @@ import {Entity, model, property} from '@loopback/repository';
 
 @model({settings: {strict: false}})
 export class LocationMaster extends Entity {
-
   @property({
     type: 'number',
     id: true,
@@ -22,16 +21,28 @@ export class LocationMaster extends Entity {
 
   @property({
     type: 'number',
-    default: 1
   })
   createdBy?: number;
 
   @property({
     type: 'date',
-    default: new Date()
   })
   createdOn?: string;
 
+  @property({
+    type: 'number',
+  })
+  modifiedBy?: number;
+
+  @property({
+    type: 'date',
+  })
+  modifiedOn?: string;
+
+  @property({
+    type: 'number',
+  })
+  stateMasterId?: number;
   // Define well-known properties here
 
   // Indexer property to allow additional data

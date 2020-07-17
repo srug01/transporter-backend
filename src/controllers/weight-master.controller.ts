@@ -1,6 +1,21 @@
-import {authenticate} from '@loopback/authentication';
-import {Count, CountSchema, Filter, FilterExcludingWhere, repository, Where} from '@loopback/repository';
-import {del, get, getModelSchemaRef, param, patch, post, put, requestBody} from '@loopback/rest';
+import {
+  Count,
+  CountSchema,
+  Filter,
+  FilterExcludingWhere,
+  repository,
+  Where,
+} from '@loopback/repository';
+import {
+  post,
+  param,
+  get,
+  getModelSchemaRef,
+  patch,
+  put,
+  del,
+  requestBody,
+} from '@loopback/rest';
 import {WeightMaster} from '../models';
 import {WeightMasterRepository} from '../repositories';
 
@@ -18,19 +33,18 @@ export class WeightMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async create(
     @requestBody({
       content: {
         'application/json': {
           schema: getModelSchemaRef(WeightMaster, {
             title: 'NewWeightMaster',
-
+            exclude: ['weightMasterId'],
           }),
         },
       },
     })
-    weightMaster: WeightMaster,
+    weightMaster: Omit<WeightMaster, 'weightMasterId'>,
   ): Promise<WeightMaster> {
     return this.weightMasterRepository.create(weightMaster);
   }
@@ -43,7 +57,6 @@ export class WeightMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async count(
     @param.where(WeightMaster) where?: Where<WeightMaster>,
   ): Promise<Count> {
@@ -65,7 +78,6 @@ export class WeightMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async find(
     @param.filter(WeightMaster) filter?: Filter<WeightMaster>,
   ): Promise<WeightMaster[]> {
@@ -80,7 +92,6 @@ export class WeightMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async updateAll(
     @requestBody({
       content: {
@@ -107,7 +118,6 @@ export class WeightMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async findById(
     @param.path.number('id') id: number,
     @param.filter(WeightMaster, {exclude: 'where'}) filter?: FilterExcludingWhere<WeightMaster>
@@ -122,7 +132,6 @@ export class WeightMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async updateById(
     @param.path.number('id') id: number,
     @requestBody({
@@ -144,7 +153,6 @@ export class WeightMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async replaceById(
     @param.path.number('id') id: number,
     @requestBody() weightMaster: WeightMaster,
@@ -159,7 +167,6 @@ export class WeightMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.weightMasterRepository.deleteById(id);
   }

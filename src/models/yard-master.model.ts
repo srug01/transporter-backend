@@ -7,48 +7,62 @@ export class YardMaster extends Entity {
     id: true,
     generated: true,
   })
-  yard_syscode?: number;
+  yardMasterId?: number;
 
   @property({
     type: 'string',
-    required: true,
   })
-  yard_name: string;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  port_syscode: number;
+  yardName?: string;
 
   @property({
     type: 'boolean',
-    required: true,
-    default: true,
   })
-  is_active: boolean;
+  isActive?: boolean;
+
+  @property({
+    type: 'string',
+  })
+  address?: string;
+
+  @property({
+    type: 'string',
+  })
+  pincode?: string;
+
+  @property({
+    type: 'string',
+  })
+  latitude?: string;
+
+  @property({
+    type: 'string',
+  })
+  longitude?: string;
 
   @property({
     type: 'number',
-    default: () => 1,
   })
-  created_by: number;
-
-  @property({
-    type: 'date',
-    default: () => new Date(),
-  })
-  created_on: string;
+  createdBy?: number;
 
   @property({
     type: 'number',
   })
-  modified_by?: number;
+  modifiedBy?: number;
 
   @property({
     type: 'date',
   })
-  modified_on?: string;
+  createdOn?: string;
+
+  @property({
+    type: 'date',
+  })
+  modifiedOn?: string;
+
+  @property({
+    type: 'number',
+  })
+  portMasterId?: number;
 
   constructor(data?: Partial<YardMaster>) {
     super(data);

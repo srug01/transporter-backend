@@ -1,13 +1,28 @@
-import {authenticate} from '@loopback/authentication';
-import {Count, CountSchema, Filter, FilterExcludingWhere, repository, Where} from '@loopback/repository';
-import {del, get, getModelSchemaRef, param, patch, post, put, requestBody} from '@loopback/rest';
+import {
+  Count,
+  CountSchema,
+  Filter,
+  FilterExcludingWhere,
+  repository,
+  Where,
+} from '@loopback/repository';
+import {
+  post,
+  param,
+  get,
+  getModelSchemaRef,
+  patch,
+  put,
+  del,
+  requestBody,
+} from '@loopback/rest';
 import {StateMaster} from '../models';
 import {StateMasterRepository} from '../repositories';
 
 export class StateMasterController {
   constructor(
     @repository(StateMasterRepository)
-    public stateMasterRepository: StateMasterRepository,
+    public stateMasterRepository : StateMasterRepository,
   ) {}
 
   @post('/state-masters', {
@@ -18,19 +33,18 @@ export class StateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async create(
     @requestBody({
       content: {
         'application/json': {
           schema: getModelSchemaRef(StateMaster, {
             title: 'NewStateMaster',
-
+            exclude: ['stateMasterId'],
           }),
         },
       },
     })
-    stateMaster: StateMaster,
+    stateMaster: Omit<StateMaster, 'stateMasterId'>,
   ): Promise<StateMaster> {
     return this.stateMasterRepository.create(stateMaster);
   }
@@ -43,7 +57,6 @@ export class StateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async count(
     @param.where(StateMaster) where?: Where<StateMaster>,
   ): Promise<Count> {
@@ -65,7 +78,6 @@ export class StateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async find(
     @param.filter(StateMaster) filter?: Filter<StateMaster>,
   ): Promise<StateMaster[]> {
@@ -80,7 +92,6 @@ export class StateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async updateAll(
     @requestBody({
       content: {
@@ -107,7 +118,6 @@ export class StateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async findById(
     @param.path.number('id') id: number,
     @param.filter(StateMaster, {exclude: 'where'}) filter?: FilterExcludingWhere<StateMaster>
@@ -122,7 +132,6 @@ export class StateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async updateById(
     @param.path.number('id') id: number,
     @requestBody({
@@ -144,7 +153,6 @@ export class StateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async replaceById(
     @param.path.number('id') id: number,
     @requestBody() stateMaster: StateMaster,
@@ -159,7 +167,6 @@ export class StateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.stateMasterRepository.deleteById(id);
   }

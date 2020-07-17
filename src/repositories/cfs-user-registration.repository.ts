@@ -5,7 +5,7 @@ import {inject} from '@loopback/core';
 
 export class CfsUserRegistrationRepository extends DefaultCrudRepository<
   CfsUserRegistration,
-  typeof CfsUserRegistration.prototype.cfs_user_registration_syscode,
+  typeof CfsUserRegistration.prototype.cfsUserRegistrationId,
   CfsUserRegistrationRelations
 > {
   constructor(

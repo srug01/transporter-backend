@@ -7,18 +7,17 @@ export class Vehicle extends Entity {
     id: true,
     generated: true,
   })
-  id?: number;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  vehicle_no: string;
+  vehicleId?: number;
 
   @property({
     type: 'string',
   })
-  description?: string;
+  vehicleNumber?: string;
+
+  @property({
+    type: 'string',
+  })
+  desc?: string;
 
 
   constructor(data?: Partial<Vehicle>) {

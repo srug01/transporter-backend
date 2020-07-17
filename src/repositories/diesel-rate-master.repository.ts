@@ -1,13 +1,13 @@
-import {inject} from '@loopback/core';
 import {DefaultCrudRepository} from '@loopback/repository';
-import {TestDataSource} from '../datasources';
 import {DieselRateMaster, DieselRateMasterRelations} from '../models';
+import {TestDataSource} from '../datasources';
+import {inject} from '@loopback/core';
 
 export class DieselRateMasterRepository extends DefaultCrudRepository<
   DieselRateMaster,
-  typeof DieselRateMaster.prototype.diesel_rate_syscode,
+  typeof DieselRateMaster.prototype.dieselRateId,
   DieselRateMasterRelations
-  > {
+> {
   constructor(
     @inject('datasources.test') dataSource: TestDataSource,
   ) {

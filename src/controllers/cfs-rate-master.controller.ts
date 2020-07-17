@@ -1,6 +1,21 @@
-import {authenticate} from '@loopback/authentication';
-import {Count, CountSchema, Filter, FilterExcludingWhere, repository, Where} from '@loopback/repository';
-import {del, get, getModelSchemaRef, param, patch, post, put, requestBody} from '@loopback/rest';
+import {
+  Count,
+  CountSchema,
+  Filter,
+  FilterExcludingWhere,
+  repository,
+  Where,
+} from '@loopback/repository';
+import {
+  post,
+  param,
+  get,
+  getModelSchemaRef,
+  patch,
+  put,
+  del,
+  requestBody,
+} from '@loopback/rest';
 import {CfsRateMaster} from '../models';
 import {CfsRateMasterRepository} from '../repositories';
 
@@ -18,19 +33,18 @@ export class CfsRateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async create(
     @requestBody({
       content: {
         'application/json': {
           schema: getModelSchemaRef(CfsRateMaster, {
             title: 'NewCfsRateMaster',
-
+            exclude: ['cfsRateId'],
           }),
         },
       },
     })
-    cfsRateMaster: CfsRateMaster,
+    cfsRateMaster: Omit<CfsRateMaster, 'cfsRateId'>,
   ): Promise<CfsRateMaster> {
     return this.cfsRateMasterRepository.create(cfsRateMaster);
   }
@@ -43,7 +57,6 @@ export class CfsRateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async count(
     @param.where(CfsRateMaster) where?: Where<CfsRateMaster>,
   ): Promise<Count> {
@@ -65,7 +78,6 @@ export class CfsRateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async find(
     @param.filter(CfsRateMaster) filter?: Filter<CfsRateMaster>,
   ): Promise<CfsRateMaster[]> {
@@ -80,7 +92,6 @@ export class CfsRateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async updateAll(
     @requestBody({
       content: {
@@ -107,7 +118,6 @@ export class CfsRateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async findById(
     @param.path.number('id') id: number,
     @param.filter(CfsRateMaster, {exclude: 'where'}) filter?: FilterExcludingWhere<CfsRateMaster>
@@ -122,7 +132,6 @@ export class CfsRateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async updateById(
     @param.path.number('id') id: number,
     @requestBody({
@@ -144,7 +153,6 @@ export class CfsRateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async replaceById(
     @param.path.number('id') id: number,
     @requestBody() cfsRateMaster: CfsRateMaster,
@@ -159,7 +167,6 @@ export class CfsRateMasterController {
       },
     },
   })
-  @authenticate('jwt')
   async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.cfsRateMasterRepository.deleteById(id);
   }

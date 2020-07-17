@@ -5,7 +5,7 @@ import {inject} from '@loopback/core';
 
 export class TransporterRegistrationRepository extends DefaultCrudRepository<
   TransporterRegistration,
-  typeof TransporterRegistration.prototype.transporter_syscode,
+  typeof TransporterRegistration.prototype.transporterId,
   TransporterRegistrationRelations
 > {
   constructor(

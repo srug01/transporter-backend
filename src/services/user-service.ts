@@ -26,6 +26,7 @@ export class MyUserService implements UserService<User, Credentials> {
         email: credentials.email,
       },
     });
+
     if (!foundUser) {
       throw new HttpErrors.NotFound(
         `user not found with this ${credentials.email}`,
@@ -50,7 +51,6 @@ export class MyUserService implements UserService<User, Credentials> {
 
   convertToUserProfile(user: User): MyUserProfile {
     let userName = '';
-    let idString = '';
     let userEmail = '';
     let userType = 0;
 
@@ -65,20 +65,17 @@ export class MyUserService implements UserService<User, Credentials> {
         ? `${user.firstName} ${user.lastName}`
         : user.lastName;
     }
-    if (user.id) {
-      idString = user.id.toString();
-      // this.roles = this.userRepository.userroles(user.id).find();
-    }
     if (user.typeSyscode) {
       userType = user.typeSyscode;
     }
 
     const currentUser: MyUserProfile = pick(toJSON(user), [
-      'id',
+      'userId',
       'permissions',
       'email',
       'typeSyscode',
     ]) as MyUserProfile;
+    console.log(currentUser);
     currentUser.name = userName;
     currentUser.email = userEmail;
     currentUser.typeSyscode = userType;

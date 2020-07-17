@@ -1,6 +1,6 @@
 import {Entity, model, property} from '@loopback/repository';
 
-@model({settings: {strict: false}})
+@model()
 export class Truck extends Entity {
   @property({
     type: 'number',
@@ -15,41 +15,35 @@ export class Truck extends Entity {
   containerId?: number;
 
   @property({
-    type: 'string',
+    type: 'string'
   })
-  truck_no?: string;
+  truckNumbers?: string;
 
   @property({
     type: 'boolean',
-    default: false,
   })
-  is_delete?: boolean;
+  isDeleted?: boolean;
 
   @property({
     type: 'number',
   })
-  created_by?: number;
+  createdBy?: number;
 
   @property({
     type: 'date',
   })
-  created_on?: string;
+  createdOn?: string;
 
   @property({
     type: 'number',
   })
-  modify_by?: number;
+  modifiedBy?: number;
 
   @property({
     type: 'date',
   })
-  modify_on?: string;
+  modifiedOn?: string;
 
-  // Define well-known properties here
-
-  // Indexer property to allow additional data
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [prop: string]: any;
 
   constructor(data?: Partial<Truck>) {
     super(data);

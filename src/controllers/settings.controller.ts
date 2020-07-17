@@ -7,13 +7,13 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  del,
+  post,
+  param,
   get,
   getModelSchemaRef,
-  param,
   patch,
-  post,
   put,
+  del,
   requestBody,
 } from '@loopback/rest';
 import {Settings} from '../models';
@@ -22,7 +22,7 @@ import {SettingsRepository} from '../repositories';
 export class SettingsController {
   constructor(
     @repository(SettingsRepository)
-    public settingsRepository: SettingsRepository,
+    public settingsRepository : SettingsRepository,
   ) {}
 
   @post('/settings', {
@@ -39,12 +39,12 @@ export class SettingsController {
         'application/json': {
           schema: getModelSchemaRef(Settings, {
             title: 'NewSettings',
-            exclude: ['settings_syscode'],
+            exclude: ['settingsId'],
           }),
         },
       },
     })
-    settings: Omit<Settings, 'settings_syscode'>,
+    settings: Omit<Settings, 'settingsId'>,
   ): Promise<Settings> {
     return this.settingsRepository.create(settings);
   }
@@ -57,7 +57,9 @@ export class SettingsController {
       },
     },
   })
-  async count(@param.where(Settings) where?: Where<Settings>): Promise<Count> {
+  async count(
+    @param.where(Settings) where?: Where<Settings>,
+  ): Promise<Count> {
     return this.settingsRepository.count(where);
   }
 
@@ -118,32 +120,10 @@ export class SettingsController {
   })
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(Settings, {exclude: 'where'})
-    filter?: FilterExcludingWhere<Settings>,
+    @param.filter(Settings, {exclude: 'where'}) filter?: FilterExcludingWhere<Settings>
   ): Promise<Settings> {
     return this.settingsRepository.findById(id, filter);
   }
-
-  /*  @get('/settings/{name}', {
-    responses: {
-      '200': {
-        description: 'Settings model instance',
-        content: {
-          'application/json': {
-            schema: getModelSchemaRef(Settings, {partial: true}),
-          },
-        },
-      },
-    },
-  })
-  async findByName(
-    settings: Settings,
-    @param.path.number('name') name: string,
-    @param.where(Settings) where?: Where<Settings>,
-  ): Promise<Settings> {
-    settings.settings_name = name;
-    return this.settingsRepository.find(settings, where);
-  } */
 
   @patch('/settings/{id}', {
     responses: {

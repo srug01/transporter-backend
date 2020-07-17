@@ -21,8 +21,14 @@ export class Notification extends Entity {
 
   @property({
     type: 'number',
+    required: true,
   })
-  orderId?: string;
+  orderId: number;
+
+  @property({
+    type: 'number',
+  })
+  bidId?: number;
 
   @property({
     type: 'number',
@@ -42,12 +48,12 @@ export class Notification extends Entity {
   @property({
     type: 'number',
   })
-  assignToRole?: number;
+  assignedToRole?: number;
 
   @property({
     type: 'number',
   })
-  assignToUser?: number;
+  assignedToUser?: number;
 
   // Define well-known properties here
 
