@@ -17,7 +17,7 @@ export class Truck extends Entity {
   @property({
     type: 'string'
   })
-  truckNumbers?: string;
+  truckNumber?: string;
 
   @property({
     type: 'boolean',
