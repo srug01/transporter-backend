@@ -4,25 +4,32 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+  del, get,
+  getModelSchemaRef, param,
+
+
+  patch, post,
+
+
+
+
   put,
-  del,
-  requestBody,
+
+  requestBody
 } from '@loopback/rest';
-import {Order} from '../models';
-import {OrderRepository} from '../repositories';
+import {Order, Truck} from '../models';
+import {ContainerRepository, OrderRepository} from '../repositories';
+import {Container} from './../models/container.model';
 
 export class OrderController {
   constructor(
     @repository(OrderRepository)
-    public orderRepository : OrderRepository,
+    public orderRepository: OrderRepository,
+    @repository(ContainerRepository)
+    public containerRepository: ContainerRepository
   ) {}
 
   @post('/orders', {
@@ -46,7 +53,27 @@ export class OrderController {
     })
     order: Omit<Order, 'orderId'>,
   ): Promise<Order> {
-    return this.orderRepository.create(order);
+    const containers: Container[] = order.containers;
+    console.log(containers);
+    delete order.containers;
+    const createdOrder = await this.orderRepository.create(order);
+    for (let i = 0; i < containers.length; i++) {
+      const container = containers[i];
+      const trucks: Truck[] = container.trucks;
+      delete container.trucks;
+      container.orderId = createdOrder.getId();
+      const createdContainer = await this.orderRepository
+        .containers(createdOrder.getId())
+        .create(container);
+      for (const truck of trucks) {
+        truck.containerId = createdContainer.getId();
+        this.containerRepository.trucks(createdContainer.getId()).create(truck);
+      }
+    }
+    // const placebid = await this._callProcedureService.PostOrderProcessing(
+    //   createdOrder.getId(),
+    // );
+    return createdOrder;
   }
 
   @get('/orders/count', {
