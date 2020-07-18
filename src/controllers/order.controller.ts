@@ -56,6 +56,7 @@ export class OrderController {
     const containers: Container[] = order.containers;
     console.log(containers);
     delete order.containers;
+    console.log(order);
     const createdOrder = await this.orderRepository.create(order);
     for (let i = 0; i < containers.length; i++) {
       const container = containers[i];
