@@ -64,6 +64,10 @@ export class SubOrder extends Entity {
   })
   subOrderTotalMargin?: number;
 
+  @property({
+    type: 'number',
+  })
+  marginPercent?: number;
 
   constructor(data?: Partial<SubOrder>) {
     super(data);

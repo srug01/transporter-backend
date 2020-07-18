@@ -13,6 +13,7 @@ export async function migrate(args: string[]) {
       'Userrolemapping',
       'Userrole',
       'Bid',
+      'Bidusermapping',
       'CfsMaster',
       'CfsRateMaster',
       'CfsUserRegistration',

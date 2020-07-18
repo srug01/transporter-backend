@@ -1,3 +1,4 @@
+import {inject} from '@loopback/core';
 import {
   Count,
   CountSchema,
@@ -7,22 +8,26 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
 } from '@loopback/rest';
+import {CallProcedureServiceBindings} from '../keys';
 import {Bid} from '../models';
 import {BidRepository} from '../repositories';
+import {CallProcedureService} from './../services/call-procedure.service';
 
 export class BidController {
   constructor(
     @repository(BidRepository)
-    public bidRepository : BidRepository,
+    public bidRepository: BidRepository,
+    @inject(CallProcedureServiceBindings.CALL_PROCEDURE_SERVICE)
+    public _callProcedureService: CallProcedureService,
   ) {}
 
   @post('/bids', {
@@ -57,9 +62,7 @@ export class BidController {
       },
     },
   })
-  async count(
-    @param.where(Bid) where?: Where<Bid>,
-  ): Promise<Count> {
+  async count(@param.where(Bid) where?: Where<Bid>): Promise<Count> {
     return this.bidRepository.count(where);
   }
 
@@ -78,10 +81,29 @@ export class BidController {
       },
     },
   })
-  async find(
-    @param.filter(Bid) filter?: Filter<Bid>,
-  ): Promise<Bid[]> {
+  async find(@param.filter(Bid) filter?: Filter<Bid>): Promise<Bid[]> {
     return this.bidRepository.find(filter);
+  }
+
+  @get('/GetBidsByUserId/{userId}', {
+    responses: {
+      '200': {
+        description: 'Search for Bids by  UserId',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'array',
+            },
+          },
+        },
+      },
+    },
+  })
+  async GetBidsByUserId(
+    @param.path.string('userId') userId: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ): Promise<any> {
+    return this._callProcedureService.GetBidsbyUserId(userId);
   }
 
   @patch('/bids', {
@@ -120,7 +142,7 @@ export class BidController {
   })
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(Bid, {exclude: 'where'}) filter?: FilterExcludingWhere<Bid>
+    @param.filter(Bid, {exclude: 'where'}) filter?: FilterExcludingWhere<Bid>,
   ): Promise<Bid> {
     return this.bidRepository.findById(id, filter);
   }

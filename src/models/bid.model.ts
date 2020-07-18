@@ -17,7 +17,7 @@ export class Bid extends Entity {
   @property({
     type: 'number',
   })
-  original_rate?: number;
+  originalRate?: number;
 
   @property({
     type: 'date',
@@ -68,12 +68,6 @@ export class Bid extends Entity {
     type: 'number',
   })
   bidRate?: number;
-
-  @property({
-    type: 'number',
-  })
-  marginPercent?: number;
-
 
   constructor(data?: Partial<Bid>) {
     super(data);

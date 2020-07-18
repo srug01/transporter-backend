@@ -21,7 +21,23 @@ export class CallProcedureService {
     id: string,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Promise<any> {
-    const sqlStmt = mysql.format('CALL postOrderProcessing(?)', [id]);
+    const sqlStmt = mysql.format('CALL subOrderProcessing(?)', [id]);
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return new Promise<any>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      db.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+      });
+    });
+  }
+
+  async GetBidsbyUserId(
+    id: string,
+  ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Promise<any> {
+    const sqlStmt = mysql.format('CALL GetBidsbyUserId(?)', [id]);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return new Promise<any>(function (resolve, reject) {
