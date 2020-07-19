@@ -1,14 +1,81 @@
-CREATE DEFINER=`root`@`localhost` PROCEDURE `MULTIPLETABLES`(IN userid varchar(10),IN roleid varchar(10))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetBidsbyUserId`(In user_Id int)
 BEGIN
-SELECT c.* FROM transporter2.cfsmaster c
-Inner Join transporter2.user u 
-on c.userId = u.id and c.roleId = u.typeSyscode
-Where c.userId = userid and c.roleId = roleid;
-END
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SEARCHCFSLOCATION`(IN userId varchar(10))
-BEGIN
-	SELECT l.*,m.cfsMasterId,m.cfs_name FROM transporter2.locationmaster l
-    Inner join transporter2.cfsmaster m
-    on l.locationId = m.locationId 
-    WHERE m.userId = userId;
+
+declare roleId int;
+
+Select typeSyscode into roleId from transporter.user
+where userId = user_Id;
+
+
+if roleId = 5 then -- Transporter
+	
+    Select b.bidId,b.bidName,b.bidLowerLimit,
+    case 
+    When ord.masterTypeId = 4 then 
+    (Select p.portName from portmaster p  where p.portMasterId = ord.sourceId)
+    When ord.masterTypeId = 2 then 
+    (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
+    When ord.masterTypeId = 3 then 
+    (Select y.yardName from yardmaster y where y.yardMasterId = ord.sourceId)
+    When ord.masterTypeId = 1 then 
+    (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
+    end  SorurceName,
+    case 
+    When ord.masterTypeId = 4 then 
+    (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
+    When ord.masterTypeId = 2 then 
+    (Select p.portName from portmaster p  where p.portMasterId = ord.destinationId)
+    When ord.masterTypeId = 3 then 
+	(Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
+    When ord.masterTypeId = 1 then 
+    (Select y.yardName from yardmaster y where y.yardMasterId = ord.destinationId)
+    end as destinationName,
+    com.containerMasterName, wem.weightDesc,
+    com.containerMasterId, wem.weightMasterId,
+    (case When bm.userId = user_Id then bm.bidValue else 0 end  
+    ) as bidValue
+    ,b.originalRate
+    from transporter.bid b
+    Left Outer Join transporter.suborder sub on b.subOrderId = sub.subOrderId
+    Left Outer Join transporter.order ord on sub.orderId = ord.orderId
+    Left Outer Join transporter.bidusermapping bm on b.bidId = bm.bidId
+    Left Outer Join transporter.containermaster com on sub.containerType= com.containerMasterId
+    Left Outer Join transporter.weightmaster wem on containerWeightType=weightMasterId;
+    -- Where bm.userId = user_Id;
+    
+else -- Admin User
+    Select b.bidId,b.bidName,b.bidLowerLimit,
+    case 
+    When ord.masterTypeId = 4 then 
+    (Select p.portName from portmaster p  where p.portMasterId = ord.sourceId)
+    When ord.masterTypeId = 2 then 
+    (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
+    When ord.masterTypeId = 3 then 
+    (Select y.yardName from yardmaster y where y.yardMasterId = ord.sourceId)
+    When ord.masterTypeId = 1 then 
+    (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
+    end  SorurceName,
+    case 
+    When ord.masterTypeId = 4 then 
+    (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
+    When ord.masterTypeId = 2 then 
+    (Select p.portName from portmaster p  where p.portMasterId = ord.destinationId)
+    When ord.masterTypeId = 3 then 
+	(Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
+    When ord.masterTypeId = 1 then 
+    (Select y.yardName from yardmaster y where y.yardMasterId = ord.destinationId)
+    end as destinationName,
+    com.containerMasterName, wem.weightDesc,
+    com.containerMasterId, wem.weightMasterId,
+    bm.bidValue,b.originalRate
+    from transporter.bid b
+    Left Outer Join transporter.suborder sub on b.subOrderId = sub.subOrderId
+    Left Outer Join transporter.order ord on sub.orderId = ord.orderId
+    Left Outer Join transporter.bidusermapping bm on b.bidId = bm.bidId
+    Left Outer Join transporter.containermaster com on sub.containerType= com.containerMasterId
+    Left Outer Join transporter.weightmaster wem on containerWeightType=weightMasterId
+    ;
+    
+End if;
+
 END
