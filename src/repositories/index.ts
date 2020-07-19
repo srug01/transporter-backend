@@ -29,3 +29,4 @@ export * from './zone-day-master.repository';
 export * from './zone-master.repository';
 
 export * from './bidusermapping.repository';
+export * from './trip.repository';
