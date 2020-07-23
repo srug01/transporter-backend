@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import {authenticate} from '@loopback/authentication';
 import {inject} from '@loopback/context';
 import {param} from '@loopback/openapi-v3';
 import {get, getModelSchemaRef, Request, RestBindings} from '@loopback/rest';
@@ -94,6 +95,7 @@ export class CallProcedureController {
       },
     },
   })
+  @authenticate('jwt')
   async MultipleTables(
     @param.path.string('userid') userid: string,
     @param.path.string('roleid') roleid: string,
@@ -123,6 +125,7 @@ export class CallProcedureController {
       },
     },
   })
+  @authenticate('jwt')
   async GetBidsByUserId(
     @param.path.string('userId') userId: string,
   ): Promise<any> {
@@ -148,6 +151,7 @@ export class CallProcedureController {
       },
     },
   })
+  @authenticate('jwt')
   async GetAllCFSWeightsbyUserId(
     @param.path.string('userid') userid: number,
     @param.path.string('typeid') typeid: number,
@@ -180,6 +184,7 @@ export class CallProcedureController {
       },
     },
   })
+  @authenticate('jwt')
   async GetAllCFSContainersbyUserId(
     @param.path.string('userid') userid: number,
     @param.path.string('typeid') typeid: number,
@@ -212,6 +217,7 @@ export class CallProcedureController {
       },
     },
   })
+  @authenticate('jwt')
   async GetAllCFSbyUserId(
     @param.path.string('userId') userId: string,
   ): Promise<any> {
@@ -237,6 +243,7 @@ export class CallProcedureController {
       },
     },
   })
+  @authenticate('jwt')
   async GetAllCFSPortsbyUserId(
     @param.path.string('userId') userId: string,
   ): Promise<any> {
@@ -262,6 +269,7 @@ export class CallProcedureController {
       },
     },
   })
+  @authenticate('jwt')
   async GetAllCFSYardsbyUserId(
     @param.path.string('userId') userId: string,
   ): Promise<any> {

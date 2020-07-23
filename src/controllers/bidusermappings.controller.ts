@@ -4,25 +4,37 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
+  del, get,
   getModelSchemaRef,
-  patch,
+
+
+
+
+  HttpErrors, param,
+
+
+  patch, post,
+
+
+
+
   put,
-  del,
-  requestBody,
+
+  requestBody
 } from '@loopback/rest';
 import {Bidusermapping} from '../models';
-import {BidusermappingRepository} from '../repositories';
+import {BidRepository, BidusermappingRepository} from '../repositories';
 
 export class BidusermappingsController {
   constructor(
     @repository(BidusermappingRepository)
     public bidusermappingRepository : BidusermappingRepository,
+    @repository(BidRepository)
+    public bidRepository : BidRepository,
+
   ) {}
 
   @post('/bidusermappings', {
@@ -46,6 +58,20 @@ export class BidusermappingsController {
     })
     bidusermapping: Omit<Bidusermapping, 'bidusermappingId'>,
   ): Promise<Bidusermapping> {
+    const bidval:number  = bidusermapping.bidValue ?? 0;
+    const callbid = await this.bidRepository.findOne({
+      where: {
+        bidId: bidusermapping.bidId
+      }
+    });
+    const lowerLimit = callbid?.bidLowerLimit ?? 0;
+    console.log(lowerLimit);
+    console.log(bidval);
+    if(bidval < lowerLimit){
+      throw new HttpErrors.UnprocessableEntity(
+          'Bid Value is too Low'
+          );
+  }
     return this.bidusermappingRepository.create(bidusermapping);
   }
 
