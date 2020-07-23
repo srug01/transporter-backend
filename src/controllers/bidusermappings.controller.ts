@@ -65,8 +65,8 @@ export class BidusermappingsController {
       }
     });
     const lowerLimit = callbid?.bidLowerLimit ?? 0;
-    console.log(lowerLimit);
-    console.log(bidval);
+    //console.log(lowerLimit);
+    //console.log(bidval);
     if(bidval < lowerLimit){
       throw new HttpErrors.UnprocessableEntity(
           'Bid Value is too Low'
