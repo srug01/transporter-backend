@@ -74,6 +74,12 @@ export class Trip extends Entity {
   })
   billedAmount?: number;
 
+
+  @property({
+    type: 'boolean',
+  })
+  isActive?: boolean;
+
   // Define well-known properties here
 
   // Indexer property to allow additional data
