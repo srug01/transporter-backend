@@ -7,14 +7,14 @@ import {
   getModelSchemaRef,
   param,
   post,
-  requestBody
+  requestBody,
 } from '@loopback/rest';
 import * as _ from 'lodash';
 import {PermissionKeys} from '../authorization/permission-keys';
 import {
   PasswordHasherBindings,
   TokenServiceBindings,
-  UserServiceBindings
+  UserServiceBindings,
 } from '../keys';
 import {User} from '../models';
 import {UserRepository} from '../repositories';
