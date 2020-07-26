@@ -37,7 +37,7 @@ CREATE TABLE `bid` (
   `bidLowerLimit` int DEFAULT NULL,
   `bidRate` int DEFAULT NULL,
   PRIMARY KEY (`bidId`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,7 +46,7 @@ CREATE TABLE `bid` (
 
 LOCK TABLES `bid` WRITE;
 /*!40000 ALTER TABLE `bid` DISABLE KEYS */;
-INSERT INTO `bid` VALUES (9,'BID00000030',450,NULL,4,1,1,'2020-07-19 00:00:00',0,0,NULL,360,NULL),(10,'BID00000030',450,NULL,5,1,1,'2020-07-19 00:00:00',0,0,NULL,360,NULL);
+INSERT INTO `bid` VALUES (12,'BID00000030',450,NULL,1,1,1,'2020-07-19 00:00:00',0,0,NULL,360,NULL);
 /*!40000 ALTER TABLE `bid` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -69,7 +69,7 @@ CREATE TABLE `bidusermapping` (
   KEY `biduserId_idx` (`userId`),
   CONSTRAINT `bidId` FOREIGN KEY (`bidId`) REFERENCES `bid` (`bidId`),
   CONSTRAINT `biduserId` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -78,7 +78,7 @@ CREATE TABLE `bidusermapping` (
 
 LOCK TABLES `bidusermapping` WRITE;
 /*!40000 ALTER TABLE `bidusermapping` DISABLE KEYS */;
-INSERT INTO `bidusermapping` VALUES (1,9,1,'BID00000030',400,'confirmed');
+INSERT INTO `bidusermapping` VALUES (1,12,10,'BID00000030',361,'confirmed'),(2,12,12,'BID00000030',400,'confirmed');
 /*!40000 ALTER TABLE `bidusermapping` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -111,7 +111,7 @@ CREATE TABLE `cfsmaster` (
   `modifiedOn` datetime DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`cfsMasterId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -120,7 +120,7 @@ CREATE TABLE `cfsmaster` (
 
 LOCK TABLES `cfsmaster` WRITE;
 /*!40000 ALTER TABLE `cfsmaster` DISABLE KEYS */;
-INSERT INTO `cfsmaster` VALUES ('A-13,Agatsya CHS','401107','PAN','sdfhj',1,1,'CFS All Cargo Master1','77855544','cfs@user.in','CFS01','GSTIN','Primary Contact','9004947856','additional','90049447586',1,'2020-07-16 20:08:41',1,'2020-07-16 20:08:41',1),('Address1','401107','PAN','ldsjfgy',3,2,'cfs All Cargo 2','774457','cfs@alc2.com','CFS02','sdhf','Primary Contact','9004944643','additional','9004944643',1,'2020-07-17 20:52:44',1,'2020-07-17 20:52:44',1);
+INSERT INTO `cfsmaster` VALUES ('Address1','41147','PAN','TAN',4,3,'All Cargo CFS1','22455','alc@cfs.in','CFS01','GST','Primary Contact','4455789','Additional contact','447784',1,'2020-07-19 11:43:18',1,'2020-07-19 11:43:18',1),('Address','44147','PAN','TAN',4,4,'CFS2','5547789','utsav@gg.kk','CFS02','GST','Primary Contact','2244789','additional','554478',1,'2020-07-19 11:53:37',1,'2020-07-19 11:53:37',1);
 /*!40000 ALTER TABLE `cfsmaster` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -153,7 +153,7 @@ CREATE TABLE `cfsratemaster` (
 
 LOCK TABLES `cfsratemaster` WRITE;
 /*!40000 ALTER TABLE `cfsratemaster` DISABLE KEYS */;
-INSERT INTO `cfsratemaster` VALUES (1,1,1,1,500,1,1,'2020-07-17 20:40:25',1,'2020-07-17 20:40:25',4),(2,2,3,1,400,1,1,'2020-07-17 20:53:29',1,'2020-07-17 20:53:29',5);
+INSERT INTO `cfsratemaster` VALUES (1,3,4,1,500,1,1,'2020-07-19 11:52:27',1,'2020-07-19 11:52:27',4),(2,4,4,1,400,1,1,'2020-07-19 11:53:55',1,'2020-07-19 11:53:55',4);
 /*!40000 ALTER TABLE `cfsratemaster` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -182,7 +182,7 @@ CREATE TABLE `cfsuserregistration` (
   `modifiedBy` int DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   PRIMARY KEY (`cfsUserRegistrationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -191,7 +191,7 @@ CREATE TABLE `cfsuserregistration` (
 
 LOCK TABLES `cfsuserregistration` WRITE;
 /*!40000 ALTER TABLE `cfsuserregistration` DISABLE KEYS */;
-INSERT INTO `cfsuserregistration` VALUES (1,1,4,'First Name','Designation','department','5577889','user@email.in','123456789',4,1,1,1,'2020-07-04 18:41:40',NULL,NULL),(2,3,5,'CFS Master 3','Designation','Department','55447788','cfs@user2.com','123456789',5,1,1,1,'2020-07-05 12:29:34',NULL,NULL),(3,3,4,'CFS USER','Designation','Department','9004788445','cfs@master3.in','123456789',6,1,1,1,'2020-07-05 12:41:18',NULL,NULL),(4,1,6,'CFS ALL CARGO USER','TEST','TEST','9004944658','alc@cfs.in','123456789',0,1,1,1,'2020-07-16 20:10:16',1,'2020-07-16 20:10:16'),(5,1,6,'CFS ALL CARGO USER1','Designation','Department','5547899','alc@cfs.in','123456789',8,1,1,1,'2020-07-16 20:32:33',1,'2020-07-16 20:32:33');
+INSERT INTO `cfsuserregistration` VALUES (1,1,4,'First Name','Designation','department','5577889','user@email.in','123456789',4,1,1,1,'2020-07-04 18:41:40',NULL,NULL),(2,3,5,'CFS Master 3','Designation','Department','55447788','cfs@user2.com','123456789',5,1,1,1,'2020-07-05 12:29:34',NULL,NULL),(3,3,4,'CFS USER','Designation','Department','9004788445','cfs@master3.in','123456789',6,1,1,1,'2020-07-05 12:41:18',NULL,NULL),(4,1,6,'CFS ALL CARGO USER','TEST','TEST','9004944658','alc@cfs.in','123456789',0,1,1,1,'2020-07-16 20:10:16',1,'2020-07-16 20:10:16'),(5,1,6,'CFS ALL CARGO USER1','Designation','Department','5547899','alc@cfs.in','123456789',8,1,1,1,'2020-07-16 20:32:33',1,'2020-07-16 20:32:33'),(6,3,7,'CFS Admin User','Designation','Department','4477889','cfs@admin.in','123456789',9,1,1,1,'2020-07-19 11:48:16',1,'2020-07-19 11:48:16');
 /*!40000 ALTER TABLE `cfsuserregistration` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -214,7 +214,7 @@ CREATE TABLE `container` (
   `modifiedOn` datetime DEFAULT NULL,
   `containerMasterId` int DEFAULT NULL,
   PRIMARY KEY (`containerId`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -223,7 +223,7 @@ CREATE TABLE `container` (
 
 LOCK TABLES `container` WRITE;
 /*!40000 ALTER TABLE `container` DISABLE KEYS */;
-INSERT INTO `container` VALUES (1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(3,2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(4,2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(5,2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(6,3,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(7,3,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(8,3,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(9,4,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(10,5,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11,6,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(12,7,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(13,8,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(14,9,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(15,10,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(16,12,1,2,0,1,'2020-07-18 15:08:50',1,'2020-07-18 15:08:50',4);
+INSERT INTO `container` VALUES (1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(3,2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(4,2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(5,2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(6,3,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(7,3,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(8,3,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(9,4,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(10,5,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11,6,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(12,7,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(13,8,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(14,9,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(15,10,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(16,12,1,2,0,1,'2020-07-18 15:08:50',1,'2020-07-18 15:08:50',4),(17,1,1,1,0,1,'2020-07-19 11:56:07',1,'2020-07-19 11:56:07',4);
 /*!40000 ALTER TABLE `container` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -388,7 +388,7 @@ CREATE TABLE `notification` (
   `assignedToRole` int DEFAULT NULL,
   `assignedToUser` int DEFAULT NULL,
   PRIMARY KEY (`notificationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -397,7 +397,7 @@ CREATE TABLE `notification` (
 
 LOCK TABLES `notification` WRITE;
 /*!40000 ALTER TABLE `notification` DISABLE KEYS */;
-INSERT INTO `notification` VALUES (1,'orders','CFS Customer placed a new Order on 2020-07-03!',4,2,'2020-07-03 06:48:24',0,NULL,NULL,NULL),(2,'orders','CFS Customer placed a new Order on 2020-07-03!',6,2,'2020-07-03 08:09:30',0,NULL,NULL,NULL),(3,'orders','CFS Customer placed a new Order on 2020-07-03!',7,2,'2020-07-03 08:14:28',0,NULL,NULL,NULL),(4,'orders','CFS Customer placed a new Order on 2020-07-03!',8,2,'2020-07-03 08:17:08',0,NULL,NULL,NULL),(5,'orders','CFS Customer placed a new Order on 2020-07-03!',9,2,'2020-07-03 08:18:49',0,NULL,NULL,NULL),(6,'orders','CFS USER CFS USER placed a new Order on 2020-07-05!',10,6,'2020-07-05 13:03:22',0,NULL,NULL,NULL),(7,'orders','CFS Master 3 CFS Master 3 confirmed a bid on 2020-07-05!',1,5,'2020-07-05 13:17:08',1,NULL,NULL,NULL),(8,'orders','CFS ALL CARGO USER1 CFS ALL CARGO USER1 placed a new Order on 2020-07-18!',12,8,'2020-07-18 15:08:51',0,NULL,1,NULL),(9,'orders','Utsav P confirmed a bid on 2020-07-19!',1,1,'2020-07-18 22:20:57',0,NULL,1,NULL);
+INSERT INTO `notification` VALUES (1,'orders','CFS Admin User CFS Admin User placed a new Order on 2020-07-19!',1,9,'2020-07-19 11:56:13',0,NULL,1,NULL),(2,'orders','Transporter Trans confirmed a bid on 2020-07-19!',1,10,'2020-07-19 11:58:46',0,NULL,1,NULL);
 /*!40000 ALTER TABLE `notification` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -431,7 +431,7 @@ CREATE TABLE `order` (
   `modifiedOn` datetime DEFAULT NULL,
   `rateExcludingProfit` int DEFAULT NULL,
   PRIMARY KEY (`orderId`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -440,7 +440,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES (1,1,1,'submitted',4000,400,10,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,2,1,'submitted',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(3,2,1,'submitted',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(4,2,1,'submitted',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(5,1,1,'submitted',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(6,1,1,'submitted',500,50,10,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(7,2,1,'submitted',NULL,NULL,10,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(8,2,1,'submitted',NULL,NULL,10,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(9,1,1,'submitted',1500,150,10,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(10,1,1,'submitted',2000,200,10,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11,1,1,'submitted',0,0,0,NULL,'2020-07-17 18:30:00',4,'PORT','CFS','Order 18 Jul','',0,0,1,'2020-07-18 14:54:28',1,'2020-07-18 14:54:28',0),(12,1,1,'submitted',1000,100,10,NULL,'2020-07-17 18:30:00',4,'PORT','CFS','New Order 18 July','',0,0,1,'2020-07-18 15:08:50',1,'2020-07-18 15:08:50',900);
+INSERT INTO `order` VALUES (1,4,3,'submitted',NULL,NULL,10,NULL,'2020-07-18 18:30:00',4,'PORT','CFS','New Order 19 July','',0,0,1,'2020-07-19 11:56:07',1,'2020-07-19 11:56:07',NULL);
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -464,7 +464,7 @@ CREATE TABLE `portmaster` (
   `modifiedOn` datetime DEFAULT NULL,
   `locationMasterId` int DEFAULT NULL,
   PRIMARY KEY (`portMasterId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -473,7 +473,7 @@ CREATE TABLE `portmaster` (
 
 LOCK TABLES `portmaster` WRITE;
 /*!40000 ALTER TABLE `portmaster` DISABLE KEYS */;
-INSERT INTO `portmaster` VALUES (1,1,NULL,NULL,'New Port1',1,1,'2020-07-16 20:07:02',1,'2020-07-16 20:07:02',1),(3,1,NULL,NULL,'New Port 2',1,1,'2020-07-17 20:51:29',1,'2020-07-17 20:51:29',2);
+INSERT INTO `portmaster` VALUES (4,1,NULL,NULL,'JNPT',1,1,'2020-07-19 11:41:43',1,'2020-07-19 11:41:43',1);
 /*!40000 ALTER TABLE `portmaster` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -583,7 +583,7 @@ CREATE TABLE `suborder` (
   `subOrderTotalMargin` int DEFAULT NULL,
   `marginPercent` int DEFAULT NULL,
   PRIMARY KEY (`subOrderId`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -592,7 +592,7 @@ CREATE TABLE `suborder` (
 
 LOCK TABLES `suborder` WRITE;
 /*!40000 ALTER TABLE `suborder` DISABLE KEYS */;
-INSERT INTO `suborder` VALUES (4,12,450,0,1,'2020-07-19 00:00:00',0,NULL,16,'4',1,450,10),(5,12,450,0,1,'2020-07-19 00:00:00',0,NULL,16,'4',1,450,10);
+INSERT INTO `suborder` VALUES (1,1,450,0,1,'2020-07-19 00:00:00',0,NULL,17,'4',1,450,10);
 /*!40000 ALTER TABLE `suborder` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -662,7 +662,7 @@ CREATE TABLE `truck` (
   `modifiedOn` datetime DEFAULT NULL,
   `truckNumber` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`truckId`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -671,7 +671,7 @@ CREATE TABLE `truck` (
 
 LOCK TABLES `truck` WRITE;
 /*!40000 ALTER TABLE `truck` DISABLE KEYS */;
-INSERT INTO `truck` VALUES (1,1,NULL,NULL,NULL,NULL,NULL,NULL),(2,1,NULL,NULL,NULL,NULL,NULL,NULL),(3,2,NULL,NULL,NULL,NULL,NULL,NULL),(4,2,NULL,NULL,NULL,NULL,NULL,NULL),(5,2,NULL,NULL,NULL,NULL,NULL,NULL),(6,3,NULL,NULL,NULL,NULL,NULL,NULL),(7,3,NULL,NULL,NULL,NULL,NULL,NULL),(8,3,NULL,NULL,NULL,NULL,NULL,NULL),(9,4,NULL,NULL,NULL,NULL,NULL,NULL),(10,5,NULL,NULL,NULL,NULL,NULL,NULL),(11,6,NULL,NULL,NULL,NULL,NULL,NULL),(12,6,NULL,NULL,NULL,NULL,NULL,NULL),(13,7,NULL,NULL,NULL,NULL,NULL,NULL),(14,7,NULL,NULL,NULL,NULL,NULL,NULL),(15,7,NULL,NULL,NULL,NULL,NULL,NULL),(16,8,NULL,NULL,NULL,NULL,NULL,NULL),(17,9,NULL,NULL,NULL,NULL,NULL,NULL),(18,9,NULL,NULL,NULL,NULL,NULL,NULL),(19,10,NULL,NULL,NULL,NULL,NULL,NULL),(20,11,NULL,NULL,NULL,NULL,NULL,NULL),(21,12,NULL,NULL,NULL,NULL,NULL,NULL),(22,13,NULL,NULL,NULL,NULL,NULL,NULL),(23,13,NULL,NULL,NULL,NULL,NULL,NULL),(24,14,NULL,NULL,NULL,NULL,NULL,NULL),(25,14,NULL,NULL,NULL,NULL,NULL,NULL),(26,14,NULL,NULL,NULL,NULL,NULL,NULL),(27,15,NULL,NULL,NULL,NULL,NULL,NULL),(28,15,NULL,NULL,NULL,NULL,NULL,NULL),(29,15,NULL,NULL,NULL,NULL,NULL,NULL),(30,15,NULL,NULL,NULL,NULL,NULL,NULL),(31,15,NULL,NULL,NULL,NULL,NULL,NULL),(32,16,0,1,'2020-07-18 15:08:50',1,'2020-07-18 15:08:50','5678'),(33,16,0,1,'2020-07-18 15:08:50',1,'2020-07-18 15:08:50','1234');
+INSERT INTO `truck` VALUES (1,17,0,1,'2020-07-19 11:56:07',1,'2020-07-19 11:56:07','123344');
 /*!40000 ALTER TABLE `truck` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -692,7 +692,7 @@ CREATE TABLE `user` (
   `typeSyscode` int NOT NULL,
   `permissions` text,
   PRIMARY KEY (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -701,7 +701,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'utsav@hotmail.com','$2a$10$x7WtqVjuBztMPppzAI45BO59VoFVRxaEvxt6qwtBUKXkAzoeZ4WCW','Utsav','P','90047889',1,'[\"AccessAuthFeature\"]'),(2,'cfs@customer.in','$2a$10$n0a2x0KIkAk2o1.1zoUJP.6L1dj64VBXY13k23xe5xni88QzC/mbi','CFS','Customer','4457895',4,'[\"AccessAuthFeature\"]'),(3,'admin@admin.com','$2a$10$0BXhpf.VXgo5DoxyNh5.NexjKhK8RMrDGRhk6P/kHnNtvPabW7m6W','admin','admin','90047553',1,'[\"CreateVehicle\",\"UpdateVehicle\",\"DeleteVehicle\"]'),(4,'user@email.in','$2a$10$29GBPzgUJhwlmH6Fl.03lOO4Zg7faFU6cGiWvFUrCDiLMe8GAR6ye','First Name','First Name','5577889',4,'[\"AccessAuthFeature\"]'),(5,'cfs@user2.com','$2a$10$i5BBLqLwBIwzktMUvEHCdOgkpi3rg86UF4yDOMdoXneJm3gia217.','CFS Master 3','CFS Master 3','55447788',5,'[\"AccessAuthFeature\"]'),(6,'cfs@master3.in','$2a$10$bdwf6VO6YHUN4Pe3u0WBqOgwE2hZoZwMzKi7tbHowZ/SyKUFY0lEy','CFS USER','CFS USER','9004788445',4,'[\"AccessAuthFeature\"]'),(7,'user@new.in','$2a$10$UfuBaePhgKAFrMJgsehrv.bHNSwO5NlaUznGkZtcecOzp.LMmxLYC','user','new','554478',1,'[\"AccessAuthFeature\"]'),(8,'alc@cfs.in','$2a$10$ad3w5I0sVqdNEeY9PL44SO/Lsl.6wQjRmddSvcW1e/szjvlZfWeSa','CFS ALL CARGO USER1','CFS ALL CARGO USER1','5547899',4,'[\"AccessAuthFeature\"]');
+INSERT INTO `user` VALUES (1,'utsav@hotmail.com','$2a$10$x7WtqVjuBztMPppzAI45BO59VoFVRxaEvxt6qwtBUKXkAzoeZ4WCW','Utsav','P','90047889',1,'[\"AccessAuthFeature\"]'),(9,'cfs@admin.in','$2a$10$C5ZiRJ8xR3Be3uG4eh8onehOLLlGVODTpBypZu6BfZRoNj0prASMS','CFS Admin User','CFS Admin User','4477889',7,'[\"AccessAuthFeature\"]'),(10,'transporter@trans.in','$2a$10$J/b4PVqTemUGNjvG2/6dCuNLIsPio.GPS4PMj56ccqapBlRri8NvG','Transporter','Trans','66554788',5,'[\"AccessAuthFeature\"]'),(11,'transporter2@trans.in','$2a$10$YghB1iQi/ksfRTdxHWLDIeAhVaDS.6yTDTtWDstfGDeiquoUnQ3Au','Transporter','Trans','5544789',4,'[\"AccessAuthFeature\"]'),(12,'trans2@trans.in','$2a$10$Isyd2KjXh5eBtUbRoT0B9.OUauNx6KqpiEDvKKlxe40slidJhidqm','Trans','Trans','445577889',5,'[\"AccessAuthFeature\"]');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -987,8 +987,8 @@ BEGIN
 declare returnVal varchar(250);
 declare maxVal int;
 
-Select  max(bidId) + 1 into maxVal from transporter.bid;
-if maxVal is null then
+Select  max(bidId) + 1 into maxVal from transporter2.bid;
+if maxVal is null then 
 set maxVal:= 1;
 end if;
 SELECT concat('BID' , LPAD(maxVal, 8, '0')) into returnVal;
@@ -1020,6 +1020,142 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `GetAllCFSbyUserId` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllCFSbyUserId`(in user_Id int)
+BEGIN
+
+Select cm.* from transporter.cfsmaster cm
+Inner Join transporter.cfsuserregistration cur on cm.cfsMasterId = cur.cfsMasterId
+Where cur.userId =  user_Id;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `getAllCFSContainersbyUserId` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllCFSContainersbyUserId`(in user_Id int, in type_Id int)
+BEGIN
+
+IF (type_Id = 1 or type_Id = 3) Then -- CFS To Yard Or Yard To CFS
+Select c.* from transporter.containermaster c
+Inner Join yardcfsratemaster yrm on c.containerMasterId = yrm.containerMasterId
+Inner Join transporter.cfsuserregistration cur on yrm.cfsMasterId = cur.cfsMasterId
+Where cur.userId = user_Id;
+
+ELSEIF (type_Id = 2 or type_Id = 4)  Then -- Port To CFS Or CFS To Port
+Select c.* from transporter.containermaster c
+Inner Join cfsratemaster crm on c.containerMasterId = crm.containerMasterId
+Inner Join transporter.cfsuserregistration cur on crm.cfsMasterId = cur.cfsMasterId
+Where cur.userId = user_Id;
+End IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `GetAllCFSPortsbyUserId` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllCFSPortsbyUserId`(in user_Id int)
+BEGIN
+
+Select p.* from transporter.portmaster p
+Inner Join cfsratemaster crm on p.portMasterId = crm.portMasterId
+Inner Join transporter.cfsuserregistration cur on crm.cfsMasterId = cur.cfsMasterId
+Where cur.userId = user_Id;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `GetAllCFSWeightsbyUserId` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllCFSWeightsbyUserId`(in user_Id int, in type_Id int)
+BEGIN
+
+IF (type_Id = 1 or type_Id = 3) Then -- CFS To Yard Or Yard To CFS
+
+Select w.* from transporter.weightmaster w
+Inner Join yardcfsratemaster yrm on w.weightMasterId = yrm.weightMasterId
+Inner Join transporter.cfsuserregistration cur on yrm.cfsMasterId = cur.cfsMasterId
+Where cur.userId = user_Id;
+
+ELSEIF (type_Id = 2 or type_Id = 4)  Then -- Port To CFS Or CFS To Port
+
+Select w.* from transporter.weightmaster w
+Inner Join cfsratemaster crm on w.weightMasterId = crm.weightMasterId
+Inner Join transporter.cfsuserregistration cur on crm.cfsMasterId = cur.cfsMasterId
+Where cur.userId = user_Id;
+
+End IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `GetAllCFSYardsbyUserId` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllCFSYardsbyUserId`(in user_Id int)
+BEGIN
+
+Select y.* from transporter.yardmaster y
+Inner Join yardcfsratemaster yrm on y.yardMasterId = yrm.yardMasterId
+Inner Join transporter.cfsuserregistration cur on yrm.cfsMasterId = cur.cfsMasterId
+Where cur.userId = user_Id;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `GetBidsbyUserId` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -1040,59 +1176,61 @@ where userId = user_Id;
 
 
 if roleId = 5 then -- Transporter
-
+	
     Select b.bidId,b.bidName,b.bidLowerLimit,
-    case
-    When ord.masterTypeId = 4 then
+    case 
+    When ord.masterTypeId = 4 then 
     (Select p.portName from portmaster p  where p.portMasterId = ord.sourceId)
-    When ord.masterTypeId = 2 then
+    When ord.masterTypeId = 2 then 
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
-    When ord.masterTypeId = 3 then
+    When ord.masterTypeId = 3 then 
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.sourceId)
-    When ord.masterTypeId = 1 then
+    When ord.masterTypeId = 1 then 
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
     end  SorurceName,
-    case
-    When ord.masterTypeId = 4 then
+    case 
+    When ord.masterTypeId = 4 then 
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
-    When ord.masterTypeId = 2 then
+    When ord.masterTypeId = 2 then 
     (Select p.portName from portmaster p  where p.portMasterId = ord.destinationId)
-    When ord.masterTypeId = 3 then
+    When ord.masterTypeId = 3 then 
 	(Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
-    When ord.masterTypeId = 1 then
+    When ord.masterTypeId = 1 then 
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.destinationId)
     end as destinationName,
     com.containerMasterName, wem.weightDesc,
     com.containerMasterId, wem.weightMasterId,
-    bm.bidValue,b.originalRate
+    (case When bm.userId = user_Id then bm.bidValue else 0 end  
+    ) as bidValue
+    ,b.originalRate
     from transporter.bid b
     Left Outer Join transporter.suborder sub on b.subOrderId = sub.subOrderId
     Left Outer Join transporter.order ord on sub.orderId = ord.orderId
     Left Outer Join transporter.bidusermapping bm on b.bidId = bm.bidId
     Left Outer Join transporter.containermaster com on sub.containerType= com.containerMasterId
-    Left Outer Join transporter.weightmaster wem on containerWeightType=weightMasterId
-    Where bm.userId = user_Id;
-
+    Left Outer Join transporter.weightmaster wem on containerWeightType=weightMasterId;
+    -- Where bm.userId = user_Id;
+    
 else -- Admin User
     Select b.bidId,b.bidName,b.bidLowerLimit,
-    case
-    When ord.masterTypeId = 4 then
+    case 
+    When ord.masterTypeId = 4 then 
     (Select p.portName from portmaster p  where p.portMasterId = ord.sourceId)
-    When ord.masterTypeId = 2 then
+    When ord.masterTypeId = 2 then 
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
-    When ord.masterTypeId = 3 then
+    When ord.masterTypeId = 3 then 
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.sourceId)
-    When ord.masterTypeId = 1 then
+    When ord.masterTypeId = 1 then 
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
     end  SorurceName,
-    case
-    When ord.masterTypeId = 4 then
+    case 
+    When ord.masterTypeId = 4 then 
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
-    When ord.masterTypeId = 2 then
+    When ord.masterTypeId = 2 then 
     (Select p.portName from portmaster p  where p.portMasterId = ord.destinationId)
-    When ord.masterTypeId = 3 then
+    When ord.masterTypeId = 3 then 
 	(Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
-    When ord.masterTypeId = 1 then
+    When ord.masterTypeId = 1 then 
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.destinationId)
     end as destinationName,
     com.containerMasterName, wem.weightDesc,
@@ -1105,7 +1243,7 @@ else -- Admin User
     Left Outer Join transporter.containermaster com on sub.containerType= com.containerMasterId
     Left Outer Join transporter.weightmaster wem on containerWeightType=weightMasterId
     ;
-
+    
 End if;
 
 END ;;
@@ -1129,7 +1267,7 @@ BEGIN
 SELECT c.* FROM transporter2.cfsmaster c
 Left Outer Join locationmaster l on c.locationId = l.locationId;
 
-/*Inner Join transporter2.user u
+/*Inner Join transporter2.user u 
 on c.userId = u.id and c.roleId = u.typeSyscode
 Where c.userId = userid and c.roleId = roleid;*/
 END ;;
@@ -1155,13 +1293,13 @@ Declare containerType int default 0;
 Declare weightType int default 0;
 Declare trucks int default 0;
 Declare orderRate decimal(10,2) default 0.00;
-Declare masterType int default 0;
+Declare masterType int default 0; 
 Declare sourceID int default 0;
 Declare destinationID int default 0;
 Declare profit_margin decimal(10,2);
 Declare profit_Rate decimal(10,2);
 
-Select masterTypeId,sourceId,destinationId
+Select masterTypeId,sourceId,destinationId 
 into masterType,sourceID,destinationID
 FROM transporter2.order where orderid = order_Id;
 
@@ -1169,17 +1307,17 @@ Select settings_value into profit_margin
 from settings Where settings_name = 'cfs_order_profit';
 
 Begin
-   DECLARE exit_loop int default 0;
+   DECLARE exit_loop int default 0; 
    DECLARE order_cursor CURSOR FOR
      Select container_type, weight_type,no_of_trucks
      from transporter2.container where orderId = order_Id;
    DECLARE CONTINUE HANDLER FOR NOT FOUND SET exit_loop = 1;
    OPEN order_cursor;
-
+   
    REPEAT
-
+  
      FETCH  order_cursor INTO containerType,weightType,trucks;
-
+     
      IF NOT exit_loop  THEN
 		If masterType = 4 then
 			Set cfsRate := (select rate * trucks
@@ -1206,46 +1344,46 @@ Begin
 			and weightId = weightType and containerId = containerType);
 			Set orderRate = orderRate + cfsRate;
 		End if;
-
+        
      END IF;
      UNTIL exit_loop END REPEAT;
-
+    
    close order_cursor;
-
+   
 	Set profit_Rate = (orderRate * profit_margin)/ 100;
 	Update transporter2.order set totalRate = orderRate,
     profitMarginPercentage = profit_margin,
     profitRate = profit_Rate,
     rateexcludingProfit = orderRate - profit_Rate
     Where orderId = order_Id;
-
-
+    
+    
     Insert into transporter2.bid(bidName,containerId,container_type,
     container_weight_type,source_type,destination_type,original_rate,
     bid_rate,margin_percent,order_masterTypeId,
-    source_name,destination_name,orderId,is_active,created_by,created_on)
+    source_name,destination_name,orderId,is_active,created_by,created_on) 
 	Select GetBidNumber(),t.containerId,c.container_type,c.weight_type,
     ord.source_type,ord.destination_type,cr.rate,
     (cr.rate - ((cr.rate * s.settings_value) / 100)),
     s.settings_value,ord.masterTypeId,
-    case
-    When ord.masterTypeId = 4 then
+    case 
+    When ord.masterTypeId = 4 then 
     p.port_name
-    When ord.masterTypeId = 2 then
+    When ord.masterTypeId = 2 then 
     cm.cfs_name
-    When ord.masterTypeId = 3 then
+    When ord.masterTypeId = 3 then 
     y.yard_name
-    When ord.masterTypeId = 1 then
+    When ord.masterTypeId = 1 then 
     ycm.cfs_name
     end,
-    case
-    When ord.masterTypeId = 4 then
+    case 
+    When ord.masterTypeId = 4 then 
     cm.cfs_name
-    When ord.masterTypeId = 2 then
+    When ord.masterTypeId = 2 then 
     p.port_name
-    When ord.masterTypeId = 3 then
+    When ord.masterTypeId = 3 then 
     ycm.cfs_name
-    When ord.masterTypeId = 1 then
+    When ord.masterTypeId = 1 then 
     y.yard_name
     end,
 	ord.orderId,1,1,CURDATE()
@@ -1259,12 +1397,12 @@ Begin
     Left Outer Join transporter2.yardcfsratemaster ym on
     c.container_type = ym.containerId and c.weight_type = ym.weightId
         Left Outer Join transporter2.portmaster p on cr.portId = p.portId
-    Left Outer Join transporter2.cfsmaster cm on cr.cfsId = cm.cfsMasterId
+    Left Outer Join transporter2.cfsmaster cm on cr.cfsId = cm.cfsMasterId 
     Left Outer Join transporter2.yardmaster y on ym.yardId = y.yardId
-    Left Outer Join transporter2.cfsmaster ycm on ym.cfsId = ycm.cfsMasterId
-    Left Outer join settings s on settings_name = 'cfs_order_profit'
+    Left Outer Join transporter2.cfsmaster ycm on ym.cfsId = ycm.cfsMasterId 
+    Left Outer join settings s on settings_name = 'cfs_order_profit' 
 	where ord.orderId = order_Id and
-    case
+    case 
     when ord.masterTypeId = 4 then
      cr.portId = ord.sourceId and cr.cfsId = ord.destinationId
 	when ord.masterTypeId = 2 then
@@ -1274,7 +1412,7 @@ Begin
 	when ord.masterTypeId = 1 then
 	 ym.yardId = ord.destinationId and ym.cfsId = ord.sourceId
      end;
-
+    
   End;
 END ;;
 DELIMITER ;
@@ -1297,7 +1435,7 @@ BEGIN
 Declare sourcetype varchar(20);
 Declare destinationtype varchar(20);
 
-Select sourceType,destinationType
+Select sourceType,destinationType 
 into sourcetype,destinationtype
 From transporter2.mastertype where masterTypeId = master_Type;
 
@@ -1307,10 +1445,10 @@ wt.weightDesc
 from transporter.cfsuserregistration reg
 Inner Join transporter.cfsmaster mas on reg.cfsMasterId = mas.cfsMasterId
 Inner Join transporter.cfsratemaster rat on mas.portMasterId = rat.portMasterId
-Inner join transporter.containermaster cont
-on rat.containerMasterId = cont.containerMasterId
-Inner Join transporter.weightmaster wt
-on rat.weightMasterId = wt.weightMasterId
+Inner join transporter.containermaster cont 
+on rat.containerMasterId = cont.containerMasterId 
+Inner Join transporter.weightmaster wt 
+on rat.weightMasterId = wt.weightMasterId 
 Where reg.userId= user_Id and rat.isActive = 1;
 
 END IF;
@@ -1335,7 +1473,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SEARCHCFSLOCATION`(IN userId varcha
 BEGIN
 	SELECT l.*,m.cfsMasterId,m.cfs_name FROM transporter2.locationmaster l
     Inner join transporter2.cfsmaster m
-    on l.locationId = m.locationId;
+    on l.locationId = m.locationId; 
     -- WHERE m.userId = userId;
 END ;;
 DELIMITER ;
@@ -1360,7 +1498,7 @@ Declare containerType int default 0;
 Declare weight_type int default 0;
 Declare trucks int default 0;
 Declare orderRate decimal(10,2) default 0.00;
-Declare masterType int default 0;
+Declare masterType int default 0; 
 Declare source_Id int default 0;
 Declare destination_Id int default 0;
 Declare profit_margin, bid_limit_percent decimal(10,2) default 0.00;
@@ -1369,10 +1507,10 @@ Declare container_Id int default 0;
 Declare created_by int default 0;
 Declare subOrderId int default 0;
 
--- For Debug
+-- For Debug 
 -- select concat('** ', msg) AS '** DEBUG:';
 --
-Select masterTypeId,sourceId,destinationId,createdBy
+Select masterTypeId,sourceId,destinationId,createdBy 
 into masterType,source_Id,destination_Id,created_by
 FROM transporter.order where orderId = order_Id;
 
@@ -1384,31 +1522,31 @@ from settings Where settingsName = 'bid_lower_limit';
 
 
 Begin
-   DECLARE exit_loop int default 0;
+   DECLARE exit_loop int default 0; 
    DECLARE order_cursor CURSOR FOR
      Select containerMasterId, weightType,numberOfTrucks,container_Id
      from transporter.container where orderId = order_Id;
    DECLARE CONTINUE HANDLER FOR NOT FOUND SET exit_loop = 1;
    OPEN order_cursor;
-
+   
    REPEAT
-
+  
      FETCH  order_cursor INTO containerType,weight_type,trucks,container_Id;
-
+     
      IF NOT exit_loop  THEN
 		If masterType = 4 then -- Port To CFS
 			Set cfsRate := (select rate * trucks
 			from transporter.cfsratemaster
-			Where portMasterId = source_Id
+			Where portMasterId = source_Id  
             and cfsMasterId = destination_Id
-			and weightMasterId = weight_type
+			and weightMasterId = weight_type 
             and containerMasterId = containerType);
-
+			
             -- Set subOrderId = 0;
             -- Set cfs_rate = (cfsRate - ((cfsRate * profit_margin) / 100));
-
-
-
+             
+           
+            
             Set orderRate = orderRate + cfsRate;
             -- select concat('** ', cfsRate) AS '** DEBUG:';
 		ElseIf masterType = 2 then -- CFS To Port
@@ -1430,20 +1568,20 @@ Begin
 			and weightId = weight_type and container_Id = containerType);
 			Set orderRate = orderRate + cfsRate;
 		End if;
-
+        
      END IF;
      UNTIL exit_loop END REPEAT;
-
+    
    close order_cursor;
-
+   
 	Set profit_Rate = (orderRate * profit_margin)/ 100;
 	Update transporter.order set totalRate = orderRate,
     profitMarginPercentage = profit_margin,
     profitRate = profit_Rate,
     rateexcludingProfit = orderRate - profit_Rate
     Where orderId = order_Id;
-
-
+    
+    
     -- Insert SubOrder
 Insert into transporter.suborder(orderId,subOrderTotal,isDelete,createdBy,
 createdOn,modifiedBy,modifiedOn,cotainerId,containerType,containerWeightType,
@@ -1465,12 +1603,12 @@ Left Outer Join transporter.yardcfsratemaster ym on
 c.containerMasterId = ym.containerMasterId
  and c.weightType = ym.weightMasterId
 Left Outer Join transporter.portmaster p on cr.portMasterId = p.portMasterId
-Left Outer Join transporter.cfsmaster cm on cr.cfsMasterId = cm.cfsMasterId
+Left Outer Join transporter.cfsmaster cm on cr.cfsMasterId = cm.cfsMasterId 
 Left Outer Join transporter.yardmaster y on ym.yardMasterId = y.yardMasterId
-Left Outer Join transporter.cfsmaster ycm on ym.cfsMasterId = ycm.cfsMasterId
-Left Outer join settings s on settingsName = 'cfs_order_profit'
+Left Outer Join transporter.cfsmaster ycm on ym.cfsMasterId = ycm.cfsMasterId 
+Left Outer join settings s on settingsName = 'cfs_order_profit' 
 where ord.orderId = order_Id and
-case
+case 
 when ord.masterTypeId = 4 then
  cr.portMasterId = ord.sourceId and cr.cfsMasterId = ord.destinationId
 when ord.masterTypeId = 2 then
@@ -1480,23 +1618,23 @@ when ord.masterTypeId = 3 then
 when ord.masterTypeId = 1 then
  ym.yardMasterId = ord.destinationId and ym.cfsMasterId = ord.sourceId
  end;
-
-
+            
+            
             -- End SubOrder
 			-- Insert Bid
-
+			
 		Insert into transporter.bid(bidName,originalRate,exhibitionDate,
 		subOrderId,isActive,createdBy,createdOn,bidUpperLimit,modifiedBy,
 		modifiedOn,bidLowerLimit)
 		Select GetBidNumber(),sub.subOrderTotal,
 		null,sub.subOrderId,1,created_by,CURDATE(),0,
 		0,null,(sub.subOrderTotal - ((sub.subOrderTotal * bid_limit_percent) / 100))
-        From suborder sub
+        From suborder sub 
         Where orderId = order_Id;
-
-
-            -- End Bid
-
+        
+                
+            -- End Bid   
+    
   End;
 END ;;
 DELIMITER ;
@@ -1514,4 +1652,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-19  4:09:32
+-- Dump completed on 2020-07-23 22:49:40
