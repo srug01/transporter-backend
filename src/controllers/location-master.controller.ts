@@ -7,13 +7,13 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
 } from '@loopback/rest';
 import {LocationMaster} from '../models';
@@ -22,14 +22,16 @@ import {LocationMasterRepository} from '../repositories';
 export class LocationMasterController {
   constructor(
     @repository(LocationMasterRepository)
-    public locationMasterRepository : LocationMasterRepository,
+    public locationMasterRepository: LocationMasterRepository,
   ) {}
 
   @post('/location-masters', {
     responses: {
       '200': {
         description: 'LocationMaster model instance',
-        content: {'application/json': {schema: getModelSchemaRef(LocationMaster)}},
+        content: {
+          'application/json': {schema: getModelSchemaRef(LocationMaster)},
+        },
       },
     },
   })
@@ -39,12 +41,12 @@ export class LocationMasterController {
         'application/json': {
           schema: getModelSchemaRef(LocationMaster, {
             title: 'NewLocationMaster',
-            exclude: ['locationId'],
+            exclude: ['locationMasterId'],
           }),
         },
       },
     })
-    locationMaster: Omit<LocationMaster, 'locationId'>,
+    locationMaster: Omit<LocationMaster, 'locationMasterId'>,
   ): Promise<LocationMaster> {
     return this.locationMasterRepository.create(locationMaster);
   }
@@ -71,7 +73,9 @@ export class LocationMasterController {
           'application/json': {
             schema: {
               type: 'array',
-              items: getModelSchemaRef(LocationMaster, {includeRelations: true}),
+              items: getModelSchemaRef(LocationMaster, {
+                includeRelations: true,
+              }),
             },
           },
         },
@@ -120,7 +124,8 @@ export class LocationMasterController {
   })
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(LocationMaster, {exclude: 'where'}) filter?: FilterExcludingWhere<LocationMaster>
+    @param.filter(LocationMaster, {exclude: 'where'})
+    filter?: FilterExcludingWhere<LocationMaster>,
   ): Promise<LocationMaster> {
     return this.locationMasterRepository.findById(id, filter);
   }

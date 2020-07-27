@@ -1,4 +1,4 @@
-import {Entity, model, property, hasMany} from '@loopback/repository';
+import {Entity, hasMany, model, property} from '@loopback/repository';
 import {CfsMaster} from './cfs-master.model';
 import {YardMaster} from './yard-master.model';
 
@@ -25,6 +25,36 @@ export class PortMaster extends Entity {
     type: 'number',
   })
   locationMasterId?: number;
+
+  @property({
+    type: 'string',
+  })
+  address1?: string;
+
+  @property({
+    type: 'string',
+  })
+  address2?: string;
+
+  @property({
+    type: 'string',
+  })
+  landmark?: string;
+
+  @property({
+    type: 'string',
+  })
+  pincode?: string;
+
+  @property({
+    type: 'string',
+  })
+  primarycontactperson?: string;
+
+  @property({
+    type: 'string',
+  })
+  primarycontactnumber?: string;
 
   @property({
     type: 'boolean',

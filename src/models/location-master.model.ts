@@ -7,7 +7,7 @@ export class LocationMaster extends Entity {
     id: true,
     generated: true,
   })
-  locationId?: number;
+  locationMasterId?: number;
 
   @property({
     type: 'string',
@@ -58,4 +58,5 @@ export interface LocationMasterRelations {
   // describe navigational properties here
 }
 
-export type LocationMasterWithRelations = LocationMaster & LocationMasterRelations;
+export type LocationMasterWithRelations = LocationMaster &
+  LocationMasterRelations;
