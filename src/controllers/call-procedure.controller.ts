@@ -139,28 +139,32 @@ export class CallProcedureController {
     });
   }
 
-  @get('/GetAllCFSWeightsbyUserId/{userid}/{typeid}', {
-    responses: {
-      '200': {
-        description: 'Search for Multiple Tables Join',
-        content: {
-          'application/json': {
-            schema: {type: 'array'},
+  @get(
+    '/GetAllCFSWeightsbyUserandContainerId/{userid}/{typeid}/{containerMasterId}',
+    {
+      responses: {
+        '200': {
+          description: 'Search for Multiple Tables Join',
+          content: {
+            'application/json': {
+              schema: {type: 'array'},
+            },
           },
         },
       },
     },
-  })
+  )
   @authenticate('jwt')
-  async GetAllCFSWeightsbyUserId(
+  async GetAllCFSWeightsbyUserandContainerId(
     @param.path.string('userid') userid: number,
     @param.path.string('typeid') typeid: number,
+    @param.path.string('containerMasterId') containerMasterId: number,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Promise<any> {
-    const sqlStmt = mysql.format('CALL GetAllCFSWeightsbyUserId(?,?)', [
-      userid,
-      typeid,
-    ]);
+    const sqlStmt = mysql.format(
+      'CALL GetAllCFSWeightsbyUserandContainerId(?,?,?)',
+      [userid, typeid, containerMasterId],
+    );
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return new Promise<any>(function (resolve, reject) {

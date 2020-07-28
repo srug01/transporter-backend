@@ -1,4 +1,4 @@
-import {Entity, model, property, hasMany} from '@loopback/repository';
+import {Entity, hasMany, model, property} from '@loopback/repository';
 import {Container} from './container.model';
 
 @model({settings: {strict: false}})
@@ -109,6 +109,11 @@ export class Order extends Entity {
     type: 'number',
   })
   rateExcludingProfit?: number;
+
+  @property({
+    type: 'number',
+  })
+  portTerminalId?: number;
 
   @hasMany(() => Container)
   containers: Container[];
