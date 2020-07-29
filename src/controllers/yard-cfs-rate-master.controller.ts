@@ -7,13 +7,14 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  HttpErrors,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
 } from '@loopback/rest';
 import {YardCfsRateMaster} from '../models';
@@ -22,14 +23,16 @@ import {YardCfsRateMasterRepository} from '../repositories';
 export class YardCfsRateMasterController {
   constructor(
     @repository(YardCfsRateMasterRepository)
-    public yardCfsRateMasterRepository : YardCfsRateMasterRepository,
+    public yardCfsRateMasterRepository: YardCfsRateMasterRepository,
   ) {}
 
   @post('/yard-cfs-rate-masters', {
     responses: {
       '200': {
         description: 'YardCfsRateMaster model instance',
-        content: {'application/json': {schema: getModelSchemaRef(YardCfsRateMaster)}},
+        content: {
+          'application/json': {schema: getModelSchemaRef(YardCfsRateMaster)},
+        },
       },
     },
   })
@@ -46,6 +49,22 @@ export class YardCfsRateMasterController {
     })
     yardCfsRateMaster: Omit<YardCfsRateMaster, 'yardCfsRateMasterId'>,
   ): Promise<YardCfsRateMaster> {
+    const existing = await this.yardCfsRateMasterRepository.find({
+      where: {
+        and: [
+          {cfsMasterId: yardCfsRateMaster.cfsMasterId},
+          {portMasterId: yardCfsRateMaster.portMasterId},
+          {yardMasterId: yardCfsRateMaster.yardMasterId},
+          {containerMasterId: yardCfsRateMaster.containerMasterId},
+          {weightMasterId: yardCfsRateMaster.weightMasterId},
+        ],
+      },
+    });
+    if (existing.length > 0) {
+      throw new HttpErrors.UnprocessableEntity(
+        'Data already Exists for this combination',
+      );
+    }
     return this.yardCfsRateMasterRepository.create(yardCfsRateMaster);
   }
 
@@ -71,7 +90,9 @@ export class YardCfsRateMasterController {
           'application/json': {
             schema: {
               type: 'array',
-              items: getModelSchemaRef(YardCfsRateMaster, {includeRelations: true}),
+              items: getModelSchemaRef(YardCfsRateMaster, {
+                includeRelations: true,
+              }),
             },
           },
         },
@@ -112,7 +133,9 @@ export class YardCfsRateMasterController {
         description: 'YardCfsRateMaster model instance',
         content: {
           'application/json': {
-            schema: getModelSchemaRef(YardCfsRateMaster, {includeRelations: true}),
+            schema: getModelSchemaRef(YardCfsRateMaster, {
+              includeRelations: true,
+            }),
           },
         },
       },
@@ -120,7 +143,8 @@ export class YardCfsRateMasterController {
   })
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(YardCfsRateMaster, {exclude: 'where'}) filter?: FilterExcludingWhere<YardCfsRateMaster>
+    @param.filter(YardCfsRateMaster, {exclude: 'where'})
+    filter?: FilterExcludingWhere<YardCfsRateMaster>,
   ): Promise<YardCfsRateMaster> {
     return this.yardCfsRateMasterRepository.findById(id, filter);
   }
