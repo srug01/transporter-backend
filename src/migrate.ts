@@ -34,11 +34,12 @@ export async function migrate(args: string[]) {
       'Truck',
       'Vehicle',
       'VehicleMaster',
+      'Vehicletransportermapping',
       'WeightMaster',
       'YardCfsRateMaster',
       'YardMaster',
       'ZoneDayMaster',
-      'ZoneMaster'
+      'ZoneMaster',
     ],
   });
 

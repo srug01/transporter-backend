@@ -15,14 +15,14 @@ export class VehicleMaster extends Entity {
   vehicleNumber?: string;
 
   @property({
-    type: 'string',
+    type: 'number',
   })
-  vehicleType?: string;
+  vehicleType?: number;
 
   @property({
-    type: 'string',
+    type: 'number',
   })
-  vehicleCapacity?: string;
+  vehicleCapacity?: number;
 
   @property({
     type: 'number',
@@ -30,7 +30,7 @@ export class VehicleMaster extends Entity {
   weight?: number;
 
   @property({
-    type: 'date',
+    type: 'string',
   })
   manufactureYear?: string;
 
@@ -73,7 +73,7 @@ export class VehicleMaster extends Entity {
 
   // Indexer property to allow additional data
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [prop: string]: any;
+  // [prop: string]: any;
 
   constructor(data?: Partial<VehicleMaster>) {
     super(data);
