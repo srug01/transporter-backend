@@ -38,7 +38,8 @@ export async function migrate(args: string[]) {
       'YardCfsRateMaster',
       'YardMaster',
       'ZoneDayMaster',
-      'ZoneMaster'
+      'ZoneMaster',
+      'Trip'
     ],
   });
 
