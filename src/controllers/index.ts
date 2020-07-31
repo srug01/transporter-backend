@@ -39,3 +39,4 @@ export * from './zone-day-master.controller';
 export * from './zone-master.controller';
 export * from './bidusermappings.controller';
 export * from './trip.controller';
+export * from './vehicletransportermapping.controller';

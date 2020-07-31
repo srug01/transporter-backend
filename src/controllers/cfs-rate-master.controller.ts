@@ -7,13 +7,14 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  HttpErrors,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
 } from '@loopback/rest';
 import {CfsRateMaster} from '../models';
@@ -22,14 +23,16 @@ import {CfsRateMasterRepository} from '../repositories';
 export class CfsRateMasterController {
   constructor(
     @repository(CfsRateMasterRepository)
-    public cfsRateMasterRepository : CfsRateMasterRepository,
+    public cfsRateMasterRepository: CfsRateMasterRepository,
   ) {}
 
   @post('/cfs-rate-masters', {
     responses: {
       '200': {
         description: 'CfsRateMaster model instance',
-        content: {'application/json': {schema: getModelSchemaRef(CfsRateMaster)}},
+        content: {
+          'application/json': {schema: getModelSchemaRef(CfsRateMaster)},
+        },
       },
     },
   })
@@ -46,6 +49,21 @@ export class CfsRateMasterController {
     })
     cfsRateMaster: Omit<CfsRateMaster, 'cfsRateId'>,
   ): Promise<CfsRateMaster> {
+    const existing = await this.cfsRateMasterRepository.find({
+      where: {
+        and: [
+          {cfsMasterId: cfsRateMaster.cfsMasterId},
+          {portMasterId: cfsRateMaster.portMasterId},
+          {containerMasterId: cfsRateMaster.containerMasterId},
+          {weightMasterId: cfsRateMaster.weightMasterId},
+        ],
+      },
+    });
+    if (existing.length > 0) {
+      throw new HttpErrors.UnprocessableEntity(
+        'Data already Exists for this combination',
+      );
+    }
     return this.cfsRateMasterRepository.create(cfsRateMaster);
   }
 
@@ -120,7 +138,8 @@ export class CfsRateMasterController {
   })
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(CfsRateMaster, {exclude: 'where'}) filter?: FilterExcludingWhere<CfsRateMaster>
+    @param.filter(CfsRateMaster, {exclude: 'where'})
+    filter?: FilterExcludingWhere<CfsRateMaster>,
   ): Promise<CfsRateMaster> {
     return this.cfsRateMasterRepository.findById(id, filter);
   }

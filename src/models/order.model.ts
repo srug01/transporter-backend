@@ -116,6 +116,11 @@ export class Order extends Entity {
   })
   rateExcludingProfit?: number;
 
+  @property({
+    type: 'number',
+  })
+  portTerminalId?: number;
+
   @hasMany(() => Container)
   containers: Container[];
   // Define well-known properties here

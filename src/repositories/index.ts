@@ -30,3 +30,4 @@ export * from './zone-master.repository';
 
 export * from './bidusermapping.repository';
 export * from './trip.repository';
+export * from './vehicletransportermapping.repository';
