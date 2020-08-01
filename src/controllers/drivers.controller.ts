@@ -1,3 +1,4 @@
+import {inject} from '@loopback/core';
 import {
   Count,
   CountSchema,
@@ -7,22 +8,36 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
 } from '@loopback/rest';
-import {Driver} from '../models';
-import {DriverRepository} from '../repositories';
+import {toJSON} from '@loopback/testlab';
+import {pick} from 'lodash';
+import {UserServiceBindings} from '../keys';
+import {Driver, Drivertransportermapping, User} from '../models';
+import {
+  DriverRepository,
+  DrivertransportermappingRepository,
+  UserRepository,
+} from '../repositories';
+import {MyUserService} from '../services/user-service';
 
 export class DriversController {
   constructor(
     @repository(DriverRepository)
-    public driverRepository : DriverRepository,
+    public driverRepository: DriverRepository,
+    @repository(DrivertransportermappingRepository)
+    public drivertransportermappingRepository: DrivertransportermappingRepository,
+    @repository(UserRepository)
+    public userRepository: UserRepository,
+    @inject(UserServiceBindings.USER_SERVICE)
+    public userService: MyUserService,
   ) {}
 
   @post('/drivers', {
@@ -46,7 +61,58 @@ export class DriversController {
     })
     driver: Omit<Driver, 'driverId'>,
   ): Promise<Driver> {
-    return this.driverRepository.create(driver);
+    // Create User First
+    let email = '';
+    let passwordStr = '';
+    let firstName = '';
+    let lastName = '';
+    let mobileNumber = '';
+    if (driver.emailId) {
+      email = driver.emailId;
+    }
+    if (driver.userPassword) {
+      passwordStr = driver.userPassword;
+    }
+    if (driver.firstname) {
+      firstName = driver.firstname;
+    }
+    if (driver.lastname) {
+      lastName = driver.lastname;
+    }
+    if (driver.mobileNumber) {
+      mobileNumber = driver.mobileNumber;
+    }
+
+    const createUser: User = pick(toJSON(driver), [
+      'firstName',
+      'lastName',
+      'mobileNumber',
+      'email',
+      'password',
+      'typeSyscode',
+    ]) as User;
+    createUser.email = email;
+    createUser.password = passwordStr;
+    createUser.typeSyscode = 6;
+    createUser.firstName = firstName;
+    createUser.lastName = lastName;
+    createUser.mobileNumber = mobileNumber;
+    console.log('User Name' + firstName);
+    const createdUser = await this.userService.createUser(createUser);
+    const userId = createdUser.getId();
+    console.log(userId);
+    const createdDriver = await this.driverRepository.create(driver);
+    const createmap: Drivertransportermapping = pick(toJSON(driver), [
+      'createdBy',
+      'createdOn',
+    ]) as Drivertransportermapping;
+    createmap.driverId = userId;
+    createmap.userId = createdDriver?.createdBy ?? 0;
+    const mapping = await this.drivertransportermappingRepository.create(
+      createmap,
+    );
+    return createdDriver;
+    //return this.driverRepository.create(driver);
   }
 
   @get('/drivers/count', {
@@ -57,9 +123,7 @@ export class DriversController {
       },
     },
   })
-  async count(
-    @param.where(Driver) where?: Where<Driver>,
-  ): Promise<Count> {
+  async count(@param.where(Driver) where?: Where<Driver>): Promise<Count> {
     return this.driverRepository.count(where);
   }
 
@@ -78,9 +142,7 @@ export class DriversController {
       },
     },
   })
-  async find(
-    @param.filter(Driver) filter?: Filter<Driver>,
-  ): Promise<Driver[]> {
+  async find(@param.filter(Driver) filter?: Filter<Driver>): Promise<Driver[]> {
     return this.driverRepository.find(filter);
   }
 
@@ -120,7 +182,8 @@ export class DriversController {
   })
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(Driver, {exclude: 'where'}) filter?: FilterExcludingWhere<Driver>
+    @param.filter(Driver, {exclude: 'where'})
+    filter?: FilterExcludingWhere<Driver>,
   ): Promise<Driver> {
     return this.driverRepository.findById(id, filter);
   }

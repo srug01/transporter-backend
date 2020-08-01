@@ -29,7 +29,10 @@ export class Driver extends Entity {
     required: true,
   })
   mobileNumber: string;
-
+  @property({
+    type: 'string',
+  })
+  userPassword?: string;
   @property({
     type: 'number',
   })
