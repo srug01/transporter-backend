@@ -33,3 +33,4 @@ export * from './trip.model';
 export * from './vehicletransportermapping.model';
 export * from './driver.model';
 export * from './drivertransportermapping.model';
+export * from './timeslotmaster.model';

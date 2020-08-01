@@ -101,6 +101,11 @@ export class Driver extends Entity {
   })
   modifiedOn?: string;
 
+  @property({
+    type: 'number',
+  })
+  userId?: number;
+
   constructor(data?: Partial<Driver>) {
     super(data);
   }

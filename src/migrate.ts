@@ -32,6 +32,7 @@ export async function migrate(args: string[]) {
       'Settings',
       'StateMaster',
       'SubOrder',
+      'Timeslotmaster',
       'TransporterRegistration',
       'Truck',
       'Trip',
@@ -43,7 +44,7 @@ export async function migrate(args: string[]) {
       'YardMaster',
       'ZoneDayMaster',
       'ZoneMaster',
-      'Trip'
+      'Trip',
     ],
   });
 

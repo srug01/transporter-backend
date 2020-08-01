@@ -100,7 +100,7 @@ export class DriversController {
     console.log('User Name' + firstName);
     const createdUser = await this.userService.createUser(createUser);
     const userId = createdUser.getId();
-    console.log(userId);
+    driver.userId = userId;
     const createdDriver = await this.driverRepository.create(driver);
     const createmap: Drivertransportermapping = pick(toJSON(driver), [
       'createdBy',

@@ -105,7 +105,6 @@ export class Order extends Entity {
   })
   portTerminalId?: number;
 
-
   @property({
     type: 'number',
   })
@@ -115,6 +114,11 @@ export class Order extends Entity {
     type: 'number',
   })
   rateExcludingProfit?: number;
+
+  @property({
+    type: 'number',
+  })
+  timeslotMasterId?: number;
 
   @hasMany(() => Container)
   containers: Container[];
