@@ -1,4 +1,5 @@
 export * from './bid.controller';
+export * from './bidusermappings.controller';
 export * from './cfs-master-cfs-user-registration.controller';
 export * from './cfs-master.controller';
 export * from './cfs-rate-master-cfs-master.controller';
@@ -25,6 +26,7 @@ export * from './state-master-port-master.controller';
 export * from './state-master.controller';
 export * from './sub-order.controller';
 export * from './transporter-registration.controller';
+export * from './trip.controller';
 export * from './truck.controller';
 export * from './user-cfs-user-registration.controller';
 export * from './user-userrolemapping.controller';
@@ -37,5 +39,4 @@ export * from './yard-cfs-rate-master.controller';
 export * from './yard-master.controller';
 export * from './zone-day-master.controller';
 export * from './zone-master.controller';
-export * from './bidusermappings.controller';
-export * from './trip.controller';
+

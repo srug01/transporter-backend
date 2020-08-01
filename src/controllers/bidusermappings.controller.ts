@@ -1,39 +1,16 @@
-import {
-  Count,
-  CountSchema,
-  Filter,
-  FilterExcludingWhere,
-  repository,
-  Where
-} from '@loopback/repository';
-import {
-  del, get,
-  getModelSchemaRef,
-
-
-
-
-  HttpErrors, param,
-
-
-  patch, post,
-
-
-
-
-  put,
-
-  requestBody
-} from '@loopback/rest';
+import {Count, CountSchema, Filter, FilterExcludingWhere, repository, Where} from '@loopback/repository';
+import {del, get, getModelSchemaRef, HttpErrors, param, patch, post, put, requestBody} from '@loopback/rest';
 import {Bidusermapping} from '../models';
 import {BidRepository, BidusermappingRepository} from '../repositories';
-
+const mysql = require('mysql');
+const db = require('mysql-promise')();
+const mysqlCreds = require('../datasources/test.datasource.config.json');
 export class BidusermappingsController {
   constructor(
     @repository(BidusermappingRepository)
-    public bidusermappingRepository : BidusermappingRepository,
+    public bidusermappingRepository: BidusermappingRepository,
     @repository(BidRepository)
-    public bidRepository : BidRepository,
+    public bidRepository: BidRepository,
 
   ) {}
 
@@ -58,7 +35,7 @@ export class BidusermappingsController {
     })
     bidusermapping: Omit<Bidusermapping, 'bidusermappingId'>,
   ): Promise<Bidusermapping> {
-    const bidval:number  = bidusermapping.bidValue ?? 0;
+    const bidval: number = bidusermapping.bidValue ?? 0;
     const callbid = await this.bidRepository.findOne({
       where: {
         bidId: bidusermapping.bidId
@@ -67,11 +44,11 @@ export class BidusermappingsController {
     const lowerLimit = callbid?.bidLowerLimit ?? 0;
     //console.log(lowerLimit);
     //console.log(bidval);
-    if(bidval < lowerLimit){
+    if (bidval < lowerLimit) {
       throw new HttpErrors.UnprocessableEntity(
-          'Bid Value is too Low'
-          );
-  }
+        'Bid Value is too Low'
+      );
+    }
     return this.bidusermappingRepository.create(bidusermapping);
   }
 
@@ -186,6 +163,8 @@ export class BidusermappingsController {
     await this.bidusermappingRepository.replaceById(id, bidusermapping);
   }
 
+
+
   @del('/bidusermappings/{id}', {
     responses: {
       '204': {
@@ -196,4 +175,60 @@ export class BidusermappingsController {
   async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.bidusermappingRepository.deleteById(id);
   }
+
+  @get('/GetBidDetailsByBidId/{bidId}', {
+    responses: {
+      '200': {
+        description: 'Search for Bidusermapping using Id',
+        content: {
+          'application/json': {
+            schema: {type: 'array', items: getModelSchemaRef(Bidusermapping)},
+          },
+        },
+      },
+    },
+  })
+  async GetBidDetailsByBidId(
+    @param.path.string('bidId') bidId: number,
+  ): Promise<Bidusermapping> {
+    const sqlStmt = mysql.format('CALL GetBidDetailsByBidId(?)', [bidId]);
+
+    return new Promise<Bidusermapping>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      db.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+      });
+    });
+  }
+
+
+
+
+  @get('/GetBidsbyUserId/{user_Id}', {
+    responses: {
+      '200': {
+        description: 'Search for Bidusermapping using Id',
+        content: {
+          'application/json': {
+            schema: {type: 'array', items: getModelSchemaRef(Bidusermapping)},
+          },
+        },
+      },
+    },
+  })
+  async GetBidsbyUserId(
+    @param.path.string('user_Id') user_Id: number,
+  ): Promise<Bidusermapping> {
+    const sqlStmt = mysql.format('CALL GetBidsbyUserId(?)', [user_Id]);
+
+    return new Promise<Bidusermapping>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      db.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+      });
+    });
+  }
+
 }
