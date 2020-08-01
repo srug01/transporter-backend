@@ -7,13 +7,13 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
 } from '@loopback/rest';
 import {Vehicle} from '../models';
@@ -22,7 +22,7 @@ import {VehicleRepository} from '../repositories';
 export class VehicleController {
   constructor(
     @repository(VehicleRepository)
-    public vehicleRepository : VehicleRepository,
+    public vehicleRepository: VehicleRepository,
   ) {}
 
   @post('/vehicles', {
@@ -57,9 +57,7 @@ export class VehicleController {
       },
     },
   })
-  async count(
-    @param.where(Vehicle) where?: Where<Vehicle>,
-  ): Promise<Count> {
+  async count(@param.where(Vehicle) where?: Where<Vehicle>): Promise<Count> {
     return this.vehicleRepository.count(where);
   }
 
@@ -120,7 +118,8 @@ export class VehicleController {
   })
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(Vehicle, {exclude: 'where'}) filter?: FilterExcludingWhere<Vehicle>
+    @param.filter(Vehicle, {exclude: 'where'})
+    filter?: FilterExcludingWhere<Vehicle>,
   ): Promise<Vehicle> {
     return this.vehicleRepository.findById(id, filter);
   }

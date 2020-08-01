@@ -7,29 +7,38 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
 } from '@loopback/rest';
-import {VehicleMaster} from '../models';
-import {VehicleMasterRepository} from '../repositories';
+import {toJSON} from '@loopback/testlab';
+import {pick} from 'lodash';
+import {VehicleMaster, Vehicletransportermapping} from '../models';
+import {
+  VehicleMasterRepository,
+  VehicletransportermappingRepository,
+} from '../repositories';
 
 export class VehicleMasterController {
   constructor(
     @repository(VehicleMasterRepository)
-    public vehicleMasterRepository : VehicleMasterRepository,
+    public vehicleMasterRepository: VehicleMasterRepository,
+    @repository(VehicletransportermappingRepository)
+    public vehicletransportermapRepository: VehicletransportermappingRepository,
   ) {}
 
   @post('/vehicle-masters', {
     responses: {
       '200': {
         description: 'VehicleMaster model instance',
-        content: {'application/json': {schema: getModelSchemaRef(VehicleMaster)}},
+        content: {
+          'application/json': {schema: getModelSchemaRef(VehicleMaster)},
+        },
       },
     },
   })
@@ -46,7 +55,20 @@ export class VehicleMasterController {
     })
     vehicleMaster: Omit<VehicleMaster, 'vehicleMasterId'>,
   ): Promise<VehicleMaster> {
-    return this.vehicleMasterRepository.create(vehicleMaster);
+    const createdVehicle = await this.vehicleMasterRepository.create(
+      vehicleMaster,
+    );
+    const createmap: Vehicletransportermapping = pick(toJSON(vehicleMaster), [
+      'createdBy',
+      'createdOn',
+    ]) as Vehicletransportermapping;
+    createmap.vehicleMasterId = createdVehicle.getId();
+    createmap.userId = createdVehicle?.createdBy ?? 0;
+    const mapping = await this.vehicletransportermapRepository.create(
+      createmap,
+    );
+    return createdVehicle;
+    //return this.vehicleMasterRepository.create(vehicleMaster);
   }
 
   @get('/vehicle-masters/count', {
@@ -120,7 +142,8 @@ export class VehicleMasterController {
   })
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(VehicleMaster, {exclude: 'where'}) filter?: FilterExcludingWhere<VehicleMaster>
+    @param.filter(VehicleMaster, {exclude: 'where'})
+    filter?: FilterExcludingWhere<VehicleMaster>,
   ): Promise<VehicleMaster> {
     return this.vehicleMasterRepository.findById(id, filter);
   }

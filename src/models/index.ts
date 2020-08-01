@@ -30,3 +30,6 @@ export * from './zone-day-master.model';
 export * from './zone-master.model';
 export * from './bidusermapping.model';
 export * from './trip.model';
+export * from './vehicletransportermapping.model';
+export * from './driver.model';
+export * from './drivertransportermapping.model';

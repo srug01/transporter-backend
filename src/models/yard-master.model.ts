@@ -22,7 +22,17 @@ export class YardMaster extends Entity {
   @property({
     type: 'string',
   })
-  address?: string;
+  address1?: string;
+
+  @property({
+    type: 'string',
+  })
+  address2?: string;
+
+  @property({
+    type: 'string',
+  })
+  landmark?: string;
 
   @property({
     type: 'string',
@@ -63,6 +73,26 @@ export class YardMaster extends Entity {
     type: 'number',
   })
   portMasterId?: number;
+
+  @property({
+    type: 'number',
+  })
+  locationMasterId?: number;
+
+  @property({
+    type: 'number',
+  })
+  stateMasterId?: number;
+
+  @property({
+    type: 'string',
+  })
+  primarycontactperson?: string;
+
+  @property({
+    type: 'string',
+  })
+  primarycontactnumber?: string;
 
   constructor(data?: Partial<YardMaster>) {
     super(data);

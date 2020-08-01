@@ -15,16 +15,14 @@ import {
   post,
   requestBody,
 } from '@loopback/rest';
-import {
-  StateMaster,
-  LocationMaster,
-} from '../models';
+import {LocationMaster, StateMaster} from '../models';
 import {StateMasterRepository} from '../repositories';
 
 export class StateMasterLocationMasterController {
   constructor(
-    @repository(StateMasterRepository) protected stateMasterRepository: StateMasterRepository,
-  ) { }
+    @repository(StateMasterRepository)
+    protected stateMasterRepository: StateMasterRepository,
+  ) {}
 
   @get('/state-masters/{id}/location-masters', {
     responses: {
@@ -49,7 +47,9 @@ export class StateMasterLocationMasterController {
     responses: {
       '200': {
         description: 'StateMaster model instance',
-        content: {'application/json': {schema: getModelSchemaRef(LocationMaster)}},
+        content: {
+          'application/json': {schema: getModelSchemaRef(LocationMaster)},
+        },
       },
     },
   })
@@ -60,14 +60,17 @@ export class StateMasterLocationMasterController {
         'application/json': {
           schema: getModelSchemaRef(LocationMaster, {
             title: 'NewLocationMasterInStateMaster',
-            exclude: ['locationId'],
-            optional: ['stateMasterId']
+            exclude: ['locationMasterId'],
+            optional: ['stateMasterId'],
           }),
         },
       },
-    }) locationMaster: Omit<LocationMaster, 'locationId'>,
+    })
+    locationMaster: Omit<LocationMaster, 'locationMasterId'>,
   ): Promise<LocationMaster> {
-    return this.stateMasterRepository.locationMasters(id).create(locationMaster);
+    return this.stateMasterRepository
+      .locationMasters(id)
+      .create(locationMaster);
   }
 
   @patch('/state-masters/{id}/location-masters', {
@@ -88,9 +91,12 @@ export class StateMasterLocationMasterController {
       },
     })
     locationMaster: Partial<LocationMaster>,
-    @param.query.object('where', getWhereSchemaFor(LocationMaster)) where?: Where<LocationMaster>,
+    @param.query.object('where', getWhereSchemaFor(LocationMaster))
+    where?: Where<LocationMaster>,
   ): Promise<Count> {
-    return this.stateMasterRepository.locationMasters(id).patch(locationMaster, where);
+    return this.stateMasterRepository
+      .locationMasters(id)
+      .patch(locationMaster, where);
   }
 
   @del('/state-masters/{id}/location-masters', {
@@ -103,7 +109,8 @@ export class StateMasterLocationMasterController {
   })
   async delete(
     @param.path.number('id') id: number,
-    @param.query.object('where', getWhereSchemaFor(LocationMaster)) where?: Where<LocationMaster>,
+    @param.query.object('where', getWhereSchemaFor(LocationMaster))
+    where?: Where<LocationMaster>,
   ): Promise<Count> {
     return this.stateMasterRepository.locationMasters(id).delete(where);
   }

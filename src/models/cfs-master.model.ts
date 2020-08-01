@@ -28,7 +28,17 @@ export class CfsMaster extends Entity {
   @property({
     type: 'string',
   })
-  address?: string;
+  address1?: string;
+
+  @property({
+    type: 'string',
+  })
+  address2?: string;
+
+  @property({
+    type: 'string',
+  })
+  landmark?: string;
 
   @property({
     type: 'string',
@@ -76,9 +86,29 @@ export class CfsMaster extends Entity {
   additionalContactNumber?: string;
 
   @property({
+    type: 'string',
+  })
+  latitude?: string;
+
+  @property({
+    type: 'string',
+  })
+  longitude?: string;
+
+  @property({
     type: 'number',
   })
   portMasterId?: number;
+
+  @property({
+    type: 'number',
+  })
+  locationMasterId?: number;
+
+  @property({
+    type: 'number',
+  })
+  stateMasterId?: number;
 
   @property({
     type: 'number',

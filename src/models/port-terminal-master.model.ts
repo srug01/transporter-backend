@@ -37,7 +37,7 @@ export class PortTerminalMaster extends Entity {
   @property({
     type: 'date',
   })
-  CreatedOn?: string;
+  createdOn?: string;
 
   @property({
     type: 'number',

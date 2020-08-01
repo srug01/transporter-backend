@@ -100,7 +100,7 @@ export class CallProcedureController {
     @param.path.string('userid') userid: string,
     @param.path.string('roleid') roleid: string,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Promise<any> {
+    Promise<any> {
     const sqlStmt = mysql.format('CALL MULTIPLETABLES(?,?)', [userid, roleid]);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -139,28 +139,32 @@ export class CallProcedureController {
     });
   }
 
-  @get('/GetAllCFSWeightsbyUserId/{userid}/{typeid}', {
-    responses: {
-      '200': {
-        description: 'Search for Multiple Tables Join',
-        content: {
-          'application/json': {
-            schema: {type: 'array'},
+  @get(
+    '/GetAllCFSWeightsbyUserandContainerId/{userid}/{typeid}/{containerMasterId}',
+    {
+      responses: {
+        '200': {
+          description: 'Search for Multiple Tables Join',
+          content: {
+            'application/json': {
+              schema: {type: 'array'},
+            },
           },
         },
       },
     },
-  })
+  )
   @authenticate('jwt')
-  async GetAllCFSWeightsbyUserId(
+  async GetAllCFSWeightsbyUserandContainerId(
     @param.path.string('userid') userid: number,
     @param.path.string('typeid') typeid: number,
+    @param.path.string('containerMasterId') containerMasterId: number,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Promise<any> {
-    const sqlStmt = mysql.format('CALL GetAllCFSWeightsbyUserId(?,?)', [
-      userid,
-      typeid,
-    ]);
+    Promise<any> {
+    const sqlStmt = mysql.format(
+      'CALL GetAllCFSWeightsbyUserandContainerId(?,?,?)',
+      [userid, typeid, containerMasterId],
+    );
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return new Promise<any>(function (resolve, reject) {
@@ -189,7 +193,7 @@ export class CallProcedureController {
     @param.path.string('userid') userid: number,
     @param.path.string('typeid') typeid: number,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Promise<any> {
+    Promise<any> {
     const sqlStmt = mysql.format('CALL getAllCFSContainersbyUserId(?,?)', [
       userid,
       typeid,
@@ -282,4 +286,58 @@ export class CallProcedureController {
       });
     });
   }
+
+  @get('/GetTripsByUserId/{userId}', {
+    responses: {
+      '200': {
+        description: 'Search for Trip by  UserId',
+        content: {
+          'application/json': {
+            schema: {type: 'array'},
+          },
+        },
+      },
+    },
+  })
+  // @authenticate('jwt')
+  async GetTripsByUserId(
+    @param.path.string('userId') userId: string,
+  ): Promise<any> {
+    const sqlStmt = mysql.format('CALL GetAllTripsbyUserId(?)', [userId]);
+    return new Promise<any>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      db.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+      });
+    });
+  }
+
+
+  @get('/GetTripsbyId/{tripId}', {
+    responses: {
+      '200': {
+        description: 'Search for Trip by  TripId',
+        content: {
+          'application/json': {
+            schema: {type: 'array'},
+          },
+        },
+      },
+    },
+  })
+  // @authenticate('jwt')
+  async GetTripsbyId(
+    @param.path.string('tripId') tripId: string,
+  ): Promise<any> {
+    const sqlStmt = mysql.format('CALL GetTripsbyId(?)', [tripId]);
+    return new Promise<any>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      db.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+      });
+    });
+  }
+
 }
