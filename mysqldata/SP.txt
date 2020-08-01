@@ -1,28 +1,28 @@
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllTripsbyUserId`(in user_Id int)
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetTripsbyId`(in trip_Id int)
 BEGIN
-
 Select t.subOrderId,t.sourceId,t.destinationId,t.assignedVehicle,
 t.assignedDriver,t.status,t.startDate,t.endDate,t.billedAmount,
 t.createdBy,t.createdOn, u.firstName + " - " + u.lastName as DriverName,
-v.vehicleNumber,
-case 
-    When ord.masterTypeId = 4 then 
+v.vehicleNumber, t.tripId,
+case
+    When ord.masterTypeId = 4 then
     (Select p.portName from portmaster p  where p.portMasterId = ord.sourceId)
-    When ord.masterTypeId = 2 then 
+    When ord.masterTypeId = 2 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
-    When ord.masterTypeId = 3 then 
+    When ord.masterTypeId = 3 then
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.sourceId)
-    When ord.masterTypeId = 1 then 
+    When ord.masterTypeId = 1 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
-    end  SorurceName,
-    case 
-    When ord.masterTypeId = 4 then 
+    end  sourceName,
+    case
+    When ord.masterTypeId = 4 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
-    When ord.masterTypeId = 2 then 
+    When ord.masterTypeId = 2 then
     (Select p.portName from portmaster p  where p.portMasterId = ord.destinationId)
-    When ord.masterTypeId = 3 then 
+    When ord.masterTypeId = 3 then
 	(Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
-    When ord.masterTypeId = 1 then 
+    When ord.masterTypeId = 1 then
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.destinationId)
     end as destinationName
 from transporter.trip t
@@ -30,7 +30,6 @@ Inner Join transporter.suborder so on t.subOrderId = so.subOrderId
 Inner Join transporter.order ord on so.orderId = ord.orderId
 Left Outer Join transporter.vehiclemaster v on v.vehicleMasterId = t.assignedVehicle
 Left Outer Join transporter.user u on u.userId = t.assignedDriver
-Where t.createdBy = user_Id;
-
-
-END
+Where t.tripId = trip_Id;
+END$$
+DELIMITER ;
