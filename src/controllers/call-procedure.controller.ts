@@ -286,4 +286,30 @@ export class CallProcedureController {
       });
     });
   }
+
+  @get('/GetTripsByUserId/{userId}', {
+    responses: {
+      '200': {
+        description: 'Search for Trip by  UserId',
+        content: {
+          'application/json': {
+            schema: {type: 'array'},
+          },
+        },
+      },
+    },
+  })
+  // @authenticate('jwt')
+  async GetTripsByUserId(
+    @param.path.string('userId') userId: string,
+  ): Promise<any> {
+    const sqlStmt = mysql.format('CALL GetAllTripsbyUserId(?)', [userId]);
+    return new Promise<any>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      db.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+      });
+    });
+  }
 }
