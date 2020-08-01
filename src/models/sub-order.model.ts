@@ -20,6 +20,11 @@ export class SubOrder extends Entity {
   subOrderTotal?: number;
 
   @property({
+    type: 'number',
+  })
+  BidScheduleId?: number;
+
+  @property({
     type: 'boolean',
   })
   isDelete?: boolean;
@@ -68,6 +73,16 @@ export class SubOrder extends Entity {
     type: 'number',
   })
   marginPercent?: number;
+
+  @property({
+    type: 'date',
+  })
+  OrderDate?: string;
+
+  @property({
+    type: 'date',
+  })
+  CutOffTime?: string;
 
   constructor(data?: Partial<SubOrder>) {
     super(data);

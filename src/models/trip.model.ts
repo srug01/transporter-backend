@@ -74,6 +74,11 @@ export class Trip extends Entity {
   })
   billedAmount?: number;
 
+  @property({
+    type: 'number',
+  })
+  BidValue?: number;
+
   // Define well-known properties here
 
   // Indexer property to allow additional data

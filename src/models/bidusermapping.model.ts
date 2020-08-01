@@ -36,6 +36,25 @@ export class Bidusermapping extends Entity {
   })
   bidStatus?: string;
 
+  @property({
+    type: 'number',
+  })
+  createdBy?: number;
+
+  @property({
+    type: 'date',
+  })
+  createdOn?: string;
+
+  @property({
+    type: 'number',
+  })
+  modifiedBy?: number;
+
+  @property({
+    type: 'date',
+  })
+  modifiedOn?: string;
 
   constructor(data?: Partial<Bidusermapping>) {
     super(data);
@@ -46,4 +65,5 @@ export interface BidusermappingRelations {
   // describe navigational properties here
 }
 
-export type BidusermappingWithRelations = Bidusermapping & BidusermappingRelations;
+export type BidusermappingWithRelations = Bidusermapping &
+  BidusermappingRelations;
