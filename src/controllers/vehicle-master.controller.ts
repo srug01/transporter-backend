@@ -16,7 +16,9 @@ import {
   put,
   requestBody,
 } from '@loopback/rest';
-import {VehicleMaster} from '../models';
+import {toJSON} from '@loopback/testlab';
+import {pick} from 'lodash';
+import {VehicleMaster, Vehicletransportermapping} from '../models';
 import {
   VehicleMasterRepository,
   VehicletransportermappingRepository,
@@ -53,14 +55,20 @@ export class VehicleMasterController {
     })
     vehicleMaster: Omit<VehicleMaster, 'vehicleMasterId'>,
   ): Promise<VehicleMaster> {
-    /*  const createdVehicle = this.vehicleMasterRepository.create(vehicleMaster);
-    var createmap: Vehicletransportermapping  {
-      vehicleMasterId = createdVehicle.vehicleMasterId;
-
-    }
-
-    return createdVehicle; */
-    return this.vehicleMasterRepository.create(vehicleMaster);
+    const createdVehicle = await this.vehicleMasterRepository.create(
+      vehicleMaster,
+    );
+    const createmap: Vehicletransportermapping = pick(toJSON(vehicleMaster), [
+      'createdBy',
+      'createdOn',
+    ]) as Vehicletransportermapping;
+    createmap.vehicleMasterId = createdVehicle.getId();
+    createmap.userId = createdVehicle?.createdBy ?? 0;
+    const mapping = await this.vehicletransportermapRepository.create(
+      createmap,
+    );
+    return createdVehicle;
+    //return this.vehicleMasterRepository.create(vehicleMaster);
   }
 
   @get('/vehicle-masters/count', {

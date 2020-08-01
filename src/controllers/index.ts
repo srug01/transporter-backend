@@ -40,3 +40,5 @@ export * from './zone-master.controller';
 export * from './bidusermappings.controller';
 export * from './trip.controller';
 export * from './vehicletransportermapping.controller';
+export * from './drivers.controller';
+export * from './drivertransportermappings.controller';
