@@ -39,6 +39,22 @@ export class Trip extends Entity {
   })
   status?: string;
 
+
+  @property({
+    type: 'string',
+  })
+  destinationName?: string;
+
+  @property({
+    type: 'string',
+  })
+  sourceName?: string;
+
+  @property({
+    type: 'string',
+  })
+  vehicleNumber?: string;
+
   @property({
     type: 'number',
   })
@@ -46,8 +62,9 @@ export class Trip extends Entity {
 
   @property({
     type: 'date',
+    default: new Date()
   })
-  createdOn?: string;
+  createdOn?: Date;
 
   @property({
     type: 'number',
@@ -56,21 +73,25 @@ export class Trip extends Entity {
 
   @property({
     type: 'date',
+    default: new Date()
   })
-  modifiedOn?: string;
+  modifiedOn?: Date;
 
   @property({
     type: 'date',
+    default: new Date()
   })
-  startDate?: string;
+  startDate?: Date;
 
   @property({
     type: 'date',
+    default: new Date()
   })
   endDate?: string;
 
   @property({
     type: 'number',
+    default: 0
   })
   billedAmount?: number;
 
