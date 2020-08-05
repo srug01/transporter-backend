@@ -44,3 +44,4 @@ export * from './zone-day-master.controller';
 export * from './zone-master.controller';
 
 export * from './timeslotmaster.controller';
+export * from './permission.controller';

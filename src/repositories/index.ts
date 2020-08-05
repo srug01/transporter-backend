@@ -34,3 +34,4 @@ export * from './vehicletransportermapping.repository';
 export * from './driver.repository';
 export * from './drivertransportermapping.repository';
 export * from './timeslotmaster.repository';
+export * from './permission.repository';
