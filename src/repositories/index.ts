@@ -35,3 +35,6 @@ export * from './driver.repository';
 export * from './drivertransportermapping.repository';
 export * from './timeslotmaster.repository';
 export * from './permission.repository';
+export * from './permissionrolemapping.repository';
+export * from './status-details.repository';
+export * from './status-master.repository';

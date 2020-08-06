@@ -45,3 +45,6 @@ export * from './zone-master.controller';
 
 export * from './timeslotmaster.controller';
 export * from './permission.controller';
+export * from './permissionrolemapping.controller';
+export * from './status-master.controller';
+export * from './status-details.controller';

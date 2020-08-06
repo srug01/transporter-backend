@@ -1,28 +1,37 @@
 import {Entity, model, property} from '@loopback/repository';
 
 @model()
-export class Permission extends Entity {
+export class StatusMaster extends Entity {
   @property({
     type: 'number',
     id: true,
     generated: true,
   })
-  permissionId?: number;
+  statusMasterId?: number;
 
   @property({
     type: 'string',
+    required: true,
   })
-  permissionName?: string;
+  statusMasterName: string;
+
+  @property({
+    type: 'boolean',
+    required: true,
+  })
+  isActive: boolean;
 
   @property({
     type: 'number',
+    required: true,
   })
-  createdBy?: number;
+  createdBy: number;
 
   @property({
     type: 'date',
+    required: true,
   })
-  createdOn?: string;
+  createdOn: string;
 
   @property({
     type: 'number',
@@ -34,18 +43,14 @@ export class Permission extends Entity {
   })
   modifiedOn?: string;
 
-  @property({
-    type: 'boolean',
-  })
-  isActive?: boolean;
 
-  constructor(data?: Partial<Permission>) {
+  constructor(data?: Partial<StatusMaster>) {
     super(data);
   }
 }
 
-export interface PermissionRelations {
+export interface StatusMasterRelations {
   // describe navigational properties here
 }
 
-export type PermissionWithRelations = Permission & PermissionRelations;
+export type StatusMasterWithRelations = StatusMaster & StatusMasterRelations;
