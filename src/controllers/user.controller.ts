@@ -117,9 +117,21 @@ export class UserController {
     userProfile.roles = await this.userService.UserRoles(userProfile.userId);
 
     // get user permissions
-    userProfile.permissions = await this._callProcedureService.GetAllPermissionsbyUserId(
+    const permissionsVal = await this._callProcedureService.GetAllPermissionsbyUserId(
       userProfile.userId,
     );
+
+    const JsonData = JSON.stringify(permissionsVal);
+    const obj = JSON.parse(JsonData);
+    const permission: string = obj[0][0].Permissions;
+
+    // const resultFromDb = Object.values(permissionsVal)[0];
+    // const dataJson = JSON.stringify(resultFromDb);
+    // const dataJson = JSON.stringify(permissionsVal);
+    const arr: string[] = permission.split(',');
+    console.log(arr);
+    // console.log(permissionsVal[0]);
+    userProfile.permissions = arr;
 
     //generate a json web token
     const token = await this.jwtService.generateToken(userProfile);
@@ -132,9 +144,15 @@ export class UserController {
     @inject(AuthenticationBindings.CURRENT_USER)
     currentUser: MyUserProfile,
   ): Promise<MyUserProfile> {
-    currentUser.permissions = await this._callProcedureService.GetAllPermissionsbyUserId(
+    const permissionsVal = await this._callProcedureService.GetAllPermissionsbyUserId(
       currentUser.userId,
     );
+    const JsonData = JSON.stringify(permissionsVal);
+    const obj = JSON.parse(JsonData);
+    const permission: string = obj[0][0].Permissions;
+    // console.log(permission);
+    const arr: string[] = permission.split(',');
+    currentUser.permissions = arr;
     return Promise.resolve(currentUser);
   }
 

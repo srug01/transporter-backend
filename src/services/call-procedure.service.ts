@@ -60,7 +60,7 @@ export class CallProcedureService {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       db.query(sqlStmt, function (err: any, results: any) {
         if (err !== null) return reject(err);
-        resolve(results[0]);
+        resolve(results);
       });
     });
   }
