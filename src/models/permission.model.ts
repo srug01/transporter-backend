@@ -15,21 +15,6 @@ export class Permission extends Entity {
   permissionName?: string;
 
   @property({
-    type: 'boolean',
-  })
-  tripFull?: boolean;
-
-  @property({
-    type: 'boolean',
-  })
-  tripRead?: boolean;
-
-  @property({
-    type: 'boolean',
-  })
-  tripWrite?: boolean;
-
-  @property({
     type: 'number',
   })
   createdBy?: number;
