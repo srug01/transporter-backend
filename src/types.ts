@@ -1,10 +1,9 @@
 import {securityId} from '@loopback/security';
 import {RequestHandler} from 'express-serve-static-core';
-import {PermissionKeys} from './authorization/permission-keys';
-import {Userrolemapping} from './models';
+import {Permission, Userrolemapping} from './models';
 
 export interface RequiredPermissions {
-  required: PermissionKeys[];
+  required: Permission[];
 }
 
 export type FileUploadHandler = RequestHandler;
@@ -14,6 +13,6 @@ export interface MyUserProfile {
   email?: string;
   name: string;
   typeSyscode: number;
-  permissions: PermissionKeys[];
+  permissions: string[];
   roles: Userrolemapping[];
 }

@@ -45,7 +45,10 @@ export async function migrate(args: string[]) {
       'ZoneDayMaster',
       'ZoneMaster',
       'Trip',
-      'Permission'
+      'Permission',
+      'Permissionrolemapping',
+      'StatusMaster',
+      'StatusDetails',
     ],
   });
 

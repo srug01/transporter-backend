@@ -12,6 +12,7 @@ import {
 import * as _ from 'lodash';
 import {PermissionKeys} from '../authorization/permission-keys';
 import {
+  CallProcedureServiceBindings,
   PasswordHasherBindings,
   TokenServiceBindings,
   UserServiceBindings,
@@ -24,6 +25,7 @@ import {JWTService} from '../services/jwt-service';
 import {MyUserService} from '../services/user-service';
 import {validateCredentials} from '../services/validator';
 import {MyUserProfile} from '../types';
+import {CallProcedureService} from './../services/call-procedure.service';
 import {CredentialsRequestBody} from './specs/user.controller.spec';
 // Uncomment these imports to begin using these cool features!
 
@@ -39,6 +41,8 @@ export class UserController {
     public userService: MyUserService,
     @inject(TokenServiceBindings.TOKEN_SERVICE)
     public jwtService: JWTService,
+    @inject(CallProcedureServiceBindings.CALL_PROCEDURE_SERVICE)
+    public _callProcedureService: CallProcedureService,
   ) {}
 
   @get('/users', {
@@ -111,6 +115,12 @@ export class UserController {
     //console.log(userProfile);
     // get user roles
     userProfile.roles = await this.userService.UserRoles(userProfile.userId);
+
+    // get user permissions
+    userProfile.permissions = await this._callProcedureService.GetAllPermissionsbyUserId(
+      userProfile.userId,
+    );
+
     //generate a json web token
     const token = await this.jwtService.generateToken(userProfile);
     return Promise.resolve({token});
@@ -122,6 +132,9 @@ export class UserController {
     @inject(AuthenticationBindings.CURRENT_USER)
     currentUser: MyUserProfile,
   ): Promise<MyUserProfile> {
+    currentUser.permissions = await this._callProcedureService.GetAllPermissionsbyUserId(
+      currentUser.userId,
+    );
     return Promise.resolve(currentUser);
   }
 

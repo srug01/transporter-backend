@@ -380,13 +380,13 @@ export class CallProcedureController {
   // @authenticate('jwt')
   async GetAllDriversbyUserId(
     @param.path.string('userId') userId: string,
-  ): Promise<any> {
+  ): Promise<string[]> {
     const sqlStmt = mysql.format('CALL GetAllDriversbyUserId(?)', [userId]);
-    return new Promise<any>(function (resolve, reject) {
+    return new Promise<string[]>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      db.query(sqlStmt, function (err: any, results: any) {
+      db.query(sqlStmt, function (err: any, results: string[]) {
         if (err !== null) return reject(err);
-        resolve(results[0]);
+        resolve(results);
       });
     });
   }

@@ -35,3 +35,6 @@ export * from './driver.model';
 export * from './drivertransportermapping.model';
 export * from './timeslotmaster.model';
 export * from './permission.model';
+export * from './permissionrolemapping.model';
+export * from './status-master.model';
+export * from './status-details.model';
