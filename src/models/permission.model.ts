@@ -478,6 +478,21 @@ export class Permission extends Entity {
   zoneDayMasterWrite?: boolean;
 
   @property({
+    type: 'boolean',
+  })
+  tripFull?: boolean;
+
+  @property({
+    type: 'boolean',
+  })
+  tripRead?: boolean;
+
+  @property({
+    type: 'boolean',
+  })
+  tripWrite?: boolean;
+
+  @property({
     type: 'number',
   })
   createdBy?: number;
