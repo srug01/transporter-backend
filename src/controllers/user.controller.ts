@@ -129,7 +129,7 @@ export class UserController {
     // const dataJson = JSON.stringify(resultFromDb);
     // const dataJson = JSON.stringify(permissionsVal);
     const arr: string[] = permission.split(',');
-    console.log(arr);
+    // console.log(arr);
     // console.log(permissionsVal[0]);
     userProfile.permissions = arr;
 

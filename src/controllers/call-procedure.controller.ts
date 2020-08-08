@@ -380,13 +380,91 @@ export class CallProcedureController {
   // @authenticate('jwt')
   async GetAllDriversbyUserId(
     @param.path.string('userId') userId: string,
-  ): Promise<string[]> {
+  ): Promise<any> {
     const sqlStmt = mysql.format('CALL GetAllDriversbyUserId(?)', [userId]);
-    return new Promise<string[]>(function (resolve, reject) {
+    return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      db.query(sqlStmt, function (err: any, results: string[]) {
+      db.query(sqlStmt, function (err: any, results: any) {
         if (err !== null) return reject(err);
-        resolve(results);
+        resolve(results[0]);
+      });
+    });
+  }
+
+  @get('/GetOrderDetailsbyOrderId/{orderId}', {
+    responses: {
+      '200': {
+        description: 'Search for Vehicles by  UserId',
+        content: {
+          'application/json': {
+            schema: {type: 'array'},
+          },
+        },
+      },
+    },
+  })
+  // @authenticate('jwt')
+  async GetOrderDetailsbyOrderId(
+    @param.path.string('orderId') orderId: string,
+  ): Promise<any> {
+    const sqlStmt = mysql.format('CALL procGetOrderDetails(?)', [orderId]);
+    return new Promise<any>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      db.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+      });
+    });
+  }
+
+  @get('/GetAllOrdersbyUserId/{userId}', {
+    responses: {
+      '200': {
+        description: 'Search for Orders by  UserId',
+        content: {
+          'application/json': {
+            schema: {type: 'array'},
+          },
+        },
+      },
+    },
+  })
+  // @authenticate('jwt')
+  async GetAllOrdersbyUserId(
+    @param.path.string('userId') userId: string,
+  ): Promise<any> {
+    const sqlStmt = mysql.format('CALL GetAllOrdersbyUserId(?)', [userId]);
+    return new Promise<any>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      db.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+      });
+    });
+  }
+
+  @get('/GetAllSubOrdersbyUserId/{userId}', {
+    responses: {
+      '200': {
+        description: 'Search for Sub Orders by  UserId',
+        content: {
+          'application/json': {
+            schema: {type: 'array'},
+          },
+        },
+      },
+    },
+  })
+  // @authenticate('jwt')
+  async GetAllSubOrdersbyUserId(
+    @param.path.string('userId') userId: string,
+  ): Promise<any> {
+    const sqlStmt = mysql.format('CALL GetAllSubOrdersbyUserId(?)', [userId]);
+    return new Promise<any>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      db.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
       });
     });
   }
