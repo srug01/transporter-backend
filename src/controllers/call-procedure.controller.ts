@@ -100,7 +100,7 @@ export class CallProcedureController {
     @param.path.string('userid') userid: string,
     @param.path.string('roleid') roleid: string,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Promise<any> {
+    Promise<any> {
     const sqlStmt = mysql.format('CALL MULTIPLETABLES(?,?)', [userid, roleid]);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -160,7 +160,7 @@ export class CallProcedureController {
     @param.path.string('typeid') typeid: number,
     @param.path.string('containerMasterId') containerMasterId: number,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Promise<any> {
+    Promise<any> {
     const sqlStmt = mysql.format(
       'CALL GetAllCFSWeightsbyUserandContainerId(?,?,?)',
       [userid, typeid, containerMasterId],
@@ -193,7 +193,7 @@ export class CallProcedureController {
     @param.path.string('userid') userid: number,
     @param.path.string('typeid') typeid: number,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Promise<any> {
+    Promise<any> {
     const sqlStmt = mysql.format('CALL getAllCFSContainersbyUserId(?,?)', [
       userid,
       typeid,
@@ -468,4 +468,32 @@ export class CallProcedureController {
       });
     });
   }
+
+  @get('/GetAllTransporter', {
+    responses: {
+      '200': {
+        description: 'Search for AllTransporter',
+        content: {
+          'application/json': {
+            schema: {type: 'array'},
+          },
+        },
+      },
+    },
+  })
+
+  async GetAllTransporter(
+
+  ): Promise<any> {
+    const sqlStmt = mysql.format('CALL GetAllTransporter()');
+    return new Promise<any>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      db.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+      });
+    });
+  }
+
+
 }
