@@ -69,6 +69,16 @@ export class Bid extends Entity {
   })
   bidRate?: number;
 
+  @property({
+    type: 'string',
+  })
+  bidStatus?: string;
+
+  @property({
+    type: 'number',
+  })
+  bidStatusId?: number;
+
   constructor(data?: Partial<Bid>) {
     super(data);
   }

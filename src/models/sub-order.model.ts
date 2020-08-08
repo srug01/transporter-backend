@@ -84,6 +84,16 @@ export class SubOrder extends Entity {
   })
   CutOffTime?: string;
 
+  @property({
+    type: 'string',
+  })
+  suborderStatus?: string;
+
+  @property({
+    type: 'number',
+  })
+  suborderStatusId?: number;
+
   constructor(data?: Partial<SubOrder>) {
     super(data);
   }

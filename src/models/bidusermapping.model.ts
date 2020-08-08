@@ -34,7 +34,12 @@ export class Bidusermapping extends Entity {
   @property({
     type: 'string',
   })
-  bidStatus?: string;
+  biduserStatus?: string;
+
+  @property({
+    type: 'number',
+  })
+  biduserStatusId?: number;
 
   @property({
     type: 'number',
@@ -90,12 +95,10 @@ export class Bidusermapping extends Entity {
   })
   weightMasterId?: number;
 
-
   @property({
     type: 'number',
   })
   originalRate?: number;
-
 
   constructor(data?: Partial<Bidusermapping>) {
     super(data);

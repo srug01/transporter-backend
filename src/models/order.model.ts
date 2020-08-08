@@ -68,7 +68,12 @@ export class Order extends Entity {
   @property({
     type: 'string',
   })
-  status?: string;
+  orderStatus?: string;
+
+  @property({
+    type: 'number',
+  })
+  orderStatusId?: number;
 
   @property({
     type: 'number',
