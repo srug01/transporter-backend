@@ -1,27 +1,18 @@
-import {
-  repository,
-} from '@loopback/repository';
-import {
-  param,
-  get,
-  getModelSchemaRef,
-} from '@loopback/rest';
-import {
-  CfsRateMaster,
-  CfsMaster,
-} from '../models';
-import {CfsRateMasterRepository} from '../repositories';
+import {repository} from '@loopback/repository';
+import {get, getModelSchemaRef, param} from '@loopback/rest';
+import {CfsMaster, CfsPortRateMaster} from '../models';
+import {CfsPortRateMasterRepository} from '../repositories';
 
-export class CfsRateMasterCfsMasterController {
+export class CfsPortRateMasterCfsMasterController {
   constructor(
-    @repository(CfsRateMasterRepository)
-    public cfsRateMasterRepository: CfsRateMasterRepository,
-  ) { }
+    @repository(CfsPortRateMasterRepository)
+    public CfsPortRateMasterRepository: CfsPortRateMasterRepository,
+  ) {}
 
   @get('/cfs-rate-masters/{id}/cfs-master', {
     responses: {
       '200': {
-        description: 'CfsMaster belonging to CfsRateMaster',
+        description: 'CfsMaster belonging to CfsPortRateMaster',
         content: {
           'application/json': {
             schema: {type: 'array', items: getModelSchemaRef(CfsMaster)},
@@ -31,8 +22,8 @@ export class CfsRateMasterCfsMasterController {
     },
   })
   async getCfsMaster(
-    @param.path.number('id') id: typeof CfsRateMaster.prototype.cfsRateId,
+    @param.path.number('id') id: typeof CfsPortRateMaster.prototype.cfsRateId,
   ): Promise<CfsMaster> {
-    return this.cfsRateMasterRepository.cfsMaster(id);
+    return this.CfsPortRateMasterRepository.cfsMaster(id);
   }
 }

@@ -2,13 +2,13 @@ import {belongsTo, Entity, model, property} from '@loopback/repository';
 import {CfsMaster} from './cfs-master.model';
 
 @model({settings: {strict: false}})
-export class CfsRateMaster extends Entity {
+export class CfsPortRateMaster extends Entity {
   @property({
     type: 'number',
     id: true,
     generated: true,
   })
-  cfsRateId?: number;
+  cfsPortRateMasterId?: number;
   @property({
     type: 'number',
   })
@@ -62,13 +62,14 @@ export class CfsRateMaster extends Entity {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [prop: string]: any;
 
-  constructor(data?: Partial<CfsRateMaster>) {
+  constructor(data?: Partial<CfsPortRateMaster>) {
     super(data);
   }
 }
 
-export interface CfsRateMasterRelations {
+export interface CfsPortRateMasterRelations {
   // describe navigational properties here
 }
 
-export type CfsRateMasterWithRelations = CfsRateMaster & CfsRateMasterRelations;
+export type CfsPortRateMasterWithRelations = CfsPortRateMaster &
+  CfsPortRateMasterRelations;
