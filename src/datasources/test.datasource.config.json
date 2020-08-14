@@ -4,8 +4,8 @@
     "url": "",
     "host": "localhost",
     "port": 3306,
-    "user": "root",
-    "password": "root",
+    "user": "transporter",
+    "password": "Tran@1234",
     "database": "transporter",
     "connectionLimit": 32
 }
