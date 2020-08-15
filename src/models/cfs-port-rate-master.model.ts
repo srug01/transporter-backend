@@ -24,6 +24,12 @@ export class CfsPortRateMaster extends Entity {
   })
   rate?: number;
 
+
+  @property({
+    type: 'number',
+  })
+  cfsRateId?: number;
+
   @property({
     type: 'boolean',
   })
