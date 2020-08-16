@@ -7,15 +7,16 @@ import {
   getModelSchemaRef,
   param,
   post,
-  requestBody,
+  requestBody
 } from '@loopback/rest';
+import {UserProfile} from '@loopback/security';
 import * as _ from 'lodash';
 import {PermissionKeys} from '../authorization/permission-keys';
 import {
   CallProcedureServiceBindings,
   PasswordHasherBindings,
   TokenServiceBindings,
-  UserServiceBindings,
+  UserServiceBindings
 } from '../keys';
 import {User} from '../models';
 import {UserRepository} from '../repositories';
@@ -107,7 +108,7 @@ export class UserController {
   })
   async login(
     @requestBody(CredentialsRequestBody) credentials: Credentials,
-  ): Promise<{token: string}> {
+  ): Promise<{token: string, userProfile: UserProfile}> {
     // make sure user exist, password should be valid
     const user = await this.userService.verifyCredentials(credentials);
     //console.log(user);
@@ -128,14 +129,14 @@ export class UserController {
     // const resultFromDb = Object.values(permissionsVal)[0];
     // const dataJson = JSON.stringify(resultFromDb);
     // const dataJson = JSON.stringify(permissionsVal);
-    const arr: string[] = permission.split(',');
+    const arr: string[] = permission ? permission.split(',') : [];
     // console.log(arr);
     // console.log(permissionsVal[0]);
     userProfile.permissions = arr;
 
     //generate a json web token
     const token = await this.jwtService.generateToken(userProfile);
-    return Promise.resolve({token});
+    return Promise.resolve({token, userProfile});
   }
 
   @get('/users/me')
