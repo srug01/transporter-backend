@@ -16,13 +16,6 @@ export class PortCfsRateMaster extends Entity {
   portMasterId: number;
 
   @property({
-    type: 'number'
-  })
-  cfsRateId: number;
-
-
-
-  @property({
     type: 'number',
     required: true,
   })

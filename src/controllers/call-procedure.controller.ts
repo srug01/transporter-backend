@@ -171,7 +171,7 @@ export class CallProcedureController {
   }
 
   @get(
-    '/GetAllCFSWeightsbyUserandContainerId/{userid}/{typeid}/{containerMasterId}',
+    '/GetAllCFSWeightsbyUserandContainerId/{userid}/{typeid}/{containerMasterId}/{portyardid}',
     {
       responses: {
         '200': {
@@ -190,11 +190,12 @@ export class CallProcedureController {
     @param.path.string('userid') userid: number,
     @param.path.string('typeid') typeid: number,
     @param.path.string('containerMasterId') containerMasterId: number,
+    @param.path.string('portyardid') portyardid: number,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Promise<any> {
     const sqlStmt = mysql.format(
-      'CALL GetAllCFSWeightsbyUserandContainerId(?,?,?)',
-      [userid, typeid, containerMasterId],
+      'CALL GetAllCFSWeightsbyUserandContainerId(?,?,?,?)',
+      [userid, typeid, containerMasterId, portyardid],
     );
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -207,7 +208,7 @@ export class CallProcedureController {
     });
   }
 
-  @get('/getAllCFSContainersbyUserId/{userid}/{typeid}', {
+  @get('/getAllCFSContainersbyUserId/{userid}/{typeid}/{portyardid}', {
     responses: {
       '200': {
         description: 'Search for Multiple Tables Join',
@@ -223,11 +224,13 @@ export class CallProcedureController {
   async GetAllCFSContainersbyUserId(
     @param.path.string('userid') userid: number,
     @param.path.string('typeid') typeid: number,
+    @param.path.string('portyardid') portyardid: number,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Promise<any> {
-    const sqlStmt = mysql.format('CALL getAllCFSContainersbyUserId(?,?)', [
+    const sqlStmt = mysql.format('CALL getAllCFSContainersbyUserId(?,?,?)', [
       userid,
       typeid,
+      portyardid,
     ]);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

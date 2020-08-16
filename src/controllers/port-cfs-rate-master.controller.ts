@@ -10,6 +10,7 @@ import {
   del,
   get,
   getModelSchemaRef,
+  HttpErrors,
   param,
   patch,
   post,
@@ -48,6 +49,21 @@ export class PortCfsRateMasterController {
     })
     portCfsRateMaster: Omit<PortCfsRateMaster, 'portCfsRateMasterId'>,
   ): Promise<PortCfsRateMaster> {
+    const existing = await this.portCfsRateMasterRepository.find({
+      where: {
+        and: [
+          {cfsMasterId: portCfsRateMaster.cfsMasterId},
+          {portMasterId: portCfsRateMaster.portMasterId},
+          {containerMasterId: portCfsRateMaster.containerMasterId},
+          {weightMasterId: portCfsRateMaster.weightMasterId},
+        ],
+      },
+    });
+    if (existing.length > 0) {
+      throw new HttpErrors.UnprocessableEntity(
+        'Data already Exists for this combination',
+      );
+    }
     return this.portCfsRateMasterRepository.create(portCfsRateMaster);
   }
 

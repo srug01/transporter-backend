@@ -22,11 +22,6 @@ export class Bidusermapping extends Entity {
   userId: number;
 
   @property({
-    type: 'string',
-  })
-  bidName?: string;
-
-  @property({
     type: 'number',
   })
   bidValue?: number;
@@ -60,45 +55,6 @@ export class Bidusermapping extends Entity {
     type: 'date',
   })
   modifiedOn?: string;
-
-  @property({
-    type: 'string',
-  })
-  bidLowerLimit?: string;
-
-  @property({
-    type: 'string',
-  })
-  SourceName?: string;
-
-  @property({
-    type: 'string',
-  })
-  destinationName?: string;
-  @property({
-    type: 'string',
-  })
-  containerMasterName?: string;
-
-  @property({
-    type: 'string',
-  })
-  weightDesc?: string;
-
-  @property({
-    type: 'number',
-  })
-  containerMasterId?: number;
-
-  @property({
-    type: 'number',
-  })
-  weightMasterId?: number;
-
-  @property({
-    type: 'number',
-  })
-  originalRate?: number;
 
   constructor(data?: Partial<Bidusermapping>) {
     super(data);
