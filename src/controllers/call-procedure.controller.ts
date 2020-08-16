@@ -3,15 +3,14 @@ import {authenticate} from '@loopback/authentication';
 import {inject} from '@loopback/context';
 import {param} from '@loopback/openapi-v3';
 import {get, getModelSchemaRef, Request, RestBindings} from '@loopback/rest';
-import {LocationMaster} from '../models';
-
+import {Dashboard, LocationMaster} from '../models';
 
 interface Bid {
   bidName: string;
   bidValue: number;
   biduserStatus: string;
-  subOrderTotalMargin: 90
-  suborderStatus: "SUB_ORDER_PENDING"
+  subOrderTotalMargin: 90;
+  suborderStatus: 'SUB_ORDER_PENDING';
 }
 
 interface OrderDetails {
@@ -132,7 +131,7 @@ export class CallProcedureController {
     @param.path.string('userid') userid: string,
     @param.path.string('roleid') roleid: string,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Promise<any> {
+  Promise<any> {
     const sqlStmt = mysql.format('CALL MULTIPLETABLES(?,?)', [userid, roleid]);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -192,7 +191,7 @@ export class CallProcedureController {
     @param.path.string('typeid') typeid: number,
     @param.path.string('containerMasterId') containerMasterId: number,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Promise<any> {
+  Promise<any> {
     const sqlStmt = mysql.format(
       'CALL GetAllCFSWeightsbyUserandContainerId(?,?,?)',
       [userid, typeid, containerMasterId],
@@ -225,7 +224,7 @@ export class CallProcedureController {
     @param.path.string('userid') userid: number,
     @param.path.string('typeid') typeid: number,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Promise<any> {
+  Promise<any> {
     const sqlStmt = mysql.format('CALL getAllCFSContainersbyUserId(?,?)', [
       userid,
       typeid,
@@ -441,11 +440,13 @@ export class CallProcedureController {
   ): Promise<any> {
     const sqlStmt = mysql.format('CALL procGetOrderDetails(?)', [orderId]);
     return new Promise<any>(function (resolve, reject) {
-      let order: any = {};
+      const order: any = {};
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       db.query(sqlStmt, function (err: any, results: any) {
         if (err !== null) return reject(err);
-        order.AssignedDriver = results[0][0].AssignedDriver ? results[0][0].AssignedDriver : '';
+        order.AssignedDriver = results[0][0].AssignedDriver
+          ? results[0][0].AssignedDriver
+          : '';
         order.CutOffTime = results[0][0].CutOffTime;
         order.TranporterName = results[0][0].TranporterName;
         order.containerMasterName = results[0][0].containerMasterName;
@@ -466,12 +467,12 @@ export class CallProcedureController {
         order.weightDesc = results[0][0].weightDesc;
         order.bids = [];
         for (const suborder of results[0]) {
-          let obj: Bid = {
+          const obj: Bid = {
             bidName: suborder.bidName,
             bidValue: suborder.bidValue,
             biduserStatus: suborder.biduserStatus,
             subOrderTotalMargin: suborder.subOrderTotalMargin,
-            suborderStatus: suborder.suborderStatus
+            suborderStatus: suborder.suborderStatus,
           };
           order.bids.push(obj);
         }
@@ -544,10 +545,7 @@ export class CallProcedureController {
       },
     },
   })
-
-  async GetAllTransporter(
-
-  ): Promise<any> {
+  async GetAllTransporter(): Promise<any> {
     const sqlStmt = mysql.format('CALL GetAllTransporter()');
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -558,5 +556,141 @@ export class CallProcedureController {
     });
   }
 
+  @get('/GetAdminDashboardbyUserId/{userId}', {
+    responses: {
+      '200': {
+        description: 'Search for Admin DashBoard',
+        content: {
+          'application/json': {
+            schema: {type: getModelSchemaRef(Dashboard)},
+          },
+        },
+      },
+    },
+  })
+  // @authenticate('jwt')
+  async GetAdminDashboardbyUserId(
+    @param.path.string('userId') userId: string,
+  ): Promise<Dashboard> {
+    const sqlStmt = mysql.format('CALL getDashboardForAdmin(?)', [userId]);
+    return new Promise<Dashboard>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      db.query(sqlStmt, function (err: any, results: Dashboard) {
+        if (err !== null) return reject(err);
+        const JsonData = JSON.stringify(results);
+        const obj = JSON.parse(JsonData);
+        const data: Dashboard = new Dashboard();
+        data.TotalOrders = obj[0][0].TotalOrders;
+        data.TotalSubOrders = obj[1][0].TotalSubOrders;
+        data.TotalBids = obj[2][0].TotalBids;
+        data.TotalTrips = obj[3][0].TotalTrips;
+        data.Orders = obj[4];
+        data.SubOrders = obj[5];
+        data.Bids = obj[6];
+        data.Trips = obj[7];
+        resolve(data);
+      });
+    });
+  }
 
+  @get('/GetCFSDashboardbyUserId/{userId}', {
+    responses: {
+      '200': {
+        description: 'Search for CFS DashBoard',
+        content: {
+          'application/json': {
+            schema: {type: getModelSchemaRef(Dashboard)},
+          },
+        },
+      },
+    },
+  })
+  // @authenticate('jwt')
+  async GetCFSDashboardbyUserId(
+    @param.path.string('userId') userId: string,
+  ): Promise<Dashboard> {
+    const sqlStmt = mysql.format('CALL getDashboardForCFS(?)', [userId]);
+    return new Promise<Dashboard>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      db.query(sqlStmt, function (err: any, results: Dashboard) {
+        if (err !== null) return reject(err);
+        const JsonData = JSON.stringify(results);
+        const obj = JSON.parse(JsonData);
+        const data: Dashboard = new Dashboard();
+        data.TotalOrders = obj[0][0].TotalOrders;
+        data.TotalTrips = obj[1][0].TotalTrips;
+        data.Orders = obj[2];
+        data.Trips = obj[3];
+        resolve(data);
+      });
+    });
+  }
+
+  @get('/GetTransporterDashboardbyUserId/{userId}', {
+    responses: {
+      '200': {
+        description: 'Search for CFS DashBoard',
+        content: {
+          'application/json': {
+            schema: {type: getModelSchemaRef(Dashboard)},
+          },
+        },
+      },
+    },
+  })
+  // @authenticate('jwt')
+  async GetTransporterDashboardbyUserId(
+    @param.path.string('userId') userId: string,
+  ): Promise<Dashboard> {
+    const sqlStmt = mysql.format('CALL getDashboardForTransporter(?)', [
+      userId,
+    ]);
+    return new Promise<Dashboard>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      db.query(sqlStmt, function (err: any, results: Dashboard) {
+        if (err !== null) return reject(err);
+        const JsonData = JSON.stringify(results);
+        const obj = JSON.parse(JsonData);
+        const data: Dashboard = new Dashboard();
+        data.TotalSubOrders = obj[0][0].TotalSubOrders;
+        data.TotalBids = obj[1][0].TotalBids;
+        data.TotalTrips = obj[2][0].TotalTrips;
+        data.SubOrders = obj[3];
+        data.Bids = obj[4];
+        data.Trips = obj[5];
+        resolve(data);
+      });
+    });
+  }
+
+  @get('/GetDriverDashboardbyUserId/{userId}', {
+    responses: {
+      '200': {
+        description: 'Search for CFS DashBoard',
+        content: {
+          'application/json': {
+            schema: {type: getModelSchemaRef(Dashboard)},
+          },
+        },
+      },
+    },
+  })
+  // @authenticate('jwt')
+  async GetDriverDashboardbyUserId(
+    @param.path.string('userId') userId: string,
+  ): Promise<Dashboard> {
+    const sqlStmt = mysql.format('CALL getDashboardForDriver(?)', [userId]);
+    return new Promise<Dashboard>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      db.query(sqlStmt, function (err: any, results: Dashboard) {
+        if (err !== null) return reject(err);
+        const JsonData = JSON.stringify(results);
+        const obj = JSON.parse(JsonData);
+        const data: Dashboard = new Dashboard();
+        data.TotalTrips = obj[0][0].TotalTrips;
+        data.Trips = obj[1];
+        resolve(data);
+      });
+    });
+  }
 }
