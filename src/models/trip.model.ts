@@ -109,6 +109,16 @@ export class Trip extends Entity {
   })
   isActive?: boolean;
 
+  @property({
+    type: 'number',
+  })
+  startedBy?: number;
+
+  @property({
+    type: 'number',
+  })
+  stoppeddBy?: number;
+
   // Define well-known properties here
 
   // Indexer property to allow additional data

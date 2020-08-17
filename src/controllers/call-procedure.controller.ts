@@ -373,6 +373,32 @@ export class CallProcedureController {
     });
   }
 
+  @get('/GetTripDetailsbyTripId/{tripId}', {
+    responses: {
+      '200': {
+        description: 'Details for Trip by  TripId',
+        content: {
+          'application/json': {
+            schema: {type: 'array'},
+          },
+        },
+      },
+    },
+  })
+  // @authenticate('jwt')
+  async GetTripDetailsbyTripId(
+    @param.path.string('tripId') tripId: string,
+  ): Promise<any> {
+    const sqlStmt = mysql.format('CALL GetTripDetailsbyTripId(?)', [tripId]);
+    return new Promise<any>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      db.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+      });
+    });
+  }
+
   @get('/GetAllVehiclesbyUserId/{userId}', {
     responses: {
       '200': {
