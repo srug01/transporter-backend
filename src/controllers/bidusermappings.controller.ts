@@ -1,5 +1,22 @@
-import {Count, CountSchema, Filter, FilterExcludingWhere, repository, Where} from '@loopback/repository';
-import {del, get, getModelSchemaRef, HttpErrors, param, patch, post, put, requestBody} from '@loopback/rest';
+import {
+  Count,
+  CountSchema,
+  Filter,
+  FilterExcludingWhere,
+  repository,
+  Where,
+} from '@loopback/repository';
+import {
+  del,
+  get,
+  getModelSchemaRef,
+  HttpErrors,
+  param,
+  patch,
+  post,
+  put,
+  requestBody,
+} from '@loopback/rest';
 import {Bidusermapping} from '../models';
 import {BidRepository, BidusermappingRepository} from '../repositories';
 const mysql = require('mysql');
@@ -11,14 +28,15 @@ export class BidusermappingsController {
     public bidusermappingRepository: BidusermappingRepository,
     @repository(BidRepository)
     public bidRepository: BidRepository,
-
   ) {}
 
   @post('/bidusermappings', {
     responses: {
       '200': {
         description: 'Bidusermapping model instance',
-        content: {'application/json': {schema: getModelSchemaRef(Bidusermapping)}},
+        content: {
+          'application/json': {schema: getModelSchemaRef(Bidusermapping)},
+        },
       },
     },
   })
@@ -38,16 +56,14 @@ export class BidusermappingsController {
     const bidval: number = bidusermapping.bidValue ?? 0;
     const callbid = await this.bidRepository.findOne({
       where: {
-        bidId: bidusermapping.bidId
-      }
+        bidId: bidusermapping.bidId,
+      },
     });
     const lowerLimit = callbid?.bidLowerLimit ?? 0;
     //console.log(lowerLimit);
     //console.log(bidval);
     if (bidval < lowerLimit) {
-      throw new HttpErrors.UnprocessableEntity(
-        'Bid Value is too Low'
-      );
+      throw new HttpErrors.UnprocessableEntity('Bid Value is too Low');
     }
     return this.bidusermappingRepository.create(bidusermapping);
   }
@@ -74,7 +90,9 @@ export class BidusermappingsController {
           'application/json': {
             schema: {
               type: 'array',
-              items: getModelSchemaRef(Bidusermapping, {includeRelations: true}),
+              items: getModelSchemaRef(Bidusermapping, {
+                includeRelations: true,
+              }),
             },
           },
         },
@@ -106,6 +124,18 @@ export class BidusermappingsController {
     bidusermapping: Bidusermapping,
     @param.where(Bidusermapping) where?: Where<Bidusermapping>,
   ): Promise<Count> {
+    const bidval: number = bidusermapping.bidValue ?? 0;
+    const callbid = await this.bidRepository.findOne({
+      where: {
+        bidId: bidusermapping.bidId,
+      },
+    });
+    const lowerLimit = callbid?.bidLowerLimit ?? 0;
+    //console.log(lowerLimit);
+    //console.log(bidval);
+    if (bidval < lowerLimit) {
+      throw new HttpErrors.UnprocessableEntity('Bid Value is too Low');
+    }
     return this.bidusermappingRepository.updateAll(bidusermapping, where);
   }
 
@@ -123,7 +153,8 @@ export class BidusermappingsController {
   })
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(Bidusermapping, {exclude: 'where'}) filter?: FilterExcludingWhere<Bidusermapping>
+    @param.filter(Bidusermapping, {exclude: 'where'})
+    filter?: FilterExcludingWhere<Bidusermapping>,
   ): Promise<Bidusermapping> {
     return this.bidusermappingRepository.findById(id, filter);
   }
@@ -146,6 +177,18 @@ export class BidusermappingsController {
     })
     bidusermapping: Bidusermapping,
   ): Promise<void> {
+    const bidval: number = bidusermapping.bidValue ?? 0;
+    const callbid = await this.bidRepository.findOne({
+      where: {
+        bidId: bidusermapping.bidId,
+      },
+    });
+    const lowerLimit = callbid?.bidLowerLimit ?? 0;
+    //console.log(lowerLimit);
+    //console.log(bidval);
+    if (bidval < lowerLimit) {
+      throw new HttpErrors.UnprocessableEntity('Bid Value is too Low');
+    }
     await this.bidusermappingRepository.updateById(id, bidusermapping);
   }
 
@@ -160,10 +203,20 @@ export class BidusermappingsController {
     @param.path.number('id') id: number,
     @requestBody() bidusermapping: Bidusermapping,
   ): Promise<void> {
+    const bidval: number = bidusermapping.bidValue ?? 0;
+    const callbid = await this.bidRepository.findOne({
+      where: {
+        bidId: bidusermapping.bidId,
+      },
+    });
+    const lowerLimit = callbid?.bidLowerLimit ?? 0;
+    //console.log(lowerLimit);
+    //console.log(bidval);
+    if (bidval < lowerLimit) {
+      throw new HttpErrors.UnprocessableEntity('Bid Value is too Low');
+    }
     await this.bidusermappingRepository.replaceById(id, bidusermapping);
   }
-
-
 
   @del('/bidusermappings/{id}', {
     responses: {
@@ -202,9 +255,6 @@ export class BidusermappingsController {
     });
   }
 
-
-
-
   @get('/GetBidsbyUserId/{user_Id}', {
     responses: {
       '200': {
@@ -230,5 +280,4 @@ export class BidusermappingsController {
       });
     });
   }
-
 }

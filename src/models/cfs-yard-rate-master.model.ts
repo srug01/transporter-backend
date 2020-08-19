@@ -41,6 +41,16 @@ export class CfsYardRateMaster extends Entity {
 
   @property({
     type: 'number',
+  })
+  bidMarginRate?: number;
+
+  @property({
+    type: 'number',
+  })
+  orderMarginRate?: number;
+
+  @property({
+    type: 'number',
     required: true,
   })
   portMasterId: number;
@@ -73,7 +83,6 @@ export class CfsYardRateMaster extends Entity {
   })
   modifiedOn?: string;
 
-
   constructor(data?: Partial<CfsYardRateMaster>) {
     super(data);
   }
@@ -83,4 +92,5 @@ export interface CfsYardRateMasterRelations {
   // describe navigational properties here
 }
 
-export type CfsYardRateMasterWithRelations = CfsYardRateMaster & CfsYardRateMasterRelations;
+export type CfsYardRateMasterWithRelations = CfsYardRateMaster &
+  CfsYardRateMasterRelations;

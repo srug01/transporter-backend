@@ -32,7 +32,17 @@ export class YardCfsRateMaster extends Entity {
   @property({
     type: 'number',
   })
-  rate?: number;
+  rate: number;
+
+  @property({
+    type: 'number',
+  })
+  bidMarginRate?: number;
+
+  @property({
+    type: 'number',
+  })
+  orderMarginRate?: number;
 
   @property({
     type: 'boolean',

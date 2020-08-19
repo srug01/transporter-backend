@@ -34,6 +34,16 @@ export class PortCfsRateMaster extends Entity {
   rate: number;
 
   @property({
+    type: 'number',
+  })
+  bidMarginRate?: number;
+
+  @property({
+    type: 'number',
+  })
+  orderMarginRate?: number;
+
+  @property({
     type: 'boolean',
     required: true,
   })

@@ -75,6 +75,11 @@ export class SubOrder extends Entity {
   marginPercent?: number;
 
   @property({
+    type: 'number',
+  })
+  bidLimit?: number;
+
+  @property({
     type: 'date',
   })
   OrderDate?: string;
