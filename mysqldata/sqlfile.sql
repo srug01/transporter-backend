@@ -1,3 +1,4 @@
+use transporter;
 -- MySQL dump 10.13  Distrib 8.0.13, for Win64 (x86_64)
 --
 -- Host: localhost    Database: transporter
@@ -1052,8 +1053,8 @@ DELIMITER ;;
 
 IF(NEW.tripStatusId = 21) Then -- Both Vehicle And Driver Assigned
 
-update transporter.order ord 
-inner join transporter.suborder sub  on ord.orderId = sub.orderId 
+update transporter.order ord
+inner join transporter.suborder sub  on ord.orderId = sub.orderId
 and OLD.subOrderId = sub.subOrderId
 set ord.orderStatus = 'ORDER_ASSIGNED',
 	ord.orderStatusId = 7
@@ -1061,20 +1062,20 @@ where sub.subOrderId = OLD.subOrderId;
 
 ElseIF(NEW.tripStatusId = 19) Then -- Trip Started
 
-update transporter.suborder 
+update transporter.suborder
 set suborderStatus = 'SUB_ORDER_TRIP_STARTED',
 suborderStatusId = 13
 Where subOrderId = OLD.subOrderId;
 
 ElseIF(NEW.tripStatusId = 20) Then -- Trip Completed
 
-update transporter.suborder 
+update transporter.suborder
 set suborderStatus = 'SUB_ORDER_TRIP_COMPLETED',
 suborderStatusId = 14
 Where subOrderId = OLD.subOrderId;
 
-update transporter.order ord 
-inner join transporter.suborder sub  on ord.orderId = sub.orderId 
+update transporter.order ord
+inner join transporter.suborder sub  on ord.orderId = sub.orderId
 and OLD.subOrderId = sub.subOrderId
 set ord.orderStatus = 'ORDER_DELIVERED',
 	ord.orderStatusId = 9
@@ -1455,7 +1456,7 @@ declare starthour int;
 declare endhour int;
 declare dateaddition int default 0 ;
  select  HOUR(StartDate) into starthour;
- 
+
  if(hours < 8) then
 	 if(starthour between 10 and 18) then
 					if((18 - starthour) > 5) then
@@ -1468,14 +1469,14 @@ declare dateaddition int default 0 ;
 					select DATE_ADD(StartDate, INTERVAL (hours + (10 - starthour )) hour) into CutOffTime;
 				else if(starthour > 18) then
 					select DATE_ADD(StartDate, INTERVAL (hours + 10 + (24 - starthour )) hour) into CutOffTime;
-			end if;  
-		end if; 
+			end if;
 		end if;
-  end if;   
-    
-    
+		end if;
+  end if;
+
+
  -- odd hours
-if(IsFullTime = 0) 
+if(IsFullTime = 0)
 	then
 		 if(starthour between 10 and 18) then
 				  select DATE_ADD(StartDate, INTERVAL hours hour)  into CutOffTime;
@@ -1483,25 +1484,25 @@ if(IsFullTime = 0)
 				select DATE_ADD(StartDate, INTERVAL (hours + (10 - starthour )) hour) into CutOffTime;
 			else if(starthour > 18) then
 				select DATE_ADD(StartDate, INTERVAL (hours + 10 + (24 - starthour )) hour) into CutOffTime;
-		end if;  
-	end if; 
+		end if;
+	end if;
     end if;
 end if;
 -- full hors divided by 24
-if(IsFullTime = 1) 
+if(IsFullTime = 1)
     then
 			if(starthour between 11 and 18) then
 				select DATE_ADD(StartDate, INTERVAL hours hour)  into CutOffTime; -- 42,12 hours
 			else if(starthour < 11) then
 				select DATE_ADD(StartDate, INTERVAL (hours - 16 + (10 - starthour )) hour)  into CutOffTime; -- 42,12 hours
             else if(starthour > 18) then
-				select DATE_ADD(StartDate, INTERVAL (hours -  (starthour  - 18)) hour)  into CutOffTime; -- 42,12 hours    
-                 
+				select DATE_ADD(StartDate, INTERVAL (hours -  (starthour  - 18)) hour)  into CutOffTime; -- 42,12 hours
+
 			end if;
-	end if; 
+	end if;
 	end if;
    end if;
-   
+
    RETURN CutOffTime;
 
 END ;;
@@ -1528,7 +1529,7 @@ declare returnVal varchar(250);
 declare maxVal int;
 
 Select  max(bidId) + 1 into maxVal from transporter.bid;
-if maxVal is null then 
+if maxVal is null then
 set maxVal:= 1;
 end if;
 SELECT concat('BID' , LPAD(maxVal, 8, '0')) into returnVal;
@@ -1641,7 +1642,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllCFSPortsbyUserId`(in user_Id 
 BEGIN
 
 Select distinct p.* from transporter.portmaster p
-Inner Join transporter.cfsuserregistration cur on cur.userId = user_Id 
+Inner Join transporter.cfsuserregistration cur on cur.userId = user_Id
 Left Outer Join transporter.cfsportratemaster crm on p.portMasterId = crm.portMasterId and crm.cfsMasterId = cur.cfsMasterId
 Left Outer Join transporter.portcfsratemaster prm on p.portMasterId = prm.portMasterId and prm.cfsMasterId = cur.cfsMasterId
 Where cur.userId = user_Id;
@@ -1718,7 +1719,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllCFSYardsbyUserId`(in user_Id 
 BEGIN
 
 Select distinct y.* from transporter.yardmaster y
-Inner Join transporter.cfsuserregistration cur on cur.userId = user_Id 
+Inner Join transporter.cfsuserregistration cur on cur.userId = user_Id
 Left Outer Join transporter.yardcfsratemaster yrm on y.yardMasterId = yrm.yardMasterId and yrm.cfsMasterId = cur.cfsMasterId
 Left Outer Join transporter.cfsyardratemaster crm on y.yardMasterId = crm.yardMasterId and crm.cfsMasterId = cur.cfsMasterId
 Where cur.userId = user_Id;
@@ -1763,27 +1764,27 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllOrdersbyUserId`(in user_Id int)
 BEGIN
 
-Select 
+Select
  ord.orderId, ord.sourceType,ord.destinationType,ord.orderRemarks,ord.orderDate,ord.totalRate,
  ord.orderStatus,ord.orderStatusId,ptm.terminal,
-case 
-    When ord.masterTypeId = 4 then 
+case
+    When ord.masterTypeId = 4 then
     (Select p.portName from portmaster p  where p.portMasterId = ord.sourceId)
-    When ord.masterTypeId = 2 then 
+    When ord.masterTypeId = 2 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
-    When ord.masterTypeId = 3 then 
+    When ord.masterTypeId = 3 then
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.sourceId)
-    When ord.masterTypeId = 1 then 
+    When ord.masterTypeId = 1 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
     end  sourceName,
-    case 
-    When ord.masterTypeId = 4 then 
+    case
+    When ord.masterTypeId = 4 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
-    When ord.masterTypeId = 2 then 
+    When ord.masterTypeId = 2 then
     (Select p.portName from portmaster p  where p.portMasterId = ord.destinationId)
-    When ord.masterTypeId = 3 then 
+    When ord.masterTypeId = 3 then
 	(Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
-    When ord.masterTypeId = 1 then 
+    When ord.masterTypeId = 1 then
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.destinationId)
     end as destinationName
     from transporter.order ord
@@ -1812,7 +1813,7 @@ declare role_Id int;
 Select typeSyscode into role_Id from transporter.user
 where userId = user_Id;
 
-Select GROUP_CONCAT(p.permissionName) as Permissions from permission p 
+Select GROUP_CONCAT(p.permissionName) as Permissions from permission p
 inner join permissionrolemapping prm on p.permissionId = prm.permissionId
 Where prm.roleId = role_Id;
 
@@ -1841,7 +1842,7 @@ wm.weightDesc,cm.containerMasterName
 from transporter.suborder subo
 left outer join transporter.weightmaster wm on wm.weightMasterId = subo.containerWeightType
 left outer join transporter.containermaster cm on cm.containerMasterId = subo.containerType
-where subo.createdBy = user_Id and isDelete = 0; 
+where subo.createdBy = user_Id and isDelete = 0;
 
 END ;;
 DELIMITER ;
@@ -1889,30 +1890,30 @@ Select typeSyscode into roleId from transporter.user
 where userId = user_Id;
 
 
-If (roleId = 5) then -- Transporter 
+If (roleId = 5) then -- Transporter
 
 Select t.subOrderId,t.sourceId,t.destinationId,t.assignedVehicle,
 t.assignedDriver,t.tripstatus,t.startDate,t.endDate,t.billedAmount,
 t.createdBy,t.createdOn, concat(u.firstName ,' ',u.lastName) as DriverName,
 v.vehicleNumber,t.tripId,
-case 
-    When ord.masterTypeId = 4 then 
+case
+    When ord.masterTypeId = 4 then
     (Select p.portName from portmaster p  where p.portMasterId = ord.sourceId)
-    When ord.masterTypeId = 2 then 
+    When ord.masterTypeId = 2 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
-    When ord.masterTypeId = 3 then 
+    When ord.masterTypeId = 3 then
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.sourceId)
-    When ord.masterTypeId = 1 then 
+    When ord.masterTypeId = 1 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
     end  sourceName,
-    case 
-    When ord.masterTypeId = 4 then 
+    case
+    When ord.masterTypeId = 4 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
-    When ord.masterTypeId = 2 then 
+    When ord.masterTypeId = 2 then
     (Select p.portName from portmaster p  where p.portMasterId = ord.destinationId)
-    When ord.masterTypeId = 3 then 
+    When ord.masterTypeId = 3 then
 	(Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
-    When ord.masterTypeId = 1 then 
+    When ord.masterTypeId = 1 then
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.destinationId)
     end as destinationName
 from transporter.trip t
@@ -1927,24 +1928,24 @@ Select t.subOrderId,t.sourceId,t.destinationId,t.assignedVehicle,
 t.assignedDriver,t.tripstatus,t.startDate,t.endDate,t.billedAmount,
 t.createdBy,t.createdOn, concat(u.firstName ,' ',u.lastName) as DriverName,
 v.vehicleNumber,t.tripId,
-case 
-    When ord.masterTypeId = 4 then 
+case
+    When ord.masterTypeId = 4 then
     (Select p.portName from portmaster p  where p.portMasterId = ord.sourceId)
-    When ord.masterTypeId = 2 then 
+    When ord.masterTypeId = 2 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
-    When ord.masterTypeId = 3 then 
+    When ord.masterTypeId = 3 then
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.sourceId)
-    When ord.masterTypeId = 1 then 
+    When ord.masterTypeId = 1 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
     end  sourceName,
-    case 
-    When ord.masterTypeId = 4 then 
+    case
+    When ord.masterTypeId = 4 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
-    When ord.masterTypeId = 2 then 
+    When ord.masterTypeId = 2 then
     (Select p.portName from portmaster p  where p.portMasterId = ord.destinationId)
-    When ord.masterTypeId = 3 then 
+    When ord.masterTypeId = 3 then
 	(Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
-    When ord.masterTypeId = 1 then 
+    When ord.masterTypeId = 1 then
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.destinationId)
     end as destinationName
 from transporter.trip t
@@ -2037,31 +2038,31 @@ where userId = user_Id;
 
 
 if roleId = 5 then -- Transporter
-	
+
     Select b.bidId,b.bidName,b.bidLowerLimit,
-    case 
-    When ord.masterTypeId = 4 then 
+    case
+    When ord.masterTypeId = 4 then
     (Select p.portName from portmaster p  where p.portMasterId = ord.sourceId)
-    When ord.masterTypeId = 2 then 
+    When ord.masterTypeId = 2 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
-    When ord.masterTypeId = 3 then 
+    When ord.masterTypeId = 3 then
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.sourceId)
-    When ord.masterTypeId = 1 then 
+    When ord.masterTypeId = 1 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
     end sourceName,
-    case 
-    When ord.masterTypeId = 4 then 
+    case
+    When ord.masterTypeId = 4 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
-    When ord.masterTypeId = 2 then 
+    When ord.masterTypeId = 2 then
     (Select p.portName from portmaster p  where p.portMasterId = ord.destinationId)
-    When ord.masterTypeId = 3 then 
+    When ord.masterTypeId = 3 then
 	(Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
-    When ord.masterTypeId = 1 then 
+    When ord.masterTypeId = 1 then
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.destinationId)
     end as destinationName,
     com.containerMasterName, wem.weightDesc,
     com.containerMasterId, wem.weightMasterId,
-    -- (select  IFNULL(bidValue,0) from transporter.bidusermapping where bidId = b.bidId and userId = user_Id 
+    -- (select  IFNULL(bidValue,0) from transporter.bidusermapping where bidId = b.bidId and userId = user_Id
     -- ) as bidValue
     case when bum.userId = user_Id then bidValue else null end as bidValue,
     case when bum.userId = user_Id then biduserStatus else null end as biduserStatus,
@@ -2069,33 +2070,33 @@ if roleId = 5 then -- Transporter
     from transporter.order ord
     Left Outer Join transporter.suborder sub on ord.orderId = sub.orderId
     Left Outer Join  transporter.bid b  on sub.subOrderId = b.subOrderId
-    Left Outer Join transporter.bidusermapping bum on b.bidId = bum.bidId and bum.userId = user_Id 
-    -- Inner Join transporter.bidusermapping bm on bm.userId = user_Id 
+    Left Outer Join transporter.bidusermapping bum on b.bidId = bum.bidId and bum.userId = user_Id
+    -- Inner Join transporter.bidusermapping bm on bm.userId = user_Id
     Left Outer Join transporter.containermaster com on sub.containerType= com.containerMasterId
     Left Outer Join transporter.weightmaster wem on containerWeightType=wem.weightMasterId
     Where b.isActive = 1
-    order by b.bidId DESC;  
-    
+    order by b.bidId DESC;
+
 else -- Admin User
     Select b.bidId,b.bidName,b.bidLowerLimit,
-    case 
-    When ord.masterTypeId = 4 then 
+    case
+    When ord.masterTypeId = 4 then
     (Select p.portName from portmaster p  where p.portMasterId = ord.sourceId)
-    When ord.masterTypeId = 2 then 
+    When ord.masterTypeId = 2 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
-    When ord.masterTypeId = 3 then 
+    When ord.masterTypeId = 3 then
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.sourceId)
-    When ord.masterTypeId = 1 then 
+    When ord.masterTypeId = 1 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
     end  sourceName,
-    case 
-    When ord.masterTypeId = 4 then 
+    case
+    When ord.masterTypeId = 4 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
-    When ord.masterTypeId = 2 then 
+    When ord.masterTypeId = 2 then
     (Select p.portName from portmaster p  where p.portMasterId = ord.destinationId)
-    When ord.masterTypeId = 3 then 
+    When ord.masterTypeId = 3 then
 	(Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
-    When ord.masterTypeId = 1 then 
+    When ord.masterTypeId = 1 then
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.destinationId)
     end as destinationName,
     com.containerMasterName, wem.weightDesc,
@@ -2107,8 +2108,8 @@ else -- Admin User
     Left Outer Join transporter.bidusermapping bm on b.bidId = bm.bidId
     Left Outer Join transporter.containermaster com on sub.containerType= com.containerMasterId
     Left Outer Join transporter.weightmaster wem on containerWeightType=wem.weightMasterId
-	order by b.bidId DESC; 
-    
+	order by b.bidId DESC;
+
 End if;
 
 END ;;
@@ -2135,24 +2136,24 @@ BEGIN
 -- Get All Orders
 CREATE TEMPORARY TABLE Orders
 select ord.orderId, ord.sourceType,ord.destinationType,
-case 
-    When ord.masterTypeId = 4 then 
+case
+    When ord.masterTypeId = 4 then
     (Select p.portName from portmaster p  where p.portMasterId = ord.sourceId)
-    When ord.masterTypeId = 2 then 
+    When ord.masterTypeId = 2 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
-    When ord.masterTypeId = 3 then 
+    When ord.masterTypeId = 3 then
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.sourceId)
-    When ord.masterTypeId = 1 then 
+    When ord.masterTypeId = 1 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
     end  sourceName,
-    case 
-    When ord.masterTypeId = 4 then 
+    case
+    When ord.masterTypeId = 4 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
-    When ord.masterTypeId = 2 then 
+    When ord.masterTypeId = 2 then
     (Select p.portName from portmaster p  where p.portMasterId = ord.destinationId)
-    When ord.masterTypeId = 3 then 
+    When ord.masterTypeId = 3 then
 	(Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
-    When ord.masterTypeId = 1 then 
+    When ord.masterTypeId = 1 then
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.destinationId)
     end as destinationName,
     ptm.terminal,
@@ -2175,7 +2176,7 @@ left outer join transporter.weightmaster w on subo.containerWeightType = w.weigh
 
 -- Get All Bids
 CREATE TEMPORARY TABLE Bids
-Select b.bidName,  b.subOrderId, 
+Select b.bidName,  b.subOrderId,
 b.bidStatus, b.originalRate, bm.bidValue,
 concat(usr.firstName ,' ',usr.lastName) TransporterName,
 bm.biduserStatus as AwardStatus, ord.sourceType, ord.destinationType,
@@ -2241,24 +2242,24 @@ BEGIN
 
 CREATE TEMPORARY TABLE Orders
 select ord.orderId, ord.sourceType,ord.destinationType,
-case 
-    When ord.masterTypeId = 4 then 
+case
+    When ord.masterTypeId = 4 then
     (Select p.portName from portmaster p  where p.portMasterId = ord.sourceId)
-    When ord.masterTypeId = 2 then 
+    When ord.masterTypeId = 2 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
-    When ord.masterTypeId = 3 then 
+    When ord.masterTypeId = 3 then
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.sourceId)
-    When ord.masterTypeId = 1 then 
+    When ord.masterTypeId = 1 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
     end  sourceName,
-    case 
-    When ord.masterTypeId = 4 then 
+    case
+    When ord.masterTypeId = 4 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
-    When ord.masterTypeId = 2 then 
+    When ord.masterTypeId = 2 then
     (Select p.portName from portmaster p  where p.portMasterId = ord.destinationId)
-    When ord.masterTypeId = 3 then 
+    When ord.masterTypeId = 3 then
 	(Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
-    When ord.masterTypeId = 1 then 
+    When ord.masterTypeId = 1 then
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.destinationId)
     end as destinationName,
     ptm.terminal,
@@ -2366,7 +2367,7 @@ left outer join transporter.weightmaster w on subo.containerWeightType = w.weigh
 
 -- Get All Bids
 CREATE TEMPORARY TABLE Bids
-Select b.bidName,  b.subOrderId, 
+Select b.bidName,  b.subOrderId,
 b.bidStatus, b.originalRate, bm.bidValue,
 concat(usr.firstName ,' ',usr.lastName) TransporterName,
 bm.biduserStatus as AwardStatus, ord.sourceType, ord.destinationType,
@@ -2430,25 +2431,25 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `GetTripDetailsbyTripId`(in trip_Id int)
 BEGIN
 
-Select t.tripId, subo.subOrderId, 
-case 
-    When ord.masterTypeId = 4 then 
+Select t.tripId, subo.subOrderId,
+case
+    When ord.masterTypeId = 4 then
     (Select p.portName from portmaster p  where p.portMasterId = ord.sourceId)
-    When ord.masterTypeId = 2 then 
+    When ord.masterTypeId = 2 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
-    When ord.masterTypeId = 3 then 
+    When ord.masterTypeId = 3 then
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.sourceId)
-    When ord.masterTypeId = 1 then 
+    When ord.masterTypeId = 1 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
     end  sourceName,
-    case 
-    When ord.masterTypeId = 4 then 
+    case
+    When ord.masterTypeId = 4 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
-    When ord.masterTypeId = 2 then 
+    When ord.masterTypeId = 2 then
     (Select p.portName from portmaster p  where p.portMasterId = ord.destinationId)
-    When ord.masterTypeId = 3 then 
+    When ord.masterTypeId = 3 then
 	(Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
-    When ord.masterTypeId = 1 then 
+    When ord.masterTypeId = 1 then
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.destinationId)
     end as destinationName,
 concat(usr.firstName ,' ',usr.lastName) TransporterName,
@@ -2497,24 +2498,24 @@ Select t.subOrderId,t.sourceId,t.destinationId,t.assignedVehicle,
 t.assignedDriver,t.tripstatus,t.startDate,t.endDate,t.billedAmount,
 t.createdBy,t.createdOn, u.firstName + " - " + u.lastName as DriverName,
 v.vehicleNumber,t.tripId,
-case 
-    When ord.masterTypeId = 4 then 
+case
+    When ord.masterTypeId = 4 then
     (Select p.portName from portmaster p  where p.portMasterId = ord.sourceId)
-    When ord.masterTypeId = 2 then 
+    When ord.masterTypeId = 2 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
-    When ord.masterTypeId = 3 then 
+    When ord.masterTypeId = 3 then
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.sourceId)
-    When ord.masterTypeId = 1 then 
+    When ord.masterTypeId = 1 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
     end  sourceName,
-    case 
-    When ord.masterTypeId = 4 then 
+    case
+    When ord.masterTypeId = 4 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
-    When ord.masterTypeId = 2 then 
+    When ord.masterTypeId = 2 then
     (Select p.portName from portmaster p  where p.portMasterId = ord.destinationId)
-    When ord.masterTypeId = 3 then 
+    When ord.masterTypeId = 3 then
 	(Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
-    When ord.masterTypeId = 1 then 
+    When ord.masterTypeId = 1 then
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.destinationId)
     end as destinationName
 from transporter.trip t
@@ -2544,7 +2545,7 @@ BEGIN
 SELECT c.* FROM transporter2.cfsmaster c
 Left Outer Join locationmaster l on c.locationId = l.locationId;
 
-/*Inner Join transporter2.user u 
+/*Inner Join transporter2.user u
 on c.userId = u.id and c.roleId = u.typeSyscode
 Where c.userId = userid and c.roleId = roleid;*/
 END ;;
@@ -2570,7 +2571,7 @@ Declare containerType int default 0;
 Declare weightType int default 0;
 Declare trucks int default 0;
 Declare orderRate decimal(10,2) default 0.00;
-Declare masterType int default 0; 
+Declare masterType int default 0;
 Declare sourceID int default 0;
 Declare destinationID int default 0;
 Declare profit_margin decimal(10,2);
@@ -2579,12 +2580,12 @@ Declare order_date datetime;
 Declare fromVal varchar(15);
 Declare timeSlotId int default 0;
 
-Select masterTypeId,sourceId,destinationId,DATE(orderDate),timeslotMasterId 
+Select masterTypeId,sourceId,destinationId,DATE(orderDate),timeslotMasterId
 into masterType,sourceID,destinationID,order_date,timeSlotId
 FROM transporter2.order where orderid = order_Id;
 
 Select fromValue into  fromVal from transporter.timeslotmaster Where timeslotMasterId = timeSlotId;
-Set fromVal = Concat(cast(order_date as char(12)) ,  fromVal ,":00:00"); 
+Set fromVal = Concat(cast(order_date as char(12)) ,  fromVal ,":00:00");
 
 Update transporter.order set orderDate = fromVal where orderid = order_Id;
 
@@ -2594,17 +2595,17 @@ from settings Where settings_name = 'cfs_order_profit';
 
 
 Begin
-   DECLARE exit_loop int default 0; 
+   DECLARE exit_loop int default 0;
    DECLARE order_cursor CURSOR FOR
      Select container_type, weight_type,no_of_trucks
      from transporter2.container where orderId = order_Id;
    DECLARE CONTINUE HANDLER FOR NOT FOUND SET exit_loop = 1;
    OPEN order_cursor;
-   
+
    REPEAT
-  
+
      FETCH  order_cursor INTO containerType,weightType,trucks;
-     
+
      IF NOT exit_loop  THEN
 		If masterType = 4 then
 			Set cfsRate := (select rate * trucks
@@ -2631,46 +2632,46 @@ Begin
 			and weightId = weightType and containerId = containerType);
 			Set orderRate = orderRate + cfsRate;
 		End if;
-        
+
      END IF;
      UNTIL exit_loop END REPEAT;
-    
+
    close order_cursor;
-   
+
 	Set profit_Rate = (orderRate * profit_margin)/ 100;
 	Update transporter2.order set totalRate = orderRate,
     profitMarginPercentage = profit_margin,
     profitRate = profit_Rate,
     rateexcludingProfit = orderRate - profit_Rate
     Where orderId = order_Id;
-    
-    
+
+
     Insert into transporter2.bid(bidName,containerId,container_type,
     container_weight_type,source_type,destination_type,original_rate,
     bid_rate,margin_percent,order_masterTypeId,
-    source_name,destination_name,orderId,is_active,created_by,created_on) 
+    source_name,destination_name,orderId,is_active,created_by,created_on)
 	Select GetBidNumber(),t.containerId,c.container_type,c.weight_type,
     ord.source_type,ord.destination_type,cr.rate,
     (cr.rate - ((cr.rate * s.settings_value) / 100)),
     s.settings_value,ord.masterTypeId,
-    case 
-    When ord.masterTypeId = 4 then 
+    case
+    When ord.masterTypeId = 4 then
     p.port_name
-    When ord.masterTypeId = 2 then 
+    When ord.masterTypeId = 2 then
     cm.cfs_name
-    When ord.masterTypeId = 3 then 
+    When ord.masterTypeId = 3 then
     y.yard_name
-    When ord.masterTypeId = 1 then 
+    When ord.masterTypeId = 1 then
     ycm.cfs_name
     end,
-    case 
-    When ord.masterTypeId = 4 then 
+    case
+    When ord.masterTypeId = 4 then
     cm.cfs_name
-    When ord.masterTypeId = 2 then 
+    When ord.masterTypeId = 2 then
     p.port_name
-    When ord.masterTypeId = 3 then 
+    When ord.masterTypeId = 3 then
     ycm.cfs_name
-    When ord.masterTypeId = 1 then 
+    When ord.masterTypeId = 1 then
     y.yard_name
     end,
 	ord.orderId,1,1,CURDATE()
@@ -2684,12 +2685,12 @@ Begin
     Left Outer Join transporter2.yardcfsratemaster ym on
     c.container_type = ym.containerId and c.weight_type = ym.weightId
         Left Outer Join transporter2.portmaster p on cr.portId = p.portId
-    Left Outer Join transporter2.cfsmaster cm on cr.cfsId = cm.cfsMasterId 
+    Left Outer Join transporter2.cfsmaster cm on cr.cfsId = cm.cfsMasterId
     Left Outer Join transporter2.yardmaster y on ym.yardId = y.yardId
-    Left Outer Join transporter2.cfsmaster ycm on ym.cfsId = ycm.cfsMasterId 
-    Left Outer join settings s on settings_name = 'cfs_order_profit' 
+    Left Outer Join transporter2.cfsmaster ycm on ym.cfsId = ycm.cfsMasterId
+    Left Outer join settings s on settings_name = 'cfs_order_profit'
 	where ord.orderId = order_Id and
-    case 
+    case
     when ord.masterTypeId = 4 then
      cr.portId = ord.sourceId and cr.cfsId = ord.destinationId
 	when ord.masterTypeId = 2 then
@@ -2699,7 +2700,7 @@ Begin
 	when ord.masterTypeId = 1 then
 	 ym.yardId = ord.destinationId and ym.cfsId = ord.sourceId
      end;
-    
+
   End;
 END ;;
 DELIMITER ;
@@ -2722,7 +2723,7 @@ BEGIN
 Declare sourcetype varchar(20);
 Declare destinationtype varchar(20);
 
-Select sourceType,destinationType 
+Select sourceType,destinationType
 into sourcetype,destinationtype
 From transporter2.mastertype where masterTypeId = master_Type;
 
@@ -2732,10 +2733,10 @@ wt.weightDesc
 from transporter.cfsuserregistration reg
 Inner Join transporter.cfsmaster mas on reg.cfsMasterId = mas.cfsMasterId
 Inner Join transporter.cfsratemaster rat on mas.portMasterId = rat.portMasterId
-Inner join transporter.containermaster cont 
-on rat.containerMasterId = cont.containerMasterId 
-Inner Join transporter.weightmaster wt 
-on rat.weightMasterId = wt.weightMasterId 
+Inner join transporter.containermaster cont
+on rat.containerMasterId = cont.containerMasterId
+Inner Join transporter.weightmaster wt
+on rat.weightMasterId = wt.weightMasterId
 Where reg.userId= user_Id and rat.isActive = 1;
 
 END IF;
@@ -2759,24 +2760,24 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `procGetOrderDetails`(orderid int)
 BEGIN
 select ord.orderId, ord.sourceType,ord.destinationType,
-case 
-    When ord.masterTypeId = 4 then 
+case
+    When ord.masterTypeId = 4 then
     (Select p.portName from portmaster p  where p.portMasterId = ord.sourceId)
-    When ord.masterTypeId = 2 then 
+    When ord.masterTypeId = 2 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
-    When ord.masterTypeId = 3 then 
+    When ord.masterTypeId = 3 then
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.sourceId)
-    When ord.masterTypeId = 1 then 
+    When ord.masterTypeId = 1 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
     end  sourceName,
-    case 
-    When ord.masterTypeId = 4 then 
+    case
+    When ord.masterTypeId = 4 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
-    When ord.masterTypeId = 2 then 
+    When ord.masterTypeId = 2 then
     (Select p.portName from portmaster p  where p.portMasterId = ord.destinationId)
-    When ord.masterTypeId = 3 then 
+    When ord.masterTypeId = 3 then
 	(Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
-    When ord.masterTypeId = 1 then 
+    When ord.masterTypeId = 1 then
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.destinationId)
     end as destinationName,
     ptm.terminal,
@@ -2826,13 +2827,13 @@ update transporter.suborder  sub
 inner join transporter.order ord  on sub.orderid = ord.orderid
 inner join transporter.bidschedulemaster bis on TIMESTAMPDIFF(HOUR, ord.createdOn, ord.orderdate) between bis.fromHour and bis.ToHour
 set sub.BidScheduleId = bis.BidScheduleId,
-	sub.CutOffTime = case when bis.WorkingHours = 0 then DATE_ADD(ord.createdOn, INTERVAL bis.bidingHours HOUR) 
+	sub.CutOffTime = case when bis.WorkingHours = 0 then DATE_ADD(ord.createdOn, INTERVAL bis.bidingHours HOUR)
 	 when bis.WorkingHours > 0 then FuncGetBidCutofftime(ord.createdon,bis.IsFullhour,bis.totalbidhour)
-	end 
+	end
 where sub.BidScheduleId is null;
 -- updte the order on 20 bid first come first serve basis
 update bidusermapping bum
-inner join 
+inner join
 (
 	select bidusermappingId -- um.bidId,um.userid,min(bidValue) bidValue, min(createdOn) createdOn
 	from
@@ -2844,7 +2845,7 @@ inner join
 	group by bd.bidId, subo.CutOffTime
 	)bid
 	inner join (
-select * from 
+select * from
 (
 SELECT bidusermappingId ,bidId,userId,bidValue,biduserStatus,DENSE_RANK() OVER (PARTITION BY
                      bidid
@@ -2859,7 +2860,7 @@ where bid_rank = 1) um on um.bidid= bid.bidId
 ) dtl on dtl.bidusermappingId = bum.bidusermappingId and biduserStatus = 'BID_USER_EDIT'
 
   set biduserStatus = 'BID_USER_CONFIRMED', biduserStatusId = 5;
-  
+
   -- inserting the confirmed order details to trip
   insert into transporter.trip
 (subOrderId,sourceId,destinationId,tripstatus,tripStatusId,createdBy,createdOn,bidValue)
@@ -2868,26 +2869,26 @@ FROM transporter.bidusermapping bum
 inner join transporter.bid bd on bd.bidId = bum.bidId
 inner join transporter.suborder subo on subo.subOrderId= bd.subOrderId
 inner join transporter.order ord on ord.orderId = subo.orderId
-left outer join transporter.trip trip on trip.subOrderId = subo.subOrderId 
+left outer join transporter.trip trip on trip.subOrderId = subo.subOrderId
 where biduserStatus = 'BID_USER_CONFIRMED' and tripId is null;
 
-update transporter.suborder sub 
-inner join transporter.trip trp  on sub.subOrderId = trp.subOrderId 
+update transporter.suborder sub
+inner join transporter.trip trp  on sub.subOrderId = trp.subOrderId
 set sub.suborderStatus = 'SUB_ORDER_BID_ASSIGNED',
 	suborderStatusId = 12
 where suborderStatusId != 12;
 
 
-update transporter.bid bd 
-inner join transporter.trip trp  on bd.subOrderId = trp.subOrderId 
+update transporter.bid bd
+inner join transporter.trip trp  on bd.subOrderId = trp.subOrderId
 set bd.bidStatus = 'BID_ASSIGNED',
-	bd.bidStatusId = 2, 
+	bd.bidStatusId = 2,
     bd.isActive = 0
 where bidStatusId != 2;
 
-update  transporter.bidusermapping bum  
+update  transporter.bidusermapping bum
 inner join transporter.bid bd on bum.bidid = bd.bidid
-inner join transporter.trip trp  on bd.subOrderId = trp.subOrderId 
+inner join transporter.trip trp  on bd.subOrderId = trp.subOrderId
 set bum.biduserStatus = 'BID_USER_DISCARD',
 	bum.biduserStatusId = 22
 where biduserStatusId != 5 and biduserStatusId != 22;
@@ -2912,7 +2913,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SEARCHCFSLOCATION`(IN userId varcha
 BEGIN
 	SELECT l.*,m.cfsMasterId,m.cfs_name FROM transporter2.locationmaster l
     Inner join transporter2.cfsmaster m
-    on l.locationId = m.locationId; 
+    on l.locationId = m.locationId;
     -- WHERE m.userId = userId;
 END ;;
 DELIMITER ;
@@ -2937,7 +2938,7 @@ Declare containerType int default 0;
 Declare weight_type int default 0;
 Declare trucks int default 0;
 Declare orderRate decimal(10,2) default 0.00;
-Declare masterType, cnt int default 0; 
+Declare masterType, cnt int default 0;
 Declare source_Id int default 0;
 Declare destination_Id int default 0;
 Declare profit_margin, bid_limit_percent decimal(10,2) default 0.00;
@@ -2948,15 +2949,15 @@ Declare subOrderId int default 0;
 Declare order_date datetime;
 Declare fromVal varchar(30);
 Declare timeSlotId int default 0;
--- For Debug 
+-- For Debug
 -- select concat('** ', msg) AS '** DEBUG:';
 --
-Select masterTypeId,sourceId,destinationId,createdBy,DATE(orderDate),timeslotMasterId  
+Select masterTypeId,sourceId,destinationId,createdBy,DATE(orderDate),timeslotMasterId
 into masterType,source_Id,destination_Id,created_by,order_date,timeSlotId
 FROM transporter.order where orderId = order_Id;
 
 Select fromValue into  fromVal from transporter.timeslotmaster Where timeslotMasterId = timeSlotId;
-Set fromVal = concat(fromVal,":00:00"); 
+Set fromVal = concat(fromVal,":00:00");
 
 Update transporter.order set orderDate = CONCAT(DATE(order_date),' ',fromVal) where orderid = order_Id;
 
@@ -2968,32 +2969,32 @@ from settings Where settingsName = 'bid_lower_limit';*/
 
 
 Begin
-   DECLARE exit_loop int default 0; 
+   DECLARE exit_loop int default 0;
    DECLARE order_cursor CURSOR FOR
      Select containerMasterId, weightType,numberOfTrucks,container_Id
      from transporter.container where orderId = order_Id;
    DECLARE CONTINUE HANDLER FOR NOT FOUND SET exit_loop = 1;
    OPEN order_cursor;
-   
+
    REPEAT
-  
+
      FETCH  order_cursor INTO containerType,weight_type,trucks,container_Id;
-     
+
      IF NOT exit_loop  THEN
 		If masterType = 4 then -- Port To CFS
 		select rate * trucks, orderMarginRate into
              cfsRate,profit_margin
 			from transporter.portcfsratemaster
-			Where portMasterId = source_Id  
+			Where portMasterId = source_Id
             and cfsMasterId = destination_Id
-			and weightMasterId = weight_type 
+			and weightMasterId = weight_type
             and containerMasterId = containerType;
-			
+
             -- Set subOrderId = 0;
             -- Set cfs_rate = (cfsRate - ((cfsRate * profit_margin) / 100));
-             
-           
-            
+
+
+
             Set orderRate = orderRate + cfsRate;
             Set profit_Rate = profit_Rate + ((cfsRate * profit_margin)/ 100);
             -- select concat('** ', cfsRate) AS '** DEBUG:';
@@ -3010,7 +3011,7 @@ Begin
              cfsRate,profit_margin
 			from transporter.yardcfsratemaster yrm
             inner join transporter.cfsmaster cm on yrm.portMasterId = cm.portMasterId
-            and yrm.cfsMasterId = cm.cfsMasterId 
+            and yrm.cfsMasterId = cm.cfsMasterId
 			Where yrm.yardMasterId = source_Id and yrm.cfsMasterId = destination_Id
 			and weightMasterId = weight_type and containerMasterId = containerType
             and yrm.portMasterId = cm.portMasterId;
@@ -3021,7 +3022,7 @@ Begin
              cfsRate,profit_margin
 			from transporter.cfsyardratemaster yrm
             inner join transporter.cfsmaster cm on yrm.portMasterId = cm.portMasterId
-            and yrm.cfsMasterId = cm.cfsMasterId 
+            and yrm.cfsMasterId = cm.cfsMasterId
 			Where yardMasterId = destination_Id and yrm.cfsMasterId = source_Id
 			and weightMasterId = weight_type and containerMasterId = containerType
             and yrm.portMasterId = cm.portMasterId;
@@ -3031,9 +3032,9 @@ Begin
         Set cnt = cnt + 1;
      END IF;
      UNTIL exit_loop END REPEAT;
-    
+
    close order_cursor;
-   
+
 	-- Set profit_Rate = (orderRate * profit_margin)/ 100;
 	Update transporter.order set totalRate = orderRate,
     profitMarginPercentage = 0,
@@ -3042,46 +3043,46 @@ Begin
     orderStatusId = 6,
     rateexcludingProfit = orderRate - profit_Rate
     Where orderId = order_Id;
-    
-    
+
+
     -- Insert SubOrder
 Insert into transporter.suborder(orderId,subOrderTotal,bidLimit,isDelete,createdBy,
 createdOn,modifiedBy,modifiedOn,cotainerId,containerType,containerWeightType,
 subOrderTotalMargin,marginPercent,suborderStatus,suborderStatusId)
 Select order_Id,
-case 
+case
 when ord.masterTypeId = 2 then  -- CFS To Port
-	(Select (rate - ((rate * orderMarginRate) / 100)) from transporter.cfsportratemaster 
+	(Select (rate - ((rate * orderMarginRate) / 100)) from transporter.cfsportratemaster
 	where cfsMasterId = ord.sourceId and portMasterId = ord.destinationId
 	and containerMasterId = c.containerMasterId and weightMasterId = c.weightType)
 when ord.masterTypeId = 4 then  -- Port To CFS
-	(Select (rate - ((rate * orderMarginRate) / 100)) from transporter.portcfsratemaster 
+	(Select (rate - ((rate * orderMarginRate) / 100)) from transporter.portcfsratemaster
 	where cfsMasterId = ord.destinationId and portMasterId = ord.sourceId
 	and containerMasterId = c.containerMasterId and weightMasterId = c.weightType)
 when ord.masterTypeId = 3 then  -- Yard To CFS
-	(Select (rate - ((rate * orderMarginRate) / 100)) 
+	(Select (rate - ((rate * orderMarginRate) / 100))
     from transporter.yardcfsratemaster yc
     inner join transporter.cfsmaster cfs on yc.cfsMasterId = cfs.cfsMasterId and yc.portMasterId = cfs.portMasterId
 	where yc.cfsMasterId = ord.destinationId and yc.yardMasterId = ord.sourceId
 	and yc.containerMasterId = c.containerMasterId and yc.weightMasterId = c.weightType and yc.portMasterId = cfs.portMasterId)
 when ord.masterTypeId = 1 then  -- CFS To Yard
-	(Select (rate - ((rate * orderMarginRate) / 100)) 
+	(Select (rate - ((rate * orderMarginRate) / 100))
     from transporter.cfsyardratemaster cy
     inner join transporter.cfsmaster cfs on cy.cfsMasterId = cfs.cfsMasterId and cy.portMasterId = cfs.portMasterId
-	where cy.cfsMasterId = ord.sourceId and cy.yardMasterId = ord.destinationId 
+	where cy.cfsMasterId = ord.sourceId and cy.yardMasterId = ord.destinationId
 	and cy.containerMasterId = c.containerMasterId and cy.weightMasterId = c.weightType and cy.portMasterId = cfs.portMasterId)
 end ,
-case 
+case
 when ord.masterTypeId = 2 then  -- CFS To Port
-	(Select  bidMarginRate from transporter.cfsportratemaster 
+	(Select  bidMarginRate from transporter.cfsportratemaster
 	where cfsMasterId = ord.sourceId and portMasterId = ord.destinationId
 	and containerMasterId = c.containerMasterId and weightMasterId = c.weightType)
 when ord.masterTypeId = 4 then  -- Port To CFS
-	(Select bidMarginRate from transporter.portcfsratemaster 
+	(Select bidMarginRate from transporter.portcfsratemaster
 	where cfsMasterId = ord.destinationId and portMasterId = ord.sourceId
 	and containerMasterId = c.containerMasterId and weightMasterId = c.weightType)
 when ord.masterTypeId = 3 then  -- Yard To CFS
-	(Select  bidMarginRate 
+	(Select  bidMarginRate
     from transporter.yardcfsratemaster yc
     inner join transporter.cfsmaster cfs on yc.cfsMasterId = cfs.cfsMasterId and yc.portMasterId = cfs.portMasterId
 	where yc.cfsMasterId = ord.destinationId and yc.yardMasterId = ord.sourceId
@@ -3090,20 +3091,20 @@ when ord.masterTypeId = 1 then  -- CFS To Yard
 	(Select bidMarginRate
     from transporter.cfsyardratemaster cy
     inner join transporter.cfsmaster cfs on cy.cfsMasterId = cfs.cfsMasterId and cy.portMasterId = cfs.portMasterId
-	where cy.cfsMasterId = ord.sourceId and cy.yardMasterId = ord.destinationId 
+	where cy.cfsMasterId = ord.sourceId and cy.yardMasterId = ord.destinationId
 	and cy.containerMasterId = c.containerMasterId and cy.weightMasterId = c.weightType and cy.portMasterId = cfs.portMasterId)
-end, 
-case 
+end,
+case
 when ord.masterTypeId = 2 then  -- CFS To Port
-	(Select  orderMarginRate from transporter.cfsportratemaster 
+	(Select  orderMarginRate from transporter.cfsportratemaster
 	where cfsMasterId = ord.sourceId and portMasterId = ord.destinationId
 	and containerMasterId = c.containerMasterId and weightMasterId = c.weightType)
 when ord.masterTypeId = 4 then  -- Port To CFS
-	(Select orderMarginRate from transporter.portcfsratemaster 
+	(Select orderMarginRate from transporter.portcfsratemaster
 	where cfsMasterId = ord.destinationId and portMasterId = ord.sourceId
 	and containerMasterId = c.containerMasterId and weightMasterId = c.weightType)
 when ord.masterTypeId = 3 then  -- Yard To CFS
-	(Select  orderMarginRate 
+	(Select  orderMarginRate
     from transporter.yardcfsratemaster yc
     inner join transporter.cfsmaster cfs on yc.cfsMasterId = cfs.cfsMasterId and yc.portMasterId = cfs.portMasterId
 	where yc.cfsMasterId = ord.destinationId and yc.yardMasterId = ord.sourceId
@@ -3112,28 +3113,28 @@ when ord.masterTypeId = 1 then  -- CFS To Yard
 	(Select orderMarginRate
     from transporter.cfsyardratemaster cy
     inner join transporter.cfsmaster cfs on cy.cfsMasterId = cfs.cfsMasterId and cy.portMasterId = cfs.portMasterId
-	where cy.cfsMasterId = ord.sourceId and cy.yardMasterId = ord.destinationId 
+	where cy.cfsMasterId = ord.sourceId and cy.yardMasterId = ord.destinationId
 	and cy.containerMasterId = c.containerMasterId and cy.weightMasterId = c.weightType and cy.portMasterId = cfs.portMasterId)
 end,created_by,CURDATE(),
 0,null,t.containerId,c.containerMasterId,
 c.weightType,
-case 
+case
 when ord.masterTypeId = 2 then  -- CFS To Port
-	(Select (rate - ((rate * orderMarginRate) / 100)) from transporter.cfsportratemaster 
+	(Select (rate - ((rate * orderMarginRate) / 100)) from transporter.cfsportratemaster
 	where cfsMasterId = ord.sourceId and portMasterId = ord.destinationId
 	and containerMasterId = c.containerMasterId and weightMasterId = c.weightType)
 when ord.masterTypeId = 4 then  -- Port To CFS
-	(Select (rate - ((rate * orderMarginRate) / 100)) from transporter.portcfsratemaster 
+	(Select (rate - ((rate * orderMarginRate) / 100)) from transporter.portcfsratemaster
 	where cfsMasterId = ord.destinationId and portMasterId = ord.sourceId
 	and containerMasterId = c.containerMasterId and weightMasterId = c.weightType)
 when ord.masterTypeId = 3 then  -- Yard To CFS
-	(Select (rate - ((rate * orderMarginRate) / 100)) 
+	(Select (rate - ((rate * orderMarginRate) / 100))
     from transporter.yardcfsratemaster yc
     inner join transporter.cfsmaster cfs on yc.cfsMasterId = cfs.cfsMasterId and yc.portMasterId = cfs.portMasterId
 	where yc.cfsMasterId = ord.destinationId and yc.yardMasterId = ord.sourceId
 	and yc.containerMasterId = c.containerMasterId and yc.weightMasterId = c.weightType and yc.portMasterId = cfs.portMasterId)
 when ord.masterTypeId = 1 then  -- CFS To Yard
-	(Select (rate - ((rate * orderMarginRate) / 100)) 
+	(Select (rate - ((rate * orderMarginRate) / 100))
     from transporter.cfsyardratemaster cy
     inner join transporter.cfsmaster cfs on cy.cfsMasterId = cfs.cfsMasterId and cy.portMasterId = cfs.portMasterId
 	where cy.cfsMasterId = ord.sourceId  and cy.yardMasterId = ord.destinationId
@@ -3145,26 +3146,26 @@ Inner join transporter.container c
 on ord.orderId = c.orderId
 Inner Join transporter.truck t
 on c.containerId = t.containerId
--- Left Outer join settings s on settingsName = 'cfs_order_profit' 
+-- Left Outer join settings s on settingsName = 'cfs_order_profit'
 where ord.orderId = order_Id;
 
-            
-            
+
+
             -- End SubOrder
 			-- Insert Bid
-			
+
 		Insert into transporter.bid(bidName,originalRate,exhibitionDate,
 		subOrderId,isActive,createdBy,createdOn,bidUpperLimit,modifiedBy,
 		modifiedOn,bidLowerLimit,bidStatus,bidStatusId)
 		Select GetBidNumber(),sub.subOrderTotal,
 		null,sub.subOrderId,1,created_by,CURDATE(),0,
 		0,null,(sub.subOrderTotal - ((sub.subOrderTotal * sub.bidLimit) / 100)),'BID_PENDING',1
-        From suborder sub 
+        From suborder sub
         Where orderId = order_Id;
-        
-                
-            -- End Bid   
-    
+
+
+            -- End Bid
+
   End;
 END ;;
 DELIMITER ;

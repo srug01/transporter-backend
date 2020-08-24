@@ -1,8 +1,15 @@
-import {Entity, hasMany, model, property, hasOne} from '@loopback/repository';
-import {Userrolemapping} from './userrolemapping.model';
+import {Entity, hasMany, hasOne, model, property} from '@loopback/repository';
 import {CfsUserRegistration} from './cfs-user-registration.model';
+import {Userrolemapping} from './userrolemapping.model';
 
-@model()
+@model({
+  settings: {
+    mysql: {
+      table: 'User'
+    },
+  },
+}
+)
 export class User extends Entity {
   @property({
     type: 'number',
