@@ -1,8 +1,14 @@
 import {Entity, hasMany, model, property} from '@loopback/repository';
 import {CfsMaster} from './cfs-master.model';
 import {YardMaster} from './yard-master.model';
-
-@model({settings: {strict: false}})
+@model({
+  settings: {
+    mysql: {
+      table: 'portmaster'
+    },
+    strict: false
+  }
+})
 export class PortMaster extends Entity {
   @property({
     type: 'number',

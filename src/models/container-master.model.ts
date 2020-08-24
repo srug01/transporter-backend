@@ -1,7 +1,14 @@
-import {Entity, model, property, hasMany} from '@loopback/repository';
+import {Entity, hasMany, model, property} from '@loopback/repository';
 import {WeightMaster} from './weight-master.model';
 
-@model({settings: {strict: false}})
+@model({
+  settings: {
+    mysql: {
+      table: 'containermaster'
+    },
+    strict: false
+  }
+})
 export class ContainerMaster extends Entity {
   @property({
     type: 'number',

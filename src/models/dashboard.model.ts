@@ -1,6 +1,13 @@
 import {Model, model, property} from '@loopback/repository';
 
-@model({settings: {strict: false}})
+@model({
+  settings: {
+    mysql: {
+      table: 'dashboard'
+    },
+    strict: false
+  }
+})
 export class Dashboard extends Model {
   @property({
     type: 'number',

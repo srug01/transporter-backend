@@ -1,7 +1,14 @@
 import {belongsTo, Entity, model, property} from '@loopback/repository';
 import {CfsMaster} from './cfs-master.model';
 
-@model({settings: {strict: false}})
+@model({
+  settings: {
+    mysql: {
+      table: 'cfsportratemaster'
+    },
+    strict: false
+  }
+})
 export class CfsPortRateMaster extends Entity {
   @property({
     type: 'number',

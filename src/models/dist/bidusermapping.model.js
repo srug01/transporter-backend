@@ -19,13 +19,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
-exports.User = void 0;
+exports.Bidusermapping = void 0;
 var repository_1 = require("@loopback/repository");
-var cfs_user_registration_model_1 = require("./cfs-user-registration.model");
-var userrolemapping_model_1 = require("./userrolemapping.model");
-var User = /** @class */ (function (_super) {
-    __extends(User, _super);
-    function User(data) {
+var Bidusermapping = /** @class */ (function (_super) {
+    __extends(Bidusermapping, _super);
+    function Bidusermapping(data) {
         return _super.call(this, data) || this;
     }
     __decorate([
@@ -34,64 +32,63 @@ var User = /** @class */ (function (_super) {
             id: true,
             generated: true
         })
-    ], User.prototype, "userId");
-    __decorate([
-        repository_1.property({
-            type: 'string',
-            required: true
-        })
-    ], User.prototype, "email");
-    __decorate([
-        repository_1.property({
-            type: 'string',
-            required: true
-        })
-    ], User.prototype, "password");
-    __decorate([
-        repository_1.property({
-            type: 'string',
-            required: true
-        })
-    ], User.prototype, "firstName");
-    __decorate([
-        repository_1.property({
-            type: 'string',
-            required: true
-        })
-    ], User.prototype, "lastName");
-    __decorate([
-        repository_1.property({
-            type: 'string',
-            required: true
-        })
-    ], User.prototype, "mobileNumber");
+    ], Bidusermapping.prototype, "bidusermappingId");
     __decorate([
         repository_1.property({
             type: 'number',
             required: true
         })
-    ], User.prototype, "typeSyscode");
+    ], Bidusermapping.prototype, "bidId");
     __decorate([
-        repository_1.property.array(String)
-    ], User.prototype, "permissions");
+        repository_1.property({
+            type: 'number',
+            required: true
+        })
+    ], Bidusermapping.prototype, "userId");
     __decorate([
-        repository_1.hasMany(function () { return userrolemapping_model_1.Userrolemapping; })
-    ], User.prototype, "roles");
+        repository_1.property({
+            type: 'number'
+        })
+    ], Bidusermapping.prototype, "bidValue");
     __decorate([
-        repository_1.hasMany(function () { return userrolemapping_model_1.Userrolemapping; })
-    ], User.prototype, "userrolemappings");
+        repository_1.property({
+            type: 'string'
+        })
+    ], Bidusermapping.prototype, "biduserStatus");
     __decorate([
-        repository_1.hasOne(function () { return cfs_user_registration_model_1.CfsUserRegistration; })
-    ], User.prototype, "cfsUserRegistration");
-    User = __decorate([
+        repository_1.property({
+            type: 'number'
+        })
+    ], Bidusermapping.prototype, "biduserStatusId");
+    __decorate([
+        repository_1.property({
+            type: 'number'
+        })
+    ], Bidusermapping.prototype, "createdBy");
+    __decorate([
+        repository_1.property({
+            type: 'date'
+        })
+    ], Bidusermapping.prototype, "createdOn");
+    __decorate([
+        repository_1.property({
+            type: 'number'
+        })
+    ], Bidusermapping.prototype, "modifiedBy");
+    __decorate([
+        repository_1.property({
+            type: 'date'
+        })
+    ], Bidusermapping.prototype, "modifiedOn");
+    Bidusermapping = __decorate([
         repository_1.model({
             settings: {
                 mysql: {
-                    table: 'user'
+                    table: 'bidusermapping'
                 }
             }
         })
-    ], User);
-    return User;
+    ], Bidusermapping);
+    return Bidusermapping;
 }(repository_1.Entity));
-exports.User = User;
+exports.Bidusermapping = Bidusermapping;

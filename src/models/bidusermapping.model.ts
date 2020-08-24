@@ -1,6 +1,12 @@
 import {Entity, model, property} from '@loopback/repository';
 
-@model()
+@model({
+  settings: {
+    mysql: {
+      table: 'bidusermapping'
+    },
+  }
+})
 export class Bidusermapping extends Entity {
   @property({
     type: 'number',

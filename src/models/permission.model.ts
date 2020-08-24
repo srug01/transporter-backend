@@ -1,6 +1,13 @@
 import {Entity, model, property} from '@loopback/repository';
 
-@model()
+@model({
+  settings: {
+    mysql: {
+      table: 'permission'
+    },
+    strict: false
+  }
+})
 export class Permission extends Entity {
   @property({
     type: 'number',

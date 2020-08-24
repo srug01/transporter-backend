@@ -1,6 +1,13 @@
 import {Entity, model, property} from '@loopback/repository';
 
-@model()
+@model({
+  settings: {
+    mysql: {
+      table: 'suborder'
+    },
+    strict: false
+  }
+})
 export class SubOrder extends Entity {
   @property({
     type: 'number',

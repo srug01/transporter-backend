@@ -1,6 +1,13 @@
 import {Entity, model, property} from '@loopback/repository';
 
-@model()
+@model({
+  settings: {
+    mysql: {
+      table: 'cfsyardratemaster'
+    },
+    strict: false
+  }
+})
 export class CfsYardRateMaster extends Entity {
   @property({
     type: 'number',

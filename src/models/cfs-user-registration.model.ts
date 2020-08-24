@@ -1,6 +1,13 @@
 import {Entity, model, property} from '@loopback/repository';
 
-@model({settings: {strict: false}})
+@model({
+  settings: {
+    mysql: {
+      table: 'cfsuserregistration'
+    },
+    strict: false
+  }
+})
 export class CfsUserRegistration extends Entity {
   @property({
     type: 'number',

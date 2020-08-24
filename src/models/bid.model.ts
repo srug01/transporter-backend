@@ -1,6 +1,12 @@
 import {Entity, model, property} from '@loopback/repository';
 
-@model()
+@model({
+  settings: {
+    mysql: {
+      table: 'bid'
+    },
+  }
+})
 export class Bid extends Entity {
   @property({
     type: 'string',

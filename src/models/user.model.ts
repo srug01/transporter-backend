@@ -5,11 +5,10 @@ import {Userrolemapping} from './userrolemapping.model';
 @model({
   settings: {
     mysql: {
-      table: 'User'
+      table: 'user'
     },
-  },
-}
-)
+  }
+})
 export class User extends Entity {
   @property({
     type: 'number',

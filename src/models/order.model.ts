@@ -1,7 +1,14 @@
 import {Entity, hasMany, model, property} from '@loopback/repository';
 import {Container} from './container.model';
 
-@model({settings: {strict: false}})
+@model({
+  settings: {
+    mysql: {
+      table: 'order'
+    },
+    strict: false
+  }
+})
 export class Order extends Entity {
   @property({
     type: 'number',

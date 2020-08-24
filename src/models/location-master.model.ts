@@ -1,6 +1,13 @@
 import {Entity, model, property} from '@loopback/repository';
 
-@model({settings: {strict: false}})
+@model({
+  settings: {
+    mysql: {
+      table: 'locationmaster'
+    },
+    strict: false
+  }
+})
 export class LocationMaster extends Entity {
   @property({
     type: 'number',

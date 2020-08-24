@@ -1,6 +1,13 @@
 import {Entity, model, property} from '@loopback/repository';
 
-@model()
+@model({
+  settings: {
+    mysql: {
+      table: 'zonedaymaster'
+    },
+    strict: false
+  }
+})
 export class ZoneDayMaster extends Entity {
   @property({
     type: 'number',

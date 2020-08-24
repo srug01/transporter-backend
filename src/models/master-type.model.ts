@@ -1,6 +1,13 @@
 import {Entity, model, property} from '@loopback/repository';
 
-@model({settings: {strict: false}})
+@model({
+  settings: {
+    mysql: {
+      table: 'mastertype'
+    },
+    strict: false
+  }
+})
 export class MasterType extends Entity {
   @property({
     type: 'number',

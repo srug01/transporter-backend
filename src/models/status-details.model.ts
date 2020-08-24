@@ -1,6 +1,13 @@
 import {Entity, model, property} from '@loopback/repository';
 
-@model()
+@model({
+  settings: {
+    mysql: {
+      table: 'statusdetails'
+    },
+    strict: false
+  }
+})
 export class StatusDetails extends Entity {
   @property({
     type: 'number',

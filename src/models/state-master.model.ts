@@ -2,7 +2,14 @@ import {Entity, hasMany, model, property} from '@loopback/repository';
 import {LocationMaster} from './location-master.model';
 import {PortMaster} from './port-master.model';
 
-@model()
+@model({
+  settings: {
+    mysql: {
+      table: 'statemaster'
+    },
+    strict: false
+  }
+})
 export class StateMaster extends Entity {
   @property({
     type: 'number',

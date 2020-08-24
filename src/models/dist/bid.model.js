@@ -19,79 +19,99 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
-exports.User = void 0;
+exports.Bid = void 0;
 var repository_1 = require("@loopback/repository");
-var cfs_user_registration_model_1 = require("./cfs-user-registration.model");
-var userrolemapping_model_1 = require("./userrolemapping.model");
-var User = /** @class */ (function (_super) {
-    __extends(User, _super);
-    function User(data) {
+var Bid = /** @class */ (function (_super) {
+    __extends(Bid, _super);
+    function Bid(data) {
         return _super.call(this, data) || this;
     }
+    __decorate([
+        repository_1.property({
+            type: 'string'
+        })
+    ], Bid.prototype, "bidName");
     __decorate([
         repository_1.property({
             type: 'number',
             id: true,
             generated: true
         })
-    ], User.prototype, "userId");
+    ], Bid.prototype, "bidId");
     __decorate([
         repository_1.property({
-            type: 'string',
-            required: true
+            type: 'number'
         })
-    ], User.prototype, "email");
+    ], Bid.prototype, "originalRate");
     __decorate([
         repository_1.property({
-            type: 'string',
-            required: true
+            type: 'date'
         })
-    ], User.prototype, "password");
+    ], Bid.prototype, "exhibitionDate");
     __decorate([
         repository_1.property({
-            type: 'string',
-            required: true
+            type: 'number'
         })
-    ], User.prototype, "firstName");
+    ], Bid.prototype, "subOrderId");
     __decorate([
         repository_1.property({
-            type: 'string',
-            required: true
+            type: 'boolean'
         })
-    ], User.prototype, "lastName");
+    ], Bid.prototype, "isActive");
     __decorate([
         repository_1.property({
-            type: 'string',
-            required: true
+            type: 'number'
         })
-    ], User.prototype, "mobileNumber");
+    ], Bid.prototype, "createdBy");
     __decorate([
         repository_1.property({
-            type: 'number',
-            required: true
+            type: 'date'
         })
-    ], User.prototype, "typeSyscode");
+    ], Bid.prototype, "createdOn");
     __decorate([
-        repository_1.property.array(String)
-    ], User.prototype, "permissions");
+        repository_1.property({
+            type: 'number'
+        })
+    ], Bid.prototype, "bidUpperLimit");
     __decorate([
-        repository_1.hasMany(function () { return userrolemapping_model_1.Userrolemapping; })
-    ], User.prototype, "roles");
+        repository_1.property({
+            type: 'number'
+        })
+    ], Bid.prototype, "modifiedBy");
     __decorate([
-        repository_1.hasMany(function () { return userrolemapping_model_1.Userrolemapping; })
-    ], User.prototype, "userrolemappings");
+        repository_1.property({
+            type: 'date'
+        })
+    ], Bid.prototype, "modifiedOn");
     __decorate([
-        repository_1.hasOne(function () { return cfs_user_registration_model_1.CfsUserRegistration; })
-    ], User.prototype, "cfsUserRegistration");
-    User = __decorate([
+        repository_1.property({
+            type: 'number'
+        })
+    ], Bid.prototype, "bidLowerLimit");
+    __decorate([
+        repository_1.property({
+            type: 'number'
+        })
+    ], Bid.prototype, "bidRate");
+    __decorate([
+        repository_1.property({
+            type: 'string'
+        })
+    ], Bid.prototype, "bidStatus");
+    __decorate([
+        repository_1.property({
+            type: 'number'
+        })
+    ], Bid.prototype, "bidStatusId");
+    Bid = __decorate([
         repository_1.model({
             settings: {
                 mysql: {
-                    table: 'user'
+                    table: 'bid'
                 }
             }
         })
-    ], User);
-    return User;
+    ], Bid);
+    return Bid;
 }(repository_1.Entity));
-exports.User = User;
+exports.Bid = Bid;

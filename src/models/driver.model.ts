@@ -1,6 +1,13 @@
 import {Entity, model, property} from '@loopback/repository';
 
-@model()
+@model({
+  settings: {
+    mysql: {
+      table: 'driver'
+    },
+    strict: false
+  }
+})
 export class Driver extends Entity {
   @property({
     type: 'number',
