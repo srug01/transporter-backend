@@ -3,7 +3,9 @@ import {authenticate} from '@loopback/authentication';
 import {inject} from '@loopback/context';
 import {param} from '@loopback/openapi-v3';
 import {get, getModelSchemaRef, Request, RestBindings} from '@loopback/rest';
+import {CallProcedureServiceBindings} from '../keys';
 import {Dashboard, LocationMaster} from '../models';
+import {CallProcedureService} from './../services/call-procedure.service';
 
 interface Bid {
   bidName: string;
@@ -44,7 +46,11 @@ export class CallProcedureController {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private connection: any;
 
-  constructor(@inject(RestBindings.Http.REQUEST) private req: Request) {
+  constructor(
+    @inject(RestBindings.Http.REQUEST) private req: Request,
+    @inject(CallProcedureServiceBindings.CALL_PROCEDURE_SERVICE)
+    public _callProcedureService: CallProcedureService,
+  ) {
     db.configure(mysqlCreds, mysql);
     this.connection = db;
   }
@@ -131,7 +137,7 @@ export class CallProcedureController {
     @param.path.string('userid') userid: string,
     @param.path.string('roleid') roleid: string,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Promise<any> {
+  Promise<any> {
     const sqlStmt = mysql.format('CALL MULTIPLETABLES(?,?)', [userid, roleid]);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -192,7 +198,7 @@ export class CallProcedureController {
     @param.path.string('containerMasterId') containerMasterId: number,
     @param.path.string('portyardid') portyardid: number,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Promise<any> {
+  Promise<any> {
     const sqlStmt = mysql.format(
       'CALL GetAllCFSWeightsbyUserandContainerId(?,?,?,?)',
       [userid, typeid, containerMasterId, portyardid],
@@ -226,7 +232,7 @@ export class CallProcedureController {
     @param.path.string('typeid') typeid: number,
     @param.path.string('portyardid') portyardid: number,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Promise<any> {
+  Promise<any> {
     const sqlStmt = mysql.format('CALL getAllCFSContainersbyUserId(?,?,?)', [
       userid,
       typeid,
@@ -337,14 +343,8 @@ export class CallProcedureController {
   async GetTripsByUserId(
     @param.path.string('userId') userId: string,
   ): Promise<any> {
-    const sqlStmt = mysql.format('CALL GetAllTripsbyUserId(?)', [userId]);
-    return new Promise<any>(function (resolve, reject) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      db.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
-        resolve(results[0]);
-      });
-    });
+    const trips = await this._callProcedureService.GetTripsByUserId(userId);
+    return trips;
   }
 
   @get('/GetTripsbyId/{tripId}', {
@@ -510,7 +510,7 @@ export class CallProcedureController {
     });
   }
 
-  @get('/GetAllOrdersbyUserId/{userId}', {
+  /* @get('/GetAllOrdersbyUserId/{userId}', {
     responses: {
       '200': {
         description: 'Search for Orders by  UserId',
@@ -560,7 +560,7 @@ export class CallProcedureController {
         resolve(results[0]);
       });
     });
-  }
+  }*/
 
   @get('/GetAllTransporter', {
     responses: {
@@ -585,7 +585,7 @@ export class CallProcedureController {
     });
   }
 
-  @get('/GetAdminDashboardbyUserId/{userId}', {
+  /* @get('/GetAdminDashboardbyUserId/{userId}', {
     responses: {
       '200': {
         description: 'Search for Admin DashBoard',
@@ -604,6 +604,7 @@ export class CallProcedureController {
     const sqlStmt = mysql.format('CALL getDashboardForAdmin(?)', [userId]);
     return new Promise<Dashboard>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       db.query(sqlStmt, function (err: any, results: Dashboard) {
         if (err !== null) return reject(err);
         const JsonData = JSON.stringify(results);
@@ -620,6 +621,43 @@ export class CallProcedureController {
         resolve(data);
       });
     });
+  } */
+
+  @get('/GetAdminDashboardbyUserId/{userId}', {
+    responses: {
+      '200': {
+        description: 'Search for Admin DashBoard',
+        content: {
+          'application/json': {
+            schema: {type: getModelSchemaRef(Dashboard)},
+          },
+        },
+      },
+    },
+  })
+  // @authenticate('jwt')
+  async GetAdminDashboardbyUserId(
+    @param.path.string('userId') userId: string,
+  ): Promise<Dashboard> {
+    const data: Dashboard = new Dashboard();
+    const orders = await this._callProcedureService.GetAllOrdersbyUserId(
+      userId,
+    );
+    const suborders = await this._callProcedureService.GetAllSubOrdersbyUserId(
+      userId,
+    );
+    const bids = await this._callProcedureService.GetBidsbyUserId(userId);
+    const trips = await this._callProcedureService.GetTripsByUserId(userId);
+
+    data.Orders = orders;
+    data.TotalOrders = orders.length;
+    data.SubOrders = suborders;
+    data.TotalSubOrders = suborders.length;
+    data.Bids = bids;
+    data.TotalBids = bids.length;
+    data.Trips = trips;
+    data.TotalTrips = trips.length;
+    return data;
   }
 
   @get('/GetCFSDashboardbyUserId/{userId}', {
@@ -638,21 +676,17 @@ export class CallProcedureController {
   async GetCFSDashboardbyUserId(
     @param.path.string('userId') userId: string,
   ): Promise<Dashboard> {
-    const sqlStmt = mysql.format('CALL getDashboardForCFS(?)', [userId]);
-    return new Promise<Dashboard>(function (resolve, reject) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      db.query(sqlStmt, function (err: any, results: Dashboard) {
-        if (err !== null) return reject(err);
-        const JsonData = JSON.stringify(results);
-        const obj = JSON.parse(JsonData);
-        const data: Dashboard = new Dashboard();
-        data.TotalOrders = obj[0][0].TotalOrders;
-        data.TotalTrips = obj[1][0].TotalTrips;
-        data.Orders = obj[2];
-        data.Trips = obj[3];
-        resolve(data);
-      });
-    });
+    const data: Dashboard = new Dashboard();
+    const orders = await this._callProcedureService.GetAllOrdersbyUserId(
+      userId,
+    );
+    const trips = await this._callProcedureService.GetTripsByUserId(userId);
+
+    data.Orders = orders;
+    data.TotalOrders = orders.length;
+    data.Trips = trips;
+    data.TotalTrips = trips.length;
+    return data;
   }
 
   @get('/GetTransporterDashboardbyUserId/{userId}', {
@@ -671,25 +705,20 @@ export class CallProcedureController {
   async GetTransporterDashboardbyUserId(
     @param.path.string('userId') userId: string,
   ): Promise<Dashboard> {
-    const sqlStmt = mysql.format('CALL getDashboardForTransporter(?)', [
+    const data: Dashboard = new Dashboard();
+    const suborders = await this._callProcedureService.GetAllSubOrdersbyUserId(
       userId,
-    ]);
-    return new Promise<Dashboard>(function (resolve, reject) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      db.query(sqlStmt, function (err: any, results: Dashboard) {
-        if (err !== null) return reject(err);
-        const JsonData = JSON.stringify(results);
-        const obj = JSON.parse(JsonData);
-        const data: Dashboard = new Dashboard();
-        data.TotalSubOrders = obj[0][0].TotalSubOrders;
-        data.TotalBids = obj[1][0].TotalBids;
-        data.TotalTrips = obj[2][0].TotalTrips;
-        data.SubOrders = obj[3];
-        data.Bids = obj[4];
-        data.Trips = obj[5];
-        resolve(data);
-      });
-    });
+    );
+    const bids = await this._callProcedureService.GetBidsbyUserId(userId);
+    const trips = await this._callProcedureService.GetTripsByUserId(userId);
+
+    data.SubOrders = suborders;
+    data.TotalSubOrders = suborders.length;
+    data.Bids = bids;
+    data.TotalBids = bids.length;
+    data.Trips = trips;
+    data.TotalTrips = trips.length;
+    return data;
   }
 
   @get('/GetDriverDashboardbyUserId/{userId}', {
@@ -708,18 +737,10 @@ export class CallProcedureController {
   async GetDriverDashboardbyUserId(
     @param.path.string('userId') userId: string,
   ): Promise<Dashboard> {
-    const sqlStmt = mysql.format('CALL getDashboardForDriver(?)', [userId]);
-    return new Promise<Dashboard>(function (resolve, reject) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      db.query(sqlStmt, function (err: any, results: Dashboard) {
-        if (err !== null) return reject(err);
-        const JsonData = JSON.stringify(results);
-        const obj = JSON.parse(JsonData);
-        const data: Dashboard = new Dashboard();
-        data.TotalTrips = obj[0][0].TotalTrips;
-        data.Trips = obj[1];
-        resolve(data);
-      });
-    });
+    const data: Dashboard = new Dashboard();
+    const trips = await this._callProcedureService.GetTripsByUserId(userId);
+    data.Trips = trips;
+    data.TotalTrips = trips.length;
+    return data;
   }
 }

@@ -2,10 +2,10 @@
     "name": "test",
     "connector": "mysql",
     "url": "",
-    "host": "35.175.132.228",
+    "host": "localhost",
     "port": 3306,
     "user": "root",
     "password": "root",
-    "database": "srug",
+    "database": "transporter",
     "connectionLimit": 32
 }

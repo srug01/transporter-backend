@@ -40,3 +40,4 @@ export * from './yard-master.model';
 export * from './zone-day-master.model';
 export * from './zone-master.model';
 export * from './dashboard.model';
+export * from './userratings.model';

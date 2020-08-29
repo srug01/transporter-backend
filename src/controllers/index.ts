@@ -49,3 +49,4 @@ export * from './zone-day-master.controller';
 export * from './zone-master.controller';
 export * from './port-cfs-rate-master.controller';
 export * from './cfs-yard-rate-master.controller';
+export * from './userratings.controller';

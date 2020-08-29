@@ -39,3 +39,4 @@ export * from './yard-cfs-rate-master.repository';
 export * from './yard-master.repository';
 export * from './zone-day-master.repository';
 export * from './zone-master.repository';
+export * from './userratings.repository';

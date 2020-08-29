@@ -11,6 +11,7 @@ export async function migrate(args: string[]) {
     models: [
       'User',
       'Userrolemapping',
+      'Userratings',
       'Userrole',
       'Bid',
       'Bidusermapping',
