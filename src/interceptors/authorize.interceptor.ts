@@ -46,7 +46,6 @@ export class AuthorizeInterceptor implements Provider<Interceptor> {
       const requiredPermissions = this.metadata.options as RequiredPermissions;
       console.log(requiredPermissions);
       const user = await this.getCurrentUser();
-      console.log('User Permissions: ', user.permissions);
 
       /* COMMENTED FOR NOW UP const results = intersection(
         user.permissions,

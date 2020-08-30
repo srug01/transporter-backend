@@ -75,7 +75,6 @@ export class MyUserService implements UserService<User, Credentials> {
       'email',
       'typeSyscode',
     ]) as MyUserProfile;
-    console.log(currentUser);
     currentUser.name = userName;
     currentUser.email = userEmail;
     currentUser.typeSyscode = userType;

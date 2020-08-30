@@ -111,7 +111,6 @@ export class UserController {
   ): Promise<{token: string; userProfile: UserProfile}> {
     // make sure user exist, password should be valid
     const user = await this.userService.verifyCredentials(credentials);
-    console.log(user);
 
     //console.log(user);
     const userProfile = this.userService.convertToUserProfile(user);
