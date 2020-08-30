@@ -137,7 +137,7 @@ export class CallProcedureController {
     @param.path.string('userid') userid: string,
     @param.path.string('roleid') roleid: string,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Promise<any> {
+    Promise<any> {
     const sqlStmt = mysql.format('CALL MULTIPLETABLES(?,?)', [userid, roleid]);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -198,7 +198,7 @@ export class CallProcedureController {
     @param.path.string('containerMasterId') containerMasterId: number,
     @param.path.string('portyardid') portyardid: number,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Promise<any> {
+    Promise<any> {
     const sqlStmt = mysql.format(
       'CALL GetAllCFSWeightsbyUserandContainerId(?,?,?,?)',
       [userid, typeid, containerMasterId, portyardid],
@@ -232,7 +232,7 @@ export class CallProcedureController {
     @param.path.string('typeid') typeid: number,
     @param.path.string('portyardid') portyardid: number,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Promise<any> {
+    Promise<any> {
     const sqlStmt = mysql.format('CALL getAllCFSContainersbyUserId(?,?,?)', [
       userid,
       typeid,
@@ -650,13 +650,14 @@ export class CallProcedureController {
     const trips = await this._callProcedureService.GetTripsByUserId(userId);
 
     data.Orders = orders;
-    data.TotalOrders = orders.length;
+    data.TotalOrders = orders ? orders.length : 0;
     data.SubOrders = suborders;
-    data.TotalSubOrders = suborders.length;
+    data.TotalSubOrders = suborders ? suborders.length : 0;
     data.Bids = bids;
-    data.TotalBids = bids.length;
+    data.TotalBids = bids ? bids.length : 0;
     data.Trips = trips;
-    data.TotalTrips = trips.length;
+    data.TotalTrips = trips ? trips.length : 0;
+
     return data;
   }
 
@@ -683,9 +684,9 @@ export class CallProcedureController {
     const trips = await this._callProcedureService.GetTripsByUserId(userId);
 
     data.Orders = orders;
-    data.TotalOrders = orders.length;
+    data.TotalOrders = orders ? orders.length : 0;
     data.Trips = trips;
-    data.TotalTrips = trips.length;
+    data.TotalTrips = trips ? trips.length : 0;
     return data;
   }
 
@@ -713,11 +714,11 @@ export class CallProcedureController {
     const trips = await this._callProcedureService.GetTripsByUserId(userId);
 
     data.SubOrders = suborders;
-    data.TotalSubOrders = suborders.length;
+    data.TotalSubOrders = suborders ? suborders.length : 0;
     data.Bids = bids;
-    data.TotalBids = bids.length;
+    data.TotalBids = bids ? bids.length : 0;
     data.Trips = trips;
-    data.TotalTrips = trips.length;
+    data.TotalTrips = trips ? trips.length : 0;
     return data;
   }
 
@@ -740,7 +741,7 @@ export class CallProcedureController {
     const data: Dashboard = new Dashboard();
     const trips = await this._callProcedureService.GetTripsByUserId(userId);
     data.Trips = trips;
-    data.TotalTrips = trips.length;
+    data.TotalTrips = trips ? trips.length : 0;
     return data;
   }
 }
