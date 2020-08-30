@@ -1,0 +1,68 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllOrdersbyUserId`(in user_Id int)
+BEGIN
+
+declare role_Id int;
+Select typeSyscode into role_Id from transporter.user where userId = user_Id;
+
+if(role_Id = 1) then
+
+select ord.orderId, ord.sourceType,ord.destinationType,
+case 
+    When ord.masterTypeId = 4 then 
+    (Select p.portName from portmaster p  where p.portMasterId = ord.sourceId)
+    When ord.masterTypeId = 2 then 
+    (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
+    When ord.masterTypeId = 3 then 
+    (Select y.yardName from yardmaster y where y.yardMasterId = ord.sourceId)
+    When ord.masterTypeId = 1 then 
+    (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
+    end  sourceName,
+    case 
+    When ord.masterTypeId = 4 then 
+    (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
+    When ord.masterTypeId = 2 then 
+    (Select p.portName from portmaster p  where p.portMasterId = ord.destinationId)
+    When ord.masterTypeId = 3 then 
+	(Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
+    When ord.masterTypeId = 1 then 
+    (Select y.yardName from yardmaster y where y.yardMasterId = ord.destinationId)
+    end as destinationName,
+    ptm.terminal,
+ord.orderRemarks,ord.totalRate,
+ord.orderStatus,DATE_FORMAT(ord.orderDate,'%d-%b-%Y') as OrderDate,
+DATE_FORMAT(ord.createdOn,'%d-%b-%Y') as CreatedOn
+from transporter.order ord
+inner join transporter.portterminalmaster ptm on ptm.portTerminalId = ord.portTerminalId
+where ord.isDeleted = 0;  
+Else
+
+select ord.orderId, ord.sourceType,ord.destinationType,
+case 
+    When ord.masterTypeId = 4 then 
+    (Select p.portName from portmaster p  where p.portMasterId = ord.sourceId)
+    When ord.masterTypeId = 2 then 
+    (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
+    When ord.masterTypeId = 3 then 
+    (Select y.yardName from yardmaster y where y.yardMasterId = ord.sourceId)
+    When ord.masterTypeId = 1 then 
+    (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
+    end  sourceName,
+    case 
+    When ord.masterTypeId = 4 then 
+    (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
+    When ord.masterTypeId = 2 then 
+    (Select p.portName from portmaster p  where p.portMasterId = ord.destinationId)
+    When ord.masterTypeId = 3 then 
+	(Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
+    When ord.masterTypeId = 1 then 
+    (Select y.yardName from yardmaster y where y.yardMasterId = ord.destinationId)
+    end as destinationName,
+    ptm.terminal,
+ord.orderRemarks,ord.totalRate,
+ord.orderStatus,DATE_FORMAT(ord.orderDate,'%d-%b-%Y') as OrderDate,
+DATE_FORMAT(ord.createdOn,'%d-%b-%Y') as CreatedOn
+from transporter.order ord
+inner join transporter.portterminalmaster ptm on ptm.portTerminalId = ord.portTerminalId
+where ord.createdBy = user_Id and ord.isDeleted = 0;
+End if;
+END

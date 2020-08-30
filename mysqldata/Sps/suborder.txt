@@ -1,0 +1,24 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllSubOrdersbyUserId`(in user_Id int)
+BEGIN
+
+declare role_Id int;
+Select typeSyscode into role_Id from transporter.user where userId = user_Id;
+
+if(role_Id = 1 or role_Id = 5) then
+Select ord.orderId, subo.subOrderId, subo.subOrderTotalMargin,subo.CutOffTime,subo.suborderStatus,
+c.containerMasterName,w.weightDesc, DATE_FORMAT(subo.createdOn,'%d-%b-%Y') as SubOrderDate
+from transporter.order ord
+inner join transporter.suborder subo on subo.orderId= ord.orderId
+left outer join transporter.containermaster c on subo.containerType = c.containerMasterId
+left outer join transporter.weightmaster w on subo.containerWeightType = w.weightMasterId
+where subo.isDelete = 0;
+else
+Select ord.orderId, subo.subOrderId, subo.subOrderTotalMargin,subo.CutOffTime,subo.suborderStatus,
+c.containerMasterName,w.weightDesc, DATE_FORMAT(subo.createdOn,'%d-%b-%Y') as SubOrderDate
+from transporter.order ord
+inner join transporter.suborder subo on subo.orderId= ord.orderId
+left outer join transporter.containermaster c on subo.containerType = c.containerMasterId
+left outer join transporter.weightmaster w on subo.containerWeightType = w.weightMasterId
+where subo.createdBy = user_Id and subo.isDelete = 0; 
+end if;
+END
