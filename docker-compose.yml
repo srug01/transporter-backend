@@ -1,0 +1,38 @@
+version: "3.7"
+services:
+  mysql_db_container:
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql_db_data_container:/var/lib/mysql
+    networks:
+      app-net:
+        aliases:
+          - transporter_mysql
+  adminer_container:
+    image: adminer:latest
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql_db_container
+    ports:
+      - 8888:8080
+    networks:
+      app-net:
+        aliases:
+          - transporter_mysql_admin
+  transporter_api:
+    build: .
+    ports:
+      - 3000:3000
+    networks:
+      app-net:
+        aliases:
+          - transporter_api
+volumes:
+  mysql_db_data_container:
+networks:
+  app-net:
+    driver: bridge
