@@ -1,14 +1,94 @@
--- Adminer 4.7.7 MySQL dump
-
 SET NAMES utf8;
 SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
+SET NAMES utf8mb4;
+
+CREATE DATABASE `transporter` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `transporter`;
+
 DELIMITER ;;
 
+DROP FUNCTION IF EXISTS `FuncGetBidCutofftime`;;
+CREATE FUNCTION `FuncGetBidCutofftime`(`StartDate` datetime, `IsFullTime` int, `hours` int) RETURNS varchar(30) CHARSET utf8mb4
+    READS SQL DATA
+    DETERMINISTIC
+BEGIN
+declare CutOffTime varchar(30);
+declare starthour int;
+declare endhour int;
+declare dateaddition int default 0 ;
+ select  HOUR(StartDate) into starthour;
+
+ if(hours < 8) then
+	 if(starthour between 10 and 18) then
+					if((18 - starthour) > 5) then
+					  select DATE_ADD(StartDate, INTERVAL hours hour)  into CutOffTime;
+                      end if;
+                      if((18 - starthour) < 6) then
+					  select DATE_ADD(StartDate, INTERVAL((18 - starthour) + 16 + (6 - (18 - starthour))) hour)  into CutOffTime;
+                      end if;
+				else if(starthour < 10) then
+					select DATE_ADD(StartDate, INTERVAL (hours + (10 - starthour )) hour) into CutOffTime;
+				else if(starthour > 18) then
+					select DATE_ADD(StartDate, INTERVAL (hours + 10 + (24 - starthour )) hour) into CutOffTime;
+			end if;
+		end if;
+		end if;
+  end if;
+
+
+ -- odd hours
+if(IsFullTime = 0)
+	then
+		 if(starthour between 10 and 18) then
+				  select DATE_ADD(StartDate, INTERVAL hours hour)  into CutOffTime;
+			else if(starthour < 10) then
+				select DATE_ADD(StartDate, INTERVAL (hours + (10 - starthour )) hour) into CutOffTime;
+			else if(starthour > 18) then
+				select DATE_ADD(StartDate, INTERVAL (hours + 10 + (24 - starthour )) hour) into CutOffTime;
+		end if;
+	end if;
+    end if;
+end if;
+-- full hors divided by 24
+if(IsFullTime = 1)
+    then
+			if(starthour between 11 and 18) then
+				select DATE_ADD(StartDate, INTERVAL hours hour)  into CutOffTime; -- 42,12 hours
+			else if(starthour < 11) then
+				select DATE_ADD(StartDate, INTERVAL (hours - 16 + (10 - starthour )) hour)  into CutOffTime; -- 42,12 hours
+            else if(starthour > 18) then
+				select DATE_ADD(StartDate, INTERVAL (hours -  (starthour  - 18)) hour)  into CutOffTime; -- 42,12 hours
+
+			end if;
+	end if;
+	end if;
+   end if;
+
+   RETURN CutOffTime;
+
+END;;
+
+DROP FUNCTION IF EXISTS `GetBidNumber`;;
+CREATE FUNCTION `GetBidNumber`() RETURNS varchar(250) CHARSET utf8mb4
+    READS SQL DATA
+    DETERMINISTIC
+BEGIN
+declare returnVal varchar(250);
+declare maxVal int;
+
+Select  max(bidId) + 1 into maxVal from transporter.bid;
+if maxVal is null then
+set maxVal:= 1;
+end if;
+SELECT concat('BID' , LPAD(maxVal, 8, '0')) into returnVal;
+RETURN returnVal;
+END;;
+
 DROP PROCEDURE IF EXISTS `GetAllCFSbyUserId`;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllCFSbyUserId`(IN `'user_Id'` int)
+CREATE PROCEDURE `GetAllCFSbyUserId`(IN `user_Id` int)
 BEGIN
 
 Select cm.* from transporter.cfsmaster cm
@@ -18,7 +98,7 @@ Where cur.userId =  user_Id;
 END;;
 
 DROP PROCEDURE IF EXISTS `getAllCFSContainersbyUserId`;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllCFSContainersbyUserId`(IN `'user_Id'` int, IN `'type_Id'` int, IN `'port_yard_Id'` int)
+CREATE PROCEDURE `getAllCFSContainersbyUserId`(IN `user_Id` int, IN `type_Id` int, IN `port_yard_Id` int)
 BEGIN
 
 IF (type_Id = 1) Then -- CFS To Yard
@@ -49,7 +129,7 @@ End IF;
 END;;
 
 DROP PROCEDURE IF EXISTS `GetAllCFSPortsbyUserId`;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllCFSPortsbyUserId`(IN `'user_Id'` int)
+CREATE PROCEDURE `GetAllCFSPortsbyUserId`(IN `user_Id` int)
 BEGIN
 
 Select distinct p.* from transporter.portmaster p
@@ -61,7 +141,7 @@ Where cur.userId = user_Id;
 END;;
 
 DROP PROCEDURE IF EXISTS `GetAllCFSWeightsbyUserandContainerId`;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllCFSWeightsbyUserandContainerId`(IN `'user_Id'` int, IN `'type_Id'` int, IN `'container_Id'` int, IN `'port_yard_Id'` int)
+CREATE PROCEDURE `GetAllCFSWeightsbyUserandContainerId`(IN `user_Id` int, IN `type_Id` int, IN `container_Id` int, IN `port_yard_Id` int)
 BEGIN
 
 IF (type_Id = 1) Then -- CFS To Yard
@@ -100,7 +180,7 @@ End IF;
 END;;
 
 DROP PROCEDURE IF EXISTS `GetAllCFSYardsbyUserId`;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllCFSYardsbyUserId`(IN `'user_Id'` int)
+CREATE PROCEDURE `GetAllCFSYardsbyUserId`(IN `user_Id` int)
 BEGIN
 
 Select distinct y.* from transporter.yardmaster y
@@ -112,7 +192,7 @@ Where cur.userId = user_Id;
 END;;
 
 DROP PROCEDURE IF EXISTS `GetAllDriversbyUserId`;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllDriversbyUserId`(IN `'user_Id'` int)
+CREATE PROCEDURE `GetAllDriversbyUserId`(IN `user_Id` int)
 BEGIN
 Select d.* from transporter.driver d
 Inner join transporter.drivertransportermapping dtm on d.userId = dtm.driverId
@@ -120,12 +200,15 @@ Where dtm.userId = user_Id;
 END;;
 
 DROP PROCEDURE IF EXISTS `GetAllOrdersbyUserId`;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllOrdersbyUserId`(IN `'user_Id'` int)
+CREATE PROCEDURE `GetAllOrdersbyUserId`(IN `user_Id` int)
 BEGIN
 
-Select
- ord.orderId, ord.sourceType,ord.destinationType,ord.orderRemarks,ord.orderDate,ord.totalRate,
- ord.orderStatus,ord.orderStatusId,ptm.terminal,
+declare role_Id int;
+Select typeSyscode into role_Id from transporter.user where userId = user_Id;
+
+if(role_Id = 1) then
+
+select ord.orderId, ord.sourceType,ord.destinationType,
 case
     When ord.masterTypeId = 4 then
     (Select p.portName from portmaster p  where p.portMasterId = ord.sourceId)
@@ -145,38 +228,83 @@ case
 	(Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
     When ord.masterTypeId = 1 then
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.destinationId)
-    end as destinationName
-    from transporter.order ord
-    inner join transporter.portterminalmaster ptm on ptm.portTerminalId = ord.portTerminalId
-    Where ord.createdBy = user_Id And ord.isDeleted = 0;
+    end as destinationName,
+    ptm.terminal,
+ord.orderRemarks,ord.totalRate,
+ord.orderStatus,DATE_FORMAT(ord.orderDate,'%d-%b-%Y') as OrderDate,
+DATE_FORMAT(ord.createdOn,'%d-%b-%Y') as CreatedOn
+from transporter.order ord
+inner join transporter.portterminalmaster ptm on ptm.portTerminalId = ord.portTerminalId
+where ord.isDeleted = 0;
+Else
+
+select ord.orderId, ord.sourceType,ord.destinationType,
+case
+    When ord.masterTypeId = 4 then
+    (Select p.portName from portmaster p  where p.portMasterId = ord.sourceId)
+    When ord.masterTypeId = 2 then
+    (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
+    When ord.masterTypeId = 3 then
+    (Select y.yardName from yardmaster y where y.yardMasterId = ord.sourceId)
+    When ord.masterTypeId = 1 then
+    (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
+    end  sourceName,
+    case
+    When ord.masterTypeId = 4 then
+    (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
+    When ord.masterTypeId = 2 then
+    (Select p.portName from portmaster p  where p.portMasterId = ord.destinationId)
+    When ord.masterTypeId = 3 then
+	(Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
+    When ord.masterTypeId = 1 then
+    (Select y.yardName from yardmaster y where y.yardMasterId = ord.destinationId)
+    end as destinationName,
+    ptm.terminal,
+ord.orderRemarks,ord.totalRate,
+ord.orderStatus,DATE_FORMAT(ord.orderDate,'%d-%b-%Y') as OrderDate,
+DATE_FORMAT(ord.createdOn,'%d-%b-%Y') as CreatedOn
+from transporter.order ord
+inner join transporter.portterminalmaster ptm on ptm.portTerminalId = ord.portTerminalId
+where ord.createdBy = user_Id and ord.isDeleted = 0;
+End if;
 END;;
 
 DROP PROCEDURE IF EXISTS `GetAllPermissionsbyUserId`;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllPermissionsbyUserId`(IN `'user_id'` tinyint)
+CREATE PROCEDURE `GetAllPermissionsbyUserId`(IN `role_Id` tinyint)
 BEGIN
-declare role_Id int;
-Select typeSyscode into role_Id from transporter.user
-where userId = userId;
 Select GROUP_CONCAT(p.permissionName) as Permissions from permission p
 inner join permissionrolemapping prm on p.permissionId = prm.permissionId
 Where prm.roleId = role_Id;
 END;;
 
 DROP PROCEDURE IF EXISTS `GetAllSubOrdersbyUserId`;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllSubOrdersbyUserId`(IN `'user_Id'` int)
+CREATE PROCEDURE `GetAllSubOrdersbyUserId`(IN `user_Id` int)
 BEGIN
-Select subo.subOrderId, subo.subOrderTotalMargin,subo.CutOffTime,subo.subOrderTotal,
-subo.subOrderTotalMargin,subo.suborderStatus,suborderStatusId,
-wm.weightDesc,cm.containerMasterName
-from transporter.suborder subo
-left outer join transporter.weightmaster wm on wm.weightMasterId = subo.containerWeightType
-left outer join transporter.containermaster cm on cm.containerMasterId = subo.containerType
-where subo.createdBy = user_Id and isDelete = 0;
 
+declare role_Id int;
+Select typeSyscode into role_Id from transporter.user where userId = user_Id;
+
+if(role_Id = 1 or role_Id = 5) then
+Select ord.orderId, subo.subOrderId, subo.subOrderTotalMargin,subo.CutOffTime,subo.suborderStatus,
+c.containerMasterName,w.weightDesc, DATE_FORMAT(subo.createdOn,'%d-%b-%Y') as SubOrderDate
+from transporter.order ord
+inner join transporter.suborder subo on subo.orderId= ord.orderId
+left outer join transporter.containermaster c on subo.containerType = c.containerMasterId
+left outer join transporter.weightmaster w on subo.containerWeightType = w.weightMasterId
+where subo.isDelete = 0;
+else
+Select ord.orderId, subo.subOrderId, subo.subOrderTotalMargin,subo.CutOffTime,subo.suborderStatus,
+c.containerMasterName,w.weightDesc, DATE_FORMAT(subo.createdOn,'%d-%b-%Y') as SubOrderDate
+from transporter.order ord
+inner join transporter.suborder subo on subo.orderId= ord.orderId
+left outer join transporter.containermaster c on subo.containerType = c.containerMasterId
+left outer join transporter.weightmaster w on subo.containerWeightType = w.weightMasterId
+where subo.createdBy = user_Id and subo.isDelete = 0;
+end if;
 END;;
 
 DROP PROCEDURE IF EXISTS `GetAllTransporter`;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllTransporter`()
+CREATE PROCEDURE `GetAllTransporter`()
 BEGIN
 SELECT userId, email , firstName , lastname , mobileNumber
  FROM transporter.user
@@ -184,7 +312,7 @@ where typeSyscode = 5;
 END;;
 
 DROP PROCEDURE IF EXISTS `GetAllTripsbyUserId`;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllTripsbyUserId`(IN `'user_Id'` int)
+CREATE PROCEDURE `GetAllTripsbyUserId`(IN `user_Id` int)
 BEGIN
 
 declare roleId int;
@@ -199,6 +327,9 @@ Select t.subOrderId,t.sourceId,t.destinationId,t.assignedVehicle,
 t.assignedDriver,t.tripstatus,t.startDate,t.endDate,t.billedAmount,
 t.createdBy,t.createdOn, concat(u.firstName ,' ',u.lastName) as DriverName,
 v.vehicleNumber,t.tripId,
+concat(usr.firstName ,' ',usr.lastName) TransporterName,
+ cm.containerMasterName TransporterContainer,wm.weightDesc TransporterWeight,
+ c.containerMasterName OrderContainer,w.weightDesc Orderweight, t.tripstatus,
 case
     When ord.masterTypeId = 4 then
     (Select p.portName from portmaster p  where p.portMasterId = ord.sourceId)
@@ -224,6 +355,11 @@ Inner Join transporter.suborder so on t.subOrderId = so.subOrderId
 Inner Join transporter.order ord on so.orderId = ord.orderId
 Left Outer Join transporter.vehiclemaster v on v.vehicleMasterId = t.assignedVehicle
 Left Outer Join transporter.driver u on u.driverId = t.assignedDriver
+left outer join transporter.weightmaster wm on wm.weightMasterId = v.vehiclecapacity
+left outer join transporter.containermaster cm on cm.containerMasterId = v.vehicletype
+left outer join transporter.containermaster c on so.containerType = c.containerMasterId
+left outer join transporter.weightmaster w on so.containerWeightType = w.weightMasterId
+left outer join transporter.user usr on usr.userId = t.createdBy
 Where t.createdBy = user_Id ;
 
 Elseif(roleId = 6) then -- Driver
@@ -231,6 +367,9 @@ Select t.subOrderId,t.sourceId,t.destinationId,t.assignedVehicle,
 t.assignedDriver,t.tripstatus,t.startDate,t.endDate,t.billedAmount,
 t.createdBy,t.createdOn, concat(u.firstName ,' ',u.lastName) as DriverName,
 v.vehicleNumber,t.tripId,
+concat(usr.firstName ,' ',usr.lastName) TransporterName,
+ cm.containerMasterName TransporterContainer,wm.weightDesc TransporterWeight,
+ c.containerMasterName OrderContainer,w.weightDesc Orderweight, t.tripstatus,
 case
     When ord.masterTypeId = 4 then
     (Select p.portName from portmaster p  where p.portMasterId = ord.sourceId)
@@ -256,13 +395,59 @@ Inner Join transporter.suborder so on t.subOrderId = so.subOrderId
 Inner Join transporter.order ord on so.orderId = ord.orderId
 Left Outer Join transporter.vehiclemaster v on v.vehicleMasterId = t.assignedVehicle
 Left Outer Join transporter.driver u on u.driverId = t.assignedDriver
+left outer join transporter.weightmaster wm on wm.weightMasterId = v.vehiclecapacity
+left outer join transporter.containermaster cm on cm.containerMasterId = v.vehicletype
+left outer join transporter.containermaster c on so.containerType = c.containerMasterId
+left outer join transporter.weightmaster w on so.containerWeightType = w.weightMasterId
+left outer join transporter.user usr on usr.userId = t.createdBy
 Where u.userId = user_Id ;
+
+else
+
+Select t.subOrderId,t.sourceId,t.destinationId,t.assignedVehicle,
+t.assignedDriver,t.tripstatus,t.startDate,t.endDate,t.billedAmount,
+t.createdBy,t.createdOn, concat(dusr.firstName ,' ',dusr.lastName) as DriverName,
+vhl.vehicleNumber,t.tripId,
+concat(usr.firstName ,' ',usr.lastName) TransporterName,
+ cm.containerMasterName TransporterContainer,wm.weightDesc TransporterWeight,
+ c.containerMasterName OrderContainer,w.weightDesc Orderweight, t.tripstatus,
+case
+    When ord.masterTypeId = 4 then
+    (Select p.portName from portmaster p  where p.portMasterId = ord.sourceId)
+    When ord.masterTypeId = 2 then
+    (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
+    When ord.masterTypeId = 3 then
+    (Select y.yardName from yardmaster y where y.yardMasterId = ord.sourceId)
+    When ord.masterTypeId = 1 then
+    (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
+    end  sourceName,
+    case
+    When ord.masterTypeId = 4 then
+    (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
+    When ord.masterTypeId = 2 then
+    (Select p.portName from portmaster p  where p.portMasterId = ord.destinationId)
+    When ord.masterTypeId = 3 then
+	(Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
+    When ord.masterTypeId = 1 then
+    (Select y.yardName from yardmaster y where y.yardMasterId = ord.destinationId)
+    end as destinationName
+from transporter.trip t
+Inner join transporter.suborder subo on t.subOrderId = subo.subOrderId
+Inner Join transporter.order ord on subo.orderId = ord.orderId
+left outer join transporter.vehiclemaster vhl on vhl.vehicleMasterId = t.assignedVehicle
+left outer join transporter.driver dusr on dusr.driverId = t.assignedDriver
+left outer join transporter.weightmaster wm on wm.weightMasterId = vhl.vehiclecapacity
+left outer join transporter.containermaster cm on cm.containerMasterId = vhl.vehicletype
+left outer join transporter.containermaster c on subo.containerType = c.containerMasterId
+left outer join transporter.weightmaster w on subo.containerWeightType = w.weightMasterId
+left outer join transporter.user usr on usr.userId = t.createdBy;
+
 End If;
 
 END;;
 
 DROP PROCEDURE IF EXISTS `GetAllVehiclesbyUserId`;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllVehiclesbyUserId`(IN `'user_Id'` int)
+CREATE PROCEDURE `GetAllVehiclesbyUserId`(IN `user_Id` int)
 BEGIN
 
 Select v.* from transporter.vehiclemaster v
@@ -271,7 +456,7 @@ Where vtm.userId = user_Id;
 END;;
 
 DROP PROCEDURE IF EXISTS `GetBidDetailsByBidId`;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetBidDetailsByBidId`(IN `'bidId'` int)
+CREATE PROCEDURE `GetBidDetailsByBidId`(IN `bidId` int)
 BEGIN
 if(bidId=0) then
 SELECT bi.bidName,bi.exhibitionDate,bi.subOrderId,bi.createdBy,bi.originalRate ,
@@ -292,7 +477,7 @@ FROM transporter.bid bi
 END;;
 
 DROP PROCEDURE IF EXISTS `GetBidsbyUserId`;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetBidsbyUserId`(IN `'user_Id'` int)
+CREATE PROCEDURE `GetBidsbyUserId`(IN `user_Id` int)
 BEGIN
 
 declare roleId int;
@@ -313,7 +498,7 @@ if roleId = 5 then -- Transporter
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.sourceId)
     When ord.masterTypeId = 1 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
-    end sourceName,
+    end  SorurceName,
     case
     When ord.masterTypeId = 4 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
@@ -338,8 +523,7 @@ if roleId = 5 then -- Transporter
     -- Inner Join transporter.bidusermapping bm on bm.userId = user_Id
     Left Outer Join transporter.containermaster com on sub.containerType= com.containerMasterId
     Left Outer Join transporter.weightmaster wem on containerWeightType=wem.weightMasterId
-    Where b.isActive = 1
-    order by b.bidId DESC;
+    Where b.isActive = 1;
 
 else -- Admin User
     Select b.bidId,b.bidName,b.bidLowerLimit,
@@ -352,7 +536,7 @@ else -- Admin User
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.sourceId)
     When ord.masterTypeId = 1 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
-    end  sourceName,
+    end  SorurceName,
     case
     When ord.masterTypeId = 4 then
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
@@ -372,14 +556,14 @@ else -- Admin User
     Left Outer Join transporter.bidusermapping bm on b.bidId = bm.bidId
     Left Outer Join transporter.containermaster com on sub.containerType= com.containerMasterId
     Left Outer Join transporter.weightmaster wem on containerWeightType=wem.weightMasterId
-	order by b.bidId DESC;
+    ;
 
 End if;
 
 END;;
 
 DROP PROCEDURE IF EXISTS `getDashboardForAdmin`;;
-CREATE PROCEDURE `getDashboardForAdmin`(IN `'user_id'` tinyint)
+CREATE PROCEDURE `getDashboardForAdmin`(IN `user_id` tinyint)
 BEGIN
 -- Get All Orders
 CREATE TEMPORARY TABLE Orders
@@ -474,8 +658,9 @@ END;;
 DROP PROCEDURE IF EXISTS `getDashboardForCFS`;;
 CREATE PROCEDURE `getDashboardForCFS`(IN `user_Id` int)
 BEGIN
+
 CREATE TEMPORARY TABLE Orders
-select DISTINCTROW  ord.orderId, ord.sourceType,ord.destinationType,
+select ord.orderId, ord.sourceType,ord.destinationType,
 case
     When ord.masterTypeId = 4 then
     (Select p.portName from portmaster p  where p.portMasterId = ord.sourceId)
@@ -504,7 +689,7 @@ inner join transporter.portterminalmaster ptm on ptm.portTerminalId = ord.portTe
 Where ord.createdBy =  user_Id;
 
 CREATE TEMPORARY TABLE Trips
-Select DISTINCTROW  t.tripId, subo.subOrderId, concat(usr.firstName ,' ',usr.lastName) TransporterName,
+Select t.tripId, subo.subOrderId, concat(usr.firstName ,' ',usr.lastName) TransporterName,
  vhl.vehicleNumber AssignedVehicle,concat(dusr.firstName ,' ',dusr.lastName) AssignedDriver,
  cm.containerMasterName TransporterContainer,wm.weightDesc TransporterWeight,
  c.containerMasterName OrderContainer,w.weightDesc Orderweight, t.tripstatus
@@ -520,11 +705,11 @@ left outer join transporter.weightmaster w on subo.containerWeightType = w.weigh
 left outer join transporter.user usr on usr.userId = t.createdBy
 where ord.createdBy =  user_Id;
 
-Select count(*) as TotalOrders from Orders od;
-Select count(*) as TotalTrips from Trips tr;
+Select count(*) as TotalOrders from Orders;
+Select count(*) as TotalTrips from Trips;
 
-Select DISTINCTROW  * from Orders od;
-Select DISTINCTROW  * from Trips tr;
+Select * from Orders;
+Select * from Trips;
 
 DROP TEMPORARY TABLE Orders;
 DROP TEMPORARY TABLE Trips;
@@ -533,7 +718,7 @@ DROP TEMPORARY TABLE Trips;
 END;;
 
 DROP PROCEDURE IF EXISTS `getDashboardForDriver`;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getDashboardForDriver`(IN `user_Id` int)
+CREATE PROCEDURE `getDashboardForDriver`(IN `user_Id` int)
 BEGIN
 
 CREATE TEMPORARY TABLE Trips
@@ -561,7 +746,7 @@ DROP TEMPORARY TABLE Trips;
 END;;
 
 DROP PROCEDURE IF EXISTS `getDashboardForTransporter`;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getDashboardForTransporter`(IN `user_Id` int)
+CREATE PROCEDURE `getDashboardForTransporter`(IN `user_Id` int)
 BEGIN
 
 -- Get All SubOrders
@@ -623,7 +808,7 @@ DROP TEMPORARY TABLE Trips;
 END;;
 
 DROP PROCEDURE IF EXISTS `GetTripDetailsbyTripId`;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetTripDetailsbyTripId`(IN `'trip_Id'` int)
+CREATE PROCEDURE `GetTripDetailsbyTripId`(IN `trip_Id` int)
 BEGIN
 
 Select t.tripId, subo.subOrderId,
@@ -674,7 +859,7 @@ Where t.tripId = trip_Id;
 END;;
 
 DROP PROCEDURE IF EXISTS `GetTripsbyId`;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetTripsbyId`(IN `'trip_Id'` int)
+CREATE PROCEDURE `GetTripsbyId`(IN `trip_Id` int)
 BEGIN
 Select t.subOrderId,t.sourceId,t.destinationId,t.assignedVehicle,
 t.assignedDriver,t.tripstatus,t.startDate,t.endDate,t.billedAmount,
@@ -709,7 +894,7 @@ Where t.tripId = trip_Id;
 END;;
 
 DROP PROCEDURE IF EXISTS `procGetOrderDetails`;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `procGetOrderDetails`(IN `'orderid'` int)
+CREATE PROCEDURE `procGetOrderDetails`(IN `orderid` int)
 BEGIN
 select ord.orderId, ord.sourceType,ord.destinationType,
 case
@@ -756,7 +941,7 @@ where  (ord.orderId = orderid or orderid is null) and (bum.biduserstatusId != 22
 END;;
 
 DROP PROCEDURE IF EXISTS `procSchedulerConfirmBid`;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `procSchedulerConfirmBid`()
+CREATE PROCEDURE `procSchedulerConfirmBid`()
 BEGIN
 SET SQL_SAFE_UPDATES = 0;
 
@@ -835,7 +1020,7 @@ where biduserStatusId != 5 and biduserStatusId != 22;
 end;;
 
 DROP PROCEDURE IF EXISTS `subOrderProcessing`;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `subOrderProcessing`(IN `'order_Id'` int)
+CREATE PROCEDURE `subOrderProcessing`(IN `order_Id` int)
 Begin
 Declare cfsRate decimal(10,2);
 Declare containerType int default 0;
@@ -998,28 +1183,7 @@ when ord.masterTypeId = 1 then  -- CFS To Yard
 	where cy.cfsMasterId = ord.sourceId and cy.yardMasterId = ord.destinationId
 	and cy.containerMasterId = c.containerMasterId and cy.weightMasterId = c.weightType and cy.portMasterId = cfs.portMasterId)
 end,
-case
-when ord.masterTypeId = 2 then  -- CFS To Port
-	(Select  orderMarginRate from transporter.cfsportratemaster
-	where cfsMasterId = ord.sourceId and portMasterId = ord.destinationId
-	and containerMasterId = c.containerMasterId and weightMasterId = c.weightType)
-when ord.masterTypeId = 4 then  -- Port To CFS
-	(Select orderMarginRate from transporter.portcfsratemaster
-	where cfsMasterId = ord.destinationId and portMasterId = ord.sourceId
-	and containerMasterId = c.containerMasterId and weightMasterId = c.weightType)
-when ord.masterTypeId = 3 then  -- Yard To CFS
-	(Select  orderMarginRate
-    from transporter.yardcfsratemaster yc
-    inner join transporter.cfsmaster cfs on yc.cfsMasterId = cfs.cfsMasterId and yc.portMasterId = cfs.portMasterId
-	where yc.cfsMasterId = ord.destinationId and yc.yardMasterId = ord.sourceId
-	and yc.containerMasterId = c.containerMasterId and yc.weightMasterId = c.weightType and yc.portMasterId = cfs.portMasterId)
-when ord.masterTypeId = 1 then  -- CFS To Yard
-	(Select orderMarginRate
-    from transporter.cfsyardratemaster cy
-    inner join transporter.cfsmaster cfs on cy.cfsMasterId = cfs.cfsMasterId and cy.portMasterId = cfs.portMasterId
-	where cy.cfsMasterId = ord.sourceId and cy.yardMasterId = ord.destinationId
-	and cy.containerMasterId = c.containerMasterId and cy.weightMasterId = c.weightType and cy.portMasterId = cfs.portMasterId)
-end,created_by,CURDATE(),
+0,created_by,CURDATE(),
 0,null,t.containerId,c.containerMasterId,
 c.weightType,
 case
@@ -1073,9 +1237,10 @@ where ord.orderId = order_Id;
   End;
 END;;
 
-DELIMITER ;
+DROP EVENT IF EXISTS `evtSchedulerBid`;;
+CREATE EVENT `evtSchedulerBid` ON SCHEDULE EVERY 5 MINUTE STARTS '2020-08-30 11:26:40' ON COMPLETION NOT PRESERVE ENABLE DO call procSchedulerConfirmBid();;
 
-SET NAMES utf8mb4;
+DELIMITER ;
 
 DROP TABLE IF EXISTS `bid`;
 CREATE TABLE `bid` (
@@ -1097,6 +1262,34 @@ CREATE TABLE `bid` (
   PRIMARY KEY (`bidId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `bid` (`bidId`, `bidName`, `originalRate`, `exhibitionDate`, `subOrderId`, `isActive`, `createdBy`, `createdOn`, `bidUpperLimit`, `modifiedBy`, `modifiedOn`, `bidLowerLimit`, `bidRate`, `bidStatus`, `bidStatusId`) VALUES
+(4,	'BID00000001',	450,	NULL,	10,	0,	4,	'2020-08-30 00:00:00',	0,	0,	NULL,	360,	NULL,	'BID_ASSIGNED',	2),
+(5,	'BID00000005',	450,	NULL,	11,	0,	4,	'2020-08-30 00:00:00',	0,	0,	NULL,	360,	NULL,	'BID_ASSIGNED',	2);
+
+DROP TABLE IF EXISTS `bidschedulemaster`;
+CREATE TABLE `bidschedulemaster` (
+  `BidScheduleId` int NOT NULL,
+  `FromHour` int DEFAULT NULL,
+  `ToHour` int DEFAULT NULL,
+  `BidingHours` int DEFAULT NULL,
+  `WorkingHours` int DEFAULT NULL,
+  `GraceHours` int DEFAULT NULL,
+  `BidCountUpto` int DEFAULT NULL,
+  `IsActive` bit(1) DEFAULT NULL,
+  `TotalBidHour` int DEFAULT NULL,
+  `IsFullHour` int DEFAULT NULL,
+  PRIMARY KEY (`BidScheduleId`),
+  UNIQUE KEY `BidScheduleId_UNIQUE` (`BidScheduleId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO `bidschedulemaster` (`BidScheduleId`, `FromHour`, `ToHour`, `BidingHours`, `WorkingHours`, `GraceHours`, `BidCountUpto`, `IsActive`, `TotalBidHour`, `IsFullHour`) VALUES
+(1,	2,	6,	1,	0,	1,	20,	CONV('1', 2, 10) + 0,	NULL,	NULL),
+(2,	6,	12,	3,	0,	1,	20,	CONV('1', 2, 10) + 0,	NULL,	NULL),
+(3,	12,	24,	8,	0,	1,	20,	CONV('1', 2, 10) + 0,	NULL,	NULL),
+(4,	24,	48,	6,	8,	1,	20,	CONV('1', 2, 10) + 0,	6,	NULL),
+(5,	48,	96,	12,	8,	1,	20,	CONV('1', 2, 10) + 0,	28,	0),
+(6,	96,	144,	24,	8,	1,	20,	CONV('1', 2, 10) + 0,	72,	1),
+(7,	144,	360,	42,	8,	1,	20,	CONV('1', 2, 10) + 0,	122,	0);
 
 DROP TABLE IF EXISTS `bidusermapping`;
 CREATE TABLE `bidusermapping` (
@@ -1113,6 +1306,11 @@ CREATE TABLE `bidusermapping` (
   PRIMARY KEY (`bidusermappingId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `bidusermapping` (`bidusermappingId`, `bidId`, `userId`, `bidValue`, `biduserStatus`, `biduserStatusId`, `createdBy`, `createdOn`, `modifiedBy`, `modifiedOn`) VALUES
+(1,	4,	5,	440,	'BID_USER_DISCARD',	22,	NULL,	NULL,	NULL,	NULL),
+(2,	5,	5,	360,	'BID_USER_CONFIRMED',	5,	NULL,	NULL,	NULL,	NULL),
+(3,	4,	6,	430,	'BID_USER_CONFIRMED',	5,	NULL,	NULL,	NULL,	NULL),
+(4,	5,	6,	400,	'BID_USER_DISCARD',	22,	NULL,	NULL,	NULL,	NULL);
 
 DROP TABLE IF EXISTS `cfsmaster`;
 CREATE TABLE `cfsmaster` (
@@ -1145,6 +1343,8 @@ CREATE TABLE `cfsmaster` (
   PRIMARY KEY (`cfsMasterId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `cfsmaster` (`cfsMasterId`, `cfsName`, `contactNumber`, `email`, `address1`, `address2`, `landmark`, `pincode`, `cfsCodeNumber`, `gstin`, `pan`, `tan`, `primaryContactName`, `primaryContactNumber`, `additionalContactName`, `additionalContactNumber`, `latitude`, `longitude`, `portMasterId`, `locationMasterId`, `stateMasterId`, `createdBy`, `createdOn`, `modifiedBy`, `modifiedOn`, `isActive`) VALUES
+(1,	'CFS All Cargo',	'8885462130',	'alc@cfs.com',	'Add1',	'Add2',	'LandMark',	'411047',	'CFS001',	'ldkfjkldfhv',	'djvhdkjvb',	'dvbnmbv',	'Utsav',	'8795462130',	'Gaurav',	'7985462130',	'44556',	'552255',	1,	1,	1,	1,	'2020-08-30 07:25:55',	1,	'2020-08-30 07:25:55',	1);
 
 DROP TABLE IF EXISTS `cfsportratemaster`;
 CREATE TABLE `cfsportratemaster` (
@@ -1164,6 +1364,8 @@ CREATE TABLE `cfsportratemaster` (
   PRIMARY KEY (`cfsPortRateMasterId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `cfsportratemaster` (`cfsPortRateMasterId`, `portMasterId`, `weightMasterId`, `rate`, `bidMarginRate`, `orderMarginRate`, `isActive`, `createdBy`, `createdOn`, `modifiedBy`, `modifiedOn`, `containerMasterId`, `cfsMasterId`) VALUES
+(1,	1,	1,	500,	20,	10,	1,	1,	'2020-08-30 07:36:38',	1,	'2020-08-30 07:36:38',	1,	1);
 
 DROP TABLE IF EXISTS `cfsuserregistration`;
 CREATE TABLE `cfsuserregistration` (
@@ -1186,6 +1388,8 @@ CREATE TABLE `cfsuserregistration` (
   PRIMARY KEY (`cfsUserRegistrationId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `cfsuserregistration` (`cfsUserRegistrationId`, `cfsMasterId`, `userTypeId`, `cfsUserName`, `cfsUserDesignation`, `cfsUserDepartment`, `cfsUserMobileNumber`, `cfsUserEmail`, `cfsUserPassword`, `userId`, `isActive`, `isVerified`, `createdBy`, `createdOn`, `modifiedBy`, `modifiedOn`) VALUES
+(1,	1,	7,	'CFS User',	'Designation',	'Department',	'8875415230',	'alc@admin.in',	'123456789',	4,	1,	1,	1,	'2020-08-30 07:34:20',	1,	'2020-08-30 07:34:20');
 
 DROP TABLE IF EXISTS `cfsyardratemaster`;
 CREATE TABLE `cfsyardratemaster` (
@@ -1222,6 +1426,8 @@ CREATE TABLE `container` (
   PRIMARY KEY (`containerId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `container` (`containerId`, `orderId`, `weightType`, `numberOfTrucks`, `containerMasterId`, `isDeleted`, `createdBy`, `createdOn`, `modifiedBy`, `modifiedOn`) VALUES
+(4,	4,	1,	2,	1,	0,	1,	'2020-08-30 08:07:53',	1,	'2020-08-30 08:07:53');
 
 DROP TABLE IF EXISTS `containermaster`;
 CREATE TABLE `containermaster` (
@@ -1235,6 +1441,9 @@ CREATE TABLE `containermaster` (
   PRIMARY KEY (`containerMasterId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `containermaster` (`containerMasterId`, `containerMasterName`, `isActive`, `createdBy`, `createdOn`, `modifiedBy`, `modifiedOn`) VALUES
+(1,	'10 FT',	1,	1,	'2020-08-30 07:35:17',	1,	'2020-08-30 07:35:17'),
+(2,	'20 FT',	1,	1,	'2020-08-30 07:35:34',	1,	'2020-08-30 07:35:34');
 
 DROP TABLE IF EXISTS `dieselratemaster`;
 CREATE TABLE `dieselratemaster` (
@@ -1275,6 +1484,8 @@ CREATE TABLE `driver` (
   PRIMARY KEY (`driverId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `driver` (`driverId`, `firstname`, `lastname`, `emailId`, `mobileNumber`, `userPassword`, `locationMasterId`, `stateMasterId`, `pincode`, `address1`, `address2`, `landmark`, `isActive`, `identitytype`, `identitynumber`, `createdBy`, `createdOn`, `modifiedBy`, `modifiedOn`, `userId`) VALUES
+(1,	'Transporter1 ',	'Driver',	'alc@driver.in',	'88774452632',	'123456789',	1,	1,	'4411008',	'Add1',	'Add2',	'LandMark',	1,	3,	'5525566',	6,	'2020-08-30 11:23:21',	6,	'2020-08-30 11:23:21',	7);
 
 DROP TABLE IF EXISTS `drivertransportermapping`;
 CREATE TABLE `drivertransportermapping` (
@@ -1288,6 +1499,8 @@ CREATE TABLE `drivertransportermapping` (
   PRIMARY KEY (`drivertransportermappingId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `drivertransportermapping` (`drivertransportermappingId`, `driverId`, `userId`, `createdBy`, `createdOn`, `modifiedBy`, `modifiedOn`) VALUES
+(1,	7,	6,	6,	'2020-08-30 11:23:21',	NULL,	NULL);
 
 DROP TABLE IF EXISTS `locationmaster`;
 CREATE TABLE `locationmaster` (
@@ -1302,6 +1515,8 @@ CREATE TABLE `locationmaster` (
   PRIMARY KEY (`locationMasterId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `locationmaster` (`locationMasterId`, `locationName`, `isActive`, `createdBy`, `createdOn`, `modifiedBy`, `modifiedOn`, `stateMasterId`) VALUES
+(1,	'Mumbai',	1,	1,	'2020-08-30 07:19:33',	NULL,	NULL,	1);
 
 DROP TABLE IF EXISTS `mastertype`;
 CREATE TABLE `mastertype` (
@@ -1312,6 +1527,11 @@ CREATE TABLE `mastertype` (
   PRIMARY KEY (`masterTypeId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `mastertype` (`masterTypeId`, `masterType`, `sourceType`, `destinationType`) VALUES
+(1,	'cfsToyard',	'CFS',	'YARD'),
+(2,	'cfsToport',	'CFS',	'PORT'),
+(3,	'yardTocfs',	'YARD',	'CFS'),
+(4,	'portTocfs',	'PORT',	'CFS');
 
 DROP TABLE IF EXISTS `mileagemaster`;
 CREATE TABLE `mileagemaster` (
@@ -1343,6 +1563,14 @@ CREATE TABLE `notification` (
   PRIMARY KEY (`notificationId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `notification` (`notificationId`, `notificationType`, `notificationDesc`, `orderId`, `bidId`, `createdBy`, `createdOn`, `isRead`, `assignedToRole`, `assignedToUser`) VALUES
+(1,	'orders',	'CFS User CFS User placed a new Order on 2020-08-30!',	3,	NULL,	4,	'2020-08-30 08:04:52',	0,	1,	NULL),
+(2,	'orders',	'CFS User CFS User placed a new Order on 2020-08-30!',	4,	NULL,	4,	'2020-08-30 08:07:54',	0,	1,	NULL),
+(3,	'orders',	'All Cargo Transporter confirmed a bid on 2020-08-30!',	1,	NULL,	5,	'2020-08-30 11:10:51',	0,	1,	NULL),
+(4,	'orders',	'All Cargo Transporter confirmed a bid on 2020-08-30!',	1,	NULL,	5,	'2020-08-30 11:11:41',	0,	1,	NULL),
+(5,	'orders',	'All Cargo Transporter confirmed a bid on 2020-08-30!',	1,	NULL,	5,	'2020-08-30 11:12:00',	0,	1,	NULL),
+(6,	'orders',	'All Cargo Transporter 2 confirmed a bid on 2020-08-30!',	1,	NULL,	6,	'2020-08-30 11:13:36',	0,	1,	NULL),
+(7,	'orders',	'All Cargo Transporter 2 confirmed a bid on 2020-08-30!',	1,	NULL,	6,	'2020-08-30 11:13:42',	0,	1,	NULL);
 
 DROP TABLE IF EXISTS `order`;
 CREATE TABLE `order` (
@@ -1361,7 +1589,7 @@ CREATE TABLE `order` (
   `orderStatus` varchar(512) DEFAULT NULL,
   `orderStatusId` int DEFAULT NULL,
   `createdBy` int DEFAULT NULL,
-  `createdOn` datetime DEFAULT NULL,
+  `createdOn` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `modifiedBy` int DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   `totalRate` int DEFAULT NULL,
@@ -1373,6 +1601,8 @@ CREATE TABLE `order` (
   PRIMARY KEY (`orderId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `order` (`orderId`, `orderTypeId`, `orderDate`, `masterTypeId`, `sourceId`, `destinationId`, `sourceType`, `destinationType`, `orderRemarks`, `orderAddress`, `isDeleted`, `isVerified`, `orderStatus`, `orderStatusId`, `createdBy`, `createdOn`, `modifiedBy`, `modifiedOn`, `totalRate`, `profitRate`, `portTerminalId`, `profitMarginPercentage`, `rateExcludingProfit`, `timeslotMasterId`) VALUES
+(4,	NULL,	'2020-09-01 11:00:00',	2,	1,	1,	'CFS',	'PORT',	'01 SEP 11 AM - 12 AM',	'',	0,	0,	'ORDER_ACCEPTED',	6,	4,	'2020-08-30 11:30:59',	4,	'2020-08-30 08:07:53',	1000,	100,	1,	0,	900,	12);
 
 DROP TABLE IF EXISTS `permission`;
 CREATE TABLE `permission` (
@@ -1386,6 +1616,91 @@ CREATE TABLE `permission` (
   PRIMARY KEY (`permissionId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `permission` (`permissionId`, `permissionName`, `createdBy`, `createdOn`, `modifiedBy`, `modifiedOn`, `isActive`) VALUES
+(1,	'dashboardFull',	NULL,	NULL,	NULL,	NULL,	1),
+(2,	'dashboardRead',	NULL,	NULL,	NULL,	NULL,	1),
+(3,	'dashboardWrite',	NULL,	NULL,	NULL,	NULL,	1),
+(4,	'cfsFull',	NULL,	NULL,	NULL,	NULL,	1),
+(5,	'cfsRead',	NULL,	NULL,	NULL,	NULL,	1),
+(6,	'cfsWrite',	NULL,	NULL,	NULL,	NULL,	1),
+(7,	'createOrderFull',	NULL,	NULL,	NULL,	NULL,	1),
+(8,	'createOrderRead',	NULL,	NULL,	NULL,	NULL,	1),
+(9,	'createOrderWrite',	NULL,	NULL,	NULL,	NULL,	1),
+(10,	'listOrderFull',	NULL,	NULL,	NULL,	NULL,	1),
+(11,	'listOrderRead',	NULL,	NULL,	NULL,	NULL,	1),
+(12,	'listOrderWrite',	NULL,	NULL,	NULL,	NULL,	1),
+(13,	'userRegistrationFull',	NULL,	NULL,	NULL,	NULL,	1),
+(14,	'userRegistrationRead',	NULL,	NULL,	NULL,	NULL,	1),
+(15,	'userRegistrationWrite',	NULL,	NULL,	NULL,	NULL,	1),
+(16,	'userListFull',	NULL,	NULL,	NULL,	NULL,	1),
+(17,	'userListRead',	NULL,	NULL,	NULL,	NULL,	1),
+(18,	'userListWrite',	NULL,	NULL,	NULL,	NULL,	1),
+(19,	'tranporterFull',	NULL,	NULL,	NULL,	NULL,	1),
+(20,	'tranporterRead',	NULL,	NULL,	NULL,	NULL,	1),
+(21,	'tranporterWrite',	NULL,	NULL,	NULL,	NULL,	1),
+(22,	'bidsFull',	NULL,	NULL,	NULL,	NULL,	1),
+(23,	'bidsRead',	NULL,	NULL,	NULL,	NULL,	1),
+(24,	'bidsWrite',	NULL,	NULL,	NULL,	NULL,	1),
+(25,	'vehicleRegistrationFull',	NULL,	NULL,	NULL,	NULL,	1),
+(26,	'vehicleRegistrationRead',	NULL,	NULL,	NULL,	NULL,	1),
+(27,	'vehicleRegistrationWrite',	NULL,	NULL,	NULL,	NULL,	1),
+(28,	'vehicleListFull',	NULL,	NULL,	NULL,	NULL,	1),
+(29,	'vehicleListRead',	NULL,	NULL,	NULL,	NULL,	1),
+(30,	'vehicleListWrite',	NULL,	NULL,	NULL,	NULL,	1),
+(31,	'tranporterRegistrationFull',	NULL,	NULL,	NULL,	NULL,	1),
+(32,	'tranporterRegistrationRead',	NULL,	NULL,	NULL,	NULL,	1),
+(33,	'tranporterRegistrationWrite',	NULL,	NULL,	NULL,	NULL,	1),
+(34,	'tranporterListFull',	NULL,	NULL,	NULL,	NULL,	1),
+(35,	'tranporterListRead',	NULL,	NULL,	NULL,	NULL,	1),
+(36,	'tranporterListWrite',	NULL,	NULL,	NULL,	NULL,	1),
+(37,	'driverRegistrationFull',	NULL,	NULL,	NULL,	NULL,	1),
+(38,	'driverRegistrationRead',	NULL,	NULL,	NULL,	NULL,	1),
+(39,	'driverRegistrationWrite',	NULL,	NULL,	NULL,	NULL,	1),
+(40,	'mastersFull',	NULL,	NULL,	NULL,	NULL,	1),
+(41,	'mastersRead',	NULL,	NULL,	NULL,	NULL,	1),
+(42,	'mastersWrite',	NULL,	NULL,	NULL,	NULL,	1),
+(43,	'cfsMasterFull',	NULL,	NULL,	NULL,	NULL,	1),
+(44,	'cfsMasterRead',	NULL,	NULL,	NULL,	NULL,	1),
+(45,	'cfsMasterWrite',	NULL,	NULL,	NULL,	NULL,	1),
+(46,	'containerMasterFull',	NULL,	NULL,	NULL,	NULL,	1),
+(47,	'containerMasterRead',	NULL,	NULL,	NULL,	NULL,	1),
+(48,	'containerMasterWrite',	NULL,	NULL,	NULL,	NULL,	1),
+(49,	'cfsRateMasterFull',	NULL,	NULL,	NULL,	NULL,	1),
+(50,	'cfsRateMasterRead',	NULL,	NULL,	NULL,	NULL,	1),
+(51,	'cfsRateMasterWrite',	NULL,	NULL,	NULL,	NULL,	1),
+(52,	'dieselMasterFull',	NULL,	NULL,	NULL,	NULL,	1),
+(53,	'dieselMasterRead',	NULL,	NULL,	NULL,	NULL,	1),
+(54,	'dieselMasterWrite',	NULL,	NULL,	NULL,	NULL,	1),
+(55,	'locationMasterFull',	NULL,	NULL,	NULL,	NULL,	1),
+(56,	'locationMasterRead',	NULL,	NULL,	NULL,	NULL,	1),
+(57,	'locationMasterWrite',	NULL,	NULL,	NULL,	NULL,	1),
+(58,	'mileageMasterFull',	NULL,	NULL,	NULL,	NULL,	1),
+(59,	'mileageMasterWrite',	NULL,	NULL,	NULL,	NULL,	1),
+(60,	'mileageMasterRead',	NULL,	NULL,	NULL,	NULL,	1),
+(61,	'portMasterFull',	NULL,	NULL,	NULL,	NULL,	1),
+(62,	'portMasterRead',	NULL,	NULL,	NULL,	NULL,	1),
+(63,	'portMasterWrite',	NULL,	NULL,	NULL,	NULL,	1),
+(64,	'portTerminalMasterFull',	NULL,	NULL,	NULL,	NULL,	1),
+(65,	'portTerminalMasterRead',	NULL,	NULL,	NULL,	NULL,	1),
+(66,	'portTerminalMasterWrite',	NULL,	NULL,	NULL,	NULL,	1),
+(67,	'stateMasterFull',	NULL,	NULL,	NULL,	NULL,	1),
+(68,	'stateMasterRead',	NULL,	NULL,	NULL,	NULL,	1),
+(69,	'stateMasterWrite',	NULL,	NULL,	NULL,	NULL,	1),
+(70,	'weightMasterFull',	NULL,	NULL,	NULL,	NULL,	1),
+(71,	'weightMasterRead',	NULL,	NULL,	NULL,	NULL,	1),
+(72,	'weightMasterWrite',	NULL,	NULL,	NULL,	NULL,	1),
+(73,	'yardMasterFull',	NULL,	NULL,	NULL,	NULL,	1),
+(74,	'yardMasterRead',	NULL,	NULL,	NULL,	NULL,	1),
+(75,	'yardMasterWrite',	NULL,	NULL,	NULL,	NULL,	1),
+(76,	'yardCFSRateMasterFull',	NULL,	NULL,	NULL,	NULL,	1),
+(77,	'yardCFSRateMasterRead',	NULL,	NULL,	NULL,	NULL,	1),
+(78,	'yardCFSRateMasterWrite',	NULL,	NULL,	NULL,	NULL,	1),
+(79,	'zoneMasterFull',	NULL,	NULL,	NULL,	NULL,	1),
+(80,	'zoneMasterRead',	NULL,	NULL,	NULL,	NULL,	1),
+(81,	'zoneMasterWrite',	NULL,	NULL,	NULL,	NULL,	1),
+(82,	'zoneDayMasterFull',	NULL,	NULL,	NULL,	NULL,	1),
+(83,	'zoneDayMasterRead',	NULL,	NULL,	NULL,	NULL,	1),
+(84,	'zoneDayMasterWrite',	NULL,	NULL,	NULL,	NULL,	1);
 
 DROP TABLE IF EXISTS `permissionrolemapping`;
 CREATE TABLE `permissionrolemapping` (
@@ -1396,6 +1711,127 @@ CREATE TABLE `permissionrolemapping` (
   PRIMARY KEY (`permissionroleId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `permissionrolemapping` (`permissionroleId`, `permissionId`, `roleId`, `isActive`) VALUES
+(1,	1,	1,	1),
+(2,	2,	1,	1),
+(3,	3,	1,	1),
+(4,	4,	1,	1),
+(5,	5,	1,	1),
+(6,	6,	1,	1),
+(7,	7,	1,	1),
+(8,	8,	1,	1),
+(9,	9,	1,	1),
+(10,	10,	1,	1),
+(11,	11,	1,	1),
+(12,	12,	1,	1),
+(13,	13,	1,	1),
+(14,	14,	1,	1),
+(15,	15,	1,	1),
+(16,	16,	1,	1),
+(17,	17,	1,	1),
+(18,	18,	1,	1),
+(19,	19,	1,	1),
+(20,	20,	1,	1),
+(21,	21,	1,	1),
+(22,	22,	1,	1),
+(23,	23,	1,	1),
+(24,	24,	1,	1),
+(25,	25,	1,	1),
+(26,	26,	1,	1),
+(27,	27,	1,	1),
+(28,	28,	1,	1),
+(29,	29,	1,	1),
+(30,	30,	1,	1),
+(31,	31,	1,	1),
+(32,	32,	1,	1),
+(33,	33,	1,	1),
+(34,	34,	1,	1),
+(35,	35,	1,	1),
+(36,	36,	1,	1),
+(37,	37,	1,	1),
+(38,	38,	1,	1),
+(39,	39,	1,	1),
+(40,	40,	1,	1),
+(41,	41,	1,	1),
+(42,	42,	1,	1),
+(43,	43,	1,	1),
+(44,	44,	1,	1),
+(45,	45,	1,	1),
+(46,	46,	1,	1),
+(47,	47,	1,	1),
+(48,	48,	1,	1),
+(49,	49,	1,	1),
+(50,	50,	1,	1),
+(51,	51,	1,	1),
+(52,	52,	1,	1),
+(53,	53,	1,	1),
+(54,	54,	1,	1),
+(55,	55,	1,	1),
+(56,	56,	1,	1),
+(57,	57,	1,	1),
+(58,	58,	1,	1),
+(59,	59,	1,	1),
+(60,	60,	1,	1),
+(61,	61,	1,	1),
+(62,	62,	1,	1),
+(63,	63,	1,	1),
+(64,	64,	1,	1),
+(65,	65,	1,	1),
+(66,	66,	1,	1),
+(67,	67,	1,	1),
+(68,	68,	1,	1),
+(69,	69,	1,	1),
+(70,	70,	1,	1),
+(71,	71,	1,	1),
+(72,	72,	1,	1),
+(73,	73,	1,	1),
+(74,	74,	1,	1),
+(75,	75,	1,	1),
+(76,	76,	1,	1),
+(77,	77,	1,	1),
+(78,	78,	1,	1),
+(79,	79,	1,	1),
+(80,	80,	1,	1),
+(81,	81,	1,	1),
+(82,	82,	1,	1),
+(83,	83,	1,	1),
+(84,	84,	1,	1),
+(85,	4,	4,	1),
+(86,	5,	4,	1),
+(87,	6,	4,	1),
+(88,	7,	4,	1),
+(89,	8,	4,	1),
+(90,	9,	4,	1),
+(91,	10,	4,	1),
+(92,	11,	4,	1),
+(93,	12,	4,	1),
+(94,	13,	4,	1),
+(95,	14,	4,	1),
+(96,	15,	4,	1),
+(97,	16,	4,	1),
+(98,	17,	4,	1),
+(99,	18,	4,	1),
+(100,	19,	5,	1),
+(101,	20,	5,	1),
+(102,	21,	5,	1),
+(103,	22,	5,	1),
+(104,	23,	5,	1),
+(105,	24,	5,	1),
+(106,	25,	5,	1),
+(107,	26,	5,	1),
+(108,	27,	5,	1),
+(109,	28,	5,	1),
+(110,	29,	5,	1),
+(111,	30,	5,	1),
+(112,	31,	5,	1),
+(113,	32,	5,	1),
+(114,	33,	5,	1),
+(115,	34,	5,	1),
+(116,	35,	5,	1),
+(117,	36,	5,	1),
+(118,	37,	5,	1),
+(119,	38,	5,	1),
+(120,	39,	5,	1);
 
 DROP TABLE IF EXISTS `portcfsratemaster`;
 CREATE TABLE `portcfsratemaster` (
@@ -1415,6 +1851,8 @@ CREATE TABLE `portcfsratemaster` (
   PRIMARY KEY (`portCfsRateMasterId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `portcfsratemaster` (`portCfsRateMasterId`, `portMasterId`, `cfsMasterId`, `weightMasterId`, `rate`, `bidMarginRate`, `orderMarginRate`, `isActive`, `createdBy`, `createdOn`, `modifiedBy`, `modifiedOn`, `containerMasterId`) VALUES
+(1,	1,	1,	1,	400,	15,	10,	1,	1,	'2020-08-30 07:38:32',	1,	'2020-08-30 07:38:32',	1);
 
 DROP TABLE IF EXISTS `portmaster`;
 CREATE TABLE `portmaster` (
@@ -1438,6 +1876,8 @@ CREATE TABLE `portmaster` (
   PRIMARY KEY (`portMasterId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `portmaster` (`portMasterId`, `portName`, `stateMasterId`, `locationMasterId`, `address1`, `address2`, `landmark`, `pincode`, `primarycontactperson`, `primarycontactnumber`, `isActive`, `createdBy`, `createdOn`, `modifiedBy`, `modifiedOn`, `latitude`, `longitude`) VALUES
+(1,	'JNPT',	1,	1,	'add1',	'Add2',	'Port area',	'412457',	'Utsav',	'5522334789',	1,	1,	'2020-08-30 07:20:23',	1,	'2020-08-30 07:20:23',	'41252',	'553266');
 
 DROP TABLE IF EXISTS `portterminalmaster`;
 CREATE TABLE `portterminalmaster` (
@@ -1454,6 +1894,8 @@ CREATE TABLE `portterminalmaster` (
   PRIMARY KEY (`portTerminalId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `portterminalmaster` (`portTerminalId`, `portMasterId`, `terminal`, `longitude`, `latitude`, `createdBy`, `createdOn`, `modifiedBy`, `modifiedOn`, `isActive`) VALUES
+(1,	1,	'Terminal1',	'4444554',	'555525',	1,	'2020-08-30 07:20:50',	1,	'2020-08-30 07:20:50',	1);
 
 DROP TABLE IF EXISTS `settings`;
 CREATE TABLE `settings` (
@@ -1477,6 +1919,8 @@ CREATE TABLE `statemaster` (
   PRIMARY KEY (`stateMasterId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `statemaster` (`stateMasterId`, `stateName`, `isActive`, `createdBy`, `createdOn`, `modifiedBy`, `modifiedOn`) VALUES
+(1,	'Maharashtra',	1,	NULL,	NULL,	NULL,	NULL);
 
 DROP TABLE IF EXISTS `statusdetails`;
 CREATE TABLE `statusdetails` (
@@ -1491,6 +1935,29 @@ CREATE TABLE `statusdetails` (
   PRIMARY KEY (`statusDetailsId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `statusdetails` (`statusDetailsId`, `statusMasterId`, `statusDetailsName`, `isActive`, `createdBy`, `createdOn`, `modifiedBy`, `modifiedOn`) VALUES
+(1,	1,	'BID_PENDING',	1,	1,	'2020-08-06 00:00:00',	NULL,	NULL),
+(2,	1,	'BID_ASSIGNED',	1,	1,	'2020-08-06 00:00:00',	NULL,	NULL),
+(3,	1,	'BID_COMPLETED',	1,	1,	'2020-08-06 00:00:00',	NULL,	NULL),
+(4,	2,	'BID_USER_EDIT',	1,	1,	'2020-08-06 00:00:00',	NULL,	NULL),
+(5,	2,	'BID_USER_CONFIRMED',	1,	1,	'2020-08-06 00:00:00',	NULL,	NULL),
+(6,	3,	'ORDER_ACCEPTED',	1,	1,	'2020-08-06 00:00:00',	NULL,	NULL),
+(7,	3,	'ORDER_ASSIGNED',	1,	1,	'2020-08-06 00:00:00',	NULL,	NULL),
+(8,	3,	'ORDER_STARTED',	1,	1,	'2020-08-06 00:00:00',	NULL,	NULL),
+(9,	3,	'ORDER_DELIVERED',	1,	1,	'2020-08-06 00:00:00',	NULL,	NULL),
+(10,	3,	'ORDER_COMPLETED',	1,	1,	'2020-08-06 00:00:00',	NULL,	NULL),
+(11,	4,	'SUB_ORDER_PENDING',	1,	1,	'2020-08-06 00:00:00',	NULL,	NULL),
+(12,	4,	'SUB_ORDER_BID_ASSIGNED',	1,	1,	'2020-08-06 00:00:00',	NULL,	NULL),
+(13,	4,	'SUB_ORDER_TRIP_STARTED',	1,	1,	'2020-08-06 00:00:00',	NULL,	NULL),
+(14,	4,	'SUB_ORDER_TRIP_COMPLETED',	1,	1,	'2020-08-06 00:00:00',	NULL,	NULL),
+(15,	4,	'SUB_ORDER_COMPLETED',	1,	1,	'2020-08-06 00:00:00',	NULL,	NULL),
+(16,	5,	'TRIP_TRANSPORTER_ASSIGNED',	1,	1,	'2020-08-06 00:00:00',	NULL,	NULL),
+(17,	5,	'TRIP_DRIVER_ASSIGNED',	1,	1,	'2020-08-06 00:00:00',	NULL,	NULL),
+(18,	5,	'TRIP_VEHICLE_ASSIGNED',	1,	1,	'2020-08-06 00:00:00',	NULL,	NULL),
+(19,	5,	'TRIP_STARTED',	1,	1,	'2020-08-06 00:00:00',	NULL,	NULL),
+(20,	5,	'TRIP_COMPLETED',	1,	1,	'2020-08-07 00:00:00',	NULL,	NULL),
+(21,	5,	'TRIP_DRIVER_VEHICLE_ASSIGNED',	1,	1,	'2020-08-07 00:00:00',	NULL,	NULL),
+(22,	2,	'BID_USER_DISCARD',	1,	1,	'2020-08-07 00:00:00',	NULL,	NULL);
 
 DROP TABLE IF EXISTS `statusmaster`;
 CREATE TABLE `statusmaster` (
@@ -1529,6 +1996,9 @@ CREATE TABLE `suborder` (
   PRIMARY KEY (`subOrderId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `suborder` (`subOrderId`, `orderId`, `subOrderTotal`, `BidScheduleId`, `isDelete`, `createdBy`, `createdOn`, `modifiedBy`, `modifiedOn`, `cotainerId`, `containerType`, `containerWeightType`, `subOrderTotalMargin`, `marginPercent`, `bidLimit`, `OrderDate`, `CutOffTime`, `suborderStatus`, `suborderStatusId`) VALUES
+(10,	4,	450,	4,	0,	4,	'2020-08-30 00:00:00',	0,	NULL,	4,	'1',	1,	450,	0,	20,	NULL,	'2020-08-30 12:05:55',	'SUB_ORDER_BID_ASSIGNED',	12),
+(11,	4,	450,	4,	0,	4,	'2020-08-30 00:00:00',	0,	NULL,	4,	'1',	1,	450,	0,	20,	NULL,	'2020-08-30 12:05:55',	'SUB_ORDER_BID_ASSIGNED',	12);
 
 DROP TABLE IF EXISTS `timeslotmaster`;
 CREATE TABLE `timeslotmaster` (
@@ -1543,6 +2013,31 @@ CREATE TABLE `timeslotmaster` (
   PRIMARY KEY (`timeslotMasterId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `timeslotmaster` (`timeslotMasterId`, `fromValue`, `toValue`, `actualValue`, `createdBy`, `createdOn`, `modifiedBy`, `modifiedOn`) VALUES
+(1,	'12',	'01',	'12 AM - 1 AM',	1,	'2020-08-03 00:00:00',	NULL,	NULL),
+(2,	'01',	'02',	'1 AM - 2 AM',	1,	'2020-08-03 00:00:00',	NULL,	NULL),
+(3,	'02',	'03',	'2 AM - 3 AM',	1,	'2020-08-03 00:00:00',	NULL,	NULL),
+(4,	'03',	'04',	'3 AM - 4 AM',	1,	'2020-08-03 00:00:00',	NULL,	NULL),
+(5,	'04',	'05',	'4 AM - 5 AM',	1,	'2020-08-03 00:00:00',	NULL,	NULL),
+(6,	'05',	'06',	'5 AM - 6 AM',	1,	'2020-08-03 00:00:00',	NULL,	NULL),
+(7,	'06',	'07',	'6 AM - 7 AM',	1,	'2020-08-03 00:00:00',	NULL,	NULL),
+(8,	'07',	'08',	'7 AM - 8 AM',	1,	'2020-08-03 00:00:00',	NULL,	NULL),
+(9,	'08',	'09',	'8 AM - 9 AM',	1,	'2020-08-03 00:00:00',	NULL,	NULL),
+(10,	'09',	'10',	'9 AM - 10 AM',	1,	'2020-08-03 00:00:00',	NULL,	NULL),
+(11,	'10',	'11',	'10 AM- 11 AM',	1,	'2020-08-03 00:00:00',	NULL,	NULL),
+(12,	'11',	'12',	'11 AM - 12 AM',	1,	'2020-08-03 00:00:00',	NULL,	NULL),
+(13,	'12',	'13',	'12 PM - 13 PM',	1,	'2020-08-03 00:00:00',	NULL,	NULL),
+(14,	'13',	'14',	'13 PM - 14 PM',	1,	'2020-08-03 00:00:00',	NULL,	NULL),
+(15,	'14',	'15',	'14 PM - 15 PM',	1,	'2020-08-03 00:00:00',	NULL,	NULL),
+(16,	'15',	'16',	'15 PM - 16 PM',	1,	'2020-08-03 00:00:00',	NULL,	NULL),
+(17,	'16',	'17',	'16 PM - 17 PM',	1,	'2020-08-03 00:00:00',	NULL,	NULL),
+(18,	'17',	'18',	'17 PM - 18 PM',	1,	'2020-08-03 00:00:00',	NULL,	NULL),
+(19,	'18',	'19',	'18 PM - 19 PM',	1,	'2020-08-03 00:00:00',	NULL,	NULL),
+(20,	'19',	'20',	'19 PM - 20 PM',	1,	'2020-08-03 00:00:00',	NULL,	NULL),
+(21,	'20',	'21',	'20 PM - 21 PM',	1,	'2020-08-03 00:00:00',	NULL,	NULL),
+(22,	'21',	'22',	'21 PM - 22 PM',	1,	'2020-08-03 00:00:00',	NULL,	NULL),
+(23,	'22',	'23',	'22 PM - 23 PM',	1,	'2020-08-03 00:00:00',	NULL,	NULL),
+(24,	'23',	'12',	'23 PM - 12 AM',	1,	'2020-08-03 00:00:00',	NULL,	NULL);
 
 DROP TABLE IF EXISTS `transporterregistration`;
 CREATE TABLE `transporterregistration` (
@@ -1605,6 +2100,48 @@ CREATE TABLE `trip` (
   PRIMARY KEY (`tripId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `trip` (`tripId`, `subOrderId`, `sourceId`, `destinationId`, `assignedVehicle`, `assignedDriver`, `tripstatus`, `tripStatusId`, `destinationName`, `sourceName`, `vehicleNumber`, `createdBy`, `createdOn`, `modifiedBy`, `modifiedOn`, `startDate`, `endDate`, `billedAmount`, `BidValue`, `isActive`, `startedBy`, `stoppeddBy`) VALUES
+(1,	11,	1,	1,	NULL,	NULL,	'TRIP_TRANSPORTER_ASSIGNED',	16,	NULL,	NULL,	NULL,	5,	'2020-08-30 12:06:40',	NULL,	NULL,	NULL,	NULL,	NULL,	360,	NULL,	NULL,	NULL),
+(2,	10,	1,	1,	NULL,	NULL,	'TRIP_TRANSPORTER_ASSIGNED',	16,	NULL,	NULL,	NULL,	6,	'2020-08-30 12:06:40',	NULL,	NULL,	NULL,	NULL,	NULL,	430,	NULL,	NULL,	NULL);
+
+DELIMITER ;;
+
+CREATE TRIGGER `trip_au` AFTER UPDATE ON `trip` FOR EACH ROW
+IF(NEW.tripStatusId = 21) Then -- Both Vehicle And Driver Assigned
+
+update transporter.order ord
+inner join transporter.suborder sub  on ord.orderId = sub.orderId
+and OLD.subOrderId = sub.subOrderId
+set ord.orderStatus = 'ORDER_ASSIGNED',
+	ord.orderStatusId = 7
+where sub.subOrderId = OLD.subOrderId;
+
+ElseIF(NEW.tripStatusId = 19) Then -- Trip Started
+
+update transporter.suborder
+set suborderStatus = 'SUB_ORDER_TRIP_STARTED',
+suborderStatusId = 13
+Where subOrderId = OLD.subOrderId;
+
+ElseIF(NEW.tripStatusId = 20) Then -- Trip Completed
+
+update transporter.suborder
+set suborderStatus = 'SUB_ORDER_TRIP_COMPLETED',
+suborderStatusId = 14
+Where subOrderId = OLD.subOrderId;
+
+update transporter.order ord
+inner join transporter.suborder sub  on ord.orderId = sub.orderId
+and OLD.subOrderId = sub.subOrderId
+set ord.orderStatus = 'ORDER_DELIVERED',
+	ord.orderStatusId = 9
+where sub.subOrderId = OLD.subOrderId;
+
+
+
+End If;;
+
+DELIMITER ;
 
 DROP TABLE IF EXISTS `truck`;
 CREATE TABLE `truck` (
@@ -1619,6 +2156,9 @@ CREATE TABLE `truck` (
   PRIMARY KEY (`truckId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `truck` (`truckId`, `containerId`, `truckNumber`, `isDeleted`, `createdBy`, `createdOn`, `modifiedBy`, `modifiedOn`) VALUES
+(7,	4,	'2222',	0,	1,	'2020-08-30 08:07:53',	1,	'2020-08-30 08:07:53'),
+(8,	4,	'5555',	0,	1,	'2020-08-30 08:07:53',	1,	'2020-08-30 08:07:53');
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
@@ -1634,7 +2174,12 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `user` (`userId`, `email`, `password`, `firstName`, `lastName`, `mobileNumber`, `typeSyscode`, `permissions`) VALUES
-(2,	'bhushan@cfs.com',	'$2a$10$Z.3RPeSiMpMBs7hQP4ajVeJyx8ME4QJ9.gVIGpPZUpAtdI72Wks7i',	'Bhushan',	'Gadekar',	'9886631264',	4,	'[\"AccessAuthFeature\"]');
+(1,	'utsav@hotmail.com',	'$2a$10$g4gC9K5ebPMdTS2Aosq55ehc.i.N15Bo/wJ994P/ZlM.NqkExMxpa',	'utsav',	'demo',	'9886631264',	1,	'[\"AccessAuthFeature\"]'),
+(3,	'cfs@hotmail.com',	'$2a$10$zFSpbpbu3L1ms6QPh78I9.tP28nzE4DfBrj5vyujWGBFaMP6tlHJW',	'Utsav',	'Purohit',	'9886631264',	4,	'[\"AccessAuthFeature\"]'),
+(4,	'alc@admin.in',	'$2a$10$u1ELBUU.FGlKqvthzGvAt.xNhXHh9uUXhWOc3f0RNouaTYV0SSKpq',	'CFS User',	'CFS User',	'8875415230',	7,	'[\"AccessAuthFeature\"]'),
+(5,	'alc@transporter.in',	'$2a$10$yoaaMSAfyYt4QUXz6cpHKeHzeVXzplBb1Wm6cihB1mPEFOnGDHRB6',	'All Cargo',	'Transporter',	'9875461230',	5,	'[\"AccessAuthFeature\"]'),
+(6,	'alc@transporter2.in',	'$2a$10$QHjd46LvEZYsFZdF/Xi/0uF15q5T0Zui23oL53FeeRcwoxXSXNJxW',	'All Cargo',	'Transporter 2',	'7775213680',	5,	'[\"AccessAuthFeature\"]'),
+(7,	'alc@driver.in',	'$2a$10$mlo7kkE7WuXQ15dgwoK9TOI1mVZ5F9wISKG2OY0XztWUhNyLqVcYi',	'Transporter1 ',	'Driver',	'88774452632',	6,	'[\"AccessAuthFeature\"]');
 
 DROP TABLE IF EXISTS `userrole`;
 CREATE TABLE `userrole` (
@@ -1649,6 +2194,16 @@ CREATE TABLE `userrole` (
   PRIMARY KEY (`roleId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `userrole` (`roleId`, `roleName`, `is_active`, `created_by`, `created_on`, `modified_by`, `modified_on`, `parentRoleId`) VALUES
+(1,	'Admin',	1,	1,	'2020-06-26 21:11:31',	NULL,	NULL,	NULL),
+(2,	'Import Customer',	1,	1,	'2020-06-26 21:12:54',	NULL,	NULL,	NULL),
+(3,	'Export Customer',	1,	1,	'2020-06-26 21:12:54',	NULL,	NULL,	NULL),
+(4,	'CFS Customer',	1,	1,	'2020-06-26 21:12:54',	NULL,	NULL,	NULL),
+(5,	'Transporter',	1,	1,	'2020-06-26 21:12:54',	NULL,	NULL,	NULL),
+(6,	'Driver',	1,	1,	'2020-06-26 21:12:54',	NULL,	NULL,	NULL),
+(7,	'CFS User Admin',	1,	1,	'2020-07-17 00:00:00',	NULL,	NULL,	4),
+(8,	'CFS User Super Admin',	1,	1,	'2020-07-17 00:00:00',	NULL,	NULL,	4),
+(9,	'CFS User Viewer',	1,	1,	'2020-07-17 00:00:00',	NULL,	NULL,	4);
 
 DROP TABLE IF EXISTS `userrolemapping`;
 CREATE TABLE `userrolemapping` (
@@ -1715,6 +2270,9 @@ CREATE TABLE `weightmaster` (
   PRIMARY KEY (`weightMasterId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `weightmaster` (`weightMasterId`, `weightDesc`, `isActive`, `createdBy`, `createdOn`, `modifiedBy`, `modifiedOn`, `containerMasterId`) VALUES
+(1,	'10 Ton',	1,	1,	'2020-08-30 07:35:52',	1,	'2020-08-30 07:35:52',	1),
+(2,	'20 Ton',	1,	1,	'2020-08-30 07:36:01',	1,	'2020-08-30 07:36:01',	2);
 
 DROP TABLE IF EXISTS `yardcfsratemaster`;
 CREATE TABLE `yardcfsratemaster` (
@@ -1759,6 +2317,8 @@ CREATE TABLE `yardmaster` (
   PRIMARY KEY (`yardMasterId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `yardmaster` (`yardMasterId`, `yardName`, `isActive`, `address1`, `address2`, `landmark`, `pincode`, `latitude`, `longitude`, `createdBy`, `modifiedBy`, `createdOn`, `modifiedOn`, `portMasterId`, `locationMasterId`, `stateMasterId`, `primarycontactperson`, `primarycontactnumber`) VALUES
+(1,	'Yard1',	1,	'Add1',	'Add2',	'Land',	'445578',	'556655',	'5222565',	1,	1,	'2020-08-30 07:21:43',	'2020-08-30 07:21:43',	1,	1,	1,	'Utsav',	'5857475565');
 
 DROP TABLE IF EXISTS `zonedaymaster`;
 CREATE TABLE `zonedaymaster` (
@@ -1789,6 +2349,3 @@ CREATE TABLE `zonemaster` (
   `zoneDesc` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`zoneMasterId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-
--- 2020-08-24 09:24:49
