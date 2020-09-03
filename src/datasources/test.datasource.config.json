@@ -7,5 +7,5 @@
     "user": "root",
     "password": "root",
     "database": "transporter",
-    "connectionLimit": 32
+    "connectionLimit": 1024
 }
