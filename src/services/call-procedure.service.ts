@@ -10,10 +10,11 @@ const mysqlCreds = require('../datasources/test.datasource.config.json');
 //@bind({scope: BindingScope.TRANSIENT})
 export class CallProcedureService {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private connection: any;
+  public connection: any;
   constructor(
     @repository(UserRepository) public userRepository: UserRepository,
-    @inject(RestBindings.Http.REQUEST) private req: Request) {
+    @inject(RestBindings.Http.REQUEST) private req: Request,
+  ) {
     db.configure(mysqlCreds, mysql);
     this.connection = db;
   }
@@ -25,7 +26,7 @@ export class CallProcedureService {
   async PostOrderProcessing(
     id: string,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Promise<any> {
+  Promise<any> {
     const sqlStmt = mysql.format('CALL subOrderProcessing(?)', [id]);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -41,7 +42,7 @@ export class CallProcedureService {
   async GetBidsbyUserId(
     id: string,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Promise<any> {
+  Promise<any> {
     const sqlStmt = mysql.format('CALL GetBidsbyUserId(?)', [id]);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -57,9 +58,11 @@ export class CallProcedureService {
   async GetAllPermissionsbyUserId(
     id: string,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Promise<any> {
+  Promise<any> {
     const user: any = await this.userRepository.findById(parseInt(id));
-    const sqlStmt = mysql.format('CALL GetAllPermissionsbyUserId(?)', [user.typeSyscode]);
+    const sqlStmt = mysql.format('CALL GetAllPermissionsbyUserId(?)', [
+      user.typeSyscode,
+    ]);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return new Promise<any>(function (resolve, reject) {

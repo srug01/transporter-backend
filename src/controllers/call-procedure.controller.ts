@@ -137,7 +137,7 @@ export class CallProcedureController {
     @param.path.string('userid') userid: string,
     @param.path.string('roleid') roleid: string,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Promise<any> {
+  Promise<any> {
     const sqlStmt = mysql.format('CALL MULTIPLETABLES(?,?)', [userid, roleid]);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -198,7 +198,7 @@ export class CallProcedureController {
     @param.path.string('containerMasterId') containerMasterId: number,
     @param.path.string('portyardid') portyardid: number,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Promise<any> {
+  Promise<any> {
     const sqlStmt = mysql.format(
       'CALL GetAllCFSWeightsbyUserandContainerId(?,?,?,?)',
       [userid, typeid, containerMasterId, portyardid],
@@ -232,7 +232,7 @@ export class CallProcedureController {
     @param.path.string('typeid') typeid: number,
     @param.path.string('portyardid') portyardid: number,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Promise<any> {
+  Promise<any> {
     const sqlStmt = mysql.format('CALL getAllCFSContainersbyUserId(?,?,?)', [
       userid,
       typeid,
