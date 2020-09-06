@@ -744,4 +744,30 @@ export class CallProcedureController {
     data.TotalTrips = trips ? trips.length : 0;
     return data;
   }
+
+  @get('/repTreeViewOrder', {
+    responses: {
+      '200': {
+        description: 'Order Tree View',
+        content: {
+          'application/json': {
+            schema: {type: 'array'},
+          },
+        },
+      },
+    },
+  })
+  // @authenticate('jwt')
+  async repTreeViewOrder(
+    @param.path.string('userId') userId: string,
+  ): Promise<any> {
+    const sqlStmt = mysql.format('CALL repTreeViewOrder()');
+    return new Promise<any>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      db.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+      });
+    });
+  }
 }
