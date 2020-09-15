@@ -2,6 +2,7 @@
 import {authenticate} from '@loopback/authentication';
 import {inject} from '@loopback/context';
 import {param} from '@loopback/openapi-v3';
+import {AnyObject} from '@loopback/repository';
 import {get, getModelSchemaRef, Request, RestBindings} from '@loopback/rest';
 import {CallProcedureServiceBindings} from '../keys';
 import {Dashboard, LocationMaster} from '../models';
@@ -39,7 +40,7 @@ interface OrderDetails {
 }
 
 const mysql = require('mysql');
-const db = require('mysql-promise')();
+const db = require('mysql-promise')({multipleStatements: true});
 const mysqlCreds = require('../datasources/test.datasource.config.json');
 
 export class CallProcedureController {
@@ -762,6 +763,47 @@ export class CallProcedureController {
     @param.path.string('userId') userId: string,
   ): Promise<any> {
     const sqlStmt = mysql.format('CALL repTreeViewOrder()');
+    return new Promise<any>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      db.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+      });
+    });
+  }
+
+  @get(
+    '/GetOrderListForAdmin/{sourceId}/{destinationId}/{orderDate}/{orderType}/{orderStatus}/{custId}',
+    {
+      responses: {
+        '200': {
+          description: 'Search for Order List',
+          content: {
+            'application/json': {
+              schema: {type: 'array'},
+            },
+          },
+        },
+      },
+    },
+  )
+  // @authenticate('jwt')
+  async getOrderListForAdmin(
+    @param.path.string('sourceId') sourceId: string,
+    @param.path.string('destinationId') destinationId: string,
+    @param.path.string('orderDate') orderDate: string,
+    @param.path.string('orderType') orderType: string,
+    @param.path.string('orderStatus') orderStatus: string,
+    @param.path.string('custId') custId: string,
+  ): Promise<AnyObject> {
+    const sqlStmt = mysql.format('CALL getOrderListForAdmin(?,?,?,?,?,?)', [
+      sourceId,
+      destinationId,
+      orderDate,
+      orderType,
+      orderStatus,
+      custId,
+    ]);
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       db.query(sqlStmt, function (err: any, results: any) {
