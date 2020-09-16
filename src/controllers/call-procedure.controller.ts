@@ -3,9 +3,16 @@ import {authenticate} from '@loopback/authentication';
 import {inject} from '@loopback/context';
 import {param} from '@loopback/openapi-v3';
 import {AnyObject} from '@loopback/repository';
-import {get, getModelSchemaRef, Request, RestBindings} from '@loopback/rest';
+import {
+  get,
+  getModelSchemaRef,
+  post,
+  Request,
+  requestBody,
+  RestBindings,
+} from '@loopback/rest';
 import {CallProcedureServiceBindings} from '../keys';
-import {Dashboard, LocationMaster} from '../models';
+import {Dashboard, LocationMaster, OrderFilter} from '../models';
 import {CallProcedureService} from './../services/call-procedure.service';
 
 interface Bid {
@@ -772,37 +779,38 @@ export class CallProcedureController {
     });
   }
 
-  @get(
-    '/GetOrderListForAdmin/{sourceId}/{destinationId}/{orderDate}/{orderType}/{orderStatus}/{custId}',
-    {
-      responses: {
-        '200': {
-          description: 'Search for Order List',
-          content: {
-            'application/json': {
-              schema: {type: 'array'},
-            },
+  @post('/GetOrderListForAdmin', {
+    responses: {
+      '200': {
+        description: 'Search for Order List',
+        content: {
+          'application/json': {
+            schema: {type: 'array', items: getModelSchemaRef(OrderFilter)},
           },
         },
       },
     },
-  )
+  })
   // @authenticate('jwt')
   async getOrderListForAdmin(
-    @param.path.string('sourceId') sourceId: string,
-    @param.path.string('destinationId') destinationId: string,
-    @param.path.string('orderDate') orderDate: string,
-    @param.path.string('orderType') orderType: string,
-    @param.path.string('orderStatus') orderStatus: string,
-    @param.path.string('custId') custId: string,
+    @requestBody({
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(OrderFilter, {
+            title: 'OrderFilter',
+          }),
+        },
+      },
+    })
+    queryObj: OrderFilter,
   ): Promise<AnyObject> {
     const sqlStmt = mysql.format('CALL getOrderListForAdmin(?,?,?,?,?,?)', [
-      sourceId,
-      destinationId,
-      orderDate,
-      orderType,
-      orderStatus,
-      custId,
+      queryObj.sourceId === 0 ? null : queryObj.sourceId,
+      queryObj.destinationId === 0 ? null : queryObj.destinationId,
+      queryObj.orderDate,
+      queryObj.orderType === 0 ? null : queryObj.orderType,
+      queryObj.orderStatus === 0 ? null : queryObj.orderStatus,
+      queryObj.custId === 0 ? null : queryObj.custId,
     ]);
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

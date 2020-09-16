@@ -26,8 +26,15 @@ Call GetBidsbyUserId(1);
 Call GetAllOrdersbyUserId(1);
 Call GetAllSubOrdersbyUserId(1);
 Call GetAllTripsbyUserId(1);
-Call procGetOrderDetails(3);
+Call procGetOrderDetails(2);
+Call repTreeViewOrder();
+Call GetAllCFSPortsbyUserId(4);
 
+-- declare @total int, @retVal varchar(150) 
+Call getOrderListForAdmin(0,0,'',0,0,9);
+Select @total,@retVal;
+
+drop table orders;
 
 
 -- UPDATE `transporter`.`bidschedulemaster` SET `TotalBidHour` = '6' WHERE (`BidScheduleId` = '4');
@@ -39,3 +46,5 @@ Delete from transporter.user where userId <> 1;
 Select * from transporter.container;
 Select * from transporter.truck;
 Select * from transporter.timeslotmaster;
+
+baseUri : 'http://ec2-3-235-184-23.compute-1.amazonaws.com:3000/'
