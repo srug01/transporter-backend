@@ -34,7 +34,9 @@ Call GetAllCFSPortsbyUserId(4);
 Call getOrderListForAdmin(0,0,'',0,0,9);
 Select @total,@retVal;
 
-drop table orders;
+
+
+
 
 
 -- UPDATE `transporter`.`bidschedulemaster` SET `TotalBidHour` = '6' WHERE (`BidScheduleId` = '4');
@@ -48,3 +50,4 @@ Select * from transporter.truck;
 Select * from transporter.timeslotmaster;
 
 baseUri : 'http://ec2-3-235-184-23.compute-1.amazonaws.com:3000/'
+transporter-backend_mysql_db_container_1

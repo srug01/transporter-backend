@@ -52,7 +52,7 @@ const mysqlCreds = require('../datasources/test.datasource.config.json');
 
 export class CallProcedureController {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private connection: any;
+  public connection: any;
 
   constructor(
     @inject(RestBindings.Http.REQUEST) private req: Request,
@@ -60,7 +60,7 @@ export class CallProcedureController {
     public _callProcedureService: CallProcedureService,
   ) {
     db.configure(mysqlCreds, mysql);
-    this.connection = db;
+    // this.connection = mysql.createConnection(mysqlCreds);
   }
   /*  ****** EXAMPLE - 1 ******
   @get('/search', {
@@ -804,10 +804,11 @@ export class CallProcedureController {
     })
     queryObj: OrderFilter,
   ): Promise<AnyObject> {
-    const sqlStmt = mysql.format('CALL getOrderListForAdmin(?,?,?,?,?,?)', [
+    const sqlStmt = mysql.format('CALL getOrderListForAdmin(?,?,?,?,?,?,?)', [
       queryObj.sourceId === 0 ? null : queryObj.sourceId,
       queryObj.destinationId === 0 ? null : queryObj.destinationId,
-      queryObj.orderDate,
+      queryObj.fromDate,
+      queryObj.toDate,
       queryObj.orderType === 0 ? null : queryObj.orderType,
       queryObj.orderStatus === 0 ? null : queryObj.orderStatus,
       queryObj.custId === 0 ? null : queryObj.custId,

@@ -1695,8 +1695,9 @@ BEGIN
 
 Select distinct p.* from transporter.portmaster p
 Inner Join transporter.cfsuserregistration cur on cur.userId = user_Id 
-Left Outer Join transporter.cfsportratemaster crm on p.portMasterId = crm.portMasterId and crm.cfsMasterId = cur.cfsMasterId
-Left Outer Join transporter.portcfsratemaster prm on p.portMasterId = prm.portMasterId and prm.cfsMasterId = cur.cfsMasterId
+Inner join transporter.cfsmaster cfs on cur.cfsMasterId = cfs.cfsMasterId and p.portMasterId = cfs.portMasterId
+-- Left Outer Join transporter.cfsportratemaster crm on p.portMasterId = crm.portMasterId and crm.cfsMasterId = cur.cfsMasterId
+-- Left Outer Join transporter.portcfsratemaster prm on p.portMasterId = prm.portMasterId and prm.cfsMasterId = cur.cfsMasterId
 Where cur.userId = user_Id;
 
 END ;;
@@ -1773,8 +1774,8 @@ BEGIN
 Select distinct y.* from transporter.yardmaster y
 Inner Join transporter.cfsuserregistration cur on cur.userId = user_Id 
 Inner Join transporter.cfsmaster cm on cm.cfsMasterId = cur.cfsMasterId and cm.portMasterId = y.portMasterId
-Left Outer Join transporter.yardcfsratemaster yrm on y.yardMasterId = yrm.yardMasterId and yrm.cfsMasterId = cur.cfsMasterId
-Left Outer Join transporter.cfsyardratemaster crm on y.yardMasterId = crm.yardMasterId and crm.cfsMasterId = cur.cfsMasterId
+-- Left Outer Join transporter.yardcfsratemaster yrm on y.yardMasterId = yrm.yardMasterId and yrm.cfsMasterId = cur.cfsMasterId
+-- Left Outer Join transporter.cfsyardratemaster crm on y.yardMasterId = crm.yardMasterId and crm.cfsMasterId = cur.cfsMasterId
 Where cur.userId = user_Id;
 
 END ;;
@@ -2591,7 +2592,8 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getOrderListForAdmin`(
 in source_Id int, 
 in destination_Id int,
-in order_date varchar(50),
+in from_date varchar(50),
+in to_date varchar(50),
 in order_type int,
 in order_status int,
 in cust_Id int
@@ -2633,13 +2635,15 @@ from transporter.order ord
 Left Outer join transporter.user usr on ord.createdBy = usr.userId
 left join transporter.portterminalmaster ptm on ptm.portTerminalId = ord.portTerminalId
 where ord.isDeleted = 0
-and (ord.sourceId = source_Id or source_Id is null) 
-and (ord.destinationId = destination_Id or destination_Id is null)
-and (ord.destinationId = destination_Id or destination_Id is null)
-and (cast(ord.orderDate as Date) = cast(order_date as date) or order_date is null)
-and (ord.masterTypeId = order_type or order_type is null)
-and (ord.orderStatusId = order_status or order_status is null)
-and (ord.createdBy = cust_Id or cust_Id is null)
+and (ord.sourceId = source_Id or (source_Id is null or source_Id = 0)) 
+and (ord.destinationId = destination_Id or (destination_Id is null or destination_Id = 0))
+and (ord.destinationId = destination_Id or (destination_Id is null or destination_Id = 0))
+and 
+(from_date = '' or DATE_FORMAT(orderDate,'%d-%m-%Y') >= DATE_FORMAT(from_date,'%d-%m-%Y')) and 
+(to_date = '' or DATE_FORMAT(orderDate,'%d-%m-%Y') <= DATE_FORMAT(to_date,'%d-%m-%Y'))
+and (ord.masterTypeId = order_type or (order_type is null or order_type= 0))
+and (ord.orderStatusId = order_status or (order_status is null or order_status = 0))
+and (ord.createdBy = cust_Id or (cust_Id is null or cust_Id  = 0))
 ;  
 
 -- Select count(*) into total_count from Orders;
@@ -3438,4 +3442,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-16  3:14:53
+-- Dump completed on 2020-09-17  2:11:59

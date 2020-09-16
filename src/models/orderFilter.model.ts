@@ -18,7 +18,14 @@ export class OrderFilter extends Model {
     type: 'string',
     default: null,
   })
-  orderDate?: string;
+  fromDate?: string;
+
+  @property({
+    type: 'string',
+    default: null,
+  })
+  toDate?: string;
+
 
   @property({
     type: 'number',
