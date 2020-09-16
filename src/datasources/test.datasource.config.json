@@ -2,7 +2,7 @@
     "name": "test",
     "connector": "mysql",
     "url": "",
-    "host": "localhost",
+    "host": "transporter-backend_mysql_db_container_1",
     "port": 3306,
     "user": "root",
     "password": "root",
