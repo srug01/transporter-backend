@@ -26,7 +26,7 @@ Call GetBidsbyUserId(1);
 Call GetAllOrdersbyUserId(1);
 Call GetAllSubOrdersbyUserId(1);
 Call GetAllTripsbyUserId(1);
-Call procGetOrderDetails(2);
+Call procGetOrderDetails(1);
 Call repTreeViewOrder();
 Call GetAllCFSPortsbyUserId(4);
 

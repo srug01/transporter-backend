@@ -891,7 +891,7 @@ CREATE TABLE `suborder` (
   `modifiedBy` int DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   `cotainerId` int DEFAULT NULL,
-  `containerType` varchar(512) DEFAULT NULL,
+  `containerType` int DEFAULT NULL,
   `containerWeightType` int DEFAULT NULL,
   `subOrderTotalMargin` int DEFAULT NULL,
   `marginPercent` int DEFAULT NULL,
@@ -910,7 +910,7 @@ CREATE TABLE `suborder` (
 
 LOCK TABLES `suborder` WRITE;
 /*!40000 ALTER TABLE `suborder` DISABLE KEYS */;
-INSERT INTO `suborder` VALUES (1,1,450,NULL,0,4,'2020-08-30 00:00:00',0,NULL,1,'1',1,450,0,20,NULL,'2020-09-01 02:25:25','SUB_ORDER_PENDING',11),(2,1,450,NULL,0,4,'2020-08-30 00:00:00',0,NULL,1,'1',1,450,0,20,NULL,'2020-09-01 02:25:25','SUB_ORDER_PENDING',11),(3,2,450,NULL,0,4,'2020-09-01 00:00:00',0,NULL,2,'1',1,450,0,20,NULL,'2020-09-01 02:25:25','SUB_ORDER_BID_ASSIGNED',12),(4,2,450,NULL,0,4,'2020-09-01 00:00:00',0,NULL,2,'1',1,450,0,20,NULL,'2020-09-01 02:25:25','SUB_ORDER_BID_ASSIGNED',12),(6,3,810,NULL,0,9,'2020-09-01 00:00:00',0,NULL,3,'3',3,810,0,15,NULL,'2020-09-01 02:25:25','SUB_ORDER_PENDING',11),(7,3,810,NULL,0,9,'2020-09-01 00:00:00',0,NULL,3,'3',3,810,0,15,NULL,'2020-09-01 02:25:25','SUB_ORDER_PENDING',11);
+INSERT INTO `suborder` VALUES (1,1,450,NULL,0,4,'2020-08-30 00:00:00',0,NULL,1,1,1,450,0,20,NULL,'2020-09-01 02:25:25','SUB_ORDER_PENDING',11),(2,1,450,NULL,0,4,'2020-08-30 00:00:00',0,NULL,1,1,1,450,0,20,NULL,'2020-09-01 02:25:25','SUB_ORDER_PENDING',11),(3,2,450,NULL,0,4,'2020-09-01 00:00:00',0,NULL,2,1,1,450,0,20,NULL,'2020-09-01 02:25:25','SUB_ORDER_BID_ASSIGNED',12),(4,2,450,NULL,0,4,'2020-09-01 00:00:00',0,NULL,2,1,1,450,0,20,NULL,'2020-09-01 02:25:25','SUB_ORDER_BID_ASSIGNED',12),(6,3,810,NULL,0,9,'2020-09-01 00:00:00',0,NULL,3,3,3,810,0,15,NULL,'2020-09-01 02:25:25','SUB_ORDER_PENDING',11),(7,3,810,NULL,0,9,'2020-09-01 00:00:00',0,NULL,3,3,3,810,0,15,NULL,'2020-09-01 02:25:25','SUB_ORDER_PENDING',11);
 /*!40000 ALTER TABLE `suborder` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2579,7 +2579,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `getOrderListForAdmin` */;
+/*!50003 DROP PROCEDURE IF EXISTS `getOrderListForFilters` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -2589,7 +2589,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getOrderListForAdmin`(
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getOrderListForFilters`(
 in source_Id int, 
 in destination_Id int,
 in from_date varchar(50),
@@ -2652,6 +2652,46 @@ and (ord.createdBy = cust_Id or (cust_Id is null or cust_Id  = 0))
 -- Select * from Orders;
 
 -- Drop table Orders;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `getSubOrderListForFilters` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getSubOrderListForFilters`(
+in order_Id int, 
+in cutoff_date varchar(50),
+in suborder_date varchar(50),
+in container_type int,
+in weight_type int,
+in suborder_status int
+)
+BEGIN
+Select ord.orderId, subo.subOrderId, subo.subOrderTotalMargin,subo.CutOffTime,subo.suborderStatus,
+c.containerMasterName,w.weightDesc, DATE_FORMAT(subo.createdOn,'%d-%b-%Y') as SubOrderDate
+from transporter.order ord
+inner join transporter.suborder subo on subo.orderId= ord.orderId
+left outer join transporter.containermaster c on subo.containerType = c.containerMasterId
+left outer join transporter.weightmaster w on subo.containerWeightType = w.weightMasterId
+where ord.orderId = order_Id 
+and (cutoff_date = '' or DATE_FORMAT(subo.CutOffTime,'%d-%m-%Y') = DATE_FORMAT(cutoff_date,'%d-%m-%Y')) 
+and (suborder_date = '' or DATE_FORMAT(subo.createdOn,'%d-%m-%Y') = DATE_FORMAT(suborder_date,'%d-%m-%Y'))
+and (subo.containerType = container_type or (container_type is null or container_type= 0))
+and (subo.containerWeightType = weight_type or (weight_type is null or weight_type= 0)) 
+and (subo.suborderStatusId = suborder_status or (suborder_status is null or suborder_status= 0)) 
+and subo.isDelete = 0;
+
 
 END ;;
 DELIMITER ;
@@ -3442,4 +3482,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-17  2:11:59
+-- Dump completed on 2020-09-19  1:36:37

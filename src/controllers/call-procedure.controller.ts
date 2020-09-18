@@ -12,7 +12,12 @@ import {
   RestBindings,
 } from '@loopback/rest';
 import {CallProcedureServiceBindings} from '../keys';
-import {Dashboard, LocationMaster, OrderFilter} from '../models';
+import {
+  Dashboard,
+  LocationMaster,
+  OrderFilter,
+  SubOrderFilter,
+} from '../models';
 import {CallProcedureService} from './../services/call-procedure.service';
 
 interface Bid {
@@ -481,37 +486,40 @@ export class CallProcedureController {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       db.query(sqlStmt, function (err: any, results: any) {
         if (err !== null) return reject(err);
-        order.AssignedDriver = results[0][0].AssignedDriver
-          ? results[0][0].AssignedDriver
-          : '';
-        order.CutOffTime = results[0][0].CutOffTime;
-        order.TranporterName = results[0][0].TranporterName;
-        order.containerMasterName = results[0][0].containerMasterName;
-        order.destinationName = results[0][0].destinationName;
-        order.destinationType = results[0][0].destinationType;
-        order.emailid = results[0][0].emailid;
-        order.mobileNumber = results[0][0].mobileNumber;
-        order.orderDate = results[0][0].orderDate;
-        order.orderId = results[0][0].orderId;
-        order.orderRemarks = results[0][0].orderRemarks;
-        order.orderStatus = results[0][0].orderStatus;
-        order.sourceName = results[0][0].sourceName;
-        order.sourceType = results[0][0].sourceType;
-        order.terminal = results[0][0].terminal;
-        order.totalRate = results[0][0].totalRate;
-        order.tripstatus = results[0][0].tripstatus;
-        order.vehicleNumber = results[0][0].vehicleNumber;
-        order.weightDesc = results[0][0].weightDesc;
-        order.bids = [];
-        for (const suborder of results[0]) {
-          const obj: Bid = {
-            bidName: suborder.bidName,
-            bidValue: suborder.bidValue,
-            biduserStatus: suborder.biduserStatus,
-            subOrderTotalMargin: suborder.subOrderTotalMargin,
-            suborderStatus: suborder.suborderStatus,
-          };
-          order.bids.push(obj);
+        // console.log('Result : ' + results[0].length);
+        if (results[0].length > 0) {
+          order.AssignedDriver = results[0][0].AssignedDriver
+            ? results[0][0].AssignedDriver
+            : '';
+          order.CutOffTime = results[0][0].CutOffTime;
+          order.TranporterName = results[0][0].TranporterName;
+          order.containerMasterName = results[0][0].containerMasterName;
+          order.destinationName = results[0][0].destinationName;
+          order.destinationType = results[0][0].destinationType;
+          order.emailid = results[0][0].emailid;
+          order.mobileNumber = results[0][0].mobileNumber;
+          order.orderDate = results[0][0].orderDate;
+          order.orderId = results[0][0].orderId;
+          order.orderRemarks = results[0][0].orderRemarks;
+          order.orderStatus = results[0][0].orderStatus;
+          order.sourceName = results[0][0].sourceName;
+          order.sourceType = results[0][0].sourceType;
+          order.terminal = results[0][0].terminal;
+          order.totalRate = results[0][0].totalRate;
+          order.tripstatus = results[0][0].tripstatus;
+          order.vehicleNumber = results[0][0].vehicleNumber;
+          order.weightDesc = results[0][0].weightDesc;
+          order.bids = [];
+          for (const suborder of results[0]) {
+            const obj: Bid = {
+              bidName: suborder.bidName,
+              bidValue: suborder.bidValue,
+              biduserStatus: suborder.biduserStatus,
+              subOrderTotalMargin: suborder.subOrderTotalMargin,
+              suborderStatus: suborder.suborderStatus,
+            };
+            order.bids.push(obj);
+          }
         }
         resolve(order);
       });
@@ -779,7 +787,7 @@ export class CallProcedureController {
     });
   }
 
-  @post('/GetOrderListForAdmin', {
+  @post('/GetOrderListForFilters', {
     responses: {
       '200': {
         description: 'Search for Order List',
@@ -792,7 +800,7 @@ export class CallProcedureController {
     },
   })
   // @authenticate('jwt')
-  async getOrderListForAdmin(
+  async getOrderListForFilters(
     @requestBody({
       content: {
         'application/json': {
@@ -804,7 +812,7 @@ export class CallProcedureController {
     })
     queryObj: OrderFilter,
   ): Promise<AnyObject> {
-    const sqlStmt = mysql.format('CALL getOrderListForAdmin(?,?,?,?,?,?,?)', [
+    const sqlStmt = mysql.format('CALL getOrderListForFilters(?,?,?,?,?,?,?)', [
       queryObj.sourceId === 0 ? null : queryObj.sourceId,
       queryObj.destinationId === 0 ? null : queryObj.destinationId,
       queryObj.fromDate,
@@ -813,6 +821,51 @@ export class CallProcedureController {
       queryObj.orderStatus === 0 ? null : queryObj.orderStatus,
       queryObj.custId === 0 ? null : queryObj.custId,
     ]);
+    return new Promise<any>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      db.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+      });
+    });
+  }
+
+  @post('/GetSubOrderListForFilters', {
+    responses: {
+      '200': {
+        description: 'Search for Order List',
+        content: {
+          'application/json': {
+            schema: {type: 'array', items: getModelSchemaRef(SubOrderFilter)},
+          },
+        },
+      },
+    },
+  })
+  // @authenticate('jwt')
+  async getSubOrderListForFilters(
+    @requestBody({
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(SubOrderFilter, {
+            title: 'SubOrderFilter',
+          }),
+        },
+      },
+    })
+    queryObj: SubOrderFilter,
+  ): Promise<AnyObject> {
+    const sqlStmt = mysql.format(
+      'CALL getSubOrderListForFilters(?,?,?,?,?,?)',
+      [
+        queryObj.orderId === 0 ? null : queryObj.orderId,
+        queryObj.cutOffTime,
+        queryObj.subOrderDate,
+        queryObj.containerType === 0 ? null : queryObj.containerType,
+        queryObj.weightType === 0 ? null : queryObj.weightType,
+        queryObj.subOrderStatus === 0 ? null : queryObj.subOrderStatus,
+      ],
+    );
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       db.query(sqlStmt, function (err: any, results: any) {
