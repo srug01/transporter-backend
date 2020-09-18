@@ -49,5 +49,5 @@ Select * from transporter.container;
 Select * from transporter.truck;
 Select * from transporter.timeslotmaster;
 
-baseUri : 'http://ec2-3-235-184-23.compute-1.amazonaws.com:3000/'
+baseUri : 'http://ec2-34-232-62-121.compute-1.amazonaws.com:3000/'
 transporter-backend_mysql_db_container_1

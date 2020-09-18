@@ -7,7 +7,7 @@ import {
   getModelSchemaRef,
   param,
   post,
-  requestBody
+  requestBody,
 } from '@loopback/rest';
 import {UserProfile} from '@loopback/security';
 import * as _ from 'lodash';
@@ -16,7 +16,7 @@ import {
   CallProcedureServiceBindings,
   PasswordHasherBindings,
   TokenServiceBindings,
-  UserServiceBindings
+  UserServiceBindings,
 } from '../keys';
 import {User} from '../models';
 import {UserRepository} from '../repositories';
@@ -77,7 +77,7 @@ export class UserController {
     },
   })
   async signup(@requestBody() userData: User) {
-    validateCredentials(_.pick(userData, ['email', 'password']));
+    validateCredentials(_.pick(userData, ['email', 'password', 'typeSyscode']));
     userData.permissions = [PermissionKeys.AccessAuthFeature];
     //encrypt the user password
     userData.password = await this.hasher.hashPassword(userData.password);

@@ -40,7 +40,29 @@ export class MyUserService implements UserService<User, Credentials> {
     if (!passwordMatched) {
       throw new HttpErrors.Unauthorized('password is not valid');
     }
+
+    if (!this.IsRoleCorrect(foundUser.typeSyscode, credentials.typeSyscode)) {
+      throw new HttpErrors.Unauthorized(
+        'This is not the user role you have selected',
+      );
+    }
+
     return foundUser;
+  }
+
+  IsRoleCorrect(userrole: number, loginrole: number): boolean {
+    let result = true;
+    const cfsroles = [4, 7, 8, 9];
+    if (userrole === 4 || userrole === 7 || userrole === 8 || userrole === 9) {
+      if (cfsroles.includes(loginrole)) {
+        result = true;
+      } else {
+        result = false;
+      }
+    } else if (userrole !== loginrole) {
+      result = false;
+    }
+    return result;
   }
 
   async UserRoles(id: string): Promise<Userrolemapping[]> {
@@ -82,7 +104,7 @@ export class MyUserService implements UserService<User, Credentials> {
   }
 
   async createUser(userData: User) {
-    validateCredentials(pick(userData, ['email', 'password']));
+    validateCredentials(pick(userData, ['email', 'password', 'typeSyscode']));
     userData.permissions = [PermissionKeys.AccessAuthFeature];
     //encrypt the user password
     userData.password = await this.hasher.hashPassword(userData.password);
