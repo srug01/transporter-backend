@@ -29,13 +29,12 @@ Call GetAllTripsbyUserId(1);
 Call procGetOrderDetails(1);
 Call repTreeViewOrder();
 Call GetAllCFSPortsbyUserId(4);
+Call CleanOrders();
 
 -- declare @total int, @retVal varchar(150) 
 Call getOrderListForAdmin(0,0,'',0,0,9);
+Call getSubOrderListForFilters(2,'','',0,0,0);
 Select @total,@retVal;
-
-
-
 
 
 
