@@ -2678,8 +2678,14 @@ in weight_type int,
 in suborder_status int
 )
 BEGIN
-Select ord.orderId, subo.subOrderId, subo.subOrderTotalMargin,subo.CutOffTime,subo.suborderStatus,
-c.containerMasterName,w.weightDesc, DATE_FORMAT(subo.createdOn,'%d-%b-%Y') as SubOrderDate
+Select ord.orderId, subo.subOrderId, subo.subOrderTotalMargin,
+case when subo.CutOffTime is not null then
+concat(DATE_FORMAT(subo.CutOffTime,'%d-%b-%Y'),' On ',DATE_FORMAT(subo.CutOffTime,'%H:%i:%s'))
+else
+''
+end as CutOffTime,
+c.containerMasterName,w.weightDesc, DATE_FORMAT(subo.createdOn,'%d-%b-%Y') as SubOrderDate,
+subo.suborderStatus
 from transporter.order ord
 inner join transporter.suborder subo on subo.orderId= ord.orderId
 left outer join transporter.containermaster c on subo.containerType = c.containerMasterId
@@ -3482,4 +3488,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-19  1:36:37
+-- Dump completed on 2020-09-19 12:11:30
