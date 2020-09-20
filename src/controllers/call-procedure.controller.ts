@@ -17,6 +17,7 @@ import {
   LocationMaster,
   OrderFilter,
   SubOrderFilter,
+  TripFilter,
 } from '../models';
 import {CallProcedureService} from './../services/call-procedure.service';
 
@@ -866,6 +867,48 @@ export class CallProcedureController {
         queryObj.subOrderStatus === 0 ? null : queryObj.subOrderStatus,
       ],
     );
+    return new Promise<any>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      db.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+      });
+    });
+  }
+
+  @post('/GetTripsListForFilters', {
+    responses: {
+      '200': {
+        description: 'Search for Order List',
+        content: {
+          'application/json': {
+            schema: {type: 'array', items: getModelSchemaRef(TripFilter)},
+          },
+        },
+      },
+    },
+  })
+  // @authenticate('jwt')
+  async getTripsListForFilters(
+    @requestBody({
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(TripFilter, {
+            title: 'TripFilter',
+          }),
+        },
+      },
+    })
+    queryObj: TripFilter,
+  ): Promise<AnyObject> {
+    const sqlStmt = mysql.format('CALL getTripsListForFilters(?,?,?,?,?,?)', [
+      queryObj.orderId === 0 ? null : queryObj.orderId,
+      queryObj.sourceId === 0 ? null : queryObj.sourceId,
+      queryObj.destinationId === 0 ? null : queryObj.destinationId,
+      queryObj.containerType === 0 ? null : queryObj.containerType,
+      queryObj.weightType === 0 ? null : queryObj.weightType,
+      queryObj.tripStatus === 0 ? null : queryObj.tripStatus,
+    ]);
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       db.query(sqlStmt, function (err: any, results: any) {

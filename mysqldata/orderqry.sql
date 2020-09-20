@@ -1,15 +1,19 @@
 SELECT * FROM transporter.order;
 Select * From transporter.suborder; 
+Select * from transporter.container;
+select * from transporter.truck;
 Select * From transporter.bid;
 Select * from transporter.user;
 Select * from transporter.trip;
 
 Select * from transporter.bidusermapping; 
-Select * from transporter.container;
-select * from transporter.truck;
+
+
 Select * from transporter.driver;
 Select * from transporter.yardmaster;
 select * from transporter.portmaster;
+
+Select * from transporter.weightmaster
 
 Call procSchedulerConfirmBid();
 Call procGetOrderDetails(null);
@@ -23,7 +27,7 @@ Call GetAllTripsbyUserId(29);
 Call GetAllSubOrdersbyUserId(14);
 Call GetTripDetailsbyTripId(1);
 Call GetBidsbyUserId(1);
-Call GetAllOrdersbyUserId(1);
+Call GetAllOrdersbyUserId(9);
 Call GetAllSubOrdersbyUserId(1);
 Call GetAllTripsbyUserId(1);
 Call procGetOrderDetails(1);
