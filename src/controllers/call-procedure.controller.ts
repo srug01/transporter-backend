@@ -6,6 +6,7 @@ import {AnyObject} from '@loopback/repository';
 import {
   get,
   getModelSchemaRef,
+  HttpErrors,
   post,
   Request,
   requestBody,
@@ -13,6 +14,8 @@ import {
 } from '@loopback/rest';
 import {CallProcedureServiceBindings} from '../keys';
 import {
+  BidFilter,
+  BidRate,
   Dashboard,
   LocationMaster,
   OrderFilter,
@@ -25,8 +28,7 @@ interface Bid {
   bidName: string;
   bidValue: number;
   biduserStatus: string;
-  subOrderTotalMargin: 90;
-  suborderStatus: 'SUB_ORDER_PENDING';
+  originalRate: number;
 }
 
 interface OrderDetails {
@@ -53,7 +55,7 @@ interface OrderDetails {
 }
 
 const mysql = require('mysql');
-const db = require('mysql-promise')({multipleStatements: true});
+// const db = require('mysql-promise')({multipleStatements: true});
 const mysqlCreds = require('../datasources/test.datasource.config.json');
 
 export class CallProcedureController {
@@ -65,7 +67,7 @@ export class CallProcedureController {
     @inject(CallProcedureServiceBindings.CALL_PROCEDURE_SERVICE)
     public _callProcedureService: CallProcedureService,
   ) {
-    db.configure(mysqlCreds, mysql);
+    // db.configure(mysqlCreds, mysql);
     // this.connection = mysql.createConnection(mysqlCreds);
   }
   /*  ****** EXAMPLE - 1 ******
@@ -124,12 +126,13 @@ export class CallProcedureController {
     @param.path.string('userId') userId: string,
   ): Promise<LocationMaster> {
     const sqlStmt = mysql.format('CALL SEARCHCFSLOCATION(?)', [userId]);
-
+    const connection = mysql.createConnection(mysqlCreds);
     return new Promise<LocationMaster>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      db.query(sqlStmt, function (err: any, results: any) {
+      connection.query(sqlStmt, function (err: any, results: any) {
         if (err !== null) return reject(err);
         resolve(results[0]);
+        connection.end();
       });
     });
   }
@@ -153,13 +156,14 @@ export class CallProcedureController {
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Promise<any> {
     const sqlStmt = mysql.format('CALL MULTIPLETABLES(?,?)', [userid, roleid]);
-
+    const connection = mysql.createConnection(mysqlCreds);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      db.query(sqlStmt, function (err: any, results: any) {
+      connection.query(sqlStmt, function (err: any, results: any) {
         if (err !== null) return reject(err);
         resolve(results[0]);
+        connection.end();
       });
     });
   }
@@ -181,11 +185,41 @@ export class CallProcedureController {
     @param.path.string('userId') userId: string,
   ): Promise<any> {
     const sqlStmt = mysql.format('CALL GetBidsbyUserId(?)', [userId]);
+    const connection = mysql.createConnection(mysqlCreds);
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      db.query(sqlStmt, function (err: any, results: any) {
+      connection.query(sqlStmt, function (err: any, results: any) {
         if (err !== null) return reject(err);
         resolve(results[0]);
+        connection.end();
+      });
+    });
+  }
+
+  @get('/GetBidsforBidding/{userId}', {
+    responses: {
+      '200': {
+        description: 'Search for Bids by  UserId',
+        content: {
+          'application/json': {
+            schema: {type: 'array'},
+          },
+        },
+      },
+    },
+  })
+  @authenticate('jwt')
+  async GetBidsforBidding(
+    @param.path.string('userId') userId: string,
+  ): Promise<any> {
+    const sqlStmt = mysql.format('CALL GetBidsforBidding(?)', [userId]);
+    const connection = mysql.createConnection(mysqlCreds);
+    return new Promise<any>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      connection.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+        connection.end();
       });
     });
   }
@@ -217,13 +251,15 @@ export class CallProcedureController {
       'CALL GetAllCFSWeightsbyUserandContainerId(?,?,?,?)',
       [userid, typeid, containerMasterId, portyardid],
     );
+    const connection = mysql.createConnection(mysqlCreds);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      db.query(sqlStmt, function (err: any, results: any) {
+      connection.query(sqlStmt, function (err: any, results: any) {
         if (err !== null) return reject(err);
         resolve(results[0]);
+        connection.end();
       });
     });
   }
@@ -252,13 +288,15 @@ export class CallProcedureController {
       typeid,
       portyardid,
     ]);
+    const connection = mysql.createConnection(mysqlCreds);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      db.query(sqlStmt, function (err: any, results: any) {
+      connection.query(sqlStmt, function (err: any, results: any) {
         if (err !== null) return reject(err);
         resolve(results[0]);
+        connection.end();
       });
     });
   }
@@ -280,11 +318,13 @@ export class CallProcedureController {
     @param.path.string('userId') userId: string,
   ): Promise<any> {
     const sqlStmt = mysql.format('CALL GetAllCFSbyUserId(?)', [userId]);
+    const connection = mysql.createConnection(mysqlCreds);
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      db.query(sqlStmt, function (err: any, results: any) {
+      connection.query(sqlStmt, function (err: any, results: any) {
         if (err !== null) return reject(err);
         resolve(results[0]);
+        connection.end();
       });
     });
   }
@@ -306,11 +346,13 @@ export class CallProcedureController {
     @param.path.string('userId') userId: string,
   ): Promise<any> {
     const sqlStmt = mysql.format('CALL GetAllCFSPortsbyUserId(?)', [userId]);
+    const connection = mysql.createConnection(mysqlCreds);
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      db.query(sqlStmt, function (err: any, results: any) {
+      connection.query(sqlStmt, function (err: any, results: any) {
         if (err !== null) return reject(err);
         resolve(results[0]);
+        connection.end();
       });
     });
   }
@@ -332,11 +374,13 @@ export class CallProcedureController {
     @param.path.string('userId') userId: string,
   ): Promise<any> {
     const sqlStmt = mysql.format('CALL GetAllCFSYardsbyUserId(?)', [userId]);
+    const connection = mysql.createConnection(mysqlCreds);
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      db.query(sqlStmt, function (err: any, results: any) {
+      connection.query(sqlStmt, function (err: any, results: any) {
         if (err !== null) return reject(err);
         resolve(results[0]);
+        connection.end();
       });
     });
   }
@@ -378,11 +422,13 @@ export class CallProcedureController {
     @param.path.string('tripId') tripId: string,
   ): Promise<any> {
     const sqlStmt = mysql.format('CALL GetTripsbyId(?)', [tripId]);
+    const connection = mysql.createConnection(mysqlCreds);
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      db.query(sqlStmt, function (err: any, results: any) {
+      connection.query(sqlStmt, function (err: any, results: any) {
         if (err !== null) return reject(err);
         resolve(results[0]);
+        connection.end();
       });
     });
   }
@@ -404,11 +450,13 @@ export class CallProcedureController {
     @param.path.string('tripId') tripId: string,
   ): Promise<any> {
     const sqlStmt = mysql.format('CALL GetTripDetailsbyTripId(?)', [tripId]);
+    const connection = mysql.createConnection(mysqlCreds);
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      db.query(sqlStmt, function (err: any, results: any) {
+      connection.query(sqlStmt, function (err: any, results: any) {
         if (err !== null) return reject(err);
         resolve(results[0]);
+        connection.end();
       });
     });
   }
@@ -430,11 +478,13 @@ export class CallProcedureController {
     @param.path.string('userId') userId: string,
   ): Promise<any> {
     const sqlStmt = mysql.format('CALL GetAllVehiclesbyUserId(?)', [userId]);
+    const connection = mysql.createConnection(mysqlCreds);
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      db.query(sqlStmt, function (err: any, results: any) {
+      connection.query(sqlStmt, function (err: any, results: any) {
         if (err !== null) return reject(err);
         resolve(results[0]);
+        connection.end();
       });
     });
   }
@@ -456,11 +506,13 @@ export class CallProcedureController {
     @param.path.string('userId') userId: string,
   ): Promise<any> {
     const sqlStmt = mysql.format('CALL GetAllDriversbyUserId(?)', [userId]);
+    const connection = mysql.createConnection(mysqlCreds);
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      db.query(sqlStmt, function (err: any, results: any) {
+      connection.query(sqlStmt, function (err: any, results: any) {
         if (err !== null) return reject(err);
         resolve(results[0]);
+        connection.end();
       });
     });
   }
@@ -482,10 +534,11 @@ export class CallProcedureController {
     @param.path.string('orderId') orderId: string,
   ): Promise<any> {
     const sqlStmt = mysql.format('CALL procGetOrderDetails(?)', [orderId]);
+    const connection = mysql.createConnection(mysqlCreds);
     return new Promise<any>(function (resolve, reject) {
       const order: any = {};
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      db.query(sqlStmt, function (err: any, results: any) {
+      connection.query(sqlStmt, function (err: any, results: any) {
         if (err !== null) return reject(err);
         // console.log('Result : ' + results[0].length);
         if (results[0].length > 0) {
@@ -511,18 +564,18 @@ export class CallProcedureController {
           order.vehicleNumber = results[0][0].vehicleNumber;
           order.weightDesc = results[0][0].weightDesc;
           order.bids = [];
-          for (const suborder of results[0]) {
+          /* for (const suborder of results[0]) {
             const obj: Bid = {
               bidName: suborder.bidName,
               bidValue: suborder.bidValue,
               biduserStatus: suborder.biduserStatus,
-              subOrderTotalMargin: suborder.subOrderTotalMargin,
-              suborderStatus: suborder.suborderStatus,
+              originalRate: suborder.subOrderTotalMargin,
             };
             order.bids.push(obj);
-          }
+          }*/
         }
         resolve(order);
+        connection.end();
       });
     });
   }
@@ -593,11 +646,13 @@ export class CallProcedureController {
   })
   async GetAllTransporter(): Promise<any> {
     const sqlStmt = mysql.format('CALL GetAllTransporter()');
+    const connection = mysql.createConnection(mysqlCreds);
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      db.query(sqlStmt, function (err: any, results: any) {
+      connection.query(sqlStmt, function (err: any, results: any) {
         if (err !== null) return reject(err);
         resolve(results[0]);
+        connection.end();
       });
     });
   }
@@ -779,11 +834,13 @@ export class CallProcedureController {
     @param.path.string('userId') userId: string,
   ): Promise<any> {
     const sqlStmt = mysql.format('CALL repTreeViewOrder()');
+    const connection = mysql.createConnection(mysqlCreds);
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      db.query(sqlStmt, function (err: any, results: any) {
+      connection.query(sqlStmt, function (err: any, results: any) {
         if (err !== null) return reject(err);
         resolve(results[0]);
+        connection.end();
       });
     });
   }
@@ -822,11 +879,13 @@ export class CallProcedureController {
       queryObj.orderStatus === 0 ? null : queryObj.orderStatus,
       queryObj.custId === 0 ? null : queryObj.custId,
     ]);
+    const connection = mysql.createConnection(mysqlCreds);
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      db.query(sqlStmt, function (err: any, results: any) {
+      connection.query(sqlStmt, function (err: any, results: any) {
         if (err !== null) return reject(err);
         resolve(results[0]);
+        connection.end();
       });
     });
   }
@@ -834,7 +893,7 @@ export class CallProcedureController {
   @post('/GetSubOrderListForFilters', {
     responses: {
       '200': {
-        description: 'Search for Order List',
+        description: 'Search for Sub Order List',
         content: {
           'application/json': {
             schema: {type: 'array', items: getModelSchemaRef(SubOrderFilter)},
@@ -867,11 +926,54 @@ export class CallProcedureController {
         queryObj.subOrderStatus === 0 ? null : queryObj.subOrderStatus,
       ],
     );
+    const connection = mysql.createConnection(mysqlCreds);
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      db.query(sqlStmt, function (err: any, results: any) {
+      connection.query(sqlStmt, function (err: any, results: any) {
         if (err !== null) return reject(err);
         resolve(results[0]);
+        connection.end();
+      });
+    });
+  }
+
+  @post('/GetBidListForFilters', {
+    responses: {
+      '200': {
+        description: 'Search for Bid List',
+        content: {
+          'application/json': {
+            schema: {type: 'array', items: getModelSchemaRef(BidFilter)},
+          },
+        },
+      },
+    },
+  })
+  // @authenticate('jwt')
+  async getBidListForFilters(
+    @requestBody({
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(BidFilter, {
+            title: 'BidFilter',
+          }),
+        },
+      },
+    })
+    queryObj: BidFilter,
+  ): Promise<AnyObject> {
+    const sqlStmt = mysql.format('CALL getBidListForFilters(?,?,?)', [
+      queryObj.orderId === 0 ? null : queryObj.orderId,
+      queryObj.transporterId === 0 ? null : queryObj.transporterId,
+      queryObj.bidUserStatusId === 0 ? null : queryObj.bidUserStatusId,
+    ]);
+    const connection = mysql.createConnection(mysqlCreds);
+    return new Promise<any>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      connection.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+        connection.end();
       });
     });
   }
@@ -879,7 +981,7 @@ export class CallProcedureController {
   @post('/GetTripsListForFilters', {
     responses: {
       '200': {
-        description: 'Search for Order List',
+        description: 'Search for Trips List',
         content: {
           'application/json': {
             schema: {type: 'array', items: getModelSchemaRef(TripFilter)},
@@ -909,11 +1011,59 @@ export class CallProcedureController {
       queryObj.weightType === 0 ? null : queryObj.weightType,
       queryObj.tripStatus === 0 ? null : queryObj.tripStatus,
     ]);
+    const connection = mysql.createConnection(mysqlCreds);
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      db.query(sqlStmt, function (err: any, results: any) {
+      connection.query(sqlStmt, function (err: any, results: any) {
         if (err !== null) return reject(err);
         resolve(results[0]);
+        connection.end();
+      });
+    });
+  }
+
+  @post('/saveBidforTransporter', {
+    responses: {
+      '200': {
+        description: 'save Bid',
+        content: {
+          'application/json': {
+            schema: {type: 'array', items: getModelSchemaRef(BidRate)},
+          },
+        },
+      },
+    },
+  })
+  // @authenticate('jwt')
+  async saveBidforTransporter(
+    @requestBody({
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(BidRate, {
+            title: 'BidRate',
+          }),
+        },
+      },
+    })
+    queryObj: BidRate,
+  ): Promise<AnyObject> {
+    const bidval: number = queryObj?.bidValue ?? 0;
+    const lowerLimit: number = queryObj?.bidRate ?? 0;
+    if (bidval < lowerLimit) {
+      throw new HttpErrors.UnprocessableEntity('Bid Value is too Low');
+    }
+    const sqlStmt = mysql.format('CALL saveBidforTransporter(?,?,?)', [
+      queryObj.suborderId === 0 ? null : queryObj.suborderId,
+      queryObj.userId === 0 ? null : queryObj.userId,
+      (queryObj.bidValue = bidval),
+    ]);
+    const connection = mysql.createConnection(mysqlCreds);
+    return new Promise<any>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      connection.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+        connection.end();
       });
     });
   }

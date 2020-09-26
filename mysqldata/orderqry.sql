@@ -9,12 +9,17 @@ Select * from transporter.trip;
 Select * from transporter.bidusermapping; 
 
 
+
+
 Select * from transporter.driver;
 Select * from transporter.yardmaster;
 select * from transporter.portmaster;
 
-Select * from transporter.weightmaster
+select * from transporter.cfsuserregistration;
 
+Select * from transporter.weightmaster;
+
+call GetBidsbyUserId(6);
 Call procSchedulerConfirmBid();
 Call procGetOrderDetails(null);
 Call getAllCFSContainersbyUserId(9,1,1);
@@ -30,10 +35,15 @@ Call GetBidsbyUserId(1);
 Call GetAllOrdersbyUserId(9);
 Call GetAllSubOrdersbyUserId(1);
 Call GetAllTripsbyUserId(1);
-Call procGetOrderDetails(1);
+Call procGetOrderDetails(8);
+Call getBidListForFilters(8,0,0);
+Call getTripsListForFilters(8,0,0,0,0,0);
 Call repTreeViewOrder();
 Call GetAllCFSPortsbyUserId(4);
 Call CleanOrders();
+Call GetTripsbyId(4);
+Call GetTripDetailsbyTripId(4);
+Call getBidsforBidding(1);
 
 -- declare @total int, @retVal varchar(150) 
 Call getOrderListForAdmin(0,0,'',0,0,9);

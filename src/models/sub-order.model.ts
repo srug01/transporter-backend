@@ -3,10 +3,10 @@ import {Entity, model, property} from '@loopback/repository';
 @model({
   settings: {
     mysql: {
-      table: 'suborder'
+      table: 'suborder',
     },
-    strict: false
-  }
+    strict: false,
+  },
 })
 export class SubOrder extends Entity {
   @property({
@@ -25,11 +25,6 @@ export class SubOrder extends Entity {
     type: 'number',
   })
   subOrderTotal?: number;
-
-  @property({
-    type: 'number',
-  })
-  BidScheduleId?: number;
 
   @property({
     type: 'boolean',
@@ -90,11 +85,6 @@ export class SubOrder extends Entity {
     type: 'date',
   })
   OrderDate?: string;
-
-  @property({
-    type: 'date',
-  })
-  CutOffTime?: string;
 
   @property({
     type: 'string',

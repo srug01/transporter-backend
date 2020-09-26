@@ -1,12 +1,13 @@
 import {Entity, model, property} from '@loopback/repository';
+import {DateTimeISO8601} from 'aws-sdk/clients/marketplacecatalog';
 
 @model({
   settings: {
     mysql: {
-      table: 'trip'
+      table: 'trip',
     },
-    strict: false
-  }
+    strict: false,
+  },
 })
 export class Trip extends Entity {
   @property({
@@ -84,19 +85,16 @@ export class Trip extends Entity {
 
   @property({
     type: 'date',
-    default: new Date(),
   })
-  modifiedOn?: Date;
+  modifiedOn?: DateTimeISO8601;
 
   @property({
     type: 'date',
-    default: new Date(),
   })
-  startDate?: Date;
+  startDate?: string;
 
   @property({
     type: 'date',
-    default: new Date(),
   })
   endDate?: string;
 

@@ -3,9 +3,9 @@ import {Entity, model, property} from '@loopback/repository';
 @model({
   settings: {
     mysql: {
-      table: 'bid'
+      table: 'bid',
     },
-  }
+  },
 })
 export class Bid extends Entity {
   @property({
@@ -84,6 +84,16 @@ export class Bid extends Entity {
     type: 'number',
   })
   bidStatusId?: number;
+
+  @property({
+    type: 'date',
+  })
+  CutOffTime?: string;
+
+  @property({
+    type: 'number',
+  })
+  BidScheduleId?: number;
 
   constructor(data?: Partial<Bid>) {
     super(data);

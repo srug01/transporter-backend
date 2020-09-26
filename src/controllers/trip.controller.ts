@@ -7,13 +7,13 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
 } from '@loopback/rest';
 import {Trip} from '../models';
@@ -22,7 +22,7 @@ import {TripRepository} from '../repositories';
 export class TripController {
   constructor(
     @repository(TripRepository)
-    public tripRepository : TripRepository,
+    public tripRepository: TripRepository,
   ) {}
 
   @post('/trips', {
@@ -57,9 +57,7 @@ export class TripController {
       },
     },
   })
-  async count(
-    @param.where(Trip) where?: Where<Trip>,
-  ): Promise<Count> {
+  async count(@param.where(Trip) where?: Where<Trip>): Promise<Count> {
     return this.tripRepository.count(where);
   }
 
@@ -78,9 +76,7 @@ export class TripController {
       },
     },
   })
-  async find(
-    @param.filter(Trip) filter?: Filter<Trip>,
-  ): Promise<Trip[]> {
+  async find(@param.filter(Trip) filter?: Filter<Trip>): Promise<Trip[]> {
     return this.tripRepository.find(filter);
   }
 
@@ -120,7 +116,7 @@ export class TripController {
   })
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(Trip, {exclude: 'where'}) filter?: FilterExcludingWhere<Trip>
+    @param.filter(Trip, {exclude: 'where'}) filter?: FilterExcludingWhere<Trip>,
   ): Promise<Trip> {
     return this.tripRepository.findById(id, filter);
   }
@@ -143,6 +139,7 @@ export class TripController {
     })
     trip: Trip,
   ): Promise<void> {
+    console.log(trip.modifiedOn);
     await this.tripRepository.updateById(id, trip);
   }
 

@@ -44,3 +44,5 @@ export * from './zone-day-master.model';
 export * from './zone-master.model';
 export * from './sub-order-filter.model';
 export * from './trip-filter.model';
+export * from './bid-filter.model';
+export * from './bid-rate.model';
