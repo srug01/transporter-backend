@@ -6,6 +6,6 @@
     "port": 3306,
     "user": "root",
     "password": "root",
-    "database": "transporter-backend_mysql_db_container_1",
+    "database": "transporter",
     "connectionLimit": 1024
 }
