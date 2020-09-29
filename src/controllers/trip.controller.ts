@@ -139,7 +139,7 @@ export class TripController {
     })
     trip: Trip,
   ): Promise<void> {
-    console.log(trip.modifiedOn);
+    console.log(trip.startDate?.toString());
     await this.tripRepository.updateById(id, trip);
   }
 

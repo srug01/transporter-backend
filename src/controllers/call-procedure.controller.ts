@@ -1067,4 +1067,35 @@ export class CallProcedureController {
       });
     });
   }
+
+  @get('/GetAllCFSContainerAndWeights/{masterTypeId}/{cfsMasterId}', {
+    responses: {
+      '200': {
+        description: 'Search for AllContianersAndWeights',
+        content: {
+          'application/json': {
+            schema: {type: 'array'},
+          },
+        },
+      },
+    },
+  })
+  async GetAllCFSContainerAndWeights(
+    @param.path.string('masterTypeId') masterTypeId: string,
+    @param.path.string('cfsMasterId') cfsMasterId: string,
+  ): Promise<any> {
+    const sqlStmt = mysql.format('CALL GetAllCFSContainerAndWeights(?,?)', [
+      masterTypeId,
+      cfsMasterId,
+    ]);
+    const connection = mysql.createConnection(mysqlCreds);
+    return new Promise<any>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      connection.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+        connection.end();
+      });
+    });
+  }
 }

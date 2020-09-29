@@ -6,6 +6,8 @@ Select * From transporter.bid;
 Select * from transporter.user;
 Select * from transporter.trip;
 
+Select Now();
+
 Select * from transporter.bidusermapping; 
 
 

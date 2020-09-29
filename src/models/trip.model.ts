@@ -90,6 +90,7 @@ export class Trip extends Entity {
 
   @property({
     type: 'date',
+    default: null,
   })
   startDate?: string;
 
