@@ -2,12 +2,12 @@ import {authenticate, AuthenticationBindings} from '@loopback/authentication';
 import {inject} from '@loopback/core';
 import {Filter, FilterExcludingWhere, repository} from '@loopback/repository';
 import {
-  get,
+  del, get,
   getJsonSchemaRef,
   getModelSchemaRef,
   param,
   post,
-  requestBody,
+  requestBody
 } from '@loopback/rest';
 import {UserProfile} from '@loopback/security';
 import * as _ from 'lodash';
@@ -16,7 +16,7 @@ import {
   CallProcedureServiceBindings,
   PasswordHasherBindings,
   TokenServiceBindings,
-  UserServiceBindings,
+  UserServiceBindings
 } from '../keys';
 import {User} from '../models';
 import {UserRepository} from '../repositories';
@@ -177,5 +177,16 @@ export class UserController {
     filter?: FilterExcludingWhere<User>,
   ): Promise<User> {
     return this.userRepository.findById(id, filter);
+  }
+
+  @del('/users/{id}', {
+    responses: {
+      '204': {
+        description: 'User DELETE success',
+      },
+    },
+  })
+  async deleteById(@param.path.number('id') id: number): Promise<void> {
+    await this.userRepository.deleteById(id);
   }
 }
