@@ -14,6 +14,7 @@ import {
 } from '@loopback/rest';
 import {CallProcedureServiceBindings} from '../keys';
 import {
+  BatchFilter,
   BidFilter,
   BidRate,
   Dashboard,
@@ -1087,6 +1088,48 @@ export class CallProcedureController {
     const sqlStmt = mysql.format('CALL GetAllCFSContainerAndWeights(?,?)', [
       masterTypeId,
       cfsMasterId,
+    ]);
+    const connection = mysql.createConnection(mysqlCreds);
+    return new Promise<any>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      connection.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+        connection.end();
+      });
+    });
+  }
+
+  @post('/saveBatchUpdate', {
+    responses: {
+      '200': {
+        description: 'save Batch',
+        content: {
+          'application/json': {
+            schema: {type: 'array', items: getModelSchemaRef(BatchFilter)},
+          },
+        },
+      },
+    },
+  })
+  // @authenticate('jwt')
+  async saveBatchUpdate(
+    @requestBody({
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(BatchFilter, {
+            title: 'BatchFilter',
+          }),
+        },
+      },
+    })
+    queryObj: BatchFilter,
+  ): Promise<AnyObject> {
+    console.log(queryObj);
+    const sqlStmt = mysql.format('CALL saveBatchUpdate(?,?,?)', [
+      queryObj.masterTypeId === 0 ? null : queryObj.masterTypeId,
+      queryObj.isUpdate,
+      (queryObj.bulkData = JSON.stringify(queryObj.bulkData)),
     ]);
     const connection = mysql.createConnection(mysqlCreds);
     return new Promise<any>(function (resolve, reject) {

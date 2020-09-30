@@ -46,3 +46,4 @@ export * from './sub-order-filter.model';
 export * from './trip-filter.model';
 export * from './bid-filter.model';
 export * from './bid-rate.model';
+export * from './batch-filter.model';

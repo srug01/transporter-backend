@@ -263,7 +263,7 @@ CREATE TABLE `cfsyardratemaster` (
   `modifiedBy` int DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   PRIMARY KEY (`cfsYardRateMasterId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -272,7 +272,7 @@ CREATE TABLE `cfsyardratemaster` (
 
 LOCK TABLES `cfsyardratemaster` WRITE;
 /*!40000 ALTER TABLE `cfsyardratemaster` DISABLE KEYS */;
-INSERT INTO `cfsyardratemaster` VALUES (1,2,2,3,3,900,15,10,2,1,0,'2020-08-31 19:32:42',NULL,NULL),(2,1,1,3,3,5000,5,8,1,1,0,'2020-09-15 21:28:18',NULL,NULL);
+INSERT INTO `cfsyardratemaster` VALUES (1,2,2,3,3,900,15,10,2,1,0,'2020-08-31 19:32:42',NULL,NULL),(2,1,1,3,3,5000,5,8,1,1,0,'2020-09-15 21:28:18',NULL,NULL),(3,1,3,2,2,200,4,4,1,1,1,'2020-10-01 01:32:23',NULL,NULL),(4,1,1,1,1,1000,10,10,1,1,1,'2020-10-01 01:58:39',NULL,NULL);
 /*!40000 ALTER TABLE `cfsyardratemaster` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -912,6 +912,39 @@ LOCK TABLES `suborder` WRITE;
 /*!40000 ALTER TABLE `suborder` DISABLE KEYS */;
 INSERT INTO `suborder` VALUES (23,9,400,0,12,'2020-09-27 00:00:00',0,NULL,9,2,2,360,0,NULL,'SUB_ORDER_BID_ASSIGNED',12,10),(24,9,400,0,12,'2020-09-27 00:00:00',0,NULL,9,2,2,360,0,NULL,'SUB_ORDER_BID_ASSIGNED',12,10),(26,10,400,0,12,'2020-09-28 00:00:00',0,NULL,10,2,2,360,0,NULL,'SUB_ORDER_BID_ASSIGNED',12,10),(27,10,400,0,12,'2020-09-28 00:00:00',0,NULL,10,2,2,360,0,NULL,'SUB_ORDER_PENDING',11,10);
 /*!40000 ALTER TABLE `suborder` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tbl_update`
+--
+
+DROP TABLE IF EXISTS `tbl_update`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tbl_update` (
+  `bidMarginRate` int DEFAULT NULL,
+  `cfsMasterId` int DEFAULT NULL,
+  `cfsYardRateMasterId` int DEFAULT NULL,
+  `containerMasterId` int DEFAULT NULL,
+  `containerMasterName` varchar(150) DEFAULT NULL,
+  `orderMarginRate` int DEFAULT NULL,
+  `portMasterId` int DEFAULT NULL,
+  `rate` int DEFAULT NULL,
+  `weightDesc` varchar(150) DEFAULT NULL,
+  `weightMasterId` int DEFAULT NULL,
+  `yardMasterId` int DEFAULT NULL,
+  `yardName` varchar(150) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tbl_update`
+--
+
+LOCK TABLES `tbl_update` WRITE;
+/*!40000 ALTER TABLE `tbl_update` DISABLE KEYS */;
+INSERT INTO `tbl_update` VALUES (4,1,0,2,'20 FT',4,1,200,'20 Ton',2,3,'Yard2'),(10,1,0,1,'10 FT',10,1,500,'10 Ton',1,1,'Yard1');
+/*!40000 ALTER TABLE `tbl_update` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1691,12 +1724,12 @@ BEGIN
 
 If(master_type_Id = 1) then -- CFS to Yard 
 
-Select c.containerMasterId,c.containerMasterName,
+Select cfs.cfsMasterId,c.containerMasterId,c.containerMasterName,
  w.weightMasterId,w.weightDesc,
- IFNULL(yrm.rate,0) Rate,
- IFNULL(yrm.bidMarginRate,0) BidRate, IFNULL(yrm.orderMarginRate,0) OrderRate,
- y.yardMasterId,cfs.portMasterId,
- IFNULL(yrm.cfsYardRateMasterId,0) rateMasterId
+ IFNULL(yrm.rate,0) rate,
+ IFNULL(yrm.bidMarginRate,0) bidMarginRate, IFNULL(yrm.orderMarginRate,0) orderMarginRate,
+ y.yardMasterId,y.yardName, cfs.portMasterId,
+ IFNULL(yrm.cfsYardRateMasterId,0) cfsYardRateMasterId
  from transporter.weightmaster w
 Inner Join transporter.containermaster c on c.containerMasterId = w.containerMasterId
 Left Outer Join transporter.cfsmaster cfs on cfs.cfsMasterId = cfs_master_Id
@@ -1709,12 +1742,12 @@ Where c.isActive = 1;
 
 ElseIf(master_type_Id = 3) then -- Yard to CFS
 
-Select c.containerMasterId,c.containerMasterName,
+Select cfs.cfsMasterId,c.containerMasterId,c.containerMasterName,
  w.weightMasterId,w.weightDesc,
- IFNULL(yrm.rate,0) Rate,
- IFNULL(yrm.bidMarginRate,0) BidRate, IFNULL(yrm.orderMarginRate,0) OrderRate,
- y.yardMasterId,cfs.portMasterId,
- IFNULL(yrm.yardCfsRateMasterId,0) rateMasterId
+ IFNULL(yrm.rate,0) rate,
+ IFNULL(yrm.bidMarginRate,0) bidMarginRate, IFNULL(yrm.orderMarginRate,0) orderMarginRate,
+ y.yardMasterId,y.yardName,cfs.portMasterId,
+ IFNULL(yrm.yardCfsRateMasterId,0) yardCfsRateMasterId
  from transporter.weightmaster w
 Inner Join transporter.containermaster c on c.containerMasterId = w.containerMasterId
 Left Outer Join transporter.cfsmaster cfs on cfs.cfsMasterId = cfs_master_Id
@@ -1727,11 +1760,11 @@ Where c.isActive = 1;
 
 ElseIf(master_type_Id = 2) then -- CFS to Port
 
-Select c.containerMasterId,c.containerMasterName,
+Select cfs.cfsMasterId,c.containerMasterId,c.containerMasterName,
  w.weightMasterId,w.weightDesc,
- IFNULL(prm.rate,0) Rate,
- IFNULL(prm.bidMarginRate,0) BidRate, IFNULL(prm.orderMarginRate,0) OrderRate,
- cfs.portMasterId,IFNULL(prm.cfsPortRateMasterId,0) rateMasterId
+ IFNULL(prm.rate,0) rate,
+ IFNULL(prm.bidMarginRate,0) bidMarginRate, IFNULL(prm.orderMarginRate,0) orderMarginRate,
+ cfs.portMasterId,IFNULL(prm.cfsPortRateMasterId,0) cfsPortRateMasterId
  from transporter.weightmaster w
 Inner Join transporter.containermaster c on c.containerMasterId = w.containerMasterId
 Left Outer Join transporter.cfsmaster cfs on cfs.cfsMasterId = cfs_master_Id
@@ -1742,11 +1775,11 @@ Where c.isActive = 1;
 
 ElseIf(master_type_Id = 4) then -- Port to CFS
 
-Select c.containerMasterId,c.containerMasterName,
+Select cfs.cfsMasterId,c.containerMasterId,c.containerMasterName,
  w.weightMasterId,w.weightDesc,
- IFNULL(prm.rate,0) Rate,
- IFNULL(prm.bidMarginRate,0) BidRate, IFNULL(prm.orderMarginRate,0) OrderRate,
- cfs.portMasterId,IFNULL(prm.portCfsRateMasterId,0) rateMasterId
+ IFNULL(prm.rate,0) rate,
+ IFNULL(prm.bidMarginRate,0) bidMarginRate, IFNULL(prm.orderMarginRate,0) orderMarginRate,
+ cfs.portMasterId,IFNULL(prm.portCfsRateMasterId,0) portCfsRateMasterId
  from transporter.weightmaster w
 Inner Join transporter.containermaster c on c.containerMasterId = w.containerMasterId
 Left Outer Join transporter.cfsmaster cfs on cfs.cfsMasterId = cfs_master_Id
@@ -3529,6 +3562,262 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `saveBatchUpdate` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `saveBatchUpdate`(
+In master_type_Id int,
+In is_update bit,
+In bulk_data json)
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
+DECLARE EXIT HANDLER FOR SQLWARNING ROLLBACK;
+
+
+START TRANSACTION;
+
+If(master_type_Id = 1) then -- CFS To Yard
+
+ Create Temporary table tbl_update
+-- Insert into transporter.cfsyardratemaster(bidMarginRate,cfsMasterId,containerMasterId,
+-- orderMarginRate,portMasterId,rate,weightMasterId,yardMasterId,isActive,createdBy,createdOn)
+SELECT
+  json_tb.bidMarginRate,
+  json_tb.cfsMasterId,
+  json_tb.cfsYardRateMasterId,
+  json_tb.containerMasterId,
+  json_tb.containerMasterName,
+  json_tb.orderMarginRate,
+  json_tb.portMasterId,
+  json_tb.rate,
+  json_tb.weightDesc,
+  json_tb.weightMasterId,
+  json_tb.yardMasterId,
+  json_tb.yardName
+  -- if(json_type(json_extract(JSON_OBJECT('b',json_tb.quantity),'$.b')) = 'NULL',1 ,0) 'quantity_is_null'
+
+FROM JSON_TABLE
+(
+bulk_data
+, "$[*]"
+COLUMNS
+(
+bidMarginRate int PATH "$.bidMarginRate",
+cfsMasterId int PATH "$.cfsMasterId",
+cfsYardRateMasterId int PATH "$.cfsYardRateMasterId",
+containerMasterId int PATH "$.containerMasterId",
+containerMasterName varchar(150) PATH "$.containerMasterName",
+orderMarginRate int PATH "$.orderMarginRate",
+portMasterId int PATH "$.portMasterId",
+rate int PATH "$.rate",
+weightDesc varchar(150) PATH "$.weightDesc",
+weightMasterId int PATH "$.weightMasterId",
+yardMasterId int PATH "$.yardMasterId",
+yardName varchar(150) PATH "$.yardName"
+)
+) json_tb;
+
+If(is_update = 0) then
+Insert into transporter.cfsyardratemaster(bidMarginRate,cfsMasterId,containerMasterId,
+orderMarginRate,portMasterId,rate,weightMasterId,yardMasterId,isActive,createdBy,createdOn)
+Select bidMarginRate,cfsMasterId,containerMasterId,
+orderMarginRate,portMasterId,rate,weightMasterId,yardMasterId,1,1,now()
+from tbl_update
+Where cfsYardRateMasterId = 0 and rate > 0;
+else
+Update transporter.cfsyardratemaster yrm
+Inner Join tbl_update u on yrm.cfsYardRateMasterId = u.cfsYardRateMasterId
+set yrm.rate = u.rate , yrm.bidMarginRate = u.bidMarginRate, yrm.orderMarginRate = u.orderMarginRate; 
+end if;
+Drop Table tbl_update;
+
+ElseIf(master_type_Id = 3) then -- Yard to CFS
+
+Create Temporary table tbl_update
+-- Insert into transporter.cfsyardratemaster(bidMarginRate,cfsMasterId,containerMasterId,
+-- orderMarginRate,portMasterId,rate,weightMasterId,yardMasterId,isActive,createdBy,createdOn)
+SELECT
+  json_tb.bidMarginRate,
+  json_tb.cfsMasterId,
+  json_tb.yardCfsRateMasterId,
+  json_tb.containerMasterId,
+  json_tb.containerMasterName,
+  json_tb.orderMarginRate,
+  json_tb.portMasterId,
+  json_tb.rate,
+  json_tb.weightDesc,
+  json_tb.weightMasterId,
+  json_tb.yardMasterId,
+  json_tb.yardName
+  -- if(json_type(json_extract(JSON_OBJECT('b',json_tb.quantity),'$.b')) = 'NULL',1 ,0) 'quantity_is_null'
+
+FROM JSON_TABLE
+(
+bulk_data
+, "$[*]"
+COLUMNS
+(
+bidMarginRate int PATH "$.bidMarginRate",
+cfsMasterId int PATH "$.cfsMasterId",
+yardCfsRateMasterId int PATH "$.yardCfsRateMasterId",
+containerMasterId int PATH "$.containerMasterId",
+containerMasterName varchar(150) PATH "$.containerMasterName",
+orderMarginRate int PATH "$.orderMarginRate",
+portMasterId int PATH "$.portMasterId",
+rate int PATH "$.rate",
+weightDesc varchar(150) PATH "$.weightDesc",
+weightMasterId int PATH "$.weightMasterId",
+yardMasterId int PATH "$.yardMasterId",
+yardName varchar(150) PATH "$.yardName"
+)
+) json_tb;
+
+If(is_update = 0) then
+Insert into transporter.yardcfsratemaster(bidMarginRate,cfsMasterId,containerMasterId,
+orderMarginRate,portMasterId,rate,weightMasterId,yardMasterId,isActive,createdBy,createdOn)
+Select bidMarginRate,cfsMasterId,containerMasterId,
+orderMarginRate,portMasterId,rate,weightMasterId,yardMasterId,1,1,now()
+from tbl_update
+Where yardCfsRateMasterId = 0 and rate > 0;
+else
+Update transporter.yardcfsratemaster yrm
+Inner Join tbl_update u on yrm.yardCfsRateMasterId = u.yardCfsRateMasterId
+set yrm.rate = u.rate , yrm.bidMarginRate = u.bidMarginRate, yrm.orderMarginRate = u.orderMarginRate; 
+end if;
+
+Drop Table tbl_update;
+
+ElseIf(master_type_Id = 2) then -- CFS to Port
+
+Create Temporary table tbl_update
+-- Insert into transporter.cfsyardratemaster(bidMarginRate,cfsMasterId,containerMasterId,
+-- orderMarginRate,portMasterId,rate,weightMasterId,yardMasterId,isActive,createdBy,createdOn)
+SELECT
+  json_tb.bidMarginRate,
+  json_tb.cfsMasterId,
+  json_tb.cfsPortRateMasterId,
+  json_tb.containerMasterId,
+  json_tb.containerMasterName,
+  json_tb.orderMarginRate,
+  json_tb.portMasterId,
+  json_tb.rate,
+  json_tb.weightDesc,
+  json_tb.weightMasterId
+  
+  -- if(json_type(json_extract(JSON_OBJECT('b',json_tb.quantity),'$.b')) = 'NULL',1 ,0) 'quantity_is_null'
+
+FROM JSON_TABLE
+(
+bulk_data
+, "$[*]"
+COLUMNS
+(
+bidMarginRate int PATH "$.bidMarginRate",
+cfsMasterId int PATH "$.cfsMasterId",
+cfsPortRateMasterId int PATH "$.cfsPortRateMasterId",
+containerMasterId int PATH "$.containerMasterId",
+containerMasterName varchar(150) PATH "$.containerMasterName",
+orderMarginRate int PATH "$.orderMarginRate",
+portMasterId int PATH "$.portMasterId",
+rate int PATH "$.rate",
+weightDesc varchar(150) PATH "$.weightDesc",
+weightMasterId int PATH "$.weightMasterId"
+
+)
+) json_tb;
+
+If(is_update = 0) then
+Insert into transporter.cfsportratemaster(bidMarginRate,cfsMasterId,containerMasterId,
+orderMarginRate,portMasterId,rate,weightMasterId,isActive,createdBy,createdOn)
+Select bidMarginRate,cfsMasterId,containerMasterId,
+orderMarginRate,portMasterId,rate,weightMasterId,1,1,now()
+from tbl_update
+Where cfsPortRateMasterId = 0 and rate > 0;
+else
+Update transporter.cfsportratemaster prm
+Inner Join tbl_update u on prm.cfsPortRateMasterId = u.cfsPortRateMasterId
+set prm.rate = u.rate , prm.bidMarginRate = u.bidMarginRate, prm.orderMarginRate = u.orderMarginRate; 
+end if;
+
+Drop Table tbl_update;
+
+
+ElseIf(master_type_Id = 4) then -- Port to CFS
+
+Create Temporary table tbl_update
+-- Insert into transporter.cfsyardratemaster(bidMarginRate,cfsMasterId,containerMasterId,
+-- orderMarginRate,portMasterId,rate,weightMasterId,yardMasterId,isActive,createdBy,createdOn)
+SELECT
+  json_tb.bidMarginRate,
+  json_tb.cfsMasterId,
+  json_tb.portCfsRateMasterId,
+  json_tb.containerMasterId,
+  json_tb.containerMasterName,
+  json_tb.orderMarginRate,
+  json_tb.portMasterId,
+  json_tb.rate,
+  json_tb.weightDesc,
+  json_tb.weightMasterId
+  
+  -- if(json_type(json_extract(JSON_OBJECT('b',json_tb.quantity),'$.b')) = 'NULL',1 ,0) 'quantity_is_null'
+
+FROM JSON_TABLE
+(
+bulk_data
+, "$[*]"
+COLUMNS
+(
+bidMarginRate int PATH "$.bidMarginRate",
+cfsMasterId int PATH "$.cfsMasterId",
+portCfsRateMasterId int PATH "$.portCfsRateMasterId",
+containerMasterId int PATH "$.containerMasterId",
+containerMasterName varchar(150) PATH "$.containerMasterName",
+orderMarginRate int PATH "$.orderMarginRate",
+portMasterId int PATH "$.portMasterId",
+rate int PATH "$.rate",
+weightDesc varchar(150) PATH "$.weightDesc",
+weightMasterId int PATH "$.weightMasterId"
+
+)
+) json_tb;
+
+If(is_update = 0) then
+Insert into transporter.portcfsratemaster(bidMarginRate,cfsMasterId,containerMasterId,
+orderMarginRate,portMasterId,rate,weightMasterId,isActive,createdBy,createdOn)
+Select bidMarginRate,cfsMasterId,containerMasterId,
+orderMarginRate,portMasterId,rate,weightMasterId,1,1,now()
+from tbl_update
+Where portCfsRateMasterId = 0 and rate > 0;
+else
+Update transporter.portcfsratemaster prm
+Inner Join tbl_update u on prm.portCfsRateMasterId = u.portCfsRateMasterId
+set prm.rate = u.rate , prm.bidMarginRate = u.bidMarginRate, prm.orderMarginRate = u.orderMarginRate; 
+end if;
+
+
+Drop Table tbl_update;
+
+End If;
+
+
+
+
+COMMIT;
+ 
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `saveBidforTransporter` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -3844,4 +4133,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-29 12:12:52
+-- Dump completed on 2020-10-01  2:35:29
