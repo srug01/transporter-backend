@@ -3,10 +3,10 @@ import {Entity, model, property} from '@loopback/repository';
 @model({
   settings: {
     mysql: {
-      table: 'transporterregistration'
+      table: 'transporterregistration',
     },
-    strict: false
-  }
+    strict: false,
+  },
 })
 export class TransporterRegistration extends Entity {
   @property({
@@ -134,6 +134,11 @@ export class TransporterRegistration extends Entity {
   @property({
     type: 'number',
   })
+  userId?: number;
+
+  @property({
+    type: 'number',
+  })
   createdBy?: number;
 
   @property({
@@ -166,4 +171,5 @@ export interface TransporterRegistrationRelations {
   // describe navigational properties here
 }
 
-export type TransporterRegistrationWithRelations = TransporterRegistration & TransporterRegistrationRelations;
+export type TransporterRegistrationWithRelations = TransporterRegistration &
+  TransporterRegistrationRelations;

@@ -2,12 +2,13 @@ import {authenticate, AuthenticationBindings} from '@loopback/authentication';
 import {inject} from '@loopback/core';
 import {Filter, FilterExcludingWhere, repository} from '@loopback/repository';
 import {
-  del, get,
+  del,
+  get,
   getJsonSchemaRef,
   getModelSchemaRef,
   param,
   post,
-  requestBody
+  requestBody,
 } from '@loopback/rest';
 import {UserProfile} from '@loopback/security';
 import * as _ from 'lodash';
@@ -16,9 +17,9 @@ import {
   CallProcedureServiceBindings,
   PasswordHasherBindings,
   TokenServiceBindings,
-  UserServiceBindings
+  UserServiceBindings,
 } from '../keys';
-import {User} from '../models';
+import {TransporterRegistration, User} from '../models';
 import {UserRepository} from '../repositories';
 import {Credentials} from '../repositories/user.repository';
 import {BcryptHasher} from '../services/hash.password.bcrypt';
@@ -26,8 +27,10 @@ import {JWTService} from '../services/jwt-service';
 import {MyUserService} from '../services/user-service';
 import {validateCredentials} from '../services/validator';
 import {MyUserProfile} from '../types';
+import {TransporterRegistrationRepository} from './../repositories/transporter-registration.repository';
 import {CallProcedureService} from './../services/call-procedure.service';
 import {CredentialsRequestBody} from './specs/user.controller.spec';
+
 // Uncomment these imports to begin using these cool features!
 
 // import {inject} from '@loopback/context';
@@ -36,6 +39,8 @@ export class UserController {
   constructor(
     @repository(UserRepository)
     public userRepository: UserRepository,
+    @repository(TransporterRegistrationRepository)
+    public transporterRegistrationRepository: TransporterRegistrationRepository,
     @inject(PasswordHasherBindings.PASSWORD_HASHER)
     public hasher: BcryptHasher,
     @inject(UserServiceBindings.USER_SERVICE)
@@ -84,6 +89,21 @@ export class UserController {
 
     const savedUser = await this.userRepository.create(userData);
     delete savedUser.password;
+
+    if (savedUser.typeSyscode === 5) {
+      // If Transporter then insert into transporter registration
+      const transporterRegistration = {
+        transporterName: savedUser.firstName.concat(' ', savedUser.lastName),
+        transporterEmail: savedUser.email,
+        transporterMobileNumber: savedUser.mobileNumber,
+        userId: savedUser.userId,
+      } as TransporterRegistration;
+
+      const transreg = this.transporterRegistrationRepository.create(
+        transporterRegistration,
+      );
+    }
+
     return savedUser;
   }
 
