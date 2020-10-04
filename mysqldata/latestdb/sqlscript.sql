@@ -1,13 +1,13 @@
--- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.13, for Win64 (x86_64)
 --
 -- Host: localhost    Database: transporter
 -- ------------------------------------------------------
--- Server version	8.0.19
+-- Server version	8.0.13
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
+ SET NAMES utf8 ;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -21,25 +21,25 @@
 
 DROP TABLE IF EXISTS `bid`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `bid` (
-  `bidId` int NOT NULL AUTO_INCREMENT,
+  `bidId` int(11) NOT NULL AUTO_INCREMENT,
   `bidName` varchar(512) DEFAULT NULL,
-  `originalRate` int DEFAULT NULL,
+  `originalRate` int(11) DEFAULT NULL,
   `exhibitionDate` datetime DEFAULT NULL,
-  `subOrderId` int DEFAULT NULL,
+  `subOrderId` int(11) DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
-  `createdBy` int DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
-  `bidUpperLimit` int DEFAULT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `bidUpperLimit` int(11) DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
-  `bidLowerLimit` int DEFAULT NULL,
-  `bidRate` int DEFAULT NULL,
+  `bidLowerLimit` int(11) DEFAULT NULL,
+  `bidRate` int(11) DEFAULT NULL,
   `bidStatus` varchar(512) DEFAULT NULL,
-  `bidStatusId` int DEFAULT NULL,
+  `bidStatusId` int(11) DEFAULT NULL,
   `CutOffTime` datetime DEFAULT NULL,
-  `BidScheduleId` int DEFAULT NULL,
+  `BidScheduleId` int(11) DEFAULT NULL,
   PRIMARY KEY (`bidId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -60,18 +60,18 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `bidschedulemaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `bidschedulemaster` (
-  `BidScheduleId` int NOT NULL,
-  `FromHour` int DEFAULT NULL,
-  `ToHour` int DEFAULT NULL,
-  `BidingHours` int DEFAULT NULL,
-  `WorkingHours` int DEFAULT NULL,
-  `GraceHours` int DEFAULT NULL,
-  `BidCountUpto` int DEFAULT NULL,
+  `BidScheduleId` int(11) NOT NULL,
+  `FromHour` int(11) DEFAULT NULL,
+  `ToHour` int(11) DEFAULT NULL,
+  `BidingHours` int(11) DEFAULT NULL,
+  `WorkingHours` int(11) DEFAULT NULL,
+  `GraceHours` int(11) DEFAULT NULL,
+  `BidCountUpto` int(11) DEFAULT NULL,
   `IsActive` bit(1) DEFAULT NULL,
-  `TotalBidHour` int DEFAULT NULL,
-  `IsFullHour` int DEFAULT NULL,
+  `TotalBidHour` int(11) DEFAULT NULL,
+  `IsFullHour` int(11) DEFAULT NULL,
   PRIMARY KEY (`BidScheduleId`),
   UNIQUE KEY `BidScheduleId_UNIQUE` (`BidScheduleId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -93,17 +93,17 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `bidusermapping`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `bidusermapping` (
-  `bidusermappingId` int NOT NULL AUTO_INCREMENT,
-  `bidId` int NOT NULL,
-  `userId` int NOT NULL,
-  `bidValue` int DEFAULT NULL,
+  `bidusermappingId` int(11) NOT NULL AUTO_INCREMENT,
+  `bidId` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `bidValue` int(11) DEFAULT NULL,
   `biduserStatus` varchar(512) DEFAULT NULL,
-  `biduserStatusId` int DEFAULT NULL,
-  `createdBy` int DEFAULT NULL,
+  `biduserStatusId` int(11) DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   PRIMARY KEY (`bidusermappingId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -125,9 +125,9 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `cfsmaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `cfsmaster` (
-  `cfsMasterId` int NOT NULL AUTO_INCREMENT,
+  `cfsMasterId` int(11) NOT NULL AUTO_INCREMENT,
   `cfsName` varchar(512) DEFAULT NULL,
   `contactNumber` varchar(512) DEFAULT NULL,
   `email` varchar(512) DEFAULT NULL,
@@ -145,12 +145,12 @@ CREATE TABLE `cfsmaster` (
   `additionalContactNumber` varchar(512) DEFAULT NULL,
   `latitude` varchar(512) DEFAULT NULL,
   `longitude` varchar(512) DEFAULT NULL,
-  `portMasterId` int DEFAULT NULL,
-  `locationMasterId` int DEFAULT NULL,
-  `stateMasterId` int DEFAULT NULL,
-  `createdBy` int DEFAULT NULL,
+  `portMasterId` int(11) DEFAULT NULL,
+  `locationMasterId` int(11) DEFAULT NULL,
+  `stateMasterId` int(11) DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`cfsMasterId`)
@@ -173,21 +173,21 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `cfsportratemaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `cfsportratemaster` (
-  `cfsPortRateMasterId` int NOT NULL AUTO_INCREMENT,
-  `portMasterId` int DEFAULT NULL,
-  `weightMasterId` int DEFAULT NULL,
-  `rate` int DEFAULT NULL,
-  `bidMarginRate` int DEFAULT NULL,
-  `orderMarginRate` int DEFAULT NULL,
+  `cfsPortRateMasterId` int(11) NOT NULL AUTO_INCREMENT,
+  `portMasterId` int(11) DEFAULT NULL,
+  `weightMasterId` int(11) DEFAULT NULL,
+  `rate` int(11) DEFAULT NULL,
+  `bidMarginRate` int(11) DEFAULT NULL,
+  `orderMarginRate` int(11) DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
-  `createdBy` int DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
-  `containerMasterId` int DEFAULT NULL,
-  `cfsMasterId` int DEFAULT NULL,
+  `containerMasterId` int(11) DEFAULT NULL,
+  `cfsMasterId` int(11) DEFAULT NULL,
   PRIMARY KEY (`cfsPortRateMasterId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -208,23 +208,23 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `cfsuserregistration`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `cfsuserregistration` (
-  `cfsUserRegistrationId` int NOT NULL AUTO_INCREMENT,
-  `cfsMasterId` int DEFAULT NULL,
-  `userTypeId` int DEFAULT NULL,
+  `cfsUserRegistrationId` int(11) NOT NULL AUTO_INCREMENT,
+  `cfsMasterId` int(11) DEFAULT NULL,
+  `userTypeId` int(11) DEFAULT NULL,
   `cfsUserName` varchar(512) DEFAULT NULL,
   `cfsUserDesignation` varchar(512) DEFAULT NULL,
   `cfsUserDepartment` varchar(512) DEFAULT NULL,
   `cfsUserMobileNumber` varchar(512) DEFAULT NULL,
   `cfsUserEmail` varchar(512) DEFAULT NULL,
   `cfsUserPassword` varchar(512) DEFAULT NULL,
-  `userId` int DEFAULT NULL,
+  `userId` int(11) DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
   `isVerified` tinyint(1) DEFAULT NULL,
-  `createdBy` int DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   PRIMARY KEY (`cfsUserRegistrationId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -246,21 +246,21 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `cfsyardratemaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `cfsyardratemaster` (
-  `cfsYardRateMasterId` int NOT NULL AUTO_INCREMENT,
-  `cfsMasterId` int NOT NULL,
-  `yardMasterId` int NOT NULL,
-  `containerMasterId` int NOT NULL,
-  `weightMasterId` int NOT NULL,
-  `rate` int NOT NULL,
-  `bidMarginRate` int DEFAULT NULL,
-  `orderMarginRate` int DEFAULT NULL,
-  `portMasterId` int NOT NULL,
+  `cfsYardRateMasterId` int(11) NOT NULL AUTO_INCREMENT,
+  `cfsMasterId` int(11) NOT NULL,
+  `yardMasterId` int(11) NOT NULL,
+  `containerMasterId` int(11) NOT NULL,
+  `weightMasterId` int(11) NOT NULL,
+  `rate` int(11) NOT NULL,
+  `bidMarginRate` int(11) DEFAULT NULL,
+  `orderMarginRate` int(11) DEFAULT NULL,
+  `portMasterId` int(11) NOT NULL,
   `isActive` tinyint(1) NOT NULL,
-  `createdBy` int NOT NULL,
+  `createdBy` int(11) NOT NULL,
   `createdOn` datetime NOT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   PRIMARY KEY (`cfsYardRateMasterId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -282,17 +282,17 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `container`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `container` (
-  `containerId` int NOT NULL AUTO_INCREMENT,
-  `orderId` int DEFAULT NULL,
-  `weightType` int DEFAULT NULL,
-  `numberOfTrucks` int DEFAULT NULL,
-  `containerMasterId` int DEFAULT NULL,
+  `containerId` int(11) NOT NULL AUTO_INCREMENT,
+  `orderId` int(11) DEFAULT NULL,
+  `weightType` int(11) DEFAULT NULL,
+  `numberOfTrucks` int(11) DEFAULT NULL,
+  `containerMasterId` int(11) DEFAULT NULL,
   `isDeleted` tinyint(1) DEFAULT NULL,
-  `createdBy` int DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   PRIMARY KEY (`containerId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -314,14 +314,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `containermaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `containermaster` (
-  `containerMasterId` int NOT NULL AUTO_INCREMENT,
+  `containerMasterId` int(11) NOT NULL AUTO_INCREMENT,
   `containerMasterName` varchar(512) DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
-  `createdBy` int DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   PRIMARY KEY (`containerMasterId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -343,15 +343,15 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `dieselratemaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `dieselratemaster` (
-  `dieselRateId` int NOT NULL AUTO_INCREMENT,
-  `dieselRate` int DEFAULT NULL,
+  `dieselRateId` int(11) NOT NULL AUTO_INCREMENT,
+  `dieselRate` int(11) DEFAULT NULL,
   `dieselRateDate` datetime DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
-  `createdBy` int DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   PRIMARY KEY (`dieselRateId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -372,28 +372,28 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `driver`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `driver` (
-  `driverId` int NOT NULL AUTO_INCREMENT,
+  `driverId` int(11) NOT NULL AUTO_INCREMENT,
   `firstname` varchar(512) DEFAULT NULL,
   `lastname` varchar(512) DEFAULT NULL,
   `emailId` varchar(512) DEFAULT NULL,
   `mobileNumber` varchar(512) NOT NULL,
   `userPassword` varchar(512) DEFAULT NULL,
-  `locationMasterId` int DEFAULT NULL,
-  `stateMasterId` int DEFAULT NULL,
+  `locationMasterId` int(11) DEFAULT NULL,
+  `stateMasterId` int(11) DEFAULT NULL,
   `pincode` varchar(512) DEFAULT NULL,
   `address1` varchar(512) DEFAULT NULL,
   `address2` varchar(512) DEFAULT NULL,
   `landmark` varchar(512) DEFAULT NULL,
   `isActive` tinyint(1) NOT NULL,
-  `identitytype` int DEFAULT NULL,
+  `identitytype` int(11) DEFAULT NULL,
   `identitynumber` varchar(512) DEFAULT NULL,
-  `createdBy` int NOT NULL,
+  `createdBy` int(11) NOT NULL,
   `createdOn` datetime NOT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
-  `userId` int DEFAULT NULL,
+  `userId` int(11) DEFAULT NULL,
   PRIMARY KEY (`driverId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -414,14 +414,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `drivertransportermapping`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `drivertransportermapping` (
-  `drivertransportermappingId` int NOT NULL AUTO_INCREMENT,
-  `driverId` int NOT NULL,
-  `userId` int NOT NULL,
-  `createdBy` int NOT NULL,
+  `drivertransportermappingId` int(11) NOT NULL AUTO_INCREMENT,
+  `driverId` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `createdBy` int(11) NOT NULL,
   `createdOn` datetime NOT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   PRIMARY KEY (`drivertransportermappingId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -443,16 +443,16 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `locationmaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `locationmaster` (
-  `locationMasterId` int NOT NULL AUTO_INCREMENT,
+  `locationMasterId` int(11) NOT NULL AUTO_INCREMENT,
   `locationName` varchar(512) DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
-  `createdBy` int DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
-  `stateMasterId` int DEFAULT NULL,
+  `stateMasterId` int(11) DEFAULT NULL,
   PRIMARY KEY (`locationMasterId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -473,9 +473,9 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `mastertype`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `mastertype` (
-  `masterTypeId` int NOT NULL AUTO_INCREMENT,
+  `masterTypeId` int(11) NOT NULL AUTO_INCREMENT,
   `masterType` varchar(512) DEFAULT NULL,
   `sourceType` varchar(512) DEFAULT NULL,
   `destinationType` varchar(512) DEFAULT NULL,
@@ -499,16 +499,16 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `mileagemaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `mileagemaster` (
-  `mileageId` int NOT NULL AUTO_INCREMENT,
-  `containerId` int DEFAULT NULL,
-  `weightId` int DEFAULT NULL,
+  `mileageId` int(11) NOT NULL AUTO_INCREMENT,
+  `containerId` int(11) DEFAULT NULL,
+  `weightId` int(11) DEFAULT NULL,
   `mileage` varchar(512) DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
-  `createdBy` int DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   PRIMARY KEY (`mileageId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -529,18 +529,18 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `notification`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `notification` (
-  `notificationId` int NOT NULL AUTO_INCREMENT,
+  `notificationId` int(11) NOT NULL AUTO_INCREMENT,
   `notificationType` varchar(512) DEFAULT NULL,
   `notificationDesc` varchar(512) DEFAULT NULL,
-  `orderId` int NOT NULL,
-  `bidId` int DEFAULT NULL,
-  `createdBy` int DEFAULT NULL,
+  `orderId` int(11) NOT NULL,
+  `bidId` int(11) DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
   `isRead` tinyint(1) DEFAULT NULL,
-  `assignedToRole` int DEFAULT NULL,
-  `assignedToUser` int DEFAULT NULL,
+  `assignedToRole` int(11) DEFAULT NULL,
+  `assignedToUser` int(11) DEFAULT NULL,
   PRIMARY KEY (`notificationId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -561,14 +561,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `order`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `order` (
-  `orderId` int NOT NULL AUTO_INCREMENT,
-  `orderTypeId` int DEFAULT NULL,
+  `orderId` int(11) NOT NULL AUTO_INCREMENT,
+  `orderTypeId` int(11) DEFAULT NULL,
   `orderDate` datetime DEFAULT NULL,
-  `masterTypeId` int DEFAULT NULL,
-  `sourceId` int DEFAULT NULL,
-  `destinationId` int DEFAULT NULL,
+  `masterTypeId` int(11) DEFAULT NULL,
+  `sourceId` int(11) DEFAULT NULL,
+  `destinationId` int(11) DEFAULT NULL,
   `sourceType` varchar(512) DEFAULT NULL,
   `destinationType` varchar(512) DEFAULT NULL,
   `orderRemarks` varchar(512) DEFAULT NULL,
@@ -576,17 +576,17 @@ CREATE TABLE `order` (
   `isDeleted` tinyint(1) DEFAULT NULL,
   `isVerified` tinyint(1) DEFAULT NULL,
   `orderStatus` varchar(512) DEFAULT NULL,
-  `orderStatusId` int DEFAULT NULL,
-  `createdBy` int DEFAULT NULL,
+  `orderStatusId` int(11) DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
   `createdOn` datetime DEFAULT CURRENT_TIMESTAMP,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
-  `totalRate` int DEFAULT NULL,
-  `profitRate` int DEFAULT NULL,
-  `portTerminalId` int DEFAULT NULL,
-  `profitMarginPercentage` int DEFAULT NULL,
-  `rateExcludingProfit` int DEFAULT NULL,
-  `timeslotMasterId` int DEFAULT NULL,
+  `totalRate` int(11) DEFAULT NULL,
+  `profitRate` int(11) DEFAULT NULL,
+  `portTerminalId` int(11) DEFAULT NULL,
+  `profitMarginPercentage` int(11) DEFAULT NULL,
+  `rateExcludingProfit` int(11) DEFAULT NULL,
+  `timeslotMasterId` int(11) DEFAULT NULL,
   PRIMARY KEY (`orderId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -607,13 +607,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `permission`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `permission` (
-  `permissionId` int NOT NULL AUTO_INCREMENT,
+  `permissionId` int(11) NOT NULL AUTO_INCREMENT,
   `permissionName` varchar(512) DEFAULT NULL,
-  `createdBy` int DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`permissionId`)
@@ -626,7 +626,7 @@ CREATE TABLE `permission` (
 
 LOCK TABLES `permission` WRITE;
 /*!40000 ALTER TABLE `permission` DISABLE KEYS */;
-INSERT INTO `permission` VALUES (1,'dashboardFull',NULL,NULL,NULL,NULL,1),(2,'dashboardRead',NULL,NULL,NULL,NULL,1),(3,'dashboardWrite',NULL,NULL,NULL,NULL,1),(4,'cfsFull',NULL,NULL,NULL,NULL,1),(5,'cfsRead',NULL,NULL,NULL,NULL,1),(6,'cfsWrite',NULL,NULL,NULL,NULL,1),(7,'createOrderFull',NULL,NULL,NULL,NULL,1),(8,'createOrderRead',NULL,NULL,NULL,NULL,1),(9,'createOrderWrite',NULL,NULL,NULL,NULL,1),(10,'listOrderFull',NULL,NULL,NULL,NULL,1),(11,'listOrderRead',NULL,NULL,NULL,NULL,1),(12,'listOrderWrite',NULL,NULL,NULL,NULL,1),(13,'userRegistrationFull',NULL,NULL,NULL,NULL,1),(14,'userRegistrationRead',NULL,NULL,NULL,NULL,1),(15,'userRegistrationWrite',NULL,NULL,NULL,NULL,1),(16,'userListFull',NULL,NULL,NULL,NULL,1),(17,'userListRead',NULL,NULL,NULL,NULL,1),(18,'userListWrite',NULL,NULL,NULL,NULL,1),(19,'tranporterFull',NULL,NULL,NULL,NULL,1),(20,'tranporterRead',NULL,NULL,NULL,NULL,1),(21,'tranporterWrite',NULL,NULL,NULL,NULL,1),(22,'bidsFull',NULL,NULL,NULL,NULL,1),(23,'bidsRead',NULL,NULL,NULL,NULL,1),(24,'bidsWrite',NULL,NULL,NULL,NULL,1),(25,'vehicleRegistrationFull',NULL,NULL,NULL,NULL,1),(26,'vehicleRegistrationRead',NULL,NULL,NULL,NULL,1),(27,'vehicleRegistrationWrite',NULL,NULL,NULL,NULL,1),(28,'vehicleListFull',NULL,NULL,NULL,NULL,1),(29,'vehicleListRead',NULL,NULL,NULL,NULL,1),(30,'vehicleListWrite',NULL,NULL,NULL,NULL,1),(31,'tranporterRegistrationFull',NULL,NULL,NULL,NULL,1),(32,'tranporterRegistrationRead',NULL,NULL,NULL,NULL,1),(33,'tranporterRegistrationWrite',NULL,NULL,NULL,NULL,1),(34,'tranporterListFull',NULL,NULL,NULL,NULL,1),(35,'tranporterListRead',NULL,NULL,NULL,NULL,1),(36,'tranporterListWrite',NULL,NULL,NULL,NULL,1),(37,'driverRegistrationFull',NULL,NULL,NULL,NULL,1),(38,'driverRegistrationRead',NULL,NULL,NULL,NULL,1),(39,'driverRegistrationWrite',NULL,NULL,NULL,NULL,1),(40,'mastersFull',NULL,NULL,NULL,NULL,1),(41,'mastersRead',NULL,NULL,NULL,NULL,1),(42,'mastersWrite',NULL,NULL,NULL,NULL,1),(43,'cfsMasterFull',NULL,NULL,NULL,NULL,1),(44,'cfsMasterRead',NULL,NULL,NULL,NULL,1),(45,'cfsMasterWrite',NULL,NULL,NULL,NULL,1),(46,'containerMasterFull',NULL,NULL,NULL,NULL,1),(47,'containerMasterRead',NULL,NULL,NULL,NULL,1),(48,'containerMasterWrite',NULL,NULL,NULL,NULL,1),(49,'cfsRateMasterFull',NULL,NULL,NULL,NULL,1),(50,'cfsRateMasterRead',NULL,NULL,NULL,NULL,1),(51,'cfsRateMasterWrite',NULL,NULL,NULL,NULL,1),(52,'dieselMasterFull',NULL,NULL,NULL,NULL,1),(53,'dieselMasterRead',NULL,NULL,NULL,NULL,1),(54,'dieselMasterWrite',NULL,NULL,NULL,NULL,1),(55,'locationMasterFull',NULL,NULL,NULL,NULL,1),(56,'locationMasterRead',NULL,NULL,NULL,NULL,1),(57,'locationMasterWrite',NULL,NULL,NULL,NULL,1),(58,'mileageMasterFull',NULL,NULL,NULL,NULL,1),(59,'mileageMasterWrite',NULL,NULL,NULL,NULL,1),(60,'mileageMasterRead',NULL,NULL,NULL,NULL,1),(61,'portMasterFull',NULL,NULL,NULL,NULL,1),(62,'portMasterRead',NULL,NULL,NULL,NULL,1),(63,'portMasterWrite',NULL,NULL,NULL,NULL,1),(64,'portTerminalMasterFull',NULL,NULL,NULL,NULL,1),(65,'portTerminalMasterRead',NULL,NULL,NULL,NULL,1),(66,'portTerminalMasterWrite',NULL,NULL,NULL,NULL,1),(67,'stateMasterFull',NULL,NULL,NULL,NULL,1),(68,'stateMasterRead',NULL,NULL,NULL,NULL,1),(69,'stateMasterWrite',NULL,NULL,NULL,NULL,1),(70,'weightMasterFull',NULL,NULL,NULL,NULL,1),(71,'weightMasterRead',NULL,NULL,NULL,NULL,1),(72,'weightMasterWrite',NULL,NULL,NULL,NULL,1),(73,'yardMasterFull',NULL,NULL,NULL,NULL,1),(74,'yardMasterRead',NULL,NULL,NULL,NULL,1),(75,'yardMasterWrite',NULL,NULL,NULL,NULL,1),(76,'yardCFSRateMasterFull',NULL,NULL,NULL,NULL,1),(77,'yardCFSRateMasterRead',NULL,NULL,NULL,NULL,1),(78,'yardCFSRateMasterWrite',NULL,NULL,NULL,NULL,1),(79,'zoneMasterFull',NULL,NULL,NULL,NULL,1),(80,'zoneMasterRead',NULL,NULL,NULL,NULL,1),(81,'zoneMasterWrite',NULL,NULL,NULL,NULL,1),(82,'zoneDayMasterFull',NULL,NULL,NULL,NULL,1),(83,'zoneDayMasterRead',NULL,NULL,NULL,NULL,1),(84,'zoneDayMasterWrite',NULL,NULL,NULL,NULL,1);
+INSERT INTO `permission` VALUES (1,'admindashboardFull',NULL,NULL,NULL,NULL,1),(2,'admindashboardRead',NULL,NULL,NULL,NULL,1),(3,'admindashboardWrite',NULL,NULL,NULL,NULL,1),(4,'cfsFull',NULL,NULL,NULL,NULL,1),(5,'cfsRead',NULL,NULL,NULL,NULL,1),(6,'cfsWrite',NULL,NULL,NULL,NULL,1),(7,'cfscreateOrderFull',NULL,NULL,NULL,NULL,1),(8,'cfscreateOrderRead',NULL,NULL,NULL,NULL,1),(9,'cfscreateOrderWrite',NULL,NULL,NULL,NULL,1),(10,'cfslistOrderFull',NULL,NULL,NULL,NULL,1),(11,'cfslistOrderRead',NULL,NULL,NULL,NULL,1),(12,'cfslistOrderWrite',NULL,NULL,NULL,NULL,1),(13,'cfsuserRegistrationFull',NULL,NULL,NULL,NULL,1),(14,'cfsuserRegistrationRead',NULL,NULL,NULL,NULL,1),(15,'cfsuserRegistrationWrite',NULL,NULL,NULL,NULL,1),(16,'cfsuserListFull',NULL,NULL,NULL,NULL,1),(17,'cfsuserListRead',NULL,NULL,NULL,NULL,1),(18,'cfsuserListWrite',NULL,NULL,NULL,NULL,1),(19,'transporterFull',NULL,NULL,NULL,NULL,1),(20,'transporterRead',NULL,NULL,NULL,NULL,1),(21,'transporterWrite',NULL,NULL,NULL,NULL,1),(22,'transporterbidsFull',NULL,NULL,NULL,NULL,1),(23,'transporterbidsRead',NULL,NULL,NULL,NULL,1),(24,'transporterbidsWrite',NULL,NULL,NULL,NULL,1),(25,'transportervehicleRegistrationFull',NULL,NULL,NULL,NULL,1),(26,'transportervehicleRegistrationRead',NULL,NULL,NULL,NULL,1),(27,'transportervehicleRegistrationWrite',NULL,NULL,NULL,NULL,1),(28,'transportervehicleListFull',NULL,NULL,NULL,NULL,1),(29,'transportervehicleListRead',NULL,NULL,NULL,NULL,1),(30,'transportervehicleListWrite',NULL,NULL,NULL,NULL,1),(31,'transporterRegistrationFull',NULL,NULL,NULL,NULL,1),(32,'transporterRegistrationRead',NULL,NULL,NULL,NULL,1),(33,'transporterRegistrationWrite',NULL,NULL,NULL,NULL,1),(34,'transportertransporterListFull',NULL,NULL,NULL,NULL,1),(35,'transporterListRead',NULL,NULL,NULL,NULL,1),(36,'transporterListWrite',NULL,NULL,NULL,NULL,1),(37,'transporterdriverRegistrationFull',NULL,NULL,NULL,NULL,1),(38,'transporterdriverRegistrationRead',NULL,NULL,NULL,NULL,1),(39,'transporterdriverRegistrationWrite',NULL,NULL,NULL,NULL,1),(40,'adminmastersFull',NULL,NULL,NULL,NULL,1),(41,'adminmastersRead',NULL,NULL,NULL,NULL,1),(42,'adminmastersWrite',NULL,NULL,NULL,NULL,1),(43,'admincfsMasterFull',NULL,NULL,NULL,NULL,1),(44,'admincfsMasterRead',NULL,NULL,NULL,NULL,1),(45,'admincfsMasterWrite',NULL,NULL,NULL,NULL,1),(46,'admincontainerMasterFull',NULL,NULL,NULL,NULL,1),(47,'admincontainerMasterRead',NULL,NULL,NULL,NULL,1),(48,'admincontainerMasterWrite',NULL,NULL,NULL,NULL,1),(49,'admincfsRateMasterFull',NULL,NULL,NULL,NULL,1),(50,'admincfsRateMasterRead',NULL,NULL,NULL,NULL,1),(51,'admincfsRateMasterWrite',NULL,NULL,NULL,NULL,1),(52,'admindieselMasterFull',NULL,NULL,NULL,NULL,1),(53,'admindieselMasterRead',NULL,NULL,NULL,NULL,1),(54,'admindieselMasterWrite',NULL,NULL,NULL,NULL,1),(55,'adminlocationMasterFull',NULL,NULL,NULL,NULL,1),(56,'adminlocationMasterRead',NULL,NULL,NULL,NULL,1),(57,'adminlocationMasterWrite',NULL,NULL,NULL,NULL,1),(58,'adminmileageMasterFull',NULL,NULL,NULL,NULL,1),(59,'adminmileageMasterWrite',NULL,NULL,NULL,NULL,1),(60,'adminmileageMasterRead',NULL,NULL,NULL,NULL,1),(61,'adminportMasterFull',NULL,NULL,NULL,NULL,1),(62,'adminportMasterRead',NULL,NULL,NULL,NULL,1),(63,'adminportMasterWrite',NULL,NULL,NULL,NULL,1),(64,'adminportTerminalMasterFull',NULL,NULL,NULL,NULL,1),(65,'adminportTerminalMasterRead',NULL,NULL,NULL,NULL,1),(66,'adminportTerminalMasterWrite',NULL,NULL,NULL,NULL,1),(67,'adminstateMasterFull',NULL,NULL,NULL,NULL,1),(68,'adminstateMasterRead',NULL,NULL,NULL,NULL,1),(69,'adminstateMasterWrite',NULL,NULL,NULL,NULL,1),(70,'adminweightMasterFull',NULL,NULL,NULL,NULL,1),(71,'adminweightMasterRead',NULL,NULL,NULL,NULL,1),(72,'adminweightMasterWrite',NULL,NULL,NULL,NULL,1),(73,'adminyardMasterFull',NULL,NULL,NULL,NULL,1),(74,'adminyardMasterRead',NULL,NULL,NULL,NULL,1),(75,'adminyardMasterWrite',NULL,NULL,NULL,NULL,1),(76,'adminyardCFSRateMasterFull',NULL,NULL,NULL,NULL,1),(77,'adminyardCFSRateMasterRead',NULL,NULL,NULL,NULL,1),(78,'adminyardCFSRateMasterWrite',NULL,NULL,NULL,NULL,1),(79,'adminzoneMasterFull',NULL,NULL,NULL,NULL,1),(80,'adminzoneMasterRead',NULL,NULL,NULL,NULL,1),(81,'adminzoneMasterWrite',NULL,NULL,NULL,NULL,1),(82,'adminzoneDayMasterFull',NULL,NULL,NULL,NULL,1),(83,'adminzoneDayMasterRead',NULL,NULL,NULL,NULL,1),(84,'adminzoneDayMasterWrite',NULL,NULL,NULL,NULL,1);
 /*!40000 ALTER TABLE `permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -636,18 +636,18 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `permissionrolemapping`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `permissionrolemapping` (
-  `permissionroleId` int NOT NULL AUTO_INCREMENT,
-  `permissionId` int NOT NULL,
-  `roleId` int NOT NULL,
+  `permissionroleId` int(11) NOT NULL AUTO_INCREMENT,
+  `permissionId` int(11) NOT NULL,
+  `roleId` int(11) NOT NULL,
   `isActive` tinyint(1) NOT NULL,
-  `createdBy` int DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   PRIMARY KEY (`permissionroleId`)
-) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=248 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -656,7 +656,7 @@ CREATE TABLE `permissionrolemapping` (
 
 LOCK TABLES `permissionrolemapping` WRITE;
 /*!40000 ALTER TABLE `permissionrolemapping` DISABLE KEYS */;
-INSERT INTO `permissionrolemapping` VALUES (1,1,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(2,2,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(3,3,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(4,4,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(5,5,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(6,6,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(7,7,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(8,8,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(9,9,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(10,10,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(11,11,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(12,12,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(13,13,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(14,14,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(15,15,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(16,16,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(17,17,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(18,18,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(19,19,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(20,20,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(21,21,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(22,22,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(23,23,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(24,24,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(25,25,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(26,26,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(27,27,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(28,28,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(29,29,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(30,30,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(31,31,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(32,32,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(33,33,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(34,34,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(35,35,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(36,36,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(37,37,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(38,38,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(39,39,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(40,40,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(41,41,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(42,42,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(43,43,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(44,44,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(45,45,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(46,46,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(47,47,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(48,48,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(49,49,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(50,50,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(51,51,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(52,52,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(53,53,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(54,54,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(55,55,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(56,56,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(57,57,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(58,58,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(59,59,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(60,60,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(61,61,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(62,62,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(63,63,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(64,64,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(65,65,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(66,66,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(67,67,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(68,68,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(69,69,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(70,70,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(71,71,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(72,72,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(73,73,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(74,74,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(75,75,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(76,76,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(77,77,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(78,78,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(79,79,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(80,80,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(81,81,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(82,82,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(83,83,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(84,84,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(85,4,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(86,5,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(87,6,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(88,7,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(89,8,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(90,9,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(91,10,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(92,11,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(93,12,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(94,13,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(95,14,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(96,15,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(97,16,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(98,17,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(99,18,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(100,19,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(101,20,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(102,21,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(103,22,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(104,23,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(105,24,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(106,25,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(107,26,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(108,27,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(109,28,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(110,29,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(111,30,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(112,31,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(113,32,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(114,33,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(115,34,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(116,35,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(117,36,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(118,37,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(119,38,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(120,39,5,1,0,'0000-00-00 00:00:00',NULL,NULL);
+INSERT INTO `permissionrolemapping` VALUES (1,1,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(2,2,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(3,3,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(4,4,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(5,5,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(6,6,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(7,7,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(8,8,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(9,9,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(10,10,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(11,11,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(12,12,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(13,13,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(14,14,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(15,15,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(16,16,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(17,17,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(18,18,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(19,19,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(20,20,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(21,21,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(22,22,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(23,23,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(24,24,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(25,25,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(26,26,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(27,27,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(28,28,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(29,29,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(30,30,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(31,31,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(32,32,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(33,33,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(34,34,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(35,35,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(36,36,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(37,37,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(38,38,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(39,39,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(40,40,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(41,41,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(42,42,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(43,43,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(44,44,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(45,45,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(46,46,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(47,47,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(48,48,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(49,49,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(50,50,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(51,51,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(52,52,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(53,53,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(54,54,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(55,55,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(56,56,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(57,57,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(58,58,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(59,59,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(60,60,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(61,61,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(62,62,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(63,63,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(64,64,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(65,65,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(66,66,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(67,67,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(68,68,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(69,69,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(70,70,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(71,71,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(72,72,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(73,73,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(74,74,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(75,75,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(76,76,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(77,77,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(78,78,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(79,79,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(80,80,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(81,81,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(82,82,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(83,83,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(84,84,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(85,4,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(86,5,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(87,6,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(88,7,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(89,8,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(90,9,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(91,10,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(92,11,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(93,12,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(94,13,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(95,14,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(96,15,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(97,16,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(98,17,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(99,18,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(100,19,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(101,20,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(102,21,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(103,22,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(104,23,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(105,24,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(106,25,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(107,26,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(108,27,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(109,28,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(110,29,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(111,30,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(112,31,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(113,32,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(114,33,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(115,34,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(116,35,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(117,36,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(118,37,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(119,38,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(120,39,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(121,1,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(122,2,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(123,3,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(124,40,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(125,41,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(126,42,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(127,43,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(128,44,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(129,45,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(130,46,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(131,47,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(132,48,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(133,49,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(134,50,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(135,51,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(136,52,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(137,53,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(138,54,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(139,55,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(140,56,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(141,57,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(142,58,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(143,59,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(144,60,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(145,61,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(146,62,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(147,63,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(148,64,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(149,65,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(150,66,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(151,67,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(152,68,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(153,69,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(154,70,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(155,71,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(156,72,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(157,73,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(158,74,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(159,75,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(160,76,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(161,77,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(162,78,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(163,79,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(164,80,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(165,81,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(166,82,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(167,83,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(168,84,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(169,4,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(170,5,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(171,6,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(172,7,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(173,8,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(174,9,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(175,10,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(176,11,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(177,12,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(178,13,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(179,14,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(180,15,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(181,16,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(182,17,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(183,18,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(184,19,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(185,20,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(186,21,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(187,22,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(188,23,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(189,24,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(190,25,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(191,26,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(192,27,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(193,28,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(194,29,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(195,30,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(196,31,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(197,32,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(198,33,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(199,34,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(200,35,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(201,36,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(202,37,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(203,38,10,0,1,'2020-10-04 18:03:46',NULL,NULL),(204,39,10,0,1,'2020-10-04 18:03:46',NULL,NULL);
 /*!40000 ALTER TABLE `permissionrolemapping` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -666,21 +666,21 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `portcfsratemaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `portcfsratemaster` (
-  `portCfsRateMasterId` int NOT NULL AUTO_INCREMENT,
-  `portMasterId` int NOT NULL,
-  `cfsMasterId` int NOT NULL,
-  `weightMasterId` int NOT NULL,
-  `rate` int NOT NULL,
-  `bidMarginRate` int DEFAULT NULL,
-  `orderMarginRate` int DEFAULT NULL,
+  `portCfsRateMasterId` int(11) NOT NULL AUTO_INCREMENT,
+  `portMasterId` int(11) NOT NULL,
+  `cfsMasterId` int(11) NOT NULL,
+  `weightMasterId` int(11) NOT NULL,
+  `rate` int(11) NOT NULL,
+  `bidMarginRate` int(11) DEFAULT NULL,
+  `orderMarginRate` int(11) DEFAULT NULL,
   `isActive` tinyint(1) NOT NULL,
-  `createdBy` int NOT NULL,
+  `createdBy` int(11) NOT NULL,
   `createdOn` datetime NOT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
-  `containerMasterId` int NOT NULL,
+  `containerMasterId` int(11) NOT NULL,
   PRIMARY KEY (`portCfsRateMasterId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -701,12 +701,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `portmaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `portmaster` (
-  `portMasterId` int NOT NULL AUTO_INCREMENT,
+  `portMasterId` int(11) NOT NULL AUTO_INCREMENT,
   `portName` varchar(512) DEFAULT NULL,
-  `stateMasterId` int DEFAULT NULL,
-  `locationMasterId` int DEFAULT NULL,
+  `stateMasterId` int(11) DEFAULT NULL,
+  `locationMasterId` int(11) DEFAULT NULL,
   `address1` varchar(512) DEFAULT NULL,
   `address2` varchar(512) DEFAULT NULL,
   `landmark` varchar(512) DEFAULT NULL,
@@ -714,9 +714,9 @@ CREATE TABLE `portmaster` (
   `primarycontactperson` varchar(512) DEFAULT NULL,
   `primarycontactnumber` varchar(512) DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
-  `createdBy` int DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   `latitude` varchar(512) DEFAULT NULL,
   `longitude` varchar(512) DEFAULT NULL,
@@ -740,16 +740,16 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `portterminalmaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `portterminalmaster` (
-  `portTerminalId` int NOT NULL AUTO_INCREMENT,
-  `portMasterId` int DEFAULT NULL,
+  `portTerminalId` int(11) NOT NULL AUTO_INCREMENT,
+  `portMasterId` int(11) DEFAULT NULL,
   `terminal` varchar(512) DEFAULT NULL,
   `longitude` varchar(512) DEFAULT NULL,
   `latitude` varchar(512) DEFAULT NULL,
-  `createdBy` int DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`portTerminalId`)
@@ -772,9 +772,9 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `settings`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `settings` (
-  `settingsId` int NOT NULL AUTO_INCREMENT,
+  `settingsId` int(11) NOT NULL AUTO_INCREMENT,
   `settingsName` varchar(512) DEFAULT NULL,
   `settingsValue` varchar(512) DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
@@ -798,14 +798,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `statemaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `statemaster` (
-  `stateMasterId` int NOT NULL AUTO_INCREMENT,
+  `stateMasterId` int(11) NOT NULL AUTO_INCREMENT,
   `stateName` varchar(512) DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
-  `createdBy` int DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   PRIMARY KEY (`stateMasterId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -827,15 +827,15 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `statusdetails`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `statusdetails` (
-  `statusDetailsId` int NOT NULL AUTO_INCREMENT,
-  `statusMasterId` int NOT NULL,
+  `statusDetailsId` int(11) NOT NULL AUTO_INCREMENT,
+  `statusMasterId` int(11) NOT NULL,
   `statusDetailsName` varchar(512) NOT NULL,
   `isActive` tinyint(1) NOT NULL,
-  `createdBy` int NOT NULL,
+  `createdBy` int(11) NOT NULL,
   `createdOn` datetime NOT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   PRIMARY KEY (`statusDetailsId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -857,14 +857,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `statusmaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `statusmaster` (
-  `statusMasterId` int NOT NULL AUTO_INCREMENT,
+  `statusMasterId` int(11) NOT NULL AUTO_INCREMENT,
   `statusMasterName` varchar(512) NOT NULL,
   `isActive` tinyint(1) NOT NULL,
-  `createdBy` int NOT NULL,
+  `createdBy` int(11) NOT NULL,
   `createdOn` datetime NOT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   PRIMARY KEY (`statusMasterId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -885,25 +885,25 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `suborder`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `suborder` (
-  `subOrderId` int NOT NULL AUTO_INCREMENT,
-  `orderId` int DEFAULT NULL,
-  `subOrderTotal` int DEFAULT NULL,
+  `subOrderId` int(11) NOT NULL AUTO_INCREMENT,
+  `orderId` int(11) DEFAULT NULL,
+  `subOrderTotal` int(11) DEFAULT NULL,
   `isDelete` tinyint(1) DEFAULT NULL,
-  `createdBy` int DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
-  `cotainerId` int DEFAULT NULL,
-  `containerType` int DEFAULT NULL,
-  `containerWeightType` int DEFAULT NULL,
-  `subOrderTotalMargin` int DEFAULT NULL,
-  `marginPercent` int DEFAULT NULL,
+  `cotainerId` int(11) DEFAULT NULL,
+  `containerType` int(11) DEFAULT NULL,
+  `containerWeightType` int(11) DEFAULT NULL,
+  `subOrderTotalMargin` int(11) DEFAULT NULL,
+  `marginPercent` int(11) DEFAULT NULL,
   `OrderDate` datetime DEFAULT NULL,
   `suborderStatus` varchar(512) DEFAULT NULL,
-  `suborderStatusId` int DEFAULT NULL,
-  `bidLimit` int DEFAULT NULL,
+  `suborderStatusId` int(11) DEFAULT NULL,
+  `bidLimit` int(11) DEFAULT NULL,
   PRIMARY KEY (`subOrderId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -924,19 +924,19 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_update`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_update` (
-  `bidMarginRate` int DEFAULT NULL,
-  `cfsMasterId` int DEFAULT NULL,
-  `cfsYardRateMasterId` int DEFAULT NULL,
-  `containerMasterId` int DEFAULT NULL,
+  `bidMarginRate` int(11) DEFAULT NULL,
+  `cfsMasterId` int(11) DEFAULT NULL,
+  `cfsYardRateMasterId` int(11) DEFAULT NULL,
+  `containerMasterId` int(11) DEFAULT NULL,
   `containerMasterName` varchar(150) DEFAULT NULL,
-  `orderMarginRate` int DEFAULT NULL,
-  `portMasterId` int DEFAULT NULL,
-  `rate` int DEFAULT NULL,
+  `orderMarginRate` int(11) DEFAULT NULL,
+  `portMasterId` int(11) DEFAULT NULL,
+  `rate` int(11) DEFAULT NULL,
   `weightDesc` varchar(150) DEFAULT NULL,
-  `weightMasterId` int DEFAULT NULL,
-  `yardMasterId` int DEFAULT NULL,
+  `weightMasterId` int(11) DEFAULT NULL,
+  `yardMasterId` int(11) DEFAULT NULL,
   `yardName` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -957,15 +957,15 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `timeslotmaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `timeslotmaster` (
-  `timeslotMasterId` int NOT NULL AUTO_INCREMENT,
+  `timeslotMasterId` int(11) NOT NULL AUTO_INCREMENT,
   `fromValue` varchar(512) NOT NULL,
   `toValue` varchar(512) NOT NULL,
   `actualValue` varchar(512) NOT NULL,
-  `createdBy` int NOT NULL,
+  `createdBy` int(11) NOT NULL,
   `createdOn` datetime NOT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   PRIMARY KEY (`timeslotMasterId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -987,9 +987,9 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `transporterregistration`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `transporterregistration` (
-  `transporterId` int NOT NULL AUTO_INCREMENT,
+  `transporterId` int(11) NOT NULL AUTO_INCREMENT,
   `transporterName` varchar(512) DEFAULT NULL,
   `transporterMobileNumber` varchar(512) DEFAULT NULL,
   `transporterEmail` varchar(512) DEFAULT NULL,
@@ -1013,14 +1013,14 @@ CREATE TABLE `transporterregistration` (
   `transporterOtherFile` varchar(512) DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
   `isVerified` tinyint(1) DEFAULT NULL,
-  `createdBy` int DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
-  `userId` int DEFAULT NULL,
+  `userId` int(11) DEFAULT NULL,
   PRIMARY KEY (`transporterId`),
   KEY `userId_idx` (`userId`),
-  CONSTRAINT `userId` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`)
+  CONSTRAINT `userId` FOREIGN KEY (`userId`) REFERENCES `user` (`userid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1040,30 +1040,30 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `trip`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `trip` (
-  `tripId` int NOT NULL AUTO_INCREMENT,
-  `subOrderId` int DEFAULT NULL,
-  `sourceId` int DEFAULT NULL,
-  `destinationId` int DEFAULT NULL,
-  `assignedVehicle` int DEFAULT NULL,
-  `assignedDriver` int DEFAULT NULL,
+  `tripId` int(11) NOT NULL AUTO_INCREMENT,
+  `subOrderId` int(11) DEFAULT NULL,
+  `sourceId` int(11) DEFAULT NULL,
+  `destinationId` int(11) DEFAULT NULL,
+  `assignedVehicle` int(11) DEFAULT NULL,
+  `assignedDriver` int(11) DEFAULT NULL,
   `tripstatus` varchar(512) DEFAULT NULL,
-  `tripStatusId` int DEFAULT NULL,
+  `tripStatusId` int(11) DEFAULT NULL,
   `destinationName` varchar(512) DEFAULT NULL,
   `sourceName` varchar(512) DEFAULT NULL,
   `vehicleNumber` varchar(512) DEFAULT NULL,
-  `createdBy` int DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   `startDate` datetime DEFAULT NULL,
   `endDate` datetime DEFAULT NULL,
-  `billedAmount` int DEFAULT NULL,
-  `BidValue` int DEFAULT NULL,
+  `billedAmount` int(11) DEFAULT NULL,
+  `BidValue` int(11) DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
-  `startedBy` int DEFAULT NULL,
-  `stoppeddBy` int DEFAULT NULL,
+  `startedBy` int(11) DEFAULT NULL,
+  `stoppeddBy` int(11) DEFAULT NULL,
   PRIMARY KEY (`tripId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1133,15 +1133,15 @@ DELIMITER ;
 
 DROP TABLE IF EXISTS `truck`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `truck` (
-  `truckId` int NOT NULL AUTO_INCREMENT,
-  `containerId` int DEFAULT NULL,
+  `truckId` int(11) NOT NULL AUTO_INCREMENT,
+  `containerId` int(11) DEFAULT NULL,
   `truckNumber` varchar(512) DEFAULT NULL,
   `isDeleted` tinyint(1) DEFAULT NULL,
-  `createdBy` int DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   PRIMARY KEY (`truckId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -1163,15 +1163,15 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `user` (
-  `userId` int NOT NULL AUTO_INCREMENT,
+  `userId` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(512) NOT NULL,
   `password` varchar(512) NOT NULL,
   `firstName` varchar(512) NOT NULL,
   `lastName` varchar(512) NOT NULL,
   `mobileNumber` varchar(512) NOT NULL,
-  `typeSyscode` int NOT NULL,
+  `typeSyscode` int(11) NOT NULL,
   `permissions` text,
   PRIMARY KEY (`userId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -1193,11 +1193,11 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `userratings`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `userratings` (
-  `userratingId` int NOT NULL AUTO_INCREMENT,
-  `userId` int NOT NULL,
-  `ratingStatus` int DEFAULT NULL,
+  `userratingId` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) NOT NULL,
+  `ratingStatus` int(11) DEFAULT NULL,
   `description` mediumtext,
   PRIMARY KEY (`userratingId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -1218,18 +1218,18 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `userrole`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `userrole` (
-  `roleId` int NOT NULL AUTO_INCREMENT,
+  `roleId` int(11) NOT NULL AUTO_INCREMENT,
   `roleName` varchar(512) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
-  `created_by` int NOT NULL,
+  `created_by` int(11) NOT NULL,
   `created_on` datetime NOT NULL,
-  `modified_by` int DEFAULT NULL,
+  `modified_by` int(11) DEFAULT NULL,
   `modified_on` datetime DEFAULT NULL,
-  `parentRoleId` int DEFAULT NULL,
+  `parentRoleId` int(11) DEFAULT NULL,
   PRIMARY KEY (`roleId`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1238,7 +1238,7 @@ CREATE TABLE `userrole` (
 
 LOCK TABLES `userrole` WRITE;
 /*!40000 ALTER TABLE `userrole` DISABLE KEYS */;
-INSERT INTO `userrole` VALUES (1,'Admin',1,1,'2020-06-26 21:11:31',NULL,NULL,NULL),(2,'Import Customer',1,1,'2020-06-26 21:12:54',NULL,NULL,NULL),(3,'Export Customer',1,1,'2020-06-26 21:12:54',NULL,NULL,NULL),(4,'CFS Customer',1,1,'2020-06-26 21:12:54',NULL,NULL,NULL),(5,'Transporter',1,1,'2020-06-26 21:12:54',NULL,NULL,NULL),(6,'Driver',1,1,'2020-06-26 21:12:54',NULL,NULL,NULL),(7,'CFS User Admin',1,1,'2020-07-17 00:00:00',NULL,NULL,4),(8,'CFS User Super Admin',1,1,'2020-07-17 00:00:00',NULL,NULL,4),(9,'CFS User Viewer',1,1,'2020-07-17 00:00:00',NULL,NULL,4);
+INSERT INTO `userrole` VALUES (1,'Admin',1,1,'2020-06-26 21:11:31',NULL,NULL,NULL),(2,'Import Customer',1,1,'2020-06-26 21:12:54',NULL,NULL,NULL),(3,'Export Customer',1,1,'2020-06-26 21:12:54',NULL,NULL,NULL),(4,'CFS Customer',1,1,'2020-06-26 21:12:54',NULL,NULL,NULL),(5,'Transporter',1,1,'2020-06-26 21:12:54',NULL,NULL,NULL),(6,'Driver',1,1,'2020-06-26 21:12:54',NULL,NULL,NULL),(7,'CFS User Admin',1,1,'2020-07-17 00:00:00',NULL,NULL,4),(8,'CFS User Super Admin',1,1,'2020-07-17 00:00:00',NULL,NULL,4),(9,'CFS User Viewer',1,1,'2020-07-17 00:00:00',NULL,NULL,4),(10,'fddfgfdg',1,1,'2020-10-04 12:33:46',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `userrole` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1248,11 +1248,11 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `userrolemapping`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `userrolemapping` (
-  `userroleId` int NOT NULL AUTO_INCREMENT,
-  `userId` int NOT NULL,
-  `roleId` int NOT NULL,
+  `userroleId` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) NOT NULL,
+  `roleId` int(11) NOT NULL,
   `isActive` tinyint(1) NOT NULL,
   `description` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`userroleId`)
@@ -1274,9 +1274,9 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `vehicle`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `vehicle` (
-  `vehicleId` int NOT NULL AUTO_INCREMENT,
+  `vehicleId` int(11) NOT NULL AUTO_INCREMENT,
   `vehicleNumber` varchar(512) DEFAULT NULL,
   `desc` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`vehicleId`)
@@ -1298,20 +1298,20 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `vehiclemaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `vehiclemaster` (
-  `vehicleMasterId` int NOT NULL AUTO_INCREMENT,
+  `vehicleMasterId` int(11) NOT NULL AUTO_INCREMENT,
   `vehicleNumber` varchar(512) DEFAULT NULL,
-  `vehicleType` int DEFAULT NULL,
-  `vehicleCapacity` int DEFAULT NULL,
-  `weight` int DEFAULT NULL,
+  `vehicleType` int(11) DEFAULT NULL,
+  `vehicleCapacity` int(11) DEFAULT NULL,
+  `weight` int(11) DEFAULT NULL,
   `manufactureYear` varchar(512) DEFAULT NULL,
-  `stateId` int DEFAULT NULL,
+  `stateId` int(11) DEFAULT NULL,
   `owned` tinyint(1) DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
-  `createdBy` int DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   PRIMARY KEY (`vehicleMasterId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -1333,15 +1333,15 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `vehicletransportermapping`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `vehicletransportermapping` (
-  `vehicletransportermappingId` int NOT NULL AUTO_INCREMENT,
-  `userId` int NOT NULL,
-  `vehicleMasterId` int NOT NULL,
+  `vehicletransportermappingId` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) NOT NULL,
+  `vehicleMasterId` int(11) NOT NULL,
   `createdOn` datetime NOT NULL,
-  `createdBy` int NOT NULL,
+  `createdBy` int(11) NOT NULL,
   `modifiedOn` datetime DEFAULT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   PRIMARY KEY (`vehicletransportermappingId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1362,16 +1362,16 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `weightmaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `weightmaster` (
-  `weightMasterId` int NOT NULL AUTO_INCREMENT,
+  `weightMasterId` int(11) NOT NULL AUTO_INCREMENT,
   `weightDesc` varchar(512) DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
-  `createdBy` int DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
-  `containerMasterId` int DEFAULT NULL,
+  `containerMasterId` int(11) DEFAULT NULL,
   PRIMARY KEY (`weightMasterId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1392,22 +1392,22 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `yardcfsratemaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `yardcfsratemaster` (
-  `yardCfsRateMasterId` int NOT NULL AUTO_INCREMENT,
-  `cfsMasterId` int DEFAULT NULL,
-  `yardMasterId` int DEFAULT NULL,
-  `containerMasterId` int DEFAULT NULL,
-  `weightMasterId` int DEFAULT NULL,
-  `rate` int DEFAULT NULL,
-  `bidMarginRate` int DEFAULT NULL,
-  `orderMarginRate` int DEFAULT NULL,
+  `yardCfsRateMasterId` int(11) NOT NULL AUTO_INCREMENT,
+  `cfsMasterId` int(11) DEFAULT NULL,
+  `yardMasterId` int(11) DEFAULT NULL,
+  `containerMasterId` int(11) DEFAULT NULL,
+  `weightMasterId` int(11) DEFAULT NULL,
+  `rate` int(11) DEFAULT NULL,
+  `bidMarginRate` int(11) DEFAULT NULL,
+  `orderMarginRate` int(11) DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
-  `createdBy` int DEFAULT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
-  `portMasterId` int DEFAULT NULL,
+  `portMasterId` int(11) DEFAULT NULL,
   PRIMARY KEY (`yardCfsRateMasterId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1428,9 +1428,9 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `yardmaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `yardmaster` (
-  `yardMasterId` int NOT NULL AUTO_INCREMENT,
+  `yardMasterId` int(11) NOT NULL AUTO_INCREMENT,
   `yardName` varchar(512) DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
   `address1` varchar(512) DEFAULT NULL,
@@ -1439,13 +1439,13 @@ CREATE TABLE `yardmaster` (
   `pincode` varchar(512) DEFAULT NULL,
   `latitude` varchar(512) DEFAULT NULL,
   `longitude` varchar(512) DEFAULT NULL,
-  `createdBy` int DEFAULT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
-  `portMasterId` int DEFAULT NULL,
-  `locationMasterId` int DEFAULT NULL,
-  `stateMasterId` int DEFAULT NULL,
+  `portMasterId` int(11) DEFAULT NULL,
+  `locationMasterId` int(11) DEFAULT NULL,
+  `stateMasterId` int(11) DEFAULT NULL,
   `primarycontactperson` varchar(512) DEFAULT NULL,
   `primarycontactnumber` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`yardMasterId`)
@@ -1468,16 +1468,16 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `zonedaymaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `zonedaymaster` (
-  `zoneDayMasterId` int NOT NULL AUTO_INCREMENT,
+  `zoneDayMasterId` int(11) NOT NULL AUTO_INCREMENT,
   `zoneName` varchar(512) DEFAULT NULL,
-  `portId` int DEFAULT NULL,
+  `portId` int(11) DEFAULT NULL,
   `import` datetime DEFAULT NULL,
   `export` datetime DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
-  `createdBy` int DEFAULT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   PRIMARY KEY (`zoneDayMasterId`)
@@ -1499,15 +1499,15 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `zonemaster`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `zonemaster` (
-  `zoneMasterId` int NOT NULL AUTO_INCREMENT,
+  `zoneMasterId` int(11) NOT NULL AUTO_INCREMENT,
   `zoneName` varchar(512) DEFAULT NULL,
   `pincode` varchar(512) DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
-  `createdBy` int DEFAULT NULL,
+  `createdBy` int(11) DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
-  `modifiedBy` int DEFAULT NULL,
+  `modifiedBy` int(11) DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   `zoneDesc` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`zoneMasterId`)
@@ -4288,4 +4288,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-10-04 17:23:11
+-- Dump completed on 2020-10-04 18:07:45
