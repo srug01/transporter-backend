@@ -1184,4 +1184,32 @@ export class CallProcedureController {
       });
     });
   }
+
+  @get('/getPermissionsbyRoleId/{roleId}', {
+    responses: {
+      '200': {
+        description: 'Search for Permissions by  RoleId',
+        content: {
+          'application/json': {
+            schema: {type: 'array'},
+          },
+        },
+      },
+    },
+  })
+  // @authenticate('jwt')
+  async getPermissionsbyRoleId(
+    @param.path.string('roleId') roleId: string,
+  ): Promise<any> {
+    const sqlStmt = mysql.format('CALL getPermissionsbyRoleId(?)', [roleId]);
+    const connection = mysql.createConnection(mysqlCreds);
+    return new Promise<any>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      connection.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+        connection.end();
+      });
+    });
+  }
 }
