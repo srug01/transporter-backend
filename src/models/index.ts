@@ -47,3 +47,4 @@ export * from './trip-filter.model';
 export * from './bid-filter.model';
 export * from './bid-rate.model';
 export * from './batch-filter.model';
+export * from './threeparam-obj.model';
