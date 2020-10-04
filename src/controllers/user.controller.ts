@@ -19,7 +19,7 @@ import {
   TokenServiceBindings,
   UserServiceBindings,
 } from '../keys';
-import {TransporterRegistration, User} from '../models';
+import {Driver, TransporterRegistration, User} from '../models';
 import {UserRepository} from '../repositories';
 import {Credentials} from '../repositories/user.repository';
 import {BcryptHasher} from '../services/hash.password.bcrypt';
@@ -27,6 +27,7 @@ import {JWTService} from '../services/jwt-service';
 import {MyUserService} from '../services/user-service';
 import {validateCredentials} from '../services/validator';
 import {MyUserProfile} from '../types';
+import {DriverRepository} from './../repositories/driver.repository';
 import {TransporterRegistrationRepository} from './../repositories/transporter-registration.repository';
 import {CallProcedureService} from './../services/call-procedure.service';
 import {CredentialsRequestBody} from './specs/user.controller.spec';
@@ -41,6 +42,8 @@ export class UserController {
     public userRepository: UserRepository,
     @repository(TransporterRegistrationRepository)
     public transporterRegistrationRepository: TransporterRegistrationRepository,
+    @repository(DriverRepository)
+    public driverRepository: DriverRepository,
     @inject(PasswordHasherBindings.PASSWORD_HASHER)
     public hasher: BcryptHasher,
     @inject(UserServiceBindings.USER_SERVICE)
@@ -99,9 +102,23 @@ export class UserController {
         userId: savedUser.userId,
       } as TransporterRegistration;
 
-      const transreg = this.transporterRegistrationRepository.create(
+      const transreg = await this.transporterRegistrationRepository.create(
         transporterRegistration,
       );
+    } else if (savedUser.typeSyscode === 6) {
+      const driverRegistration = {
+        firstname: savedUser.firstName,
+        lastname: savedUser.lastName,
+        mobileNumber: savedUser.mobileNumber,
+        emailId: savedUser.email,
+        userId: savedUser.userId,
+        isActive: true,
+        createdBy: savedUser.userId,
+        createdOn: new Date().toString(),
+        userPassword: savedUser.password,
+      } as Driver;
+
+      const drivreg = await this.driverRepository.create(driverRegistration);
     }
 
     return savedUser;

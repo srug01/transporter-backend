@@ -189,7 +189,7 @@ CREATE TABLE `cfsportratemaster` (
   `containerMasterId` int DEFAULT NULL,
   `cfsMasterId` int DEFAULT NULL,
   PRIMARY KEY (`cfsPortRateMasterId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -198,7 +198,7 @@ CREATE TABLE `cfsportratemaster` (
 
 LOCK TABLES `cfsportratemaster` WRITE;
 /*!40000 ALTER TABLE `cfsportratemaster` DISABLE KEYS */;
-INSERT INTO `cfsportratemaster` VALUES (1,1,1,500,20,10,1,1,'2020-09-26 11:00:42',1,'2020-09-26 11:00:42',1,1),(2,1,2,400,10,10,1,1,'2020-09-26 18:39:15',1,'2020-09-26 18:39:15',2,3);
+INSERT INTO `cfsportratemaster` VALUES (1,1,1,300,5,7,1,1,'2020-09-26 11:00:42',1,'2020-10-02 05:46:30',1,1),(2,1,2,400,10,10,1,1,'2020-09-26 18:39:15',1,'2020-09-26 18:39:15',2,3),(3,1,2,200,5,5,1,1,'2020-10-02 05:51:45',NULL,NULL,2,1);
 /*!40000 ALTER TABLE `cfsportratemaster` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -272,7 +272,7 @@ CREATE TABLE `cfsyardratemaster` (
 
 LOCK TABLES `cfsyardratemaster` WRITE;
 /*!40000 ALTER TABLE `cfsyardratemaster` DISABLE KEYS */;
-INSERT INTO `cfsyardratemaster` VALUES (1,2,2,3,3,900,15,10,2,1,0,'2020-08-31 19:32:42',NULL,NULL),(2,1,1,3,3,5000,5,8,1,1,0,'2020-09-15 21:28:18',NULL,NULL),(3,1,3,2,2,200,4,4,1,1,1,'2020-10-01 01:32:23',NULL,NULL),(4,1,1,1,1,1000,10,10,1,1,1,'2020-10-01 01:58:39',NULL,NULL);
+INSERT INTO `cfsyardratemaster` VALUES (1,2,2,3,3,900,15,10,2,1,0,'2020-08-31 19:32:42',NULL,NULL),(2,1,1,3,3,500,5,8,1,1,0,'2020-09-15 21:28:18',NULL,NULL),(3,1,3,2,2,250,4,4,1,1,1,'2020-10-01 01:32:23',NULL,NULL),(4,1,1,1,1,1000,10,10,1,1,1,'2020-10-01 01:58:39',NULL,NULL);
 /*!40000 ALTER TABLE `cfsyardratemaster` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -395,7 +395,7 @@ CREATE TABLE `driver` (
   `modifiedOn` datetime DEFAULT NULL,
   `userId` int DEFAULT NULL,
   PRIMARY KEY (`driverId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -404,7 +404,7 @@ CREATE TABLE `driver` (
 
 LOCK TABLES `driver` WRITE;
 /*!40000 ALTER TABLE `driver` DISABLE KEYS */;
-INSERT INTO `driver` VALUES (1,'Driver','ALC','driver@alc.in','7894561230','123456789',1,1,'410254','Add1','Add2','Landmark',1,4,'425252',6,'2020-08-31 19:22:30',6,'2020-08-31 19:22:30',7),(2,'Driver2','Driver','driver2@alc.in','8877445563','123456789',1,1,'447445','Add1','Add2','LandMark',1,1,'1123547865',5,'2020-09-20 19:52:36',5,'2020-09-20 19:52:36',11),(3,'Driver','Last','driver@alctransporter.in','8897456210','123456789',1,1,'411258','Add1','Add2','Land Mark',1,4,'1257455',5,'2020-09-23 14:27:19',5,'2020-09-23 14:27:19',13);
+INSERT INTO `driver` VALUES (1,'Driver','ALC','driver@alc.in','7894561230','123456789',1,1,'410254','Add1','Add2','Landmark',1,4,'425252',6,'2020-08-31 19:22:30',6,'2020-08-31 19:22:30',7),(2,'Driver2','Driver','driver2@alc.in','8877445563','123456789',1,1,'447445','Add1','Add2','LandMark',1,1,'1123547865',5,'2020-09-20 19:52:36',5,'2020-09-20 19:52:36',11),(3,'Driver','Last','driver@alctransporter.in','8897456210','11111111',1,1,'411258','Add1','Add2','Land Mark',1,4,'1257455',1,'2020-10-02 14:07:51',1,'2020-10-02 14:07:51',NULL),(4,'Driver10','ALC','driver10@alc.in','8874512036',NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,20,'2020-10-02 13:44:23',NULL,NULL,20);
 /*!40000 ALTER TABLE `driver` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -642,6 +642,10 @@ CREATE TABLE `permissionrolemapping` (
   `permissionId` int NOT NULL,
   `roleId` int NOT NULL,
   `isActive` tinyint(1) NOT NULL,
+  `createdBy` int DEFAULT NULL,
+  `createdOn` datetime DEFAULT NULL,
+  `modifiedBy` int DEFAULT NULL,
+  `modifiedOn` datetime DEFAULT NULL,
   PRIMARY KEY (`permissionroleId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -652,7 +656,7 @@ CREATE TABLE `permissionrolemapping` (
 
 LOCK TABLES `permissionrolemapping` WRITE;
 /*!40000 ALTER TABLE `permissionrolemapping` DISABLE KEYS */;
-INSERT INTO `permissionrolemapping` VALUES (1,1,1,1),(2,2,1,1),(3,3,1,1),(4,4,1,1),(5,5,1,1),(6,6,1,1),(7,7,1,1),(8,8,1,1),(9,9,1,1),(10,10,1,1),(11,11,1,1),(12,12,1,1),(13,13,1,1),(14,14,1,1),(15,15,1,1),(16,16,1,1),(17,17,1,1),(18,18,1,1),(19,19,1,1),(20,20,1,1),(21,21,1,1),(22,22,1,1),(23,23,1,1),(24,24,1,1),(25,25,1,1),(26,26,1,1),(27,27,1,1),(28,28,1,1),(29,29,1,1),(30,30,1,1),(31,31,1,1),(32,32,1,1),(33,33,1,1),(34,34,1,1),(35,35,1,1),(36,36,1,1),(37,37,1,1),(38,38,1,1),(39,39,1,1),(40,40,1,1),(41,41,1,1),(42,42,1,1),(43,43,1,1),(44,44,1,1),(45,45,1,1),(46,46,1,1),(47,47,1,1),(48,48,1,1),(49,49,1,1),(50,50,1,1),(51,51,1,1),(52,52,1,1),(53,53,1,1),(54,54,1,1),(55,55,1,1),(56,56,1,1),(57,57,1,1),(58,58,1,1),(59,59,1,1),(60,60,1,1),(61,61,1,1),(62,62,1,1),(63,63,1,1),(64,64,1,1),(65,65,1,1),(66,66,1,1),(67,67,1,1),(68,68,1,1),(69,69,1,1),(70,70,1,1),(71,71,1,1),(72,72,1,1),(73,73,1,1),(74,74,1,1),(75,75,1,1),(76,76,1,1),(77,77,1,1),(78,78,1,1),(79,79,1,1),(80,80,1,1),(81,81,1,1),(82,82,1,1),(83,83,1,1),(84,84,1,1),(85,4,4,1),(86,5,4,1),(87,6,4,1),(88,7,4,1),(89,8,4,1),(90,9,4,1),(91,10,4,1),(92,11,4,1),(93,12,4,1),(94,13,4,1),(95,14,4,1),(96,15,4,1),(97,16,4,1),(98,17,4,1),(99,18,4,1),(100,19,5,1),(101,20,5,1),(102,21,5,1),(103,22,5,1),(104,23,5,1),(105,24,5,1),(106,25,5,1),(107,26,5,1),(108,27,5,1),(109,28,5,1),(110,29,5,1),(111,30,5,1),(112,31,5,1),(113,32,5,1),(114,33,5,1),(115,34,5,1),(116,35,5,1),(117,36,5,1),(118,37,5,1),(119,38,5,1),(120,39,5,1);
+INSERT INTO `permissionrolemapping` VALUES (1,1,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(2,2,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(3,3,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(4,4,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(5,5,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(6,6,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(7,7,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(8,8,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(9,9,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(10,10,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(11,11,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(12,12,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(13,13,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(14,14,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(15,15,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(16,16,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(17,17,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(18,18,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(19,19,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(20,20,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(21,21,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(22,22,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(23,23,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(24,24,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(25,25,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(26,26,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(27,27,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(28,28,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(29,29,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(30,30,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(31,31,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(32,32,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(33,33,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(34,34,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(35,35,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(36,36,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(37,37,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(38,38,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(39,39,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(40,40,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(41,41,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(42,42,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(43,43,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(44,44,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(45,45,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(46,46,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(47,47,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(48,48,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(49,49,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(50,50,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(51,51,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(52,52,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(53,53,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(54,54,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(55,55,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(56,56,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(57,57,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(58,58,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(59,59,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(60,60,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(61,61,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(62,62,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(63,63,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(64,64,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(65,65,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(66,66,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(67,67,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(68,68,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(69,69,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(70,70,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(71,71,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(72,72,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(73,73,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(74,74,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(75,75,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(76,76,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(77,77,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(78,78,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(79,79,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(80,80,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(81,81,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(82,82,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(83,83,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(84,84,1,1,0,'0000-00-00 00:00:00',NULL,NULL),(85,4,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(86,5,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(87,6,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(88,7,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(89,8,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(90,9,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(91,10,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(92,11,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(93,12,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(94,13,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(95,14,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(96,15,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(97,16,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(98,17,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(99,18,4,1,0,'0000-00-00 00:00:00',NULL,NULL),(100,19,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(101,20,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(102,21,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(103,22,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(104,23,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(105,24,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(106,25,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(107,26,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(108,27,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(109,28,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(110,29,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(111,30,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(112,31,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(113,32,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(114,33,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(115,34,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(116,35,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(117,36,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(118,37,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(119,38,5,1,0,'0000-00-00 00:00:00',NULL,NULL),(120,39,5,1,0,'0000-00-00 00:00:00',NULL,NULL);
 /*!40000 ALTER TABLE `permissionrolemapping` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -901,7 +905,7 @@ CREATE TABLE `suborder` (
   `suborderStatusId` int DEFAULT NULL,
   `bidLimit` int DEFAULT NULL,
   PRIMARY KEY (`subOrderId`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1013,8 +1017,11 @@ CREATE TABLE `transporterregistration` (
   `createdOn` datetime DEFAULT NULL,
   `modifiedBy` int DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
-  PRIMARY KEY (`transporterId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `userId` int DEFAULT NULL,
+  PRIMARY KEY (`transporterId`),
+  KEY `userId_idx` (`userId`),
+  CONSTRAINT `userId` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1023,6 +1030,7 @@ CREATE TABLE `transporterregistration` (
 
 LOCK TABLES `transporterregistration` WRITE;
 /*!40000 ALTER TABLE `transporterregistration` DISABLE KEYS */;
+INSERT INTO `transporterregistration` VALUES (1,'Transporter Third','7774102563','transporter3@alc.in',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,15);
 /*!40000 ALTER TABLE `transporterregistration` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1166,7 +1174,7 @@ CREATE TABLE `user` (
   `typeSyscode` int NOT NULL,
   `permissions` text,
   PRIMARY KEY (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1175,7 +1183,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'utsav@hotmail.com','$2a$10$g4gC9K5ebPMdTS2Aosq55ehc.i.N15Bo/wJ994P/ZlM.NqkExMxpa','utsav','demo','9886631264',1,'[\"AccessAuthFeature\"]'),(3,'cfs@hotmail.com','$2a$10$zFSpbpbu3L1ms6QPh78I9.tP28nzE4DfBrj5vyujWGBFaMP6tlHJW','Utsav','Purohit','9886631264',4,'[\"AccessAuthFeature\"]'),(4,'alc@admin.in','$2a$10$u1ELBUU.FGlKqvthzGvAt.xNhXHh9uUXhWOc3f0RNouaTYV0SSKpq','CFS User','CFS User','8875415230',7,'[\"AccessAuthFeature\"]'),(5,'transporter@alc.in','$2a$10$9hAh5NBg.YU73fkkRLmor.Xwy1POsXg5cApaiGF3Hhoci2D01N.62','Transporter','ALC','7789445620',5,'[\"AccessAuthFeature\"]'),(6,'transporter2@alc.in','$2a$10$cRWLZ/YInsJlmmCo0DLHsedcopBJlNVXZkEjQMjTiauWmImYOc.rW','Transporter2','ALC','7784562013',5,'[\"AccessAuthFeature\"]'),(7,'driver@alc.in','$2a$10$T6.Z3nMwE3IDcb25KqU8veJ3JZS6c6YvEapbVgwMcdsFBleuUV0qC','Driver','ALC','7894561230',6,'[\"AccessAuthFeature\"]'),(8,'gaurav@gmail.com','$2a$10$y0MXM6Yu9jH/h8IP1.H6juhR52MP0lbsvNgojGnR4aTdVnfTfDbIq','Gaurav','Admin','9547865231',1,'[\"AccessAuthFeature\"]'),(9,'cfs@gaurav.in','$2a$10$s.Z581LEsX4.EaoLBBknTOsV7EhqwwPodpYGXnflgDNzbFGdlUnIK','Gaurav CFS Super Admin','Gaurav CFS Super Admin','9998887774',7,'[\"AccessAuthFeature\"]'),(10,'alc.user@cfs.in','$2a$10$FhWa.y90jf.oPhuWcQ.RReg2BKa3Iooc.jh2HK8mFzV3wgwEHDxZW','All cargo User','All cargo User','7785624120',8,'[\"AccessAuthFeature\"]'),(11,'driver2@alc.in','$2a$10$fJOlGusegArXlN4EdiCgO.dt/4VMAlUasyBvrPd0g6jIrSdNo0Dty','Driver2','Driver','8877445563',6,'[\"AccessAuthFeature\"]'),(12,'cfs@newzone.in','$2a$10$4TL6akxNfhYnRZKeRWyKmO1Pz4oUPAwqLWjQcnCiAr7GBEJtgrqsC','New Zone CFS','New Zone CFS','8874123546',7,'[\"AccessAuthFeature\"]'),(13,'driver@alctransporter.in','$2a$10$8nyR.6cHf572J5m2PIKdkOeWASZJHH/d35Gn0fMO7ALb.gnwLX2nC','Driver','Last','8897456210',6,'[\"AccessAuthFeature\"]'),(14,'cfs@newzone11.in','$2a$10$UpDBqPeeSL.2ccdqZSs.GOV6uhnEt.WX3rmA6FYkiyhJ3g8aUaYvG','CFS USer','CFS USer','7744884500',4,'[\"AccessAuthFeature\"]');
+INSERT INTO `user` VALUES (1,'utsav@hotmail.com','$2a$10$g4gC9K5ebPMdTS2Aosq55ehc.i.N15Bo/wJ994P/ZlM.NqkExMxpa','utsav','demo','9886631264',1,'[\"AccessAuthFeature\"]'),(3,'cfs@hotmail.com','$2a$10$zFSpbpbu3L1ms6QPh78I9.tP28nzE4DfBrj5vyujWGBFaMP6tlHJW','Utsav','Purohit','9886631264',4,'[\"AccessAuthFeature\"]'),(4,'alc@admin.in','$2a$10$u1ELBUU.FGlKqvthzGvAt.xNhXHh9uUXhWOc3f0RNouaTYV0SSKpq','CFS User','CFS User','8875415230',7,'[\"AccessAuthFeature\"]'),(5,'transporter@alc.in','$2a$10$9hAh5NBg.YU73fkkRLmor.Xwy1POsXg5cApaiGF3Hhoci2D01N.62','Transporter','ALC','7789445620',5,'[\"AccessAuthFeature\"]'),(6,'transporter2@alc.in','$2a$10$cRWLZ/YInsJlmmCo0DLHsedcopBJlNVXZkEjQMjTiauWmImYOc.rW','Transporter2','ALC','7784562013',5,'[\"AccessAuthFeature\"]'),(7,'driver@alc.in','$2a$10$T6.Z3nMwE3IDcb25KqU8veJ3JZS6c6YvEapbVgwMcdsFBleuUV0qC','Driver','ALC','7894561230',6,'[\"AccessAuthFeature\"]'),(8,'gaurav@gmail.com','$2a$10$y0MXM6Yu9jH/h8IP1.H6juhR52MP0lbsvNgojGnR4aTdVnfTfDbIq','Gaurav','Admin','9547865231',1,'[\"AccessAuthFeature\"]'),(9,'cfs@gaurav.in','$2a$10$s.Z581LEsX4.EaoLBBknTOsV7EhqwwPodpYGXnflgDNzbFGdlUnIK','Gaurav CFS Super Admin','Gaurav CFS Super Admin','9998887774',7,'[\"AccessAuthFeature\"]'),(10,'alc.user@cfs.in','$2a$10$FhWa.y90jf.oPhuWcQ.RReg2BKa3Iooc.jh2HK8mFzV3wgwEHDxZW','All cargo User','All cargo User','7785624120',8,'[\"AccessAuthFeature\"]'),(11,'driver2@alc.in','$2a$10$fJOlGusegArXlN4EdiCgO.dt/4VMAlUasyBvrPd0g6jIrSdNo0Dty','Driver2','Driver','8877445563',6,'[\"AccessAuthFeature\"]'),(12,'cfs@newzone.in','$2a$10$4TL6akxNfhYnRZKeRWyKmO1Pz4oUPAwqLWjQcnCiAr7GBEJtgrqsC','New Zone CFS','New Zone CFS','8874123546',7,'[\"AccessAuthFeature\"]'),(13,'driver@alctransporter.in','$2a$10$8nyR.6cHf572J5m2PIKdkOeWASZJHH/d35Gn0fMO7ALb.gnwLX2nC','Driver','Last','8897456210',6,'[\"AccessAuthFeature\"]'),(14,'cfs@newzone11.in','$2a$10$UpDBqPeeSL.2ccdqZSs.GOV6uhnEt.WX3rmA6FYkiyhJ3g8aUaYvG','CFS USer','CFS USer','7744884500',4,'[\"AccessAuthFeature\"]'),(15,'transporter3@alc.in','$2a$10$u5PE89RY3wX/OrmGt.CgmuUJ81GkO/fQgzzBwDLmXta/xJwoEaQ6S','Transporter','Third','7774102563',5,'[\"AccessAuthFeature\"]'),(16,'driver5@alc.in','$2a$10$QHowQ7FWBj0YOC4d/Kv/i.pd8mF/aL.33magF3Y3havGVhOTVwrri','Driver5','ALC','8745210036',6,'[\"AccessAuthFeature\"]'),(17,'driver7@alc.in','$2a$10$kF9sHsQvSdeZeuU3cyG6f.wqoLaHBLiIlUFq4GsHpiFWRxmP6gzt.','Driver7','ALC','8841254632',6,'[\"AccessAuthFeature\"]'),(18,'driver8@alc.in','$2a$10$8DaEKFI1xxX/xRAMiQzVLuVy3ifwNLtmElhs9lwRgHRqZwrwV/IgO','Driver8','ALC','8879451023',6,'[\"AccessAuthFeature\"]'),(19,'driver9@alc.in','$2a$10$AB8cmXnXFMAbTXNQO/DryOcyobhqUTjjWoTSlnetavFhjKL/QoQn6','Driver9','ALC','9987456120',6,'[\"AccessAuthFeature\"]'),(20,'driver10@alc.in','$2a$10$tAUfo9mBp4GrNUgPfW4u1uRdD1LUKoIL2r11h2JwY4NYYFZhK8.LK','Driver10','ALC','8874512036',6,'[\"AccessAuthFeature\"]');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1959,6 +1967,35 @@ BEGIN
 Select d.* from transporter.driver d
 Inner join transporter.drivertransportermapping dtm on d.userId = dtm.driverId
 Where dtm.userId = user_Id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `GetAllGroupCFSUsersbyUserId` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllGroupCFSUsersbyUserId`(in user_Id int)
+BEGIN
+
+declare cfs_Id int;
+Select cfsMasterId into cfs_Id 
+from transporter.cfsuserregistration where userId = user_Id;
+
+Select u.userId,u.email,u.firstName,u.lastName,u.mobileNumber,
+u.typeSyscode from transporter.user u
+inner Join transporter.cfsuserregistration cur on cur.userId = u.userId 
+-- Inner Join transporter.cfsmaster cfm on cur.cfsMasterId = cfm.cfsMasterId
+Where  cur.cfsMasterId = cfs_Id;
+
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -3870,6 +3907,101 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `savePermissionRole` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `savePermissionRole`(
+in role_Id int,
+in user_Id int,
+in permissions json)
+BEGIN
+
+DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
+DECLARE EXIT HANDLER FOR SQLWARNING ROLLBACK;
+
+
+START TRANSACTION;
+
+Create Temporary table tbl_update
+SELECT
+  json_tb.permissionId,
+  json_tb.permissionName,
+  json_tb.isActive
+  -- if(json_type(json_extract(JSON_OBJECT('b',json_tb.quantity),'$.b')) = 'NULL',1 ,0) 'quantity_is_null'
+FROM JSON_TABLE
+(
+permissions
+, "$[*]"
+COLUMNS
+(
+permissionId int PATH "$.permissionId",
+permissionName varchar(150) PATH "$.permissionName",
+isActive bit PATH "$.isActive"
+)
+) json_tb;
+
+
+If Not Exists (Select * from transporter.permissionrolemapping where roleId = role_Id) then  
+Begin
+	Insert into transporter.permissionrolemapping(roleId,permissionId,isActive,createdBy,createdOn)
+    Select role_Id,permissionId,isActive,user_Id,now() from tbl_update;
+End;    
+Else
+Begin
+
+DECLARE permission_Id INTEGER DEFAULT 0;
+DECLARE is_Active bit DEFAULT 0;
+
+DECLARE exit_loop int default 0; 
+DECLARE curPermissions CURSOR FOR Select permissionId,isActive from tbl_update;
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET exit_loop = 1;
+OPEN curPermissions;
+REPEAT
+     FETCH  curPermissions INTO permission_Id,is_Active;
+IF NOT exit_loop  THEN
+
+	If Not Exists (Select * from transporter.permissionrolemapping where roleId = role_Id and 
+    permissionId = permission_Id) then 
+    Begin
+		Insert into transporter.permissionrolemapping(roleId,permissionId,isActive,createdBy,createdOn)
+		Values
+		(role_Id,permission_Id,is_Active,user_Id,now());
+	End;
+	Else
+    Begin
+		Update transporter.permissionrolemapping set isActive = is_Active,
+		modifiedBy = user_Id,modifiedOn = now() 
+		Where permissionId = permission_Id and roleId = role_Id;
+	End;
+	End If;
+END IF;
+     UNTIL exit_loop END REPEAT;
+CLOSE curPermissions;
+
+End;
+
+Drop Table tbl_update;
+
+End If;
+
+Commit;
+
+
+
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `SEARCHCFSLOCATION` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -4133,4 +4265,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-10-01  2:35:29
+-- Dump completed on 2020-10-04 15:03:36
