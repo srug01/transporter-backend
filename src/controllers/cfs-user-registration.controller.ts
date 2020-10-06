@@ -5,7 +5,7 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
   del,
@@ -15,13 +15,13 @@ import {
   patch,
   post,
   put,
-  requestBody,
+  requestBody
 } from '@loopback/rest';
 import {toJSON} from '@loopback/testlab';
 import {pick} from 'lodash';
 import {UserServiceBindings} from '../keys';
 import {CfsUserRegistration, User} from '../models';
-import {CfsUserRegistrationRepository, UserRepository} from '../repositories';
+import {CfsUserRegistrationRepository, UserRepository, UserroleRepository} from '../repositories';
 import {MyUserService} from '../services/user-service';
 
 export class CfsUserRegistrationController {
@@ -32,6 +32,8 @@ export class CfsUserRegistrationController {
     public userRepository: UserRepository,
     @repository(CfsUserRegistrationRepository)
     public cfsUserRegistrationRepository: CfsUserRegistrationRepository,
+    @repository(UserroleRepository)
+    public roleRepository: UserroleRepository,
   ) {}
 
   @post('/cfs-user-registrations', {
@@ -92,7 +94,6 @@ export class CfsUserRegistrationController {
     //console.log('User Name' + user.firstName);
     const createdUser = await this.userService.createUser(createUser);
     cfsUserRegistration.userId = createdUser.getId();
-
     return this.cfsUserRegistrationRepository.create(cfsUserRegistration);
   }
 
@@ -130,7 +131,12 @@ export class CfsUserRegistrationController {
   async find(
     @param.filter(CfsUserRegistration) filter?: Filter<CfsUserRegistration>,
   ): Promise<CfsUserRegistration[]> {
-    return this.cfsUserRegistrationRepository.find(filter);
+    const users = await this.cfsUserRegistrationRepository.find(filter);
+    for (const user of users) {
+      const userRole = await this.roleRepository.findById(user.userTypeId);
+      user.roleName = userRole.roleName;
+    }
+    return users;
   }
 
   @patch('/cfs-user-registrations', {
