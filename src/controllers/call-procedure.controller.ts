@@ -872,15 +872,19 @@ export class CallProcedureController {
     })
     queryObj: OrderFilter,
   ): Promise<AnyObject> {
-    const sqlStmt = mysql.format('CALL getOrderListForFilters(?,?,?,?,?,?,?)', [
-      queryObj.sourceId === 0 ? null : queryObj.sourceId,
-      queryObj.destinationId === 0 ? null : queryObj.destinationId,
-      queryObj.fromDate,
-      queryObj.toDate,
-      queryObj.orderType === 0 ? null : queryObj.orderType,
-      queryObj.orderStatus === 0 ? null : queryObj.orderStatus,
-      queryObj.custId === 0 ? null : queryObj.custId,
-    ]);
+    const sqlStmt = mysql.format(
+      'CALL getOrderListForFilters(?,?,?,?,?,?,?,?)',
+      [
+        queryObj.sourceId === 0 ? null : queryObj.sourceId,
+        queryObj.destinationId === 0 ? null : queryObj.destinationId,
+        queryObj.fromDate,
+        queryObj.toDate,
+        queryObj.orderType === 0 ? null : queryObj.orderType,
+        queryObj.orderStatus === 0 ? null : queryObj.orderStatus,
+        queryObj.custId === 0 ? null : queryObj.custId,
+        queryObj.currentUserId,
+      ],
+    );
     const connection = mysql.createConnection(mysqlCreds);
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -45,6 +45,12 @@ export class OrderFilter extends Model {
   })
   custId?: number;
 
+  @property({
+    type: 'number',
+    default: null,
+  })
+  currentUserId?: number;
+
   constructor(data?: Partial<OrderFilter>) {
     super(data);
   }

@@ -21,7 +21,7 @@ select * from transporter.cfsuserregistration;
 
 Select * from transporter.weightmaster;
 
-call GetBidsbyUserId(6);
+call GetBidsbyUserId(1);
 Call procSchedulerConfirmBid();
 Call procGetOrderDetails(null);
 Call getAllCFSContainersbyUserId(9,1,1);
@@ -45,11 +45,14 @@ Call GetAllCFSPortsbyUserId(4);
 Call CleanOrders();
 Call GetTripsbyId(4);
 Call GetTripDetailsbyTripId(4);
-Call getBidsforBidding(1);
+Call getBidsforBidding(6);
+Call GetAllCFSContainerAndWeights(3,1);
 
 -- declare @total int, @retVal varchar(150) 
 Call getOrderListForAdmin(0,0,'',0,0,9);
 Call getSubOrderListForFilters(2,'','',0,0,0);
+Call getOrderListForFilters(0,0,'','',0,0,0,12);
+
 Select @total,@retVal;
 
 
