@@ -55,11 +55,16 @@ export class OrderController {
     })
     order: Omit<Order, 'orderId'>,
   ): Promise<Order> {
+    // let tx: Transaction;
+    // tx = await this.orderRepository.beginTransaction(
+    //   IsolationLevel.READ_COMMITTED,
+    // );
     const containers: Container[] = order.containers;
     console.log(containers);
     delete order.containers;
     console.log(order);
     const createdOrder = await this.orderRepository.create(order);
+    // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let i = 0; i < containers.length; i++) {
       const container = containers[i];
       const trucks: Truck[] = container.trucks;
@@ -68,9 +73,24 @@ export class OrderController {
       const createdContainer = await this.orderRepository
         .containers(createdOrder.getId())
         .create(container);
-      for (const truck of trucks) {
-        truck.containerId = createdContainer.getId();
-        this.containerRepository.trucks(createdContainer.getId()).create(truck);
+      // for (const truck of trucks) {
+      //   truck.containerId = createdContainer.getId();
+      //   this.containerRepository.trucks(createdContainer.getId()).create(truck);
+      // }
+      const truckCount = createdContainer?.numberOfTrucks ?? 0;
+      if (truckCount > 0) {
+        for (let j = 0; j < truckCount; j++) {
+          const truck: Truck = new Truck();
+          truck.containerId = createdContainer.getId();
+          if (trucks[j] === undefined) {
+            truck.truckNumber = '';
+          } else {
+            truck.truckNumber = trucks[j].truckNumber;
+          }
+          const data = await this.containerRepository
+            .trucks(createdContainer.getId())
+            .create(truck);
+        }
       }
     }
     const placebid = await this._callProcedureService.PostOrderProcessing(
