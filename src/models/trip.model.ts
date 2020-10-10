@@ -1,5 +1,4 @@
 import {Entity, model, property} from '@loopback/repository';
-import {DateTimeISO8601} from 'aws-sdk/clients/marketplacecatalog';
 
 @model({
   settings: {
@@ -86,16 +85,19 @@ export class Trip extends Entity {
   @property({
     type: 'date',
   })
-  modifiedOn?: DateTimeISO8601;
+  modifiedOn?: Date;
 
   @property({
-    type: 'date',
-    default: null,
+    type: 'string',
+    required: false,
+    jsonSchema: {nullable: true}
   })
   startDate?: string;
 
   @property({
-    type: 'date',
+    type: 'string',
+    required: false,
+    jsonSchema: {nullable: true}
   })
   endDate?: string;
 
