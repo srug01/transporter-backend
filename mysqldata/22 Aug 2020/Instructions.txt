@@ -1,3 +1,0 @@
-1) Run script to Enable events
-2) update query to update the cut off time
-3) run the event query which will occur every 5 minutes

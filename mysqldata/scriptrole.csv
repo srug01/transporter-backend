@@ -1,9 +1,0 @@
-[{"roleId":1, "roleName":"Admin", "is_active":1, "created_by":1, "created_on":"2020-06-26 21:11:31", "modified_by":0, "modified_on":"", "parentRoleId":0},
- {"roleId":2, "roleName":"Import Customer", "is_active":1, "created_by":1, "created_on":"2020-06-26 21:12:54", "modified_by":0, "modified_on":"", "parentRoleId":0},
- {"roleId":3, "roleName":"Export Customer", "is_active":1, "created_by":1, "created_on":"2020-06-26 21:12:54", "modified_by":0, "modified_on":"", "parentRoleId":0},
- {"roleId":4, "roleName":"CFS Customer", "is_active":1, "created_by":1, "created_on":"2020-06-26 21:12:54", "modified_by":0, "modified_on":"", "parentRoleId":0},
- {"roleId":5, "roleName":"Transporter", "is_active":1, "created_by":1, "created_on":"2020-06-26 21:12:54", "modified_by":0, "modified_on":"", "parentRoleId":0},
- {"roleId":6, "roleName":"Driver", "is_active":1, "created_by":1, "created_on":"2020-06-26 21:12:54", "modified_by":0, "modified_on":"", "parentRoleId":0},
- {"roleId":7, "roleName":"CFS User Admin", "is_active":1, "created_by":1, "created_on":"2020-07-17 00:00:00", "modified_by":0, "modified_on":"", "parentRoleId":4},
- {"roleId":8, "roleName":"CFS User Super Admin", "is_active":1, "created_by":1, "created_on":"2020-07-17 00:00:00", "modified_by":0, "modified_on":"", "parentRoleId":4},
- {"roleId":9, "roleName":"CFS User Viewer", "is_active":1, "created_by":1, "created_on":"2020-07-17 00:00:00", "modified_by":0, "modified_on":"", "parentRoleId":4}]

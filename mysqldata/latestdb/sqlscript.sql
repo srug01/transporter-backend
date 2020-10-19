@@ -272,7 +272,7 @@ CREATE TABLE `cfsyardratemaster` (
 
 LOCK TABLES `cfsyardratemaster` WRITE;
 /*!40000 ALTER TABLE `cfsyardratemaster` DISABLE KEYS */;
-INSERT INTO `cfsyardratemaster` VALUES (1,2,2,3,3,900,18,10,2,1,0,'2020-10-07 17:37:40',NULL,NULL),(2,1,1,3,3,500,5,8,1,1,0,'2020-09-15 21:28:18',NULL,NULL),(3,1,3,2,2,250,4,4,1,1,1,'2020-10-01 01:32:23',NULL,NULL),(4,1,1,1,1,750,10,10,1,1,1,'2020-10-07 17:36:40',1,'2020-10-05 18:39:27');
+INSERT INTO `cfsyardratemaster` VALUES (1,2,2,3,3,900,18,10,2,1,0,'2020-10-07 17:37:40',NULL,NULL),(2,1,1,3,3,500,5,8,1,1,0,'2020-09-15 21:28:18',NULL,NULL),(3,1,3,2,2,250,4,4,1,1,1,'2020-10-01 01:32:23',NULL,NULL),(4,1,1,1,1,750,10,10,1,1,1,'2020-10-07 17:36:40',1,'2020-10-09 15:22:34');
 /*!40000 ALTER TABLE `cfsyardratemaster` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -295,7 +295,7 @@ CREATE TABLE `container` (
   `modifiedBy` int DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   PRIMARY KEY (`containerId`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -304,7 +304,7 @@ CREATE TABLE `container` (
 
 LOCK TABLES `container` WRITE;
 /*!40000 ALTER TABLE `container` DISABLE KEYS */;
-INSERT INTO `container` VALUES (9,9,2,2,2,0,1,'2020-09-26 18:40:23',1,'2020-09-26 18:40:23'),(10,10,2,2,2,0,1,'2020-09-28 16:37:15',1,'2020-09-28 16:37:15'),(11,11,2,2,2,0,1,'2020-10-07 19:44:49',1,'2020-10-07 19:44:49');
+INSERT INTO `container` VALUES (9,9,2,2,2,0,1,'2020-09-26 18:40:23',1,'2020-09-26 18:40:23'),(10,10,2,2,2,0,1,'2020-09-28 16:37:15',1,'2020-09-28 16:37:15'),(11,11,2,2,2,0,1,'2020-10-07 19:44:49',1,'2020-10-07 19:44:49'),(12,12,3,2,3,0,1,'2020-10-09 04:54:56',1,'2020-10-09 04:54:56'),(13,13,3,2,3,0,1,'2020-10-09 13:29:17',1,'2020-10-09 13:29:17'),(14,14,3,2,3,0,1,'2020-10-09 13:32:59',1,'2020-10-09 13:32:59'),(15,15,3,3,3,0,1,'2020-10-09 13:36:31',1,'2020-10-09 13:36:31'),(16,16,3,4,3,0,1,'2020-10-09 13:39:28',1,'2020-10-09 13:39:28'),(17,17,3,3,3,0,1,'2020-10-09 13:40:35',1,'2020-10-09 13:40:35');
 /*!40000 ALTER TABLE `container` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -542,7 +542,7 @@ CREATE TABLE `notification` (
   `assignedToRole` int DEFAULT NULL,
   `assignedToUser` int DEFAULT NULL,
   PRIMARY KEY (`notificationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -551,7 +551,7 @@ CREATE TABLE `notification` (
 
 LOCK TABLES `notification` WRITE;
 /*!40000 ALTER TABLE `notification` DISABLE KEYS */;
-INSERT INTO `notification` VALUES (1,'orders','CFS User CFS User placed a new Order on 2020-09-01!',2,NULL,4,'2020-08-31 19:08:48',0,1,NULL),(2,'orders','Transporter ALC confirmed a bid on 2020-09-01!',1,NULL,5,'2020-08-31 19:11:07',0,1,NULL),(3,'orders','Transporter ALC confirmed a bid on 2020-09-01!',1,NULL,5,'2020-08-31 19:11:14',0,1,NULL),(4,'orders','Transporter2 ALC confirmed a bid on 2020-09-01!',1,NULL,6,'2020-08-31 19:13:03',0,1,NULL),(5,'orders','Transporter2 ALC confirmed a bid on 2020-09-01!',1,NULL,6,'2020-08-31 19:13:07',0,1,NULL),(6,'orders','Gaurav CFS Super Admin Gaurav CFS Super Admin placed a new Order on 2020-09-01!',3,NULL,9,'2020-08-31 20:40:03',0,1,NULL),(7,'orders','undefined placed a new Order on 2020-09-20!',4,NULL,9,'2020-09-20 06:27:12',0,1,NULL),(8,'orders','undefined placed a new Order on 2020-09-21!',5,NULL,9,'2020-09-20 18:49:53',0,1,NULL),(9,'orders','undefined placed a new Order on 2020-09-21!',6,NULL,9,'2020-09-20 19:08:46',0,1,NULL),(10,'orders','Transporter ALC confirmed a bid on 2020-09-21!',1,NULL,5,'2020-09-20 19:11:05',0,1,NULL),(11,'orders','Transporter ALC confirmed a bid on 2020-09-21!',1,NULL,5,'2020-09-20 19:11:18',0,1,NULL),(12,'orders','Transporter2 ALC confirmed a bid on 2020-09-21!',1,NULL,6,'2020-09-20 19:13:21',0,1,NULL),(13,'orders','Transporter ALC confirmed a bid on 2020-09-21!',1,NULL,5,'2020-09-20 19:33:58',0,1,NULL),(14,'orders','Transporter2 ALC confirmed a bid on 2020-09-21!',1,NULL,6,'2020-09-20 19:34:28',0,1,NULL),(15,'orders','undefined placed a new Order on 2020-09-25!',7,NULL,9,'2020-09-24 20:34:26',0,1,NULL),(16,'orders','undefined placed a new Order on 2020-09-26!',8,NULL,9,'2020-09-25 21:38:52',0,1,NULL),(17,'orders','Transporter ALC confirmed a bid on 2020-09-26!',1,NULL,5,'2020-09-26 15:11:23',0,1,NULL),(18,'orders','Transporter ALC confirmed a bid on 2020-09-26!',1,NULL,5,'2020-09-26 15:15:41',0,1,NULL),(19,'orders','undefined placed a new Order on 2020-09-27!',9,NULL,12,'2020-09-26 18:40:23',0,1,NULL),(20,'orders','Transporter ALC confirmed a bid on 2020-09-27!',1,NULL,5,'2020-09-26 18:43:28',0,1,NULL),(21,'orders','Transporter2 ALC confirmed a bid on 2020-09-27!',1,NULL,6,'2020-09-26 18:56:28',0,1,NULL),(22,'orders','Transporter2 ALC confirmed a bid on 2020-09-27!',1,NULL,6,'2020-09-26 18:59:07',0,1,NULL),(23,'orders','Transporter2 ALC confirmed a bid on 2020-09-27!',1,NULL,6,'2020-09-26 19:08:45',0,1,NULL),(24,'orders','Transporter2 ALC confirmed a bid on 2020-09-27!',1,NULL,6,'2020-09-26 19:10:04',0,1,NULL),(25,'orders','Transporter ALC confirmed a bid on 2020-09-27!',1,NULL,5,'2020-09-26 19:27:27',0,1,NULL),(26,'orders','Transporter2 ALC confirmed a bid on 2020-09-27!',1,NULL,6,'2020-09-26 19:30:05',0,1,NULL),(27,'orders','undefined placed a new Order on 2020-09-28!',10,NULL,12,'2020-09-28 16:37:16',0,1,NULL),(28,'orders','Transporter ALC confirmed a bid on 2020-09-28!',1,NULL,5,'2020-09-28 16:38:34',0,1,NULL),(29,'orders','Transporter2 ALC confirmed a bid on 2020-09-28!',1,NULL,6,'2020-09-28 16:39:16',0,1,NULL),(30,'orders','undefined placed a new Order on 2020-10-08!',11,NULL,9,'2020-10-07 19:44:49',0,1,NULL);
+INSERT INTO `notification` VALUES (1,'orders','CFS User CFS User placed a new Order on 2020-09-01!',2,NULL,4,'2020-08-31 19:08:48',0,1,NULL),(2,'orders','Transporter ALC confirmed a bid on 2020-09-01!',1,NULL,5,'2020-08-31 19:11:07',0,1,NULL),(3,'orders','Transporter ALC confirmed a bid on 2020-09-01!',1,NULL,5,'2020-08-31 19:11:14',0,1,NULL),(4,'orders','Transporter2 ALC confirmed a bid on 2020-09-01!',1,NULL,6,'2020-08-31 19:13:03',0,1,NULL),(5,'orders','Transporter2 ALC confirmed a bid on 2020-09-01!',1,NULL,6,'2020-08-31 19:13:07',0,1,NULL),(6,'orders','Gaurav CFS Super Admin Gaurav CFS Super Admin placed a new Order on 2020-09-01!',3,NULL,9,'2020-08-31 20:40:03',0,1,NULL),(7,'orders','undefined placed a new Order on 2020-09-20!',4,NULL,9,'2020-09-20 06:27:12',0,1,NULL),(8,'orders','undefined placed a new Order on 2020-09-21!',5,NULL,9,'2020-09-20 18:49:53',0,1,NULL),(9,'orders','undefined placed a new Order on 2020-09-21!',6,NULL,9,'2020-09-20 19:08:46',0,1,NULL),(10,'orders','Transporter ALC confirmed a bid on 2020-09-21!',1,NULL,5,'2020-09-20 19:11:05',0,1,NULL),(11,'orders','Transporter ALC confirmed a bid on 2020-09-21!',1,NULL,5,'2020-09-20 19:11:18',0,1,NULL),(12,'orders','Transporter2 ALC confirmed a bid on 2020-09-21!',1,NULL,6,'2020-09-20 19:13:21',0,1,NULL),(13,'orders','Transporter ALC confirmed a bid on 2020-09-21!',1,NULL,5,'2020-09-20 19:33:58',0,1,NULL),(14,'orders','Transporter2 ALC confirmed a bid on 2020-09-21!',1,NULL,6,'2020-09-20 19:34:28',0,1,NULL),(15,'orders','undefined placed a new Order on 2020-09-25!',7,NULL,9,'2020-09-24 20:34:26',0,1,NULL),(16,'orders','undefined placed a new Order on 2020-09-26!',8,NULL,9,'2020-09-25 21:38:52',0,1,NULL),(17,'orders','Transporter ALC confirmed a bid on 2020-09-26!',1,NULL,5,'2020-09-26 15:11:23',0,1,NULL),(18,'orders','Transporter ALC confirmed a bid on 2020-09-26!',1,NULL,5,'2020-09-26 15:15:41',0,1,NULL),(19,'orders','undefined placed a new Order on 2020-09-27!',9,NULL,12,'2020-09-26 18:40:23',0,1,NULL),(20,'orders','Transporter ALC confirmed a bid on 2020-09-27!',1,NULL,5,'2020-09-26 18:43:28',0,1,NULL),(21,'orders','Transporter2 ALC confirmed a bid on 2020-09-27!',1,NULL,6,'2020-09-26 18:56:28',0,1,NULL),(22,'orders','Transporter2 ALC confirmed a bid on 2020-09-27!',1,NULL,6,'2020-09-26 18:59:07',0,1,NULL),(23,'orders','Transporter2 ALC confirmed a bid on 2020-09-27!',1,NULL,6,'2020-09-26 19:08:45',0,1,NULL),(24,'orders','Transporter2 ALC confirmed a bid on 2020-09-27!',1,NULL,6,'2020-09-26 19:10:04',0,1,NULL),(25,'orders','Transporter ALC confirmed a bid on 2020-09-27!',1,NULL,5,'2020-09-26 19:27:27',0,1,NULL),(26,'orders','Transporter2 ALC confirmed a bid on 2020-09-27!',1,NULL,6,'2020-09-26 19:30:05',0,1,NULL),(27,'orders','undefined placed a new Order on 2020-09-28!',10,NULL,12,'2020-09-28 16:37:16',0,1,NULL),(28,'orders','Transporter ALC confirmed a bid on 2020-09-28!',1,NULL,5,'2020-09-28 16:38:34',0,1,NULL),(29,'orders','Transporter2 ALC confirmed a bid on 2020-09-28!',1,NULL,6,'2020-09-28 16:39:16',0,1,NULL),(30,'orders','undefined placed a new Order on 2020-10-08!',11,NULL,9,'2020-10-07 19:44:49',0,1,NULL),(31,'orders','undefined placed a new Order on 2020-10-09!',12,NULL,9,'2020-10-09 04:54:56',0,1,NULL),(32,'orders','undefined placed a new Order on 2020-10-09!',13,NULL,9,'2020-10-09 13:29:18',0,1,NULL),(33,'orders','undefined placed a new Order on 2020-10-09!',14,NULL,9,'2020-10-09 13:32:59',0,1,NULL),(34,'orders','undefined placed a new Order on 2020-10-09!',15,NULL,9,'2020-10-09 13:36:32',0,1,NULL),(35,'orders','undefined placed a new Order on 2020-10-09!',16,NULL,9,'2020-10-09 13:39:29',0,1,NULL),(36,'orders','undefined placed a new Order on 2020-10-09!',17,NULL,9,'2020-10-09 13:40:35',0,1,NULL);
 /*!40000 ALTER TABLE `notification` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -588,7 +588,7 @@ CREATE TABLE `order` (
   `rateExcludingProfit` int DEFAULT NULL,
   `timeslotMasterId` int DEFAULT NULL,
   PRIMARY KEY (`orderId`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -597,7 +597,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES (9,2,'2020-09-30 15:00:00',2,3,1,'CFS','PORT','30 Sep 3 PM - 4 PM','',0,0,'ORDER_ACCEPTED',6,12,NULL,12,'2020-09-26 18:40:23',800,80,1,0,720,16),(10,2,'2020-09-30 02:00:00',2,3,1,'CFS','PORT','30 SEP 2 AM 3 AM','',0,0,'ORDER_ASSIGNED',7,12,'2020-09-28 22:07:15',12,'2020-09-28 16:37:15',800,80,1,0,720,3),(11,3,'2020-10-22 01:00:00',3,2,2,'YARD','CFS','','',0,0,'ORDER_ACCEPTED',6,9,'2020-10-08 01:14:48',9,'2020-10-07 19:44:49',1400,210,0,0,1190,2);
+INSERT INTO `order` VALUES (9,2,'2020-09-30 15:00:00',2,3,1,'CFS','PORT','30 Sep 3 PM - 4 PM','',0,0,'ORDER_DELIVERED',9,12,NULL,12,'2020-09-26 18:40:23',800,80,1,0,720,16),(10,2,'2020-09-30 02:00:00',2,3,1,'CFS','PORT','30 SEP 2 AM 3 AM','',0,0,'ORDER_ASSIGNED',7,12,'2020-09-28 22:07:15',12,'2020-09-28 16:37:15',800,80,1,0,720,3),(11,3,'2020-10-22 01:00:00',3,2,2,'YARD','CFS','','',0,0,'ORDER_ACCEPTED',6,9,'2020-10-08 01:14:48',9,'2020-10-07 19:44:49',1400,210,0,0,1190,2),(12,1,'2020-10-13 04:00:00',1,2,2,'CFS','YARD','','',0,0,'ORDER_ACCEPTED',6,9,'2020-10-09 10:24:56',9,'2020-10-09 04:54:56',1800,180,0,0,1620,5),(13,1,'2020-10-14 16:00:00',1,2,2,'CFS','YARD','','',0,0,'ORDER_ACCEPTED',6,9,'2020-10-09 18:59:17',9,'2020-10-09 13:29:17',1800,180,0,0,1620,17),(14,1,'2020-10-15 17:00:00',1,2,2,'CFS','YARD','','',0,0,'ORDER_ACCEPTED',6,9,'2020-10-09 19:02:59',9,'2020-10-09 13:32:59',1800,180,0,0,1620,18),(15,1,'2020-10-16 19:00:00',1,2,2,'CFS','YARD','','',0,0,'ORDER_ACCEPTED',6,9,'2020-10-09 19:06:31',9,'2020-10-09 13:36:31',2700,270,0,0,2430,20),(16,1,'2020-10-17 17:00:00',1,2,2,'CFS','YARD','','',0,0,'ORDER_ACCEPTED',6,9,'2020-10-09 19:09:28',9,'2020-10-09 13:39:28',3600,360,0,0,3240,18),(17,1,'2020-10-18 22:00:00',1,2,2,'CFS','YARD','','',0,0,'ORDER_ACCEPTED',6,9,'2020-10-09 19:10:35',9,'2020-10-09 13:40:35',2700,270,0,0,2430,23);
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -808,7 +808,7 @@ CREATE TABLE `statemaster` (
   `modifiedBy` int DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   PRIMARY KEY (`stateMasterId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -817,7 +817,7 @@ CREATE TABLE `statemaster` (
 
 LOCK TABLES `statemaster` WRITE;
 /*!40000 ALTER TABLE `statemaster` DISABLE KEYS */;
-INSERT INTO `statemaster` VALUES (1,'Maharashtra',1,NULL,NULL,NULL,NULL),(2,'Chandigarh',1,NULL,NULL,NULL,NULL);
+INSERT INTO `statemaster` VALUES (1,'Maharashtra',0,NULL,NULL,NULL,NULL),(3,'Chandigrah',1,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `statemaster` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -896,7 +896,7 @@ CREATE TABLE `suborder` (
   `modifiedBy` int DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   `cotainerId` int DEFAULT NULL,
-  `containerType` int DEFAULT NULL,
+  `containerType` varchar(512) DEFAULT NULL,
   `containerWeightType` int DEFAULT NULL,
   `subOrderTotalMargin` int DEFAULT NULL,
   `marginPercent` int DEFAULT NULL,
@@ -905,7 +905,7 @@ CREATE TABLE `suborder` (
   `suborderStatusId` int DEFAULT NULL,
   `bidLimit` int DEFAULT NULL,
   PRIMARY KEY (`subOrderId`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -914,7 +914,7 @@ CREATE TABLE `suborder` (
 
 LOCK TABLES `suborder` WRITE;
 /*!40000 ALTER TABLE `suborder` DISABLE KEYS */;
-INSERT INTO `suborder` VALUES (23,9,400,0,12,'2020-09-27 00:00:00',0,NULL,9,2,2,360,0,NULL,'SUB_ORDER_BID_ASSIGNED',12,10),(24,9,400,0,12,'2020-09-27 00:00:00',0,NULL,9,2,2,360,0,NULL,'SUB_ORDER_BID_ASSIGNED',12,10),(26,10,400,0,12,'2020-09-28 00:00:00',0,NULL,10,2,2,360,0,NULL,'SUB_ORDER_BID_ASSIGNED',12,10),(27,10,400,0,12,'2020-09-28 00:00:00',0,NULL,10,2,2,360,0,NULL,'SUB_ORDER_PENDING',11,10);
+INSERT INTO `suborder` VALUES (23,9,400,0,12,'2020-09-27 00:00:00',0,NULL,9,'2',2,360,0,NULL,'SUB_ORDER_BID_ASSIGNED',12,10),(24,9,400,0,12,'2020-09-27 00:00:00',0,NULL,9,'2',2,360,0,NULL,'SUB_ORDER_TRIP_COMPLETED',14,10),(26,10,400,0,12,'2020-09-28 00:00:00',0,NULL,10,'2',2,360,0,NULL,'SUB_ORDER_BID_ASSIGNED',12,10),(27,10,400,0,12,'2020-09-28 00:00:00',0,NULL,10,'2',2,360,0,NULL,'SUB_ORDER_PENDING',11,10),(28,13,900,0,9,'2020-10-09 00:00:00',0,NULL,13,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18),(29,13,900,0,9,'2020-10-09 00:00:00',0,NULL,13,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18),(30,13,900,0,9,'2020-10-09 00:00:00',0,NULL,13,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18),(31,14,900,0,9,'2020-10-09 00:00:00',0,NULL,14,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18),(32,14,900,0,9,'2020-10-09 00:00:00',0,NULL,14,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18),(34,15,900,0,9,'2020-10-09 00:00:00',0,NULL,15,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18),(35,15,900,0,9,'2020-10-09 00:00:00',0,NULL,15,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18),(36,15,900,0,9,'2020-10-09 00:00:00',0,NULL,15,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18),(37,16,900,0,9,'2020-10-09 00:00:00',0,NULL,16,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18),(38,16,900,0,9,'2020-10-09 00:00:00',0,NULL,16,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18),(39,16,900,0,9,'2020-10-09 00:00:00',0,NULL,16,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18),(40,16,900,0,9,'2020-10-09 00:00:00',0,NULL,16,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18),(44,17,900,0,9,'2020-10-09 00:00:00',0,NULL,17,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18),(45,17,900,0,9,'2020-10-09 00:00:00',0,NULL,17,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18),(46,17,900,0,9,'2020-10-09 00:00:00',0,NULL,17,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18);
 /*!40000 ALTER TABLE `suborder` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1042,9 +1042,7 @@ CREATE TABLE `transporterregistration` (
   `modifiedBy` int DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   `userId` int DEFAULT NULL,
-  PRIMARY KEY (`transporterId`),
-  KEY `userId_idx` (`userId`),
-  CONSTRAINT `userId` FOREIGN KEY (`userId`) REFERENCES `user` (`userid`)
+  PRIMARY KEY (`transporterId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1081,8 +1079,8 @@ CREATE TABLE `trip` (
   `createdOn` datetime DEFAULT NULL,
   `modifiedBy` int DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
-  `startDate` datetime DEFAULT NULL,
-  `endDate` datetime DEFAULT NULL,
+  `startDate` varchar(512) DEFAULT NULL,
+  `endDate` varchar(512) DEFAULT NULL,
   `billedAmount` int DEFAULT NULL,
   `BidValue` int DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
@@ -1098,7 +1096,7 @@ CREATE TABLE `trip` (
 
 LOCK TABLES `trip` WRITE;
 /*!40000 ALTER TABLE `trip` DISABLE KEYS */;
-INSERT INTO `trip` VALUES (6,23,3,1,NULL,NULL,'TRIP_TRANSPORTER_ASSIGNED',16,NULL,NULL,NULL,5,'2020-09-27 00:44:50',NULL,NULL,NULL,NULL,NULL,324,NULL,NULL,NULL),(7,23,3,1,0,1,'TRIP_DRIVER_ASSIGNED',17,NULL,NULL,NULL,6,'2020-09-27 12:43:20',6,'2020-09-27 12:43:20','2020-09-27 12:43:20','2020-09-27 12:43:20',0,324,1,NULL,NULL),(9,24,3,1,NULL,NULL,'TRIP_TRANSPORTER_ASSIGNED',16,NULL,NULL,NULL,6,'2020-09-27 02:28:33',NULL,NULL,NULL,NULL,NULL,333,NULL,NULL,NULL),(10,26,3,1,1,1,'TRIP_DRIVER_VEHICLE_ASSIGNED',21,NULL,NULL,NULL,6,'2020-09-28 16:41:53',6,'2020-09-28 16:41:53','2020-09-28 16:41:53','2020-09-28 16:41:53',0,330,1,NULL,NULL);
+INSERT INTO `trip` VALUES (6,23,3,1,NULL,NULL,'TRIP_TRANSPORTER_ASSIGNED',16,NULL,NULL,NULL,5,'2020-09-27 00:44:50',NULL,NULL,NULL,NULL,NULL,324,NULL,NULL,NULL),(7,23,3,1,0,1,'TRIP_DRIVER_ASSIGNED',17,NULL,NULL,NULL,6,'2020-09-27 12:43:20',6,'2020-09-27 12:43:20','2020-09-27 12:43:20','2020-09-27 12:43:20',0,324,1,NULL,NULL),(9,24,3,1,1,1,'TRIP_COMPLETED',20,'JNPT','CFS New Zone1','MH02CN4545',6,'2020-10-10 02:33:00',6,'2020-10-10 13:33:00','2020-10-10T13:38:31.270Z','2020-10-10T13:41:07.337Z',0,333,1,6,6),(10,26,3,1,1,1,'TRIP_DRIVER_VEHICLE_ASSIGNED',21,NULL,NULL,NULL,6,'2020-09-28 16:41:53',6,'2020-09-28 16:41:53','2020-09-28 16:41:53','2020-09-28 16:41:53',0,330,1,NULL,NULL);
 /*!40000 ALTER TABLE `trip` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -1168,7 +1166,7 @@ CREATE TABLE `truck` (
   `modifiedBy` int DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   PRIMARY KEY (`truckId`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1177,7 +1175,7 @@ CREATE TABLE `truck` (
 
 LOCK TABLES `truck` WRITE;
 /*!40000 ALTER TABLE `truck` DISABLE KEYS */;
-INSERT INTO `truck` VALUES (20,9,'999',0,1,'2020-09-26 18:40:23',1,'2020-09-26 18:40:23'),(21,9,'444',0,1,'2020-09-26 18:40:23',1,'2020-09-26 18:40:23'),(22,10,'1234',0,1,'2020-09-28 16:37:15',1,'2020-09-28 16:37:15'),(23,10,'5678',0,1,'2020-09-28 16:37:15',1,'2020-09-28 16:37:15');
+INSERT INTO `truck` VALUES (20,9,'999',0,1,'2020-09-26 18:40:23',1,'2020-09-26 18:40:23'),(21,9,'444',0,1,'2020-09-26 18:40:23',1,'2020-09-26 18:40:23'),(22,10,'1234',0,1,'2020-09-28 16:37:15',1,'2020-09-28 16:37:15'),(23,10,'5678',0,1,'2020-09-28 16:37:15',1,'2020-09-28 16:37:15'),(24,13,'',NULL,NULL,NULL,NULL,NULL),(25,13,'',NULL,NULL,NULL,NULL,NULL),(26,13,'',NULL,NULL,NULL,NULL,NULL),(27,14,'',NULL,NULL,NULL,NULL,NULL),(28,14,'',NULL,NULL,NULL,NULL,NULL),(29,15,'555',NULL,NULL,NULL,NULL,NULL),(30,15,'',NULL,NULL,NULL,NULL,NULL),(31,15,'',NULL,NULL,NULL,NULL,NULL),(32,16,'',NULL,NULL,NULL,NULL,NULL),(33,16,'',NULL,NULL,NULL,NULL,NULL),(34,16,'',NULL,NULL,NULL,NULL,NULL),(35,16,'',NULL,NULL,NULL,NULL,NULL),(36,17,'4442',NULL,NULL,NULL,NULL,NULL),(37,17,'55558',NULL,NULL,NULL,NULL,NULL),(38,17,'',NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `truck` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1222,7 +1220,7 @@ CREATE TABLE `userratings` (
   `userratingId` int NOT NULL AUTO_INCREMENT,
   `userId` int NOT NULL,
   `ratingStatus` int DEFAULT NULL,
-  `description` mediumtext,
+  `description` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`userratingId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -2617,7 +2615,7 @@ Select sub.subOrderId,
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.sourceId)
     When ord.masterTypeId = 1 then 
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
-    end  SorurceName,
+    end  sourceName,
     case 
     When ord.masterTypeId = 4 then 
     (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
@@ -4424,4 +4422,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-10-08  1:39:06
+-- Dump completed on 2020-10-19 13:04:31
