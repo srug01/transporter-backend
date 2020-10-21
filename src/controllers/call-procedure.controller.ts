@@ -10,7 +10,7 @@ import {
   post,
   Request,
   requestBody,
-  RestBindings,
+  RestBindings
 } from '@loopback/rest';
 import {CallProcedureServiceBindings} from '../keys';
 import {
@@ -22,7 +22,7 @@ import {
   OrderFilter,
   SubOrderFilter,
   ThreeparamObj,
-  TripFilter,
+  TripFilter
 } from '../models';
 import {CallProcedureService} from './../services/call-procedure.service';
 
@@ -1216,4 +1216,48 @@ export class CallProcedureController {
       });
     });
   }
+
+  @post('/getCuttOffTime', {
+    responses: {
+      '200': {
+        description: 'save Permissions',
+        content: {
+          'application/json': {
+            schema: {type: 'array', items: getModelSchemaRef(ThreeparamObj)},
+          },
+        },
+      },
+    },
+  })
+  // @authenticate('jwt')
+  async getCuttOffTime(
+    @requestBody({
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(ThreeparamObj, {
+            title: 'Filter',
+          }),
+        },
+      },
+    })
+    queryObj: ThreeparamObj,
+  ): Promise<AnyObject> {
+    // console.log(queryObj);
+    const sqlStmt = mysql.format('CALL procSchedulerConfirmBidForLogicTesting(?,?,?)', [
+      queryObj.varOne === 0 ? null : queryObj.varOne,
+      queryObj.varTwo === 0 ? null : queryObj.varTwo,
+      queryObj.varThree === 0 ? null : queryObj.varThree,
+    ]);
+    const connection = mysql.createConnection(mysqlCreds);
+    return new Promise<any>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      connection.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+        connection.end();
+      });
+    });
+  }
+
+
 }

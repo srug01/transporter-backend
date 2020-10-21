@@ -804,11 +804,11 @@ CREATE TABLE `statemaster` (
   `stateName` varchar(512) DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
   `createdBy` int DEFAULT NULL,
-  `createdOn` datetime DEFAULT NULL,
+  `createdOn` varchar(100) DEFAULT NULL,
   `modifiedBy` int DEFAULT NULL,
-  `modifiedOn` datetime DEFAULT NULL,
+  `modifiedOn` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`stateMasterId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -817,7 +817,7 @@ CREATE TABLE `statemaster` (
 
 LOCK TABLES `statemaster` WRITE;
 /*!40000 ALTER TABLE `statemaster` DISABLE KEYS */;
-INSERT INTO `statemaster` VALUES (1,'Maharashtra',0,NULL,NULL,NULL,NULL),(3,'Chandigrah',1,NULL,NULL,NULL,NULL);
+INSERT INTO `statemaster` VALUES (1,'Maharashtra',0,NULL,NULL,NULL,NULL),(3,'Chandigrah',1,NULL,NULL,NULL,NULL),(4,'Goa',0,NULL,NULL,NULL,NULL),(5,'Gujarat',1,NULL,NULL,1,'Tue Oct 20 2020 01:26:34 GMT+0530 (India Standard Time)'),(6,'Rajasthan',1,NULL,NULL,1,'2020-10-19T19:59:20.219Z'),(7,'Tamilnadu',1,NULL,NULL,1,'2020-10-20 1:57:45 am'),(8,'MadhyaPradesh',1,1,'2020-10-20 2:00:16 am',NULL,NULL);
 /*!40000 ALTER TABLE `statemaster` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3664,6 +3664,60 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `procSchedulerConfirmBidForLogicTesting` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `procSchedulerConfirmBidForLogicTesting`(
+in created_on varchar(30),
+in orderdate varchar(30),
+in created_ontime_slot int
+)
+BEGIN
+Declare porder_date datetime;
+Declare fromVal varchar(30);
+
+Select fromValue into  fromVal from transporter.timeslotmaster Where timeslotMasterId = created_ontime_slot;
+Set fromVal = concat(fromVal,":00:00"); 
+
+Set created_on = concat(created_on,' ' ,CURRENT_TIME());
+set porder_date =  CONCAT(DATE(orderdate),' ',fromVal);
+
+-- Select created_on,porder_date;
+
+SET SQL_SAFE_UPDATES = 0;
+-- First update the suborder with the Bid schedule master id and cutofftime as per there timing
+/*update transporter.bid  b
+inner join transporter.suborder sub on b.subOrderId = sub.subOrderId
+inner join transporter.order ord  on sub.orderid = ord.orderid
+inner join transporter.bidschedulemaster bis on TIMESTAMPDIFF(HOUR, created_on, porder_date)
+between bis.fromHour and bis.ToHour
+set b.BidScheduleId = bis.BidScheduleId,
+b.CutOffTime = case when bis.WorkingHours = 0 then DATE_ADD(created_on, INTERVAL bis.bidingHours HOUR)
+when bis.WorkingHours > 0 then FuncGetBidCutofftime(created_on,bis.IsFullhour,bis.totalbidhour)
+end
+where b.BidScheduleId is null;*/
+
+Select case when bis.WorkingHours = 0 then DATE_ADD(created_on, INTERVAL bis.bidingHours HOUR)
+when bis.WorkingHours > 0 then FuncGetBidCutofftime(created_on,bis.IsFullhour,bis.totalbidhour) end
+CutOffTime
+From transporter.bidschedulemaster bis
+where TIMESTAMPDIFF(HOUR, created_on, porder_date)
+between bis.fromHour and bis.ToHour;
+
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `repTreeViewOrder` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -4422,4 +4476,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-10-19 13:04:31
+-- Dump completed on 2020-10-21 16:37:06
