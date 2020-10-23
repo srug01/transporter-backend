@@ -4,7 +4,7 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
   del,
@@ -14,7 +14,7 @@ import {
   patch,
   post,
   put,
-  requestBody,
+  requestBody
 } from '@loopback/rest';
 import {LocationMaster} from '../models';
 import {LocationMasterRepository} from '../repositories';
@@ -83,7 +83,8 @@ export class LocationMasterController {
     },
   })
   async find(
-    @param.filter(LocationMaster) filter?: Filter<LocationMaster>,
+    // @param.filter(LocationMaster) filter?: Filter<LocationMaster>,
+    @param.filter(LocationMaster) filter: Filter<LocationMaster> = {where : {isActive: true}},
   ): Promise<LocationMaster[]> {
     return this.locationMasterRepository.find(filter);
   }

@@ -35,6 +35,7 @@ export class StateMaster extends Entity {
 
   @property({
     type: 'string',
+
   })
   createdOn?: string;
 
@@ -45,6 +46,7 @@ export class StateMaster extends Entity {
 
   @property({
     type: 'string',
+
   })
   modifiedOn?: string;
 

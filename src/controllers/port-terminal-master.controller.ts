@@ -4,17 +4,21 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+  del, get,
+  getModelSchemaRef, param,
+
+
+  patch, post,
+
+
+
+
   put,
-  del,
-  requestBody,
+
+  requestBody
 } from '@loopback/rest';
 import {PortTerminalMaster} from '../models';
 import {PortTerminalMasterRepository} from '../repositories';
@@ -79,7 +83,8 @@ export class PortTerminalMasterController {
     },
   })
   async find(
-    @param.filter(PortTerminalMaster) filter?: Filter<PortTerminalMaster>,
+    // @param.filter(PortTerminalMaster) filter?: Filter<PortTerminalMaster>,
+    @param.filter(PortTerminalMaster) filter: Filter<PortTerminalMaster> = {where : {isActive: true}},
   ): Promise<PortTerminalMaster[]> {
     return this.portTerminalMasterRepository.find(filter);
   }

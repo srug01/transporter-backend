@@ -73,7 +73,7 @@ export class PortMaster extends Entity {
   createdBy?: number;
 
   @property({
-    type: 'date',
+    type: 'string',
   })
   createdOn?: string;
 
@@ -83,7 +83,7 @@ export class PortMaster extends Entity {
   modifiedBy?: number;
 
   @property({
-    type: 'date',
+    type: 'string',
   })
   modifiedOn?: string;
 
