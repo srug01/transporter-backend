@@ -2,7 +2,7 @@
     "name": "test",
     "connector": "mysql",
     "url": "",
-    "host": "ec2-3-209-82-45.compute-1.amazonaws.com",
+    "host": "localhost",
     "port": 3306,
     "user": "root",
     "password": "root",

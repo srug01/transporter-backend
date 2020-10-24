@@ -123,7 +123,7 @@ export class CfsMaster extends Entity {
   createdBy?: number;
 
   @property({
-    type: 'date',
+    type: 'string',
   })
   createdOn?: string;
 
@@ -133,7 +133,7 @@ export class CfsMaster extends Entity {
   modifiedBy?: number;
 
   @property({
-    type: 'date',
+    type: 'string',
   })
   modifiedOn?: string;
 

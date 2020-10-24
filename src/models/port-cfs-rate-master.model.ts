@@ -63,7 +63,7 @@ export class PortCfsRateMaster extends Entity {
   createdBy: number;
 
   @property({
-    type: 'date',
+    type: 'string',
     required: true,
   })
   createdOn: string;
@@ -74,7 +74,7 @@ export class PortCfsRateMaster extends Entity {
   modifiedBy?: number;
 
   @property({
-    type: 'date',
+    type: 'string',
   })
   modifiedOn?: string;
 

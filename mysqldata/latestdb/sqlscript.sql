@@ -149,9 +149,9 @@ CREATE TABLE `cfsmaster` (
   `locationMasterId` int DEFAULT NULL,
   `stateMasterId` int DEFAULT NULL,
   `createdBy` int DEFAULT NULL,
-  `createdOn` datetime DEFAULT NULL,
+  `createdOn` varchar(30) DEFAULT NULL,
   `modifiedBy` int DEFAULT NULL,
-  `modifiedOn` datetime DEFAULT NULL,
+  `modifiedOn` varchar(30) DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`cfsMasterId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -163,7 +163,7 @@ CREATE TABLE `cfsmaster` (
 
 LOCK TABLES `cfsmaster` WRITE;
 /*!40000 ALTER TABLE `cfsmaster` DISABLE KEYS */;
-INSERT INTO `cfsmaster` VALUES (1,'CFS All Cargo','8885462130','alc@cfs.com','Add1','Add2','LandMark','411047','CFS001','ldkfjkldfhv','djvhdkjvb','dvbnmbv','Utsav','8795462130','Gaurav','7985462130','44556','552255',1,1,1,1,'2020-08-30 07:25:55',1,'2020-08-30 07:25:55',1),(2,'Gaurav CFS','9878745620','cfs@gaurav.in','Add1','Add2','Landmark','401107','CFS002','GSTIN','PANNO','TANNO','Gaurav','8879654120','Gaurav2','7778956410','56456465','564654564',2,2,2,8,'2020-08-31 19:31:50',8,'2020-08-31 19:31:50',1),(3,'CFS New Zone1','7774755000','cfs@zone.in','Add1','','LandMark','425587','CFSZ001','','','','Gaurav','8965412304','','','','',1,1,1,1,'2020-09-12 07:34:20',1,'2020-09-12 07:34:20',1);
+INSERT INTO `cfsmaster` VALUES (1,'CFS All Cargo','8885462130','alc@cfs.com','Add1','Add22','LandMark','411047','CFS001','ldkfjkldfhv','djvhdkjvb','dvbnmbv','Utsav','8795462130','Gaurav','7985462130','44556','552255',1,1,1,1,'2020-08-30 07:25:55',1,'2020-10-25 2:48:08 am',1),(2,'Gaurav CFS','9878745620','cfs@gaurav.in','Add1','Add2','Landmark','401107','CFS002','GSTIN','PANNO','TANNO','Gaurav','8879654120','Gaurav2','7778956410','56456465','564654564',2,2,2,8,'2020-08-31 19:31:50',8,'2020-08-31 19:31:50',1),(3,'CFS New Zone1','7774755000','cfs@zone.in','Add1','','LandMark','425587','CFSZ001','','','','Gaurav','8965412304','','','','',1,1,1,1,'2020-09-12 07:34:20',1,'2020-09-12 07:34:20',1);
 /*!40000 ALTER TABLE `cfsmaster` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -183,9 +183,9 @@ CREATE TABLE `cfsportratemaster` (
   `orderMarginRate` int DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
   `createdBy` int DEFAULT NULL,
-  `createdOn` datetime DEFAULT NULL,
+  `createdOn` varchar(30) DEFAULT NULL,
   `modifiedBy` int DEFAULT NULL,
-  `modifiedOn` datetime DEFAULT NULL,
+  `modifiedOn` varchar(30) DEFAULT NULL,
   `containerMasterId` int DEFAULT NULL,
   `cfsMasterId` int DEFAULT NULL,
   PRIMARY KEY (`cfsPortRateMasterId`)
@@ -259,9 +259,9 @@ CREATE TABLE `cfsyardratemaster` (
   `portMasterId` int NOT NULL,
   `isActive` tinyint(1) NOT NULL,
   `createdBy` int NOT NULL,
-  `createdOn` datetime NOT NULL,
+  `createdOn` varchar(30) NOT NULL,
   `modifiedBy` int DEFAULT NULL,
-  `modifiedOn` datetime DEFAULT NULL,
+  `modifiedOn` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`cfsYardRateMasterId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -320,9 +320,9 @@ CREATE TABLE `containermaster` (
   `containerMasterName` varchar(512) DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
   `createdBy` int DEFAULT NULL,
-  `createdOn` datetime DEFAULT NULL,
+  `createdOn` varchar(30) DEFAULT NULL,
   `modifiedBy` int DEFAULT NULL,
-  `modifiedOn` datetime DEFAULT NULL,
+  `modifiedOn` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`containerMasterId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -333,7 +333,7 @@ CREATE TABLE `containermaster` (
 
 LOCK TABLES `containermaster` WRITE;
 /*!40000 ALTER TABLE `containermaster` DISABLE KEYS */;
-INSERT INTO `containermaster` VALUES (1,'10 FT',1,1,'2020-08-30 07:35:17',1,'2020-08-30 07:35:17'),(2,'20 FT',1,1,'2020-08-30 07:35:34',1,'2020-08-30 07:35:34'),(3,'40FT',1,8,'2020-08-31 19:26:46',8,'2020-08-31 19:26:46');
+INSERT INTO `containermaster` VALUES (1,'10 FT',1,1,'2020-08-30 07:35:17',1,'2020-10-25 2:49:01 am'),(2,'20 FT',1,1,'2020-08-30 07:35:34',1,'2020-08-30 07:35:34'),(3,'40FT',1,8,'2020-08-31 19:26:46',8,'2020-08-31 19:26:46');
 /*!40000 ALTER TABLE `containermaster` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -449,12 +449,12 @@ CREATE TABLE `locationmaster` (
   `locationName` varchar(512) DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
   `createdBy` int DEFAULT NULL,
-  `createdOn` datetime DEFAULT NULL,
+  `createdOn` varchar(512) DEFAULT NULL,
   `modifiedBy` int DEFAULT NULL,
-  `modifiedOn` datetime DEFAULT NULL,
+  `modifiedOn` varchar(512) DEFAULT NULL,
   `stateMasterId` int DEFAULT NULL,
   PRIMARY KEY (`locationMasterId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -463,7 +463,7 @@ CREATE TABLE `locationmaster` (
 
 LOCK TABLES `locationmaster` WRITE;
 /*!40000 ALTER TABLE `locationmaster` DISABLE KEYS */;
-INSERT INTO `locationmaster` VALUES (1,'Mumbai',1,1,'2020-08-30 07:19:33',NULL,NULL,1),(2,'Civil Line',1,8,'2020-08-31 19:27:40',NULL,NULL,2),(3,'Pune',1,1,'2020-09-12 07:42:02',NULL,NULL,1);
+INSERT INTO `locationmaster` VALUES (1,'Mumbai',1,1,'2020-08-30 07:19:33',NULL,NULL,1),(2,'Civil Line',1,8,'2020-08-31 19:27:40',NULL,NULL,2),(3,'Pune',1,1,'2020-09-12 07:42:02',NULL,NULL,1),(4,'New Location',1,NULL,NULL,1,'2020-10-24 1:27:41 am',9),(5,'New2',1,1,'2020-10-24 1:23:48 am',NULL,NULL,9),(6,'Test',0,1,'2020-10-24 1:33:14 am',1,'2020-10-24 1:43:34 am',5);
 /*!40000 ALTER TABLE `locationmaster` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -677,9 +677,9 @@ CREATE TABLE `portcfsratemaster` (
   `orderMarginRate` int DEFAULT NULL,
   `isActive` tinyint(1) NOT NULL,
   `createdBy` int NOT NULL,
-  `createdOn` datetime NOT NULL,
+  `createdOn` varchar(30) NOT NULL,
   `modifiedBy` int DEFAULT NULL,
-  `modifiedOn` datetime DEFAULT NULL,
+  `modifiedOn` varchar(30) DEFAULT NULL,
   `containerMasterId` int NOT NULL,
   PRIMARY KEY (`portCfsRateMasterId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -715,13 +715,13 @@ CREATE TABLE `portmaster` (
   `primarycontactnumber` varchar(512) DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
   `createdBy` int DEFAULT NULL,
-  `createdOn` datetime DEFAULT NULL,
+  `createdOn` varchar(512) DEFAULT NULL,
   `modifiedBy` int DEFAULT NULL,
-  `modifiedOn` datetime DEFAULT NULL,
+  `modifiedOn` varchar(512) DEFAULT NULL,
   `latitude` varchar(512) DEFAULT NULL,
   `longitude` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`portMasterId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -730,7 +730,7 @@ CREATE TABLE `portmaster` (
 
 LOCK TABLES `portmaster` WRITE;
 /*!40000 ALTER TABLE `portmaster` DISABLE KEYS */;
-INSERT INTO `portmaster` VALUES (1,'JNPT',1,1,'add1','Add2','Port area','412457','Utsav','5522334789',1,1,'2020-08-30 07:20:23',1,'2020-08-30 07:20:23','41252','553266'),(2,'CH Port',2,2,'ad1','add2','landmark','412014','Gaurav','8974562130',1,8,'2020-08-31 19:28:33',8,'2020-08-31 19:28:33','144545','544515'),(3,'Pune Port',1,3,'add1','','','477856','Gaurav','8896547123',1,1,'2020-09-12 07:42:59',1,'2020-09-12 07:42:59','','');
+INSERT INTO `portmaster` VALUES (1,'JNPT',1,1,'add1','Add2','Port area','412457','Utsav','5522334789',1,1,'2020-08-30 07:20:23',1,'2020-08-30 07:20:23','41252','553266'),(2,'CH Port',2,2,'ad1','add2','landmark','412014','Gaurav','8974562130',1,8,'2020-08-31 19:28:33',8,'2020-08-31 19:28:33','144545','544515'),(3,'Pune Port',1,3,'add1','','','477856','Gaurav','8896547123',1,1,'2020-09-12 07:42:59',1,'2020-10-24 2:12:13 am','55653',''),(4,'test',5,6,'add1','','','478957','test','458478858',0,1,'2020-10-24 2:05:38 am',1,'2020-10-24 2:08:17 am','','');
 /*!40000 ALTER TABLE `portmaster` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -748,12 +748,12 @@ CREATE TABLE `portterminalmaster` (
   `longitude` varchar(512) DEFAULT NULL,
   `latitude` varchar(512) DEFAULT NULL,
   `createdBy` int DEFAULT NULL,
-  `createdOn` datetime DEFAULT NULL,
+  `createdOn` varchar(512) DEFAULT NULL,
   `modifiedBy` int DEFAULT NULL,
-  `modifiedOn` datetime DEFAULT NULL,
+  `modifiedOn` varchar(512) DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`portTerminalId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -762,7 +762,7 @@ CREATE TABLE `portterminalmaster` (
 
 LOCK TABLES `portterminalmaster` WRITE;
 /*!40000 ALTER TABLE `portterminalmaster` DISABLE KEYS */;
-INSERT INTO `portterminalmaster` VALUES (1,1,'Terminal1','4444554777','555525',1,'2020-09-12 09:07:01',1,'2020-09-12 09:07:01',1),(2,2,'CH Terminal','54545616','564561321',8,'2020-08-31 19:28:59',8,'2020-08-31 19:28:59',1);
+INSERT INTO `portterminalmaster` VALUES (1,1,'Terminal1','4444554777','555525',1,'2020-09-12 09:07:01',1,'2020-09-12 09:07:01',1),(2,2,'CH Terminal','54545616','564561321',8,'2020-08-31 19:28:59',8,'2020-08-31 19:28:59',1),(4,2,'test','444','555',1,'2020-10-25 12:20:36 am',1,'2020-10-25 12:23:31 am',0);
 /*!40000 ALTER TABLE `portterminalmaster` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -804,11 +804,11 @@ CREATE TABLE `statemaster` (
   `stateName` varchar(512) DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
   `createdBy` int DEFAULT NULL,
-  `createdOn` varchar(100) DEFAULT NULL,
+  `createdOn` varchar(512) DEFAULT NULL,
   `modifiedBy` int DEFAULT NULL,
-  `modifiedOn` varchar(100) DEFAULT NULL,
+  `modifiedOn` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`stateMasterId`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -817,7 +817,7 @@ CREATE TABLE `statemaster` (
 
 LOCK TABLES `statemaster` WRITE;
 /*!40000 ALTER TABLE `statemaster` DISABLE KEYS */;
-INSERT INTO `statemaster` VALUES (1,'Maharashtra',0,NULL,NULL,NULL,NULL),(3,'Chandigrah',1,NULL,NULL,NULL,NULL),(4,'Goa',0,NULL,NULL,NULL,NULL),(5,'Gujarat',1,NULL,NULL,1,'Tue Oct 20 2020 01:26:34 GMT+0530 (India Standard Time)'),(6,'Rajasthan',1,NULL,NULL,1,'2020-10-19T19:59:20.219Z'),(7,'Tamilnadu',1,NULL,NULL,1,'2020-10-20 1:57:45 am'),(8,'MadhyaPradesh',1,1,'2020-10-20 2:00:16 am',NULL,NULL);
+INSERT INTO `statemaster` VALUES (1,'Maharashtra',1,NULL,NULL,NULL,NULL),(3,'Chandigrah',0,NULL,NULL,NULL,NULL),(4,'Goa',0,NULL,NULL,NULL,NULL),(5,'Gujarat',1,NULL,NULL,1,'Tue Oct 20 2020 01:26:34 GMT+0530 (India Standard Time)'),(6,'Rajasthan',1,NULL,NULL,1,'2020-10-19T19:59:20.219Z'),(7,'Tamilnadu',1,NULL,NULL,1,'2020-10-20 1:57:45 am'),(8,'MadhyaPradesh',0,1,'2020-10-20 2:00:16 am',1,'2020-10-24 12:36:50 am'),(9,'Daman',1,1,'2020-10-24 12:39:10 am',NULL,NULL);
 /*!40000 ALTER TABLE `statemaster` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1390,9 +1390,9 @@ CREATE TABLE `weightmaster` (
   `weightDesc` varchar(512) DEFAULT NULL,
   `isActive` tinyint(1) DEFAULT NULL,
   `createdBy` int DEFAULT NULL,
-  `createdOn` datetime DEFAULT NULL,
+  `createdOn` varchar(30) DEFAULT NULL,
   `modifiedBy` int DEFAULT NULL,
-  `modifiedOn` datetime DEFAULT NULL,
+  `modifiedOn` varchar(30) DEFAULT NULL,
   `containerMasterId` int DEFAULT NULL,
   PRIMARY KEY (`weightMasterId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -1404,7 +1404,7 @@ CREATE TABLE `weightmaster` (
 
 LOCK TABLES `weightmaster` WRITE;
 /*!40000 ALTER TABLE `weightmaster` DISABLE KEYS */;
-INSERT INTO `weightmaster` VALUES (1,'10 Ton',1,1,'2020-08-30 07:35:52',1,'2020-08-30 07:35:52',1),(2,'20 Ton',1,1,'2020-08-30 07:36:01',1,'2020-08-30 07:36:01',2),(3,'40 Ton',1,8,'2020-08-31 19:27:00',8,'2020-08-31 19:27:00',3);
+INSERT INTO `weightmaster` VALUES (1,'10 Ton',1,1,'2020-08-30 07:35:52',1,'2020-10-25 2:49:51 am',1),(2,'20 Ton',1,1,'2020-08-30 07:36:01',1,'2020-08-30 07:36:01',2),(3,'40 Ton',1,8,'2020-08-31 19:27:00',8,'2020-08-31 19:27:00',3);
 /*!40000 ALTER TABLE `weightmaster` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1427,11 +1427,11 @@ CREATE TABLE `yardcfsratemaster` (
   `isActive` tinyint(1) DEFAULT NULL,
   `createdBy` int DEFAULT NULL,
   `modifiedBy` int DEFAULT NULL,
-  `createdOn` datetime DEFAULT NULL,
-  `modifiedOn` datetime DEFAULT NULL,
+  `createdOn` varchar(30) DEFAULT NULL,
+  `modifiedOn` varchar(30) DEFAULT NULL,
   `portMasterId` int DEFAULT NULL,
   PRIMARY KEY (`yardCfsRateMasterId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1440,7 +1440,7 @@ CREATE TABLE `yardcfsratemaster` (
 
 LOCK TABLES `yardcfsratemaster` WRITE;
 /*!40000 ALTER TABLE `yardcfsratemaster` DISABLE KEYS */;
-INSERT INTO `yardcfsratemaster` VALUES (1,2,2,2,2,700,22,15,1,0,NULL,NULL,NULL,2);
+INSERT INTO `yardcfsratemaster` VALUES (1,2,2,2,2,700,22,15,1,0,NULL,NULL,NULL,2),(2,2,2,3,3,400,7,8,0,1,1,'2020-10-25 1:55:34 am','2020-10-25 1:56:44 am',2);
 /*!40000 ALTER TABLE `yardcfsratemaster` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1463,15 +1463,15 @@ CREATE TABLE `yardmaster` (
   `longitude` varchar(512) DEFAULT NULL,
   `createdBy` int DEFAULT NULL,
   `modifiedBy` int DEFAULT NULL,
-  `createdOn` datetime DEFAULT NULL,
-  `modifiedOn` datetime DEFAULT NULL,
+  `createdOn` varchar(512) DEFAULT NULL,
+  `modifiedOn` varchar(512) DEFAULT NULL,
   `portMasterId` int DEFAULT NULL,
   `locationMasterId` int DEFAULT NULL,
   `stateMasterId` int DEFAULT NULL,
   `primarycontactperson` varchar(512) DEFAULT NULL,
   `primarycontactnumber` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`yardMasterId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1480,7 +1480,7 @@ CREATE TABLE `yardmaster` (
 
 LOCK TABLES `yardmaster` WRITE;
 /*!40000 ALTER TABLE `yardmaster` DISABLE KEYS */;
-INSERT INTO `yardmaster` VALUES (1,'Yard1',1,'Add1','Add2','Land','445578','556655','5222565',1,1,'2020-08-30 07:21:43','2020-08-30 07:21:43',1,1,1,'Utsav','5857475565'),(2,'CH Yard',1,'Add1','Add2','Landmark','412230','sdjkf','sdnbf',8,8,'2020-08-31 19:29:56','2020-08-31 19:29:56',2,2,2,'Gaurav','9876543210'),(3,'Yard2',1,'add1','Add2','','455210','','',1,1,'2020-09-27 20:34:02','2020-09-27 20:34:02',1,1,1,'Utsav','9541203547');
+INSERT INTO `yardmaster` VALUES (1,'Yard1',1,'Add1','Add2','Land','445578','556655','5222565',1,1,'2020-08-30 07:21:43','2020-10-24 12:50:41 pm',1,1,1,'Utsav','5857475565'),(2,'CH Yard',1,'Add1','Add2','Landmark','412230','sdjkf','sdnbf',8,8,'2020-08-31 19:29:56','2020-08-31 19:29:56',2,2,2,'Gaurav','9876543210'),(3,'Yard2',1,'add1','Add2','','455210','','',1,1,'2020-09-27 20:34:02','2020-09-27 20:34:02',1,1,1,'Utsav','9541203547'),(4,'test',0,'add1','','','447788','','',1,1,'2020-10-25 12:25:33 am','2020-10-25 12:27:29 am',3,3,1,'test','9899745120');
 /*!40000 ALTER TABLE `yardmaster` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4476,4 +4476,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-10-21 16:37:06
+-- Dump completed on 2020-10-25  2:50:58
