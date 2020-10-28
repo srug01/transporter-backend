@@ -17,9 +17,12 @@ import {
   BatchFilter,
   BidFilter,
   BidRate,
+  CutOff,
   Dashboard,
+
   LocationMaster,
   OrderFilter,
+
   SubOrderFilter,
   ThreeparamObj,
   TripFilter
@@ -1217,36 +1220,39 @@ export class CallProcedureController {
     });
   }
 
-  @post('/getCuttOffTime', {
+  @post('/getCuttOffTimeScheduler', {
     responses: {
       '200': {
-        description: 'save Permissions',
+        description: 'bid logic check',
         content: {
           'application/json': {
-            schema: {type: 'array', items: getModelSchemaRef(ThreeparamObj)},
+            schema: {type: 'array', items: getModelSchemaRef(CutOff)},
           },
         },
       },
     },
   })
   // @authenticate('jwt')
-  async getCuttOffTime(
+  async getCuttOffTimeScheduler(
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(ThreeparamObj, {
-            title: 'Filter',
+          schema: getModelSchemaRef(CutOff, {
+            title: 'CutOff',
           }),
         },
       },
     })
-    queryObj: ThreeparamObj,
+    queryObj: CutOff,
   ): Promise<AnyObject> {
-    // console.log(queryObj);
-    const sqlStmt = mysql.format('CALL procSchedulerConfirmBidForLogicTesting(?,?,?)', [
-      queryObj.varOne === 0 ? null : queryObj.varOne,
-      queryObj.varTwo === 0 ? null : queryObj.varTwo,
-      queryObj.varThree === 0 ? null : queryObj.varThree,
+
+    const sqlStmt = mysql.format('CALL procSchedulerConfirmBidForLogicTesting(?,?,?,?,?,?)', [
+      queryObj.createdOn,
+      queryObj.orderDate,
+      queryObj.orderTimeSlot,
+      queryObj.runScheduler,
+      queryObj.cutOffTime,
+      queryObj.cutOffSlot,
     ]);
     const connection = mysql.createConnection(mysqlCreds);
     return new Promise<any>(function (resolve, reject) {
