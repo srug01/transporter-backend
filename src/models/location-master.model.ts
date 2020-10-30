@@ -32,7 +32,8 @@ export class LocationMaster extends Entity {
   createdBy?: number;
 
   @property({
-    type: 'date',
+    type: 'string',
+
   })
   createdOn?: string;
 
@@ -42,7 +43,8 @@ export class LocationMaster extends Entity {
   modifiedBy?: number;
 
   @property({
-    type: 'date',
+    type: 'string',
+
   })
   modifiedOn?: string;
 

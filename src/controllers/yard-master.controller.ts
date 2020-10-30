@@ -4,17 +4,21 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+  del, get,
+  getModelSchemaRef, param,
+
+
+  patch, post,
+
+
+
+
   put,
-  del,
-  requestBody,
+
+  requestBody
 } from '@loopback/rest';
 import {YardMaster} from '../models';
 import {YardMasterRepository} from '../repositories';
@@ -79,7 +83,8 @@ export class YardMasterController {
     },
   })
   async find(
-    @param.filter(YardMaster) filter?: Filter<YardMaster>,
+    // @param.filter(YardMaster) filter?: Filter<YardMaster>,
+    @param.filter(YardMaster) filter: Filter<YardMaster> = {where : {isActive: true}},
   ): Promise<YardMaster[]> {
     return this.yardMasterRepository.find(filter);
   }

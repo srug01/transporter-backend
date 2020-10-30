@@ -4,7 +4,7 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
   del,
@@ -15,7 +15,7 @@ import {
   patch,
   post,
   put,
-  requestBody,
+  requestBody
 } from '@loopback/rest';
 import {PortCfsRateMaster} from '../models';
 import {PortCfsRateMasterRepository} from '../repositories';
@@ -56,6 +56,7 @@ export class PortCfsRateMasterController {
           {portMasterId: portCfsRateMaster.portMasterId},
           {containerMasterId: portCfsRateMaster.containerMasterId},
           {weightMasterId: portCfsRateMaster.weightMasterId},
+          {isActive: true},
         ],
       },
     });
@@ -99,7 +100,8 @@ export class PortCfsRateMasterController {
     },
   })
   async find(
-    @param.filter(PortCfsRateMaster) filter?: Filter<PortCfsRateMaster>,
+    // @param.filter(PortCfsRateMaster) filter?: Filter<PortCfsRateMaster>,
+    @param.filter(PortCfsRateMaster) filter: Filter<PortCfsRateMaster> = {where : {isActive: true}},
   ): Promise<PortCfsRateMaster[]> {
     return this.portCfsRateMasterRepository.find(filter);
   }

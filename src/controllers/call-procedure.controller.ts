@@ -10,19 +10,22 @@ import {
   post,
   Request,
   requestBody,
-  RestBindings,
+  RestBindings
 } from '@loopback/rest';
 import {CallProcedureServiceBindings} from '../keys';
 import {
   BatchFilter,
   BidFilter,
   BidRate,
+  CutOff,
   Dashboard,
+
   LocationMaster,
   OrderFilter,
+
   SubOrderFilter,
   ThreeparamObj,
-  TripFilter,
+  TripFilter
 } from '../models';
 import {CallProcedureService} from './../services/call-procedure.service';
 
@@ -1216,4 +1219,51 @@ export class CallProcedureController {
       });
     });
   }
+
+  @post('/getCuttOffTimeScheduler', {
+    responses: {
+      '200': {
+        description: 'bid logic check',
+        content: {
+          'application/json': {
+            schema: {type: 'array', items: getModelSchemaRef(CutOff)},
+          },
+        },
+      },
+    },
+  })
+  // @authenticate('jwt')
+  async getCuttOffTimeScheduler(
+    @requestBody({
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(CutOff, {
+            title: 'CutOff',
+          }),
+        },
+      },
+    })
+    queryObj: CutOff,
+  ): Promise<AnyObject> {
+
+    const sqlStmt = mysql.format('CALL procSchedulerConfirmBidForLogicTesting(?,?,?,?,?,?)', [
+      queryObj.createdOn,
+      queryObj.orderDate,
+      queryObj.orderTimeSlot,
+      queryObj.runScheduler,
+      queryObj.cutOffTime,
+      queryObj.cutOffSlot,
+    ]);
+    const connection = mysql.createConnection(mysqlCreds);
+    return new Promise<any>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      connection.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+        connection.end();
+      });
+    });
+  }
+
+
 }

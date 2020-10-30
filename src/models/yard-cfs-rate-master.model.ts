@@ -67,12 +67,12 @@ export class YardCfsRateMaster extends Entity {
   modifiedBy?: number;
 
   @property({
-    type: 'date',
+    type: 'string',
   })
   createdOn?: string;
 
   @property({
-    type: 'date',
+    type: 'string',
   })
   modifiedOn?: string;
 

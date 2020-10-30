@@ -1,20 +1,30 @@
 import {
   Count,
   CountSchema,
+
+
+
   Filter,
+
+
+
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+  del, get,
+  getModelSchemaRef, param,
+
+
+  patch, post,
+
+
+
+
   put,
-  del,
-  requestBody,
+
+  requestBody
 } from '@loopback/rest';
 import {StateMaster} from '../models';
 import {StateMasterRepository} from '../repositories';
@@ -79,7 +89,8 @@ export class StateMasterController {
     },
   })
   async find(
-    @param.filter(StateMaster) filter?: Filter<StateMaster>,
+     @param.filter(StateMaster) filter: Filter<StateMaster> = {where : {isActive: true}},
+    // @param.where(StateMaster) where: Where<StateMaster> = {isActive: true},
   ): Promise<StateMaster[]> {
     return this.stateMasterRepository.find(filter);
   }
@@ -168,6 +179,10 @@ export class StateMasterController {
     },
   })
   async deleteById(@param.path.number('id') id: number): Promise<void> {
-    await this.stateMasterRepository.deleteById(id);
+    // await this.stateMasterRepository.deleteById(id);
+    const state = await this.stateMasterRepository.findById(id);
+    state.isActive = false;
+    await this.stateMasterRepository.updateById(id,state);
+
   }
 }

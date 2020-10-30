@@ -4,17 +4,21 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+  del, get,
+  getModelSchemaRef, param,
+
+
+  patch, post,
+
+
+
+
   put,
-  del,
-  requestBody,
+
+  requestBody
 } from '@loopback/rest';
 import {WeightMaster} from '../models';
 import {WeightMasterRepository} from '../repositories';
@@ -79,7 +83,8 @@ export class WeightMasterController {
     },
   })
   async find(
-    @param.filter(WeightMaster) filter?: Filter<WeightMaster>,
+    // @param.filter(WeightMaster) filter?: Filter<WeightMaster>,
+    @param.filter(WeightMaster) filter: Filter<WeightMaster> = {where : {isActive: true}},
   ): Promise<WeightMaster[]> {
     return this.weightMasterRepository.find(filter);
   }

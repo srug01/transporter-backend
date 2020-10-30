@@ -4,7 +4,7 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
   del,
@@ -15,7 +15,7 @@ import {
   patch,
   post,
   put,
-  requestBody,
+  requestBody
 } from '@loopback/rest';
 import {CfsYardRateMaster} from '../models';
 import {CfsYardRateMasterRepository} from '../repositories';
@@ -57,6 +57,7 @@ export class CfsYardRateMasterController {
           {yardMasterId: cfsYardRateMaster.yardMasterId},
           {containerMasterId: cfsYardRateMaster.containerMasterId},
           {weightMasterId: cfsYardRateMaster.weightMasterId},
+          {isActive: true},
         ],
       },
     });
@@ -100,7 +101,8 @@ export class CfsYardRateMasterController {
     },
   })
   async find(
-    @param.filter(CfsYardRateMaster) filter?: Filter<CfsYardRateMaster>,
+    // @param.filter(CfsYardRateMaster) filter?: Filter<CfsYardRateMaster>,
+    @param.filter(CfsYardRateMaster) filter: Filter<CfsYardRateMaster> = {where : {isActive: true}},
   ): Promise<CfsYardRateMaster[]> {
     return this.cfsYardRateMasterRepository.find(filter);
   }

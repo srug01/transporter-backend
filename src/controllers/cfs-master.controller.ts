@@ -4,17 +4,21 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+  del, get,
+  getModelSchemaRef, param,
+
+
+  patch, post,
+
+
+
+
   put,
-  del,
-  requestBody,
+
+  requestBody
 } from '@loopback/rest';
 import {CfsMaster} from '../models';
 import {CfsMasterRepository} from '../repositories';
@@ -79,7 +83,8 @@ export class CfsMasterController {
     },
   })
   async find(
-    @param.filter(CfsMaster) filter?: Filter<CfsMaster>,
+    // @param.filter(CfsMaster) filter?: Filter<CfsMaster>,
+    @param.filter(CfsMaster) filter: Filter<CfsMaster> = {where : {isActive: true}},
   ): Promise<CfsMaster[]> {
     return this.cfsMasterRepository.find(filter);
   }
