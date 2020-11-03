@@ -8,10 +8,7 @@ import {Entity, model, property} from '@loopback/repository';
   },
 })
 export class Bid extends Entity {
-  @property({
-    type: 'string',
-  })
-  bidName?: string;
+
 
   @property({
     type: 'number',
@@ -94,6 +91,9 @@ export class Bid extends Entity {
     type: 'number',
   })
   BidScheduleId?: number;
+
+
+
 
   constructor(data?: Partial<Bid>) {
     super(data);

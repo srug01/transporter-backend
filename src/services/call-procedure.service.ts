@@ -119,4 +119,44 @@ export class CallProcedureService {
       });
     });
   }
+
+  async GetSubOrdersByOrderId(OrderId: string): Promise<any> {
+    const sqlStmt = mysql.format('CALL getSubOrdersbyOrderId(?)', [OrderId]);
+    const connection = mysql.createConnection(mysqlCreds);
+    return new Promise<any>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      connection.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+        connection.end();
+      });
+    });
+  }
+
+  async GetBidsBySubOrderId(subOrderId: string): Promise<any> {
+    const sqlStmt = mysql.format('CALL getbidsbySubOrderId(?)', [subOrderId]);
+    const connection = mysql.createConnection(mysqlCreds);
+    return new Promise<any>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      connection.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+        connection.end();
+      });
+    });
+  }
+
+  async GetTripBySubOrderId(subOrderId: string): Promise<any> {
+    const sqlStmt = mysql.format('CALL getTripbySubOrderId(?)', [subOrderId]);
+    const connection = mysql.createConnection(mysqlCreds);
+    return new Promise<any>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      connection.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+        connection.end();
+      });
+    });
+  }
+
 }

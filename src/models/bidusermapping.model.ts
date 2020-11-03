@@ -62,6 +62,11 @@ export class Bidusermapping extends Entity {
   })
   modifiedOn?: string;
 
+  @property({
+    type: 'string',
+  })
+  bidSeq?: string;
+
   constructor(data?: Partial<Bidusermapping>) {
     super(data);
   }

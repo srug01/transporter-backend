@@ -127,6 +127,11 @@ export class Trip extends Entity {
   })
   stoppeddBy?: number;
 
+  @property({
+    type: 'string',
+  })
+  tripSeq?: string;
+
   // Define well-known properties here
 
   // Indexer property to allow additional data
