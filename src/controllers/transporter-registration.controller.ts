@@ -4,17 +4,21 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+  del, get,
+  getModelSchemaRef, param,
+
+
+  patch, post,
+
+
+
+
   put,
-  del,
-  requestBody,
+
+  requestBody
 } from '@loopback/rest';
 import {TransporterRegistration} from '../models';
 import {TransporterRegistrationRepository} from '../repositories';
@@ -79,7 +83,8 @@ export class TransporterRegistrationController {
     },
   })
   async find(
-    @param.filter(TransporterRegistration) filter?: Filter<TransporterRegistration>,
+    // @param.filter(TransporterRegistration) filter?: Filter<TransporterRegistration>,
+    @param.filter(TransporterRegistration) filter: Filter<TransporterRegistration> = {where : {and:[ {isActive: true}, {isVerified: true}]}},
   ): Promise<TransporterRegistration[]> {
     return this.transporterRegistrationRepository.find(filter);
   }

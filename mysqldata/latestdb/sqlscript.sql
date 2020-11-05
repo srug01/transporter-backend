@@ -49,7 +49,7 @@ CREATE TABLE `bid` (
 
 LOCK TABLES `bid` WRITE;
 /*!40000 ALTER TABLE `bid` DISABLE KEYS */;
-INSERT INTO `bid` VALUES (33,810,NULL,82,1,5,'2020-11-04 01:08:31',0,0,NULL,664,NULL,'BID_PENDING',1,NULL,NULL),(34,810,NULL,83,1,5,'2020-11-04 01:08:41',0,0,NULL,664,NULL,'BID_PENDING',1,NULL,NULL),(35,810,NULL,84,1,6,'2020-11-04 01:16:53',0,0,NULL,664,NULL,'BID_PENDING',1,NULL,NULL);
+INSERT INTO `bid` VALUES (33,810,NULL,82,0,5,'2020-11-04 01:08:31',0,0,NULL,664,NULL,'BID_ASSIGNED',2,'2020-11-05 22:26:23',7),(34,810,NULL,83,0,5,'2020-11-04 01:08:41',0,0,NULL,664,NULL,'BID_ASSIGNED',2,'2020-11-05 22:26:23',7),(35,810,NULL,84,0,6,'2020-11-04 01:16:53',0,0,NULL,664,NULL,'BID_ASSIGNED',2,'2020-11-05 22:26:23',7);
 /*!40000 ALTER TABLE `bid` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,7 +115,7 @@ CREATE TABLE `bidusermapping` (
 
 LOCK TABLES `bidusermapping` WRITE;
 /*!40000 ALTER TABLE `bidusermapping` DISABLE KEYS */;
-INSERT INTO `bidusermapping` VALUES (46,33,5,795,'BID_USER_EDIT',4,5,'2020-11-04 01:08:31',5,'2020-11-04 01:10:04','1000003001001'),(47,34,5,790,'BID_USER_EDIT',4,5,'2020-11-04 01:08:41',NULL,NULL,'1000003002001'),(48,33,6,800,'BID_USER_EDIT',4,6,'2020-11-04 01:14:21',NULL,NULL,'1000003001002'),(49,34,6,780,'BID_USER_EDIT',4,6,'2020-11-04 01:16:28',NULL,NULL,'1000003002002'),(50,35,6,775,'BID_USER_EDIT',4,6,'2020-11-04 01:16:53',NULL,NULL,'1000003003001');
+INSERT INTO `bidusermapping` VALUES (46,33,5,795,'BID_USER_CONFIRMED',5,5,'2020-11-04 01:08:31',5,'2020-11-04 01:10:04','1000003001001'),(47,34,5,790,'BID_USER_DISCARD',22,5,'2020-11-04 01:08:41',NULL,NULL,'1000003002001'),(48,33,6,800,'BID_USER_DISCARD',22,6,'2020-11-04 01:14:21',NULL,NULL,'1000003001002'),(49,34,6,780,'BID_USER_CONFIRMED',5,6,'2020-11-04 01:16:28',NULL,NULL,'1000003002002'),(50,35,6,775,'BID_USER_CONFIRMED',5,6,'2020-11-04 01:16:53',NULL,NULL,'1000003003001');
 /*!40000 ALTER TABLE `bidusermapping` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -227,7 +227,7 @@ CREATE TABLE `cfsuserregistration` (
   `modifiedBy` int DEFAULT NULL,
   `modifiedOn` datetime DEFAULT NULL,
   PRIMARY KEY (`cfsUserRegistrationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -236,7 +236,7 @@ CREATE TABLE `cfsuserregistration` (
 
 LOCK TABLES `cfsuserregistration` WRITE;
 /*!40000 ALTER TABLE `cfsuserregistration` DISABLE KEYS */;
-INSERT INTO `cfsuserregistration` VALUES (1,1,7,'CFS User','Designation','Department','8875415230','alc@admin.in','123456789',4,1,1,1,'2020-08-30 07:34:20',1,'2020-08-30 07:34:20'),(2,2,7,'Gaurav CFS Super Admin','admin','admin','9998887774','cfs@gaurav.in','123456789',9,1,1,8,'2020-08-31 19:34:46',8,'2020-08-31 19:34:46'),(3,1,8,'All cargo User','','','7785624120','alc.user@cfs.in','123456789',10,1,1,4,'2020-09-13 06:57:14',4,'2020-09-13 06:57:14'),(4,3,7,'New Zone CFS','DesT','DepT','8874123546','cfs@newzone.in','123456789',12,1,1,1,'2020-09-23 03:49:06',1,'2020-09-23 03:49:06'),(5,3,8,'CFS USer','T','T','7744884500','cfs@newzone11.in','123456789',14,1,1,1,'2020-09-23 16:30:25',1,'2020-09-23 16:30:25');
+INSERT INTO `cfsuserregistration` VALUES (1,1,7,'CFS User','Designation','Department','8875415230','alc@admin.in','123456789',4,1,1,1,'2020-08-30 07:34:20',1,'2020-08-30 07:34:20'),(2,2,7,'Gaurav CFS Super Admin','admin','admin','9998887774','cfs@gaurav.in','123456789',9,1,1,8,'2020-08-31 19:34:46',8,'2020-08-31 19:34:46'),(3,1,8,'All cargo User','','','7785624120','alc.user@cfs.in','123456789',10,1,1,4,'2020-09-13 06:57:14',4,'2020-09-13 06:57:14'),(4,3,7,'New Zone CFS','DesT','DepT','8874123546','cfs@newzone.in','123456789',12,1,1,1,'2020-09-23 03:49:06',1,'2020-09-23 03:49:06'),(5,3,8,'CFS USer','T','T','7744884500','cfs@newzone11.in','123456789',14,1,1,1,'2020-09-23 16:30:25',1,'2020-09-23 16:30:25'),(6,1,7,'Newly Created','','','9874120563','newly@cfs.in','123456789',22,1,1,1,'2020-11-05 18:53:37',1,'2020-11-05 18:53:37');
 /*!40000 ALTER TABLE `cfsuserregistration` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -915,7 +915,7 @@ CREATE TABLE `suborder` (
 
 LOCK TABLES `suborder` WRITE;
 /*!40000 ALTER TABLE `suborder` DISABLE KEYS */;
-INSERT INTO `suborder` VALUES (82,1000003,900,0,9,'2020-11-03 23:55:09',0,NULL,30,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18,'1000003001'),(83,1000003,900,0,9,'2020-11-03 23:55:09',0,NULL,30,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18,'1000003002'),(84,1000003,900,0,9,'2020-11-03 23:55:09',0,NULL,30,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18,'1000003003'),(85,1000003,900,0,9,'2020-11-03 23:55:09',0,NULL,30,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18,'1000003004'),(86,1000003,900,0,9,'2020-11-03 23:55:09',0,NULL,30,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18,'1000003005'),(89,1000004,900,0,9,'2020-11-03 23:56:08',0,NULL,31,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18,'1000004001'),(90,1000004,900,0,9,'2020-11-03 23:56:08',0,NULL,31,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18,'1000004002'),(92,1000005,900,0,9,'2020-11-03 23:56:57',0,NULL,32,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18,'1000005001');
+INSERT INTO `suborder` VALUES (82,1000003,900,0,9,'2020-11-03 23:55:09',0,NULL,30,'3',3,810,0,NULL,'SUB_ORDER_BID_ASSIGNED',12,18,'1000003001'),(83,1000003,900,0,9,'2020-11-03 23:55:09',0,NULL,30,'3',3,810,0,NULL,'SUB_ORDER_BID_ASSIGNED',12,18,'1000003002'),(84,1000003,900,0,9,'2020-11-03 23:55:09',0,NULL,30,'3',3,810,0,NULL,'SUB_ORDER_BID_ASSIGNED',12,18,'1000003003'),(85,1000003,900,0,9,'2020-11-03 23:55:09',0,NULL,30,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18,'1000003004'),(86,1000003,900,0,9,'2020-11-03 23:55:09',0,NULL,30,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18,'1000003005'),(89,1000004,900,0,9,'2020-11-03 23:56:08',0,NULL,31,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18,'1000004001'),(90,1000004,900,0,9,'2020-11-03 23:56:08',0,NULL,31,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18,'1000004002'),(92,1000005,900,0,9,'2020-11-03 23:56:57',0,NULL,32,'3',3,810,0,NULL,'SUB_ORDER_PENDING',11,18,'1000005001');
 /*!40000 ALTER TABLE `suborder` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1044,7 +1044,7 @@ CREATE TABLE `transporterregistration` (
   `modifiedOn` datetime DEFAULT NULL,
   `userId` int DEFAULT NULL,
   PRIMARY KEY (`transporterId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1053,7 +1053,7 @@ CREATE TABLE `transporterregistration` (
 
 LOCK TABLES `transporterregistration` WRITE;
 /*!40000 ALTER TABLE `transporterregistration` DISABLE KEYS */;
-INSERT INTO `transporterregistration` VALUES (1,'Transporter Third','7774102563','transporter3@alc.in','Address1','114','114','118','Partner','4445','address2','123','a','aa','aa','aa','','','','','','',1,1,0,'2020-10-07 16:43:37',0,'2020-10-07 16:43:37',15);
+INSERT INTO `transporterregistration` VALUES (1,'Transporter Third','7774102563','transporter3@alc.in','Address1','114','114','118','Partner','4445','address2','123','a','aa','aa','aa','','','','','','',1,1,0,'2020-10-07 16:43:37',0,'2020-10-07 16:43:37',15),(2,'New Transporter','9700456321','new@transporter.in',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,21);
 /*!40000 ALTER TABLE `transporterregistration` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1089,7 +1089,7 @@ CREATE TABLE `trip` (
   `stoppeddBy` int DEFAULT NULL,
   `tripSeq` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`tripId`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1098,6 +1098,7 @@ CREATE TABLE `trip` (
 
 LOCK TABLES `trip` WRITE;
 /*!40000 ALTER TABLE `trip` DISABLE KEYS */;
+INSERT INTO `trip` VALUES (24,82,2,2,NULL,NULL,'TRIP_TRANSPORTER_ASSIGNED',16,NULL,NULL,NULL,5,'2020-11-05 22:26:23',NULL,NULL,NULL,NULL,NULL,795,NULL,NULL,NULL,NULL),(25,83,2,2,NULL,NULL,'TRIP_TRANSPORTER_ASSIGNED',16,NULL,NULL,NULL,6,'2020-11-05 22:26:23',NULL,NULL,NULL,NULL,NULL,780,NULL,NULL,NULL,NULL),(26,84,2,2,NULL,NULL,'TRIP_TRANSPORTER_ASSIGNED',16,NULL,NULL,NULL,6,'2020-11-05 22:26:23',NULL,NULL,NULL,NULL,NULL,775,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `trip` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -1197,7 +1198,7 @@ CREATE TABLE `user` (
   `typeSyscode` int NOT NULL,
   `permissions` text,
   PRIMARY KEY (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1206,7 +1207,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'utsav@hotmail.com','$2a$10$g4gC9K5ebPMdTS2Aosq55ehc.i.N15Bo/wJ994P/ZlM.NqkExMxpa','utsav','demo','9886631264',1,'[\"AccessAuthFeature\"]'),(3,'cfs@hotmail.com','$2a$10$zFSpbpbu3L1ms6QPh78I9.tP28nzE4DfBrj5vyujWGBFaMP6tlHJW','Utsav','Purohit','9886631264',4,'[\"AccessAuthFeature\"]'),(4,'alc@admin.in','$2a$10$u1ELBUU.FGlKqvthzGvAt.xNhXHh9uUXhWOc3f0RNouaTYV0SSKpq','CFS User','CFS User','8875415230',7,'[\"AccessAuthFeature\"]'),(5,'transporter@alc.in','$2a$10$9hAh5NBg.YU73fkkRLmor.Xwy1POsXg5cApaiGF3Hhoci2D01N.62','Transporter','ALC','7789445620',5,'[\"AccessAuthFeature\"]'),(6,'transporter2@alc.in','$2a$10$cRWLZ/YInsJlmmCo0DLHsedcopBJlNVXZkEjQMjTiauWmImYOc.rW','Transporter2','ALC','7784562013',5,'[\"AccessAuthFeature\"]'),(7,'driver@alc.in','$2a$10$T6.Z3nMwE3IDcb25KqU8veJ3JZS6c6YvEapbVgwMcdsFBleuUV0qC','Driver','ALC','7894561230',6,'[\"AccessAuthFeature\"]'),(8,'gaurav@gmail.com','$2a$10$y0MXM6Yu9jH/h8IP1.H6juhR52MP0lbsvNgojGnR4aTdVnfTfDbIq','Gaurav','Admin','9547865231',1,'[\"AccessAuthFeature\"]'),(9,'cfs@gaurav.in','$2a$10$s.Z581LEsX4.EaoLBBknTOsV7EhqwwPodpYGXnflgDNzbFGdlUnIK','Gaurav CFS Super Admin','Gaurav CFS Super Admin','9998887774',7,'[\"AccessAuthFeature\"]'),(10,'alc.user@cfs.in','$2a$10$FhWa.y90jf.oPhuWcQ.RReg2BKa3Iooc.jh2HK8mFzV3wgwEHDxZW','All cargo User','All cargo User','7785624120',8,'[\"AccessAuthFeature\"]'),(11,'driver2@alc.in','$2a$10$fJOlGusegArXlN4EdiCgO.dt/4VMAlUasyBvrPd0g6jIrSdNo0Dty','Driver2','Driver','8877445563',6,'[\"AccessAuthFeature\"]'),(12,'cfs@newzone.in','$2a$10$4TL6akxNfhYnRZKeRWyKmO1Pz4oUPAwqLWjQcnCiAr7GBEJtgrqsC','New Zone CFS','New Zone CFS','8874123546',7,'[\"AccessAuthFeature\"]'),(13,'driver@alctransporter.in','$2a$10$8nyR.6cHf572J5m2PIKdkOeWASZJHH/d35Gn0fMO7ALb.gnwLX2nC','Driver','Last','8897456210',6,'[\"AccessAuthFeature\"]'),(14,'cfs@newzone11.in','$2a$10$UpDBqPeeSL.2ccdqZSs.GOV6uhnEt.WX3rmA6FYkiyhJ3g8aUaYvG','CFS USer','CFS USer','7744884500',4,'[\"AccessAuthFeature\"]'),(15,'transporter3@alc.in','$2a$10$u5PE89RY3wX/OrmGt.CgmuUJ81GkO/fQgzzBwDLmXta/xJwoEaQ6S','Transporter','Third','7774102563',5,'[\"AccessAuthFeature\"]'),(16,'driver5@alc.in','$2a$10$QHowQ7FWBj0YOC4d/Kv/i.pd8mF/aL.33magF3Y3havGVhOTVwrri','Driver5','ALC','8745210036',6,'[\"AccessAuthFeature\"]'),(17,'driver7@alc.in','$2a$10$kF9sHsQvSdeZeuU3cyG6f.wqoLaHBLiIlUFq4GsHpiFWRxmP6gzt.','Driver7','ALC','8841254632',6,'[\"AccessAuthFeature\"]'),(18,'driver8@alc.in','$2a$10$8DaEKFI1xxX/xRAMiQzVLuVy3ifwNLtmElhs9lwRgHRqZwrwV/IgO','Driver8','ALC','8879451023',6,'[\"AccessAuthFeature\"]'),(19,'driver9@alc.in','$2a$10$AB8cmXnXFMAbTXNQO/DryOcyobhqUTjjWoTSlnetavFhjKL/QoQn6','Driver9','ALC','9987456120',6,'[\"AccessAuthFeature\"]'),(20,'driver10@alc.in','$2a$10$tAUfo9mBp4GrNUgPfW4u1uRdD1LUKoIL2r11h2JwY4NYYFZhK8.LK','Driver10','ALC','8874512036',6,'[\"AccessAuthFeature\"]');
+INSERT INTO `user` VALUES (1,'utsav@hotmail.com','$2a$10$g4gC9K5ebPMdTS2Aosq55ehc.i.N15Bo/wJ994P/ZlM.NqkExMxpa','utsav','demo','9886631264',1,'[\"AccessAuthFeature\"]'),(3,'cfs@hotmail.com','$2a$10$zFSpbpbu3L1ms6QPh78I9.tP28nzE4DfBrj5vyujWGBFaMP6tlHJW','Utsav','Purohit','9886631264',4,'[\"AccessAuthFeature\"]'),(4,'alc@admin.in','$2a$10$u1ELBUU.FGlKqvthzGvAt.xNhXHh9uUXhWOc3f0RNouaTYV0SSKpq','CFS User','CFS User','8875415230',7,'[\"AccessAuthFeature\"]'),(5,'transporter@alc.in','$2a$10$9hAh5NBg.YU73fkkRLmor.Xwy1POsXg5cApaiGF3Hhoci2D01N.62','Transporter','ALC','7789445620',5,'[\"AccessAuthFeature\"]'),(6,'transporter2@alc.in','$2a$10$cRWLZ/YInsJlmmCo0DLHsedcopBJlNVXZkEjQMjTiauWmImYOc.rW','Transporter2','ALC','7784562013',5,'[\"AccessAuthFeature\"]'),(7,'driver@alc.in','$2a$10$T6.Z3nMwE3IDcb25KqU8veJ3JZS6c6YvEapbVgwMcdsFBleuUV0qC','Driver','ALC','7894561230',6,'[\"AccessAuthFeature\"]'),(8,'gaurav@gmail.com','$2a$10$y0MXM6Yu9jH/h8IP1.H6juhR52MP0lbsvNgojGnR4aTdVnfTfDbIq','Gaurav','Admin','9547865231',1,'[\"AccessAuthFeature\"]'),(9,'cfs@gaurav.in','$2a$10$s.Z581LEsX4.EaoLBBknTOsV7EhqwwPodpYGXnflgDNzbFGdlUnIK','Gaurav CFS Super Admin','Gaurav CFS Super Admin','9998887774',7,'[\"AccessAuthFeature\"]'),(10,'alc.user@cfs.in','$2a$10$FhWa.y90jf.oPhuWcQ.RReg2BKa3Iooc.jh2HK8mFzV3wgwEHDxZW','All cargo User','All cargo User','7785624120',8,'[\"AccessAuthFeature\"]'),(11,'driver2@alc.in','$2a$10$fJOlGusegArXlN4EdiCgO.dt/4VMAlUasyBvrPd0g6jIrSdNo0Dty','Driver2','Driver','8877445563',6,'[\"AccessAuthFeature\"]'),(12,'cfs@newzone.in','$2a$10$4TL6akxNfhYnRZKeRWyKmO1Pz4oUPAwqLWjQcnCiAr7GBEJtgrqsC','New Zone CFS','New Zone CFS','8874123546',7,'[\"AccessAuthFeature\"]'),(13,'driver@alctransporter.in','$2a$10$8nyR.6cHf572J5m2PIKdkOeWASZJHH/d35Gn0fMO7ALb.gnwLX2nC','Driver','Last','8897456210',6,'[\"AccessAuthFeature\"]'),(14,'cfs@newzone11.in','$2a$10$UpDBqPeeSL.2ccdqZSs.GOV6uhnEt.WX3rmA6FYkiyhJ3g8aUaYvG','CFS USer','CFS USer','7744884500',4,'[\"AccessAuthFeature\"]'),(15,'transporter3@alc.in','$2a$10$u5PE89RY3wX/OrmGt.CgmuUJ81GkO/fQgzzBwDLmXta/xJwoEaQ6S','Transporter','Third','7774102563',5,'[\"AccessAuthFeature\"]'),(16,'driver5@alc.in','$2a$10$QHowQ7FWBj0YOC4d/Kv/i.pd8mF/aL.33magF3Y3havGVhOTVwrri','Driver5','ALC','8745210036',6,'[\"AccessAuthFeature\"]'),(17,'driver7@alc.in','$2a$10$kF9sHsQvSdeZeuU3cyG6f.wqoLaHBLiIlUFq4GsHpiFWRxmP6gzt.','Driver7','ALC','8841254632',6,'[\"AccessAuthFeature\"]'),(18,'driver8@alc.in','$2a$10$8DaEKFI1xxX/xRAMiQzVLuVy3ifwNLtmElhs9lwRgHRqZwrwV/IgO','Driver8','ALC','8879451023',6,'[\"AccessAuthFeature\"]'),(19,'driver9@alc.in','$2a$10$AB8cmXnXFMAbTXNQO/DryOcyobhqUTjjWoTSlnetavFhjKL/QoQn6','Driver9','ALC','9987456120',6,'[\"AccessAuthFeature\"]'),(20,'driver10@alc.in','$2a$10$tAUfo9mBp4GrNUgPfW4u1uRdD1LUKoIL2r11h2JwY4NYYFZhK8.LK','Driver10','ALC','8874512036',6,'[\"AccessAuthFeature\"]'),(21,'new@transporter.in','$2a$10$qAj.EDz5zFYvoZZ14Syy8OitDVrDXTccY9DfCoHKXBcvWZ25KILX2','New','Transporter','9700456321',5,'[\"AccessAuthFeature\"]'),(22,'newly@cfs.in','$2a$10$znGxkKNEBk1PRPxR5WL8Mukr9dnMV0HKEZWQx.QTBYBUIuketo6WW','Newly Created','Newly Created','9874120563',7,'[\"AccessAuthFeature\"]');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2202,7 +2203,7 @@ declare role_Id int;
 Select typeSyscode into role_Id from transporter.user where userId = user_Id;
 
 if(role_Id = 1 or role_Id = 5) then
-Select ord.orderId, subo.subOrderId, subo.subOrderTotalMargin, '' as CutOffTime,subo.suborderStatus,
+Select ord.orderId, subo.subOrderId,subo.subOrderSeq, subo.subOrderTotalMargin, '' as CutOffTime,subo.suborderStatus,
 c.containerMasterName,w.weightDesc, DATE_FORMAT(subo.createdOn,'%d-%b-%Y') as SubOrderDate
 from transporter.order ord
 inner join transporter.suborder subo on subo.orderId= ord.orderId
@@ -3737,9 +3738,12 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `procSchedulerConfirmBid`()
 BEGIN
-SET SQL_SAFE_UPDATES = 0;
 
 
+declare totalbids int;
+Select settingsValue into totalbids from transporter.settings where settingsName = 'TotalBids';
+
+ SET SQL_SAFE_UPDATES = 0;
 -- First update the suborder with the Bid schedule master id and cutofftime as per there timing
 update transporter.bid  b
 inner join transporter.suborder sub on b.subOrderId = sub.subOrderId
@@ -3775,7 +3779,7 @@ SELECT bidusermappingId ,bidId,userId,bidValue,biduserStatus,DENSE_RANK() OVER (
 FROM transporter.bidusermapping
 )t1
 where bid_rank = 1) um on um.bidid= bid.bidId
-	where bidcount >= 20  or( bidcount > 0 and CutOffTime <= now())
+	where bidcount >= totalbids  or( bidcount > 0 and CutOffTime <= now())
 ) dtl on dtl.bidusermappingId = bum.bidusermappingId and biduserStatus = 'BID_USER_EDIT'
 
   set biduserStatus = 'BID_USER_CONFIRMED', biduserStatusId = 5;
@@ -4704,4 +4708,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-04  1:36:17
+-- Dump completed on 2020-11-06  1:29:12
