@@ -581,7 +581,7 @@ export class CallProcedureController {
           : '';
           order.orderDate = results[0][0].orderDate;
           order.totalRate = results[0][0].totalRate;
-          order.CutOffTime = results[0][0].CutOffTime;
+          order.cutOffTime = results[0][0].cutOffTime;
 
           const subOrd:SubOrder[] = [];
 
