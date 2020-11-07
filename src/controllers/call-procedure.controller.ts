@@ -584,11 +584,11 @@ export class CallProcedureController {
           order.CutOffTime = results[0][0].CutOffTime;
 
           const subOrd:SubOrder[] = [];
-          const subbids: Bid[] = [];
+
           const subOrders = await this._callProcedureService.GetSubOrdersByOrderId(order.orderId);
            for (const suborder of subOrders) {
 
-
+            const subbids: Bid[] = [];
             const subordbids = await this._callProcedureService.GetBidsBySubOrderId(suborder.subOrderId);
             for (const b of subordbids)
             {
@@ -618,7 +618,7 @@ export class CallProcedureController {
             subOrd.push(subobj);
           }
           order.subOrders = subOrd;
-          order.bids = subbids;
+
 
           /* for (const suborder of results[0]) {
             const obj: Bid = {
