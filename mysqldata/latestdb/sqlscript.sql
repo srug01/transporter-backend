@@ -1668,6 +1668,36 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP FUNCTION IF EXISTS `getCutOfftimebyOrderId` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` FUNCTION `getCutOfftimebyOrderId`(order_Id int) RETURNS varchar(25) CHARSET utf8
+    READS SQL DATA
+    DETERMINISTIC
+BEGIN
+declare returnVal varchar(25);
+Select case when bis.WorkingHours = 0 then DATE_ADD(ord.createdon, INTERVAL bis.bidingHours HOUR)
+when bis.WorkingHours > 0 then FuncGetBidCutofftime(ord.createdon,bis.IsFullhour,bis.totalbidhour) end
+into  returnVal
+From transporter.order ord
+inner join transporter.bidschedulemaster bis on 
+TIMESTAMPDIFF(HOUR, ord.createdOn, ord.orderdate) between bis.fromHour and bis.ToHour
+where ord.orderId = order_Id;
+ 
+RETURN DATE_FORMAT(returnVal, '%d-%b-%Y %a %H:%i');
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP FUNCTION IF EXISTS `GetSubOrderSeq` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -2507,7 +2537,7 @@ in bid_user_statusId int)
 BEGIN
 
 Select b.bidId,
-b.bidName,b.originalRate, bum.bidValue,
+bum.bidSeq,b.originalRate, bum.bidValue,
 bum.biduserStatus,
 case when b.CutOffTime is not null then
 concat(DATE_FORMAT(b.CutOffTime,'%d-%b-%Y'),' On ',DATE_FORMAT(b.CutOffTime,'%H:%i:%s'))
@@ -3698,17 +3728,22 @@ case
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.destinationId)
     end as destinationName,
     ptm.terminal,
-ord.orderRemarks,ord.orderDate,ord.totalRate,
+ord.orderRemarks,concat(DATE_FORMAT(ord.orderDate, '%d-%b-%Y %a'),' ',tm.actualValue) as orderDate ,
+ord.totalRate,
 ord.orderStatus,
-subo.subOrderTotalMargin,bid.CutOffTime,subo.suborderStatus,
-bid.bidName,
+
+case when orderid is null then '' else getCutOfftimebyOrderId(orderid) end cutOffTime
+/*subo.subOrderTotalMargin,bid.CutOffTime,subo.suborderStatus,
+bum.bidSeq,
 concat(usr.firstName ,' ',usr.lastName) TranporterName,bum.bidValue,bum.biduserStatus,
 vhl.vehicleNumber,
 case when trp.assignedDriver is not null then 
 concat(dusr.firstName ,' ',dusr.lastName) else '' end AssignedDriver,dusr.emailid,dusr.mobileNumber,trp.tripstatus,
-wm.weightDesc,cm.containerMasterName
+wm.weightDesc,cm.containerMasterName*/
 from transporter.order ord
-inner join transporter.suborder subo on subo.orderId= ord.orderId
+left outer join transporter.portterminalmaster ptm on ptm.portTerminalId = ord.portTerminalId
+left outer join transporter.timeslotmaster tm on tm.timeslotMasterId = ord.timeslotMasterId
+/*inner join transporter.suborder subo on subo.orderId= ord.orderId
 left outer join transporter.portterminalmaster ptm on ptm.portTerminalId = ord.portTerminalId
 left outer join  transporter.bid bid on bid.subOrderId= subo.subOrderId
 left outer join transporter.bidusermapping bum on bum.bidId = bid.bidId
@@ -3718,8 +3753,9 @@ left outer join transporter.vehiclemaster vhl on vhl.vehicleMasterId = trp.assig
 left outer join transporter.driver dusr on dusr.driverId = trp.assignedDriver
 left outer join transporter.weightmaster wm on wm.weightMasterId = vhl.vehiclecapacity
 left outer join transporter.containermaster cm on cm.containerMasterId = vhl.vehicletype
--- where  ord.orderId = orderid; 
-where  (ord.orderId = orderid or orderid is null) and (bum.biduserstatusId != 22 or bum.biduserstatusId is null);
+-- where  ord.orderId = orderid; */
+where  (ord.orderId = orderid or orderid is null); 
+-- and (bum.biduserstatusId != 22 or bum.biduserstatusId is null);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -4708,4 +4744,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-06  1:29:12
+-- Dump completed on 2020-11-07 21:01:43

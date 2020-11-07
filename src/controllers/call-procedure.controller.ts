@@ -560,35 +560,66 @@ export class CallProcedureController {
   ): Promise<any> {
     const sqlStmt = mysql.format('CALL procGetOrderDetails(?)', [orderId]);
     const connection = mysql.createConnection(mysqlCreds);
-    return new Promise<any>(function (resolve, reject) {
+    return new Promise<any>( (resolve, reject) => {
       const order: any = {};
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      connection.query(sqlStmt, function (err: any, results: any) {
+      connection.query(sqlStmt, async  (err: any, results: any) => {
         if (err !== null) return reject(err);
         // console.log('Result : ' + results[0].length);
         if (results[0].length > 0) {
-          order.AssignedDriver = results[0][0].AssignedDriver
-            ? results[0][0].AssignedDriver
-            : '';
-          order.CutOffTime = results[0][0].CutOffTime;
-          order.TranporterName = results[0][0].TranporterName;
-          order.containerMasterName = results[0][0].containerMasterName;
-          order.destinationName = results[0][0].destinationName;
-          order.destinationType = results[0][0].destinationType;
-          order.emailid = results[0][0].emailid;
-          order.mobileNumber = results[0][0].mobileNumber;
-          order.orderDate = results[0][0].orderDate;
+
           order.orderId = results[0][0].orderId;
-          order.orderRemarks = results[0][0].orderRemarks;
-          order.orderStatus = results[0][0].orderStatus;
-          order.sourceName = results[0][0].sourceName;
           order.sourceType = results[0][0].sourceType;
-          order.terminal = results[0][0].terminal;
+          order.destinationType = results[0][0].destinationType;
+          order.sourceName = results[0][0].sourceName;
+          order.destinationName = results[0][0].destinationName;
+          order.terminal = results[0][0].terminal
+          ? results[0][0].terminal
+          : '';
+          order.orderRemarks = results[0][0].orderRemarks
+          ? results[0][0].orderRemarks
+          : '';
+          order.orderDate = results[0][0].orderDate;
           order.totalRate = results[0][0].totalRate;
-          order.tripstatus = results[0][0].tripstatus;
-          order.vehicleNumber = results[0][0].vehicleNumber;
-          order.weightDesc = results[0][0].weightDesc;
-          order.bids = [];
+          order.CutOffTime = results[0][0].CutOffTime;
+
+          const subOrd:SubOrder[] = [];
+          const subbids: Bid[] = [];
+          const subOrders = await this._callProcedureService.GetSubOrdersByOrderId(order.orderId);
+           for (const suborder of subOrders) {
+
+
+            const subordbids = await this._callProcedureService.GetBidsBySubOrderId(suborder.subOrderId);
+            for (const b of subordbids)
+            {
+              const bidObj: Bid = {
+                bidSeq: b.bidSeq,
+                exhibitionDate: b.exhibitionDate,
+                subOrderId: b.subOrderId,
+                bidValue: b.bidValue,
+                biduserStatus: b.biduserStatus,
+                originalRate: b.originalRate
+              };
+              subbids.push(bidObj);
+            }
+            const tripObj =  await this._callProcedureService.GetTripBySubOrderId(suborder.subOrderId);
+            const subobj: SubOrder = {
+              orderId: suborder.orderId,
+              subOrderId: suborder.subOrderId,
+              subOrderSeq: suborder.subOrderSeq,
+              subOrderTotalMargin: suborder.subOrderTotalMargin,
+              suborderStatus: suborder.suborderStatus,
+              containerMasterName: suborder.containerMasterName,
+              weightDesc: suborder.weightDesc,
+              SubOrderDate: suborder.SubOrderDate,
+              bids: subbids,
+              trip:tripObj
+            };
+            subOrd.push(subobj);
+          }
+          order.subOrders = subOrd;
+          order.bids = subbids;
+
           /* for (const suborder of results[0]) {
             const obj: Bid = {
               bidName: suborder.bidName,
