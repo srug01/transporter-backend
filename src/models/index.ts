@@ -52,3 +52,4 @@ export * from './zone-master.model';
 
 
 
+export * from './bid-action.model';
