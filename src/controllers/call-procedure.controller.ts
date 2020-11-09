@@ -1169,9 +1169,13 @@ export class CallProcedureController {
     queryObj: BidRate,
   ): Promise<AnyObject> {
     const bidval: number = queryObj?.bidValue ?? 0;
-    const lowerLimit: number = queryObj?.bidRate ?? 0;
+    const lowerLimit: number = queryObj?.bidLowerLimit ?? 0;
+    const originalRate: number = queryObj?.bidOriginalRate ?? 0;
     if (bidval < lowerLimit) {
       throw new HttpErrors.UnprocessableEntity('Bid Value is too Low');
+    }
+    else if(bidval > originalRate){
+      throw new HttpErrors.UnprocessableEntity('Bid Value is too High');
     }
     const sqlStmt = mysql.format('CALL saveBidforTransporter(?,?,?)', [
       queryObj.suborderId === 0 ? null : queryObj.suborderId,

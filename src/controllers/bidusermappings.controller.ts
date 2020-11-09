@@ -4,7 +4,7 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
   del,
@@ -15,7 +15,7 @@ import {
   patch,
   post,
   put,
-  requestBody,
+  requestBody
 } from '@loopback/rest';
 import {Bidusermapping} from '../models';
 import {BidRepository, BidusermappingRepository} from '../repositories';
@@ -60,11 +60,16 @@ export class BidusermappingsController {
       },
     });
     const lowerLimit = callbid?.bidLowerLimit ?? 0;
+    const originalRate = callbid?.originalRate ?? 0;
     //console.log(lowerLimit);
     //console.log(bidval);
     if (bidval < lowerLimit) {
       throw new HttpErrors.UnprocessableEntity('Bid Value is too Low');
     }
+    else if(bidval > originalRate){
+      throw new HttpErrors.UnprocessableEntity('Bid Value is too High');
+    }
+
     return this.bidusermappingRepository.create(bidusermapping);
   }
 
@@ -131,10 +136,14 @@ export class BidusermappingsController {
       },
     });
     const lowerLimit = callbid?.bidLowerLimit ?? 0;
+    const originalRate = callbid?.originalRate ?? 0;
     //console.log(lowerLimit);
     //console.log(bidval);
     if (bidval < lowerLimit) {
       throw new HttpErrors.UnprocessableEntity('Bid Value is too Low');
+    }
+    else if(bidval > originalRate){
+      throw new HttpErrors.UnprocessableEntity('Bid Value is too High');
     }
     return this.bidusermappingRepository.updateAll(bidusermapping, where);
   }
@@ -184,10 +193,15 @@ export class BidusermappingsController {
       },
     });
     const lowerLimit = callbid?.bidLowerLimit ?? 0;
+    const originalRate = callbid?.originalRate ?? 0;
     //console.log(lowerLimit);
-    //console.log(bidval);
+    console.log(bidval);
+    console.log(originalRate);
     if (bidval < lowerLimit) {
       throw new HttpErrors.UnprocessableEntity('Bid Value is too Low');
+    }
+    else if(bidval > originalRate){
+      throw new HttpErrors.UnprocessableEntity('Bid Value is too High');
     }
     await this.bidusermappingRepository.updateById(id, bidusermapping);
   }
