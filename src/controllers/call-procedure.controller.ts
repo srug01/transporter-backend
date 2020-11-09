@@ -50,7 +50,9 @@ interface Bid {
   subOrderId: number,
   bidValue: number,
   biduserStatus: string,
-  originalRate: number
+  originalRate: number,
+  TransporterName?: string,
+  bidusermappingId?: number
 }
 
 interface SubOrder {
@@ -579,6 +581,9 @@ export class CallProcedureController {
           order.orderRemarks = results[0][0].orderRemarks
           ? results[0][0].orderRemarks
           : '';
+          order.orderStatus = results[0][0].orderStatus
+          ? results[0][0].orderStatus
+          : '';
           order.orderDate = results[0][0].orderDate;
           order.totalRate = results[0][0].totalRate;
           order.cutOffTime = results[0][0].cutOffTime;
@@ -598,7 +603,9 @@ export class CallProcedureController {
                 subOrderId: b.subOrderId,
                 bidValue: b.bidValue,
                 biduserStatus: b.biduserStatus,
-                originalRate: b.originalRate
+                originalRate: b.originalRate,
+                TransporterName: b.TransporterName,
+                bidusermappingId: b.bidusermappingId
               };
               subbids.push(bidObj);
             }
