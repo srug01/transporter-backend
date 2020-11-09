@@ -1378,4 +1378,49 @@ export class CallProcedureController {
   }
 
 
+
+
+  @post('/AwardBidbymappingId/{mappingId}/{subOrderId}', {
+    responses: {
+      '200': {
+        description: 'Award Bid',
+        content: {
+          'application/json': {
+            schema: {type: 'array'},
+          },
+        },
+      },
+    },
+  })
+  // @authenticate('jwt')
+  async AwardBidbymappingId(
+    @requestBody({
+      content: {
+        'application/json': {
+          schema: {type: 'array'},
+        },
+      },
+    })
+    @param.path.string('mappingId') mappingId: string,
+    @param.path.string('subOrderId') subOrderId: string,
+
+  ): Promise<AnyObject> {
+
+    const sqlStmt = mysql.format('CALL AwardBidbymappingId(?,?)', [
+      mappingId,
+      subOrderId,
+    ]);
+    const connection = mysql.createConnection(mysqlCreds);
+    return new Promise<any>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      connection.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+        connection.end();
+      });
+    });
+  }
+
+
+
 }
