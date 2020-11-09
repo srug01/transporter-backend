@@ -95,6 +95,10 @@ export class SubOrder extends Entity {
     type: 'number',
   })
   suborderStatusId?: number;
+  @property({
+    type: 'string',
+  })
+  subOrderSeq?: string;
 
   constructor(data?: Partial<SubOrder>) {
     super(data);

@@ -29,34 +29,54 @@ import {
 } from '../models';
 import {CallProcedureService} from './../services/call-procedure.service';
 
+
+interface Trip{
+  subOrderId: number,
+  tripstatus: string,
+  startDate: string,
+  endDate: string,
+  billedAmount: number,
+  DriverName: string,
+  vehicleNumber: string,
+  tripId: number,
+  TransporterName: string,
+  OrderContainer: string,
+  Orderweight:string,
+}
+
 interface Bid {
-  bidName: string;
-  bidValue: number;
-  biduserStatus: string;
-  originalRate: number;
+  bidSeq: string,
+  exhibitionDate: string,
+  subOrderId: number,
+  bidValue: number,
+  biduserStatus: string,
+  originalRate: number
+}
+
+interface SubOrder {
+  orderId: number,
+  subOrderId: number,
+  subOrderSeq: string,
+  subOrderTotalMargin: number,
+  suborderStatus: string,
+  containerMasterName: string,
+  weightDesc: string,
+  SubOrderDate: string,
+  bids: Bid[],
+  trip: Trip
+
 }
 
 interface OrderDetails {
-  AssignedDriver: string;
-  CutOffTime: string;
-  TranporterName: string;
-  bids: Bid[];
-  containerMasterName: string;
-  destinationName: string;
-  destinationType: string;
-  emailid: string;
-  mobileNumber: string;
-  orderDate: string;
-  orderId: number;
-  orderRemarks: string;
-  orderStatus: string;
-  sourceName: string;
-  sourceType: string;
-  terminal: string;
-  totalRate: number;
-  tripstatus: string;
-  vehicleNumber: string;
-  weightDesc: string;
+  orderId: number,
+  Source: string,
+  Destination: string,
+  Remarks: string,
+  OrderDate: string,
+  OrderTotal: number,
+  orderStatus: string,
+  subOrders: SubOrder[],
+
 }
 
 const mysql = require('mysql');
@@ -540,35 +560,66 @@ export class CallProcedureController {
   ): Promise<any> {
     const sqlStmt = mysql.format('CALL procGetOrderDetails(?)', [orderId]);
     const connection = mysql.createConnection(mysqlCreds);
-    return new Promise<any>(function (resolve, reject) {
+    return new Promise<any>( (resolve, reject) => {
       const order: any = {};
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      connection.query(sqlStmt, function (err: any, results: any) {
+      connection.query(sqlStmt, async  (err: any, results: any) => {
         if (err !== null) return reject(err);
         // console.log('Result : ' + results[0].length);
         if (results[0].length > 0) {
-          order.AssignedDriver = results[0][0].AssignedDriver
-            ? results[0][0].AssignedDriver
-            : '';
-          order.CutOffTime = results[0][0].CutOffTime;
-          order.TranporterName = results[0][0].TranporterName;
-          order.containerMasterName = results[0][0].containerMasterName;
-          order.destinationName = results[0][0].destinationName;
-          order.destinationType = results[0][0].destinationType;
-          order.emailid = results[0][0].emailid;
-          order.mobileNumber = results[0][0].mobileNumber;
-          order.orderDate = results[0][0].orderDate;
+
           order.orderId = results[0][0].orderId;
-          order.orderRemarks = results[0][0].orderRemarks;
-          order.orderStatus = results[0][0].orderStatus;
-          order.sourceName = results[0][0].sourceName;
           order.sourceType = results[0][0].sourceType;
-          order.terminal = results[0][0].terminal;
+          order.destinationType = results[0][0].destinationType;
+          order.sourceName = results[0][0].sourceName;
+          order.destinationName = results[0][0].destinationName;
+          order.terminal = results[0][0].terminal
+          ? results[0][0].terminal
+          : '';
+          order.orderRemarks = results[0][0].orderRemarks
+          ? results[0][0].orderRemarks
+          : '';
+          order.orderDate = results[0][0].orderDate;
           order.totalRate = results[0][0].totalRate;
-          order.tripstatus = results[0][0].tripstatus;
-          order.vehicleNumber = results[0][0].vehicleNumber;
-          order.weightDesc = results[0][0].weightDesc;
-          order.bids = [];
+          order.cutOffTime = results[0][0].cutOffTime;
+
+          const subOrd:SubOrder[] = [];
+
+          const subOrders = await this._callProcedureService.GetSubOrdersByOrderId(order.orderId);
+           for (const suborder of subOrders) {
+
+            const subbids: Bid[] = [];
+            const subordbids = await this._callProcedureService.GetBidsBySubOrderId(suborder.subOrderId);
+            for (const b of subordbids)
+            {
+              const bidObj: Bid = {
+                bidSeq: b.bidSeq,
+                exhibitionDate: b.exhibitionDate,
+                subOrderId: b.subOrderId,
+                bidValue: b.bidValue,
+                biduserStatus: b.biduserStatus,
+                originalRate: b.originalRate
+              };
+              subbids.push(bidObj);
+            }
+            const tripObj =  await this._callProcedureService.GetTripBySubOrderId(suborder.subOrderId);
+            const subobj: SubOrder = {
+              orderId: suborder.orderId,
+              subOrderId: suborder.subOrderId,
+              subOrderSeq: suborder.subOrderSeq,
+              subOrderTotalMargin: suborder.subOrderTotalMargin,
+              suborderStatus: suborder.suborderStatus,
+              containerMasterName: suborder.containerMasterName,
+              weightDesc: suborder.weightDesc,
+              SubOrderDate: suborder.SubOrderDate,
+              bids: subbids,
+              trip:tripObj
+            };
+            subOrd.push(subobj);
+          }
+          order.subOrders = subOrd;
+
+
           /* for (const suborder of results[0]) {
             const obj: Bid = {
               bidName: suborder.bidName,
@@ -836,15 +887,76 @@ export class CallProcedureController {
   })
   // @authenticate('jwt')
   async repTreeViewOrder(
-    @param.path.string('userId') userId: string,
+    // @param.path.string('userId') userId: string,
   ): Promise<any> {
+
+    // repTreeViewOrder for all Orders
+    // getSubOrdersbyOrderId for all SubOrders of an order
+    // getbidsbySubOrderId for all bids
+    // getTripbySubOrderId for Trip of a SubOrder
     const sqlStmt = mysql.format('CALL repTreeViewOrder()');
     const connection = mysql.createConnection(mysqlCreds);
-    return new Promise<any>(function (resolve, reject) {
+    return new Promise<any>( (resolve, reject) => {
+      const ordObj: OrderDetails[] = [];
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      connection.query(sqlStmt, function (err: any, results: any) {
+      connection.query(sqlStmt, async  (err: any, results: any) => {
         if (err !== null) return reject(err);
-        resolve(results[0]);
+        // console.log('Called' + JSON.stringify(results[0]));
+        if (results[0].length > 0) {
+          for (const ord of results[0]) {
+            const subOrd:SubOrder[] = [];
+
+          const subOrders = await this._callProcedureService.GetSubOrdersByOrderId(ord.orderId);
+           for (const suborder of subOrders) {
+            const subbids: Bid[] = [];
+
+            const subordbids = await this._callProcedureService.GetBidsBySubOrderId(suborder.subOrderId);
+            for (const b of subordbids)
+            {
+              const bidObj: Bid = {
+                bidSeq: b.bidSeq,
+                exhibitionDate: b.exhibitionDate,
+                subOrderId: b.subOrderId,
+                bidValue: b.bidValue,
+                biduserStatus: b.biduserStatus,
+                originalRate: b.originalRate
+              };
+              subbids.push(bidObj);
+            }
+            const tripObj =  await this._callProcedureService.GetTripBySubOrderId(suborder.subOrderId);
+            const subobj: SubOrder = {
+              orderId: suborder.orderId,
+              subOrderId: suborder.subOrderId,
+              subOrderSeq: suborder.subOrderSeq,
+              subOrderTotalMargin: suborder.subOrderTotalMargin,
+              suborderStatus: suborder.suborderStatus,
+              containerMasterName: suborder.containerMasterName,
+              weightDesc: suborder.weightDesc,
+              SubOrderDate: suborder.SubOrderDate,
+              bids: subbids,
+              trip:tripObj
+            };
+            subOrd.push(subobj);
+          }
+
+
+          const orddetail:OrderDetails = {
+            orderId: ord.orderId,
+            Source: ord.Source,
+            Destination: ord.Destination,
+            Remarks: ord.Remarks,
+            OrderDate: ord.OrderDate,
+            OrderTotal: ord.OrderTotal,
+            orderStatus: ord.orderStatus,
+            subOrders: subOrd
+          }
+
+          ordObj.push(orddetail);
+
+        }
+
+      }
+        resolve(ordObj);
         connection.end();
       });
     });
