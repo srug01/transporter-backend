@@ -52,3 +52,7 @@ export * from './zone-master.model';
 
 
 
+export * from './bid-action.model';
+export * from './payments.model';
+export * from './paymentreceived.model';
+export * from './paymenthistory.model';

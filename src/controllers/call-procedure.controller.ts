@@ -15,6 +15,7 @@ import {
 import {CallProcedureServiceBindings} from '../keys';
 import {
   BatchFilter,
+  BidAction,
   BidFilter,
   BidRate,
   CutOff,
@@ -50,7 +51,10 @@ interface Bid {
   subOrderId: number,
   bidValue: number,
   biduserStatus: string,
-  originalRate: number
+  originalRate: number,
+  TransporterName?: string,
+  bidusermappingId?: number,
+  biduserStatusId?: number,
 }
 
 interface SubOrder {
@@ -62,6 +66,7 @@ interface SubOrder {
   containerMasterName: string,
   weightDesc: string,
   SubOrderDate: string,
+  bidAwarded?: boolean,
   bids: Bid[],
   trip: Trip
 
@@ -579,6 +584,9 @@ export class CallProcedureController {
           order.orderRemarks = results[0][0].orderRemarks
           ? results[0][0].orderRemarks
           : '';
+          order.orderStatus = results[0][0].orderStatus
+          ? results[0][0].orderStatus
+          : '';
           order.orderDate = results[0][0].orderDate;
           order.totalRate = results[0][0].totalRate;
           order.cutOffTime = results[0][0].cutOffTime;
@@ -598,7 +606,10 @@ export class CallProcedureController {
                 subOrderId: b.subOrderId,
                 bidValue: b.bidValue,
                 biduserStatus: b.biduserStatus,
-                originalRate: b.originalRate
+                originalRate: b.originalRate,
+                TransporterName: b.TransporterName,
+                bidusermappingId: b.bidusermappingId,
+                biduserStatusId: b.biduserStatusId,
               };
               subbids.push(bidObj);
             }
@@ -612,6 +623,7 @@ export class CallProcedureController {
               containerMasterName: suborder.containerMasterName,
               weightDesc: suborder.weightDesc,
               SubOrderDate: suborder.SubOrderDate,
+              bidAwarded: suborder.bidAwarded,
               bids: subbids,
               trip:tripObj
             };
@@ -1169,9 +1181,13 @@ export class CallProcedureController {
     queryObj: BidRate,
   ): Promise<AnyObject> {
     const bidval: number = queryObj?.bidValue ?? 0;
-    const lowerLimit: number = queryObj?.bidRate ?? 0;
+    const lowerLimit: number = queryObj?.bidLowerLimit ?? 0;
+    const originalRate: number = queryObj?.bidOriginalRate ?? 0;
     if (bidval < lowerLimit) {
       throw new HttpErrors.UnprocessableEntity('Bid Value is too Low');
+    }
+    else if(bidval > originalRate){
+      throw new HttpErrors.UnprocessableEntity('Bid Value is too High');
     }
     const sqlStmt = mysql.format('CALL saveBidforTransporter(?,?,?)', [
       queryObj.suborderId === 0 ? null : queryObj.suborderId,
@@ -1380,13 +1396,13 @@ export class CallProcedureController {
 
 
 
-  @post('/AwardBidbymappingId/{mappingId}/{subOrderId}', {
+  @post('/AwardBidbymappingId', {
     responses: {
       '200': {
         description: 'Award Bid',
         content: {
           'application/json': {
-            schema: {type: 'array'},
+            schema: {type: 'array',items: getModelSchemaRef(BidAction)},
           },
         },
       },
@@ -1397,18 +1413,19 @@ export class CallProcedureController {
     @requestBody({
       content: {
         'application/json': {
-          schema: {type: 'array'},
+          schema: getModelSchemaRef(BidAction, {
+            title: 'BidAction',
+          }),
         },
       },
     })
-    @param.path.string('mappingId') mappingId: string,
-    @param.path.string('subOrderId') subOrderId: string,
+    queryObj: BidAction,
 
   ): Promise<AnyObject> {
 
     const sqlStmt = mysql.format('CALL AwardBidbymappingId(?,?)', [
-      mappingId,
-      subOrderId,
+      queryObj.biduserMappingId,
+      queryObj.subOrderId,
     ]);
     const connection = mysql.createConnection(mysqlCreds);
     return new Promise<any>(function (resolve, reject) {
@@ -1421,6 +1438,47 @@ export class CallProcedureController {
     });
   }
 
+  @post('/RevokebidbysubOrderId', {
+    responses: {
+      '200': {
+        description: 'Award Bid',
+        content: {
+          'application/json': {
+            schema: {type: 'array',items: getModelSchemaRef(BidAction)},
+          },
+        },
+      },
+    },
+  })
+  // @authenticate('jwt')
+  async RevokebidbysubOrderId(
+    @requestBody({
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(BidAction, {
+            title: 'BidAction',
+          }),
+        },
+      },
+    })
+
+    queryObj: BidAction,
+
+  ): Promise<AnyObject> {
+
+    const sqlStmt = mysql.format('CALL RevokebidbysubOrderId(?)', [
+      queryObj.subOrderId,
+    ]);
+    const connection = mysql.createConnection(mysqlCreds);
+    return new Promise<any>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      connection.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+        connection.end();
+      });
+    });
+  }
 
 
 }

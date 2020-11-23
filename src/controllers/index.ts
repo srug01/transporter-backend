@@ -50,3 +50,6 @@ export * from './zone-master.controller';
 export * from './port-cfs-rate-master.controller';
 export * from './cfs-yard-rate-master.controller';
 export * from './userratings.controller';
+export * from './payments.controller';
+export * from './paymentreceived.controller';
+export * from './paymenthistory.controller';

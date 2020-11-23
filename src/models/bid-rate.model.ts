@@ -24,7 +24,7 @@ export class BidRate extends Model {
     type: 'number',
     default: 0,
   })
-  bidRate?: number;
+  bidLowerLimit?: number;
 
   @property({
     type: 'number',
@@ -32,6 +32,11 @@ export class BidRate extends Model {
   })
   bidValue?: number;
 
+  @property({
+    type: 'number',
+    default: 0,
+  })
+  bidOriginalRate?: number;
 
   constructor(data?: Partial<BidRate>) {
     super(data);
