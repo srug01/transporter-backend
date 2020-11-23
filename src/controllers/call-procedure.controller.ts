@@ -21,6 +21,8 @@ import {
   CutOff,
   Dashboard,
 
+  FourParamObj,
+
   LocationMaster,
   OrderFilter,
 
@@ -1468,6 +1470,49 @@ export class CallProcedureController {
 
     const sqlStmt = mysql.format('CALL RevokebidbysubOrderId(?)', [
       queryObj.subOrderId,
+    ]);
+    const connection = mysql.createConnection(mysqlCreds);
+    return new Promise<any>(function (resolve, reject) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      connection.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null) return reject(err);
+        resolve(results[0]);
+        connection.end();
+      });
+    });
+  }
+
+  @post('/getUsersListDetails', {
+    responses: {
+      '200': {
+        description: 'get userList',
+        content: {
+          'application/json': {
+            schema: {type: 'array', items: getModelSchemaRef(FourParamObj)},
+          },
+        },
+      },
+    },
+  })
+  // @authenticate('jwt')
+  async getUsersListDetails(
+    @requestBody({
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(FourParamObj, {
+            title: 'Filter',
+          }),
+        },
+      },
+    })
+    queryObj: FourParamObj,
+  ): Promise<AnyObject> {
+    // console.log(queryObj);
+    const sqlStmt = mysql.format('CALL getUsersListDetails(?,?,?,?)', [
+      queryObj.varOne,
+      queryObj.varTwo,
+      queryObj.varThree,
+      queryObj.varFour,
     ]);
     const connection = mysql.createConnection(mysqlCreds);
     return new Promise<any>(function (resolve, reject) {

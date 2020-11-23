@@ -56,3 +56,5 @@ export * from './bid-action.model';
 export * from './payments.model';
 export * from './paymentreceived.model';
 export * from './paymenthistory.model';
+export * from './four-param-obj.model';
+export * from './payment-mode.model';

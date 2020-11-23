@@ -43,3 +43,4 @@ export * from './userratings.repository';
 export * from './paymenthistory.repository';
 export * from './paymentreceived.repository';
 export * from './payments.repository';
+export * from './payment-mode.repository';
