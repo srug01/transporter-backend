@@ -30,6 +30,7 @@ export async function migrate(args: string[]) {
       'Notification',
       'Order',
       'Payments',
+      'PaymentMode',
       'Paymentreceived',
       'Paymenthistory',
       'PortMaster',

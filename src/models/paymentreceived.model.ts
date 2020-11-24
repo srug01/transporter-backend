@@ -28,10 +28,10 @@ export class Paymentreceived extends Entity {
   Amount: number;
 
   @property({
-    type: 'string',
+    type: 'number',
     required: true,
   })
-  paymentMode: string;
+  paymentMode: number;
 
   @property({
     type: 'string',

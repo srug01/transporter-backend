@@ -1,4 +1,7 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, hasMany, model, property} from '@loopback/repository';
+import {Paymenthistory} from './paymenthistory.model';
+import {Paymentreceived} from './paymentreceived.model';
+import {Payments} from './payments.model';
 
 @model({
   settings: {
@@ -59,7 +62,7 @@ export class CfsUserRegistration extends Entity {
   @property({
     type: 'number',
   })
-  userId?: number;
+  userId: number;
 
   @property({
     type: 'boolean',
@@ -91,6 +94,14 @@ export class CfsUserRegistration extends Entity {
   })
   modifiedOn?: string;
 
+  @hasMany(() => Payments, {keyTo: 'userId'})
+  payments: Payments[];
+
+  @hasMany(() => Paymentreceived, {keyTo: 'userId'})
+  paymentsReceived: Paymentreceived[];
+
+  @hasMany(() => Paymenthistory, {keyTo: 'userId'})
+  paymenthistories: Paymenthistory[];
   // Define well-known properties here
 
   // Indexer property to allow additional data
