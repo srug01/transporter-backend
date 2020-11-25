@@ -1,7 +1,7 @@
 import {Entity, hasMany, model, property} from '@loopback/repository';
+import {PaymentCreditLimit} from './paymentcreditlimit.model';
 import {Paymenthistory} from './paymenthistory.model';
 import {Paymentreceived} from './paymentreceived.model';
-import {Payments} from './payments.model';
 
 @model({
   settings: {
@@ -94,8 +94,9 @@ export class CfsUserRegistration extends Entity {
   })
   modifiedOn?: string;
 
-  @hasMany(() => Payments, {keyTo: 'userId'})
-  payments: Payments[];
+
+  @hasMany(() => PaymentCreditLimit, {keyTo: 'userId'})
+  paymentcreditlimit: PaymentCreditLimit[];
 
   @hasMany(() => Paymentreceived, {keyTo: 'userId'})
   paymentsReceived: Paymentreceived[];
@@ -107,6 +108,9 @@ export class CfsUserRegistration extends Entity {
   // Indexer property to allow additional data
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [prop: string]: any;
+
+  paymentData: Paymenthistory;
+
 
   constructor(data?: Partial<CfsUserRegistration>) {
     super(data);

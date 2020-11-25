@@ -1,4 +1,5 @@
 export * from './batch-filter.model';
+export * from './bid-action.model';
 export * from './bid-filter.model';
 export * from './bid-rate.model';
 export * from './bid.model';
@@ -14,12 +15,17 @@ export * from './dashboard.model';
 export * from './diesel-rate-master.model';
 export * from './driver.model';
 export * from './drivertransportermapping.model';
+export * from './four-param-obj.model';
 export * from './location-master.model';
 export * from './master-type.model';
 export * from './mileage-master.model';
 export * from './notification.model';
 export * from './order.model';
 export * from './orderFilter.model';
+export * from './payment-mode.model';
+export * from './paymentcreditlimit.model';
+export * from './paymenthistory.model';
+export * from './paymentreceived.model';
 export * from './permission.model';
 export * from './permissionrolemapping.model';
 export * from './port-cfs-rate-master.model';
@@ -52,9 +58,4 @@ export * from './zone-master.model';
 
 
 
-export * from './bid-action.model';
-export * from './payments.model';
-export * from './paymentreceived.model';
-export * from './paymenthistory.model';
-export * from './four-param-obj.model';
-export * from './payment-mode.model';
+

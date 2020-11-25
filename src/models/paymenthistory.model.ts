@@ -31,6 +31,12 @@ export class Paymenthistory extends Entity {
     type: 'number',
     required: true,
   })
+  Outstanding: number;
+
+  @property({
+    type: 'number',
+    required: true,
+  })
   createdBy: number;
 
   @property({
