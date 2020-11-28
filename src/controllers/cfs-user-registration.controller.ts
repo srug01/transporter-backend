@@ -21,7 +21,7 @@ import {
 import {toJSON} from '@loopback/testlab';
 import {pick} from 'lodash';
 import {UserServiceBindings} from '../keys';
-import {CfsUserRegistration, Paymenthistory, Paymentreceived, Payments, User} from '../models';
+import {CfsUserRegistration, PaymentCreditLimit, Paymenthistory, Paymentreceived, User} from '../models';
 import {CfsUserRegistrationRepository, UserRepository, UserroleRepository} from '../repositories';
 import {MyUserService} from '../services/user-service';
 
@@ -203,16 +203,24 @@ export class CfsUserRegistrationController {
   })
   async findbyUserId(
     @param.path.number('id') id: number,
-    @param.query.object('filter') paymentfilter?: Filter<Payments>,
+    @param.query.object('filter') paymentfilter?: Filter<PaymentCreditLimit>,
     @param.query.object('filter') paymentrecievedfilter?: Filter<Paymentreceived>,
     @param.query.object('filter') paymentHistoryfilter?: Filter<Paymenthistory>,
       ): Promise<CfsUserRegistration> {
     const cfsUser = await this.cfsUserRegistrationRepository.find({where: {userId: id}});
     if(cfsUser.length > 0)
     {
-      cfsUser[0].payments = await this.cfsUserRegistrationRepository.payments(id).find(paymentfilter);
+      cfsUser[0].paymentcreditlimit = await this.cfsUserRegistrationRepository.paymentcreditlimit(id).find(paymentfilter);
       cfsUser[0].paymentsReceived = await this.cfsUserRegistrationRepository.paymentsReceived(id).find(paymentrecievedfilter);
-      cfsUser[0].paymenthistories = await this.cfsUserRegistrationRepository.paymenthistories(id).find(paymentHistoryfilter);
+      cfsUser[0].paymenthistories = await this.cfsUserRegistrationRepository.paymenthistories(id).find(paymentHistoryfilter = {"order" : ["paymenthistoryId DESC"]});
+      if(cfsUser[0].paymenthistories.length > 0)
+      {
+      cfsUser[0].paymentData = cfsUser[0].paymenthistories[0];
+      }
+      else
+      {
+        cfsUser[0].paymentData = { AvailableLimit :0 , creditLimit: 0 ,Outstanding :0 } as Paymenthistory;
+      }
     }
     else
     {

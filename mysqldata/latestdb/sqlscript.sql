@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `transporter` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `transporter`;
 -- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
 --
 -- Host: localhost    Database: transporter
@@ -604,6 +602,36 @@ INSERT INTO `order` VALUES (1000009,3,'2020-11-19 13:00:00',3,2,2,'YARD','CFS','
 UNLOCK TABLES;
 
 --
+-- Table structure for table `paymentcreditlimit`
+--
+
+DROP TABLE IF EXISTS `paymentcreditlimit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `paymentcreditlimit` (
+  `paymentId` int NOT NULL AUTO_INCREMENT,
+  `userId` int NOT NULL,
+  `date` varchar(512) DEFAULT NULL,
+  `creditLimit` int NOT NULL,
+  `createdBy` int NOT NULL,
+  `createdOn` varchar(512) DEFAULT NULL,
+  `modifiedBy` int DEFAULT NULL,
+  `modifiedOn` varchar(512) DEFAULT NULL,
+  PRIMARY KEY (`paymentId`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `paymentcreditlimit`
+--
+
+LOCK TABLES `paymentcreditlimit` WRITE;
+/*!40000 ALTER TABLE `paymentcreditlimit` DISABLE KEYS */;
+INSERT INTO `paymentcreditlimit` VALUES (1,14,'2020-11-22',300000,1,'2020-11-22',NULL,NULL),(2,14,'2020-11-22',200000,1,'2020-11-22',NULL,NULL);
+/*!40000 ALTER TABLE `paymentcreditlimit` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `paymenthistory`
 --
 
@@ -615,12 +643,13 @@ CREATE TABLE `paymenthistory` (
   `userId` int NOT NULL,
   `creditLimit` int NOT NULL,
   `AvailableLimit` int NOT NULL,
+  `Outstanding` int NOT NULL DEFAULT '0',
   `createdBy` int NOT NULL,
   `createdOn` varchar(512) NOT NULL,
   `modifiedBy` int DEFAULT NULL,
   `modifiedOn` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`paymenthistoryId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -629,7 +658,7 @@ CREATE TABLE `paymenthistory` (
 
 LOCK TABLES `paymenthistory` WRITE;
 /*!40000 ALTER TABLE `paymenthistory` DISABLE KEYS */;
-INSERT INTO `paymenthistory` VALUES (1,14,500000,450000,1,'2020-11-24',NULL,NULL);
+INSERT INTO `paymenthistory` VALUES (1,14,500000,450000,50000,1,'2020-11-24',NULL,NULL),(2,14,500000,400000,50000,2,'2020-11-25',NULL,NULL),(3,15,200000,0,200000,10,'2020-11-24',NULL,NULL);
 /*!40000 ALTER TABLE `paymenthistory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -692,36 +721,6 @@ LOCK TABLES `paymentreceived` WRITE;
 /*!40000 ALTER TABLE `paymentreceived` DISABLE KEYS */;
 INSERT INTO `paymentreceived` VALUES (1,14,'2020-11-24',50000,1,'001AAA','Test',1,'2020-11-24',NULL,NULL),(2,14,'2020-11-20',100000,1,'001AAB','Test',1,'2020-11-24',NULL,NULL);
 /*!40000 ALTER TABLE `paymentreceived` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `payments`
---
-
-DROP TABLE IF EXISTS `payments`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `payments` (
-  `paymentId` int NOT NULL AUTO_INCREMENT,
-  `userId` int NOT NULL,
-  `date` varchar(512) DEFAULT NULL,
-  `creditLimit` int NOT NULL,
-  `createdBy` int NOT NULL,
-  `createdOn` varchar(512) DEFAULT NULL,
-  `modifiedBy` int DEFAULT NULL,
-  `modifiedOn` varchar(512) DEFAULT NULL,
-  PRIMARY KEY (`paymentId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `payments`
---
-
-LOCK TABLES `payments` WRITE;
-/*!40000 ALTER TABLE `payments` DISABLE KEYS */;
-INSERT INTO `payments` VALUES (1,14,'2020-11-22',300000,1,'2020-11-22',NULL,NULL),(2,14,'2020-11-22',200000,1,'2020-11-22',NULL,NULL);
-/*!40000 ALTER TABLE `payments` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -5042,4 +5041,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-24  1:06:57
+-- Dump completed on 2020-11-26  3:18:54
