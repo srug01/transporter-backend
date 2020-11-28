@@ -55,6 +55,14 @@ export class Paymenthistory extends Entity {
   })
   modifiedOn?: string;
 
+// Indexer property to allow additional data
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [prop: string]: any;
+
+
+  isCredit?:boolean;
+  amount?:number;
+
 
   constructor(data?: Partial<Paymenthistory>) {
     super(data);
