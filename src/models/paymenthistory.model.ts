@@ -10,38 +10,32 @@ export class Paymenthistory extends Entity {
   paymenthistoryId?: number;
 
   @property({
-    type: 'number',
-    required: true,
+    type: 'number'
   })
   userId: number;
 
   @property({
-    type: 'number',
-    required: true,
+    type: 'number'
   })
   creditLimit: number;
 
   @property({
-    type: 'number',
-    required: true,
+    type: 'number'
   })
   AvailableLimit: number;
 
   @property({
-    type: 'number',
-    required: true,
+    type: 'number'
   })
   Outstanding?: number;
 
   @property({
-    type: 'number',
-    required: true,
+    type: 'number'
   })
   createdBy: number;
 
   @property({
-    type: 'string',
-    required: true,
+    type: 'string'
   })
   createdOn: string;
 
@@ -55,6 +49,7 @@ export class Paymenthistory extends Entity {
   })
   modifiedOn?: string;
 
+<<<<<<< HEAD
   @property({
     type: 'number',
   })
@@ -141,10 +136,18 @@ export class Paymenthistory extends Entity {
   })
   paymentType?: number;
 // Indexer property to allow additional data
+=======
+  // Indexer property to allow additional data
+>>>>>>> f7fbe9bc2f6785e3a511e4a303f5911d7b916520
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [prop: string]: any;
 
 
+<<<<<<< HEAD
+=======
+  isCredit?: boolean;
+  amount?: number;
+>>>>>>> f7fbe9bc2f6785e3a511e4a303f5911d7b916520
 
 
   constructor(data?: Partial<Paymenthistory>) {
