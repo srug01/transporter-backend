@@ -17,7 +17,8 @@ import {
 } from '@loopback/rest';
 import {
   CfsUserRegistration,
-  PaymentCreditLimit
+  PaymentCreditLimit,
+  Paymenthistory
 } from '../models';
 import {CfsUserRegistrationRepository} from '../repositories';
 
@@ -67,6 +68,15 @@ export class CfsUserRegistrationPaymentCreditLimitController {
       },
     }) paymentcreditlimit: Omit<PaymentCreditLimit, 'paymentId'>,
   ): Promise<PaymentCreditLimit> {
+    const paymentHistory = {
+      userId: paymentcreditlimit.userId,
+      creditLimit: paymentcreditlimit.creditLimit,
+      AvailableLimit: paymentcreditlimit.creditLimit,
+      Outstanding: 0,
+      createdBy: paymentcreditlimit.createdBy,
+      createdOn: paymentcreditlimit.createdOn
+    } as Paymenthistory;
+    // const paymenthistory = await this.cfsUserRegistrationRepository.paymenthistories(id).create(paymentHistory);
     return this.cfsUserRegistrationRepository.paymentcreditlimit(id).create(paymentcreditlimit);
   }
 
