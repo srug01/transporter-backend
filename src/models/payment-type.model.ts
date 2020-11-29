@@ -1,35 +1,19 @@
 import {Entity, model, property} from '@loopback/repository';
 
 @model()
-export class PaymentCreditLimit extends Entity {
+export class PaymentType extends Entity {
   @property({
     type: 'number',
     id: true,
     generated: true,
   })
-  paymentId?: number;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  userId: number;
+  paymentTypeId?: number;
 
   @property({
     type: 'string',
-  })
-  creditDate?: string;
-
-  @property({
-    type: 'number',
     required: true,
-    mysql: {
-      dataType: 'decimal',
-      precision: 10,
-      scale: 2
-    }
   })
-  creditLimit: number;
+  paymentType: string;
 
   @property({
     type: 'number',
@@ -39,6 +23,7 @@ export class PaymentCreditLimit extends Entity {
 
   @property({
     type: 'string',
+    required: true,
   })
   createdOn: string;
 
@@ -52,14 +37,13 @@ export class PaymentCreditLimit extends Entity {
   })
   modifiedOn?: string;
 
-
-  constructor(data?: Partial<PaymentCreditLimit>) {
+  constructor(data?: Partial<PaymentType>) {
     super(data);
   }
 }
 
-export interface PaymentCreditLimitRelations {
+export interface PaymentTypeRelations {
   // describe navigational properties here
 }
 
-export type PaymentCreditLimitWithRelations = PaymentCreditLimit & PaymentCreditLimitRelations;
+export type PaymentTypeWithRelations = PaymentType & PaymentTypeRelations;

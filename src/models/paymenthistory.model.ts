@@ -31,7 +31,7 @@ export class Paymenthistory extends Entity {
     type: 'number',
     required: true,
   })
-  Outstanding: number;
+  Outstanding?: number;
 
   @property({
     type: 'number',
@@ -55,13 +55,96 @@ export class Paymenthistory extends Entity {
   })
   modifiedOn?: string;
 
+  @property({
+    type: 'number',
+  })
+  orderId?: number;
+
+  @property({
+    type: 'string',
+  })
+  orderDate?: string;
+
+  @property({
+    type: 'number',
+    mysql: {
+      dataType: 'decimal',
+      precision: 10,
+      scale: 2
+    }
+  })
+  orderAmount?: number;
+
+  @property({
+    type: 'string',
+  })
+  paymentReceivedDate?: string;
+
+  @property({
+    type: 'number',
+    mysql: {
+      dataType: 'decimal',
+      precision: 10,
+      scale: 2
+    }
+  })
+  paymentReceivedAmount?: number;
+
+  @property({
+    type: 'number',
+
+  })
+  paymentReceivedId?: number;
+
+  @property({
+    type: 'number',
+    mysql: {
+      dataType: 'decimal',
+      precision: 10,
+      scale: 2
+    }
+  })
+  creditAmount?: number;
+
+  @property({
+    type: 'string',
+  })
+  creditDate?: string;
+
+  @property({
+    type: 'number',
+    mysql: {
+      dataType: 'decimal',
+      precision: 10,
+      scale: 2
+    }
+  })
+  availableLimitAmount?: number;
+
+  @property({
+    type: 'string',
+  })
+  availableLimitDate?: string;
+
+  @property({
+    type: 'number',
+    mysql: {
+      dataType: 'decimal',
+      precision: 10,
+      scale: 2
+    }
+  })
+  balanceAmount?: number;
+
+  @property({
+    type: 'number',
+  })
+  paymentType?: number;
 // Indexer property to allow additional data
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [prop: string]: any;
 
 
-  isCredit?:boolean;
-  amount?:number;
 
 
   constructor(data?: Partial<Paymenthistory>) {

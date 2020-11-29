@@ -26,7 +26,9 @@ import {
   LocationMaster,
   OrderFilter,
 
-  Paymenthistory,
+
+
+  PaymenthistoryFilter,
 
   SubOrderFilter,
   ThreeparamObj,
@@ -1533,7 +1535,7 @@ export class CallProcedureController {
         description: 'save payment history',
         content: {
           'application/json': {
-            schema: {type: 'array', items: getModelSchemaRef(Paymenthistory)},
+            schema: {type: 'array', items: getModelSchemaRef(PaymenthistoryFilter)},
           },
         },
       },
@@ -1544,20 +1546,21 @@ export class CallProcedureController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Paymenthistory, {
-            title: 'Filter',
+          schema: getModelSchemaRef(PaymenthistoryFilter, {
+            title: 'PaymenthistoryFilter',
           }),
         },
       },
     })
-    queryObj: Paymenthistory,
+    queryObj: PaymenthistoryFilter,
   ): Promise<AnyObject> {
     // console.log(queryObj);
-    const sqlStmt = mysql.format('CALL savePaymentHistory(?,?,?,?)', [
-      queryObj.userId,
-      queryObj.createdBy,
-      queryObj.isCredit,
+    const sqlStmt = mysql.format('CALL savePaymentHistory(?,?,?,?,?)', [
+      queryObj.cfsuserId,
+      queryObj.adminuserId,
       queryObj.amount,
+      queryObj.dateVal,
+      queryObj.paymentType
     ]);
     const connection = mysql.createConnection(mysqlCreds);
     return new Promise<any>(function (resolve, reject) {

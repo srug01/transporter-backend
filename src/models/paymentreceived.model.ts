@@ -24,6 +24,11 @@ export class Paymentreceived extends Entity {
   @property({
     type: 'number',
     required: true,
+    mysql: {
+      dataType: 'decimal',
+      precision: 10,
+      scale: 2
+    }
   })
   Amount: number;
 
