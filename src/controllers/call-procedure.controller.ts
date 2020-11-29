@@ -34,8 +34,12 @@ import {
 } from '../models';
 import {CallProcedureService} from './../services/call-procedure.service';
 
+interface PaymenthistoryInterface {
 
-interface Trip{
+}
+
+
+interface Trip {
   subOrderId: number,
   tripstatus: string,
   startDate: string,
@@ -46,7 +50,7 @@ interface Trip{
   tripId: number,
   TransporterName: string,
   OrderContainer: string,
-  Orderweight:string,
+  Orderweight: string,
 }
 
 interface Bid {
@@ -188,7 +192,7 @@ export class CallProcedureController {
     @param.path.string('userid') userid: string,
     @param.path.string('roleid') roleid: string,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Promise<any> {
+    Promise<any> {
     const sqlStmt = mysql.format('CALL MULTIPLETABLES(?,?)', [userid, roleid]);
     const connection = mysql.createConnection(mysqlCreds);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -280,7 +284,7 @@ export class CallProcedureController {
     @param.path.string('containerMasterId') containerMasterId: number,
     @param.path.string('portyardid') portyardid: number,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Promise<any> {
+    Promise<any> {
     const sqlStmt = mysql.format(
       'CALL GetAllCFSWeightsbyUserandContainerId(?,?,?,?)',
       [userid, typeid, containerMasterId, portyardid],
@@ -316,7 +320,7 @@ export class CallProcedureController {
     @param.path.string('typeid') typeid: number,
     @param.path.string('portyardid') portyardid: number,
   ): // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Promise<any> {
+    Promise<any> {
     const sqlStmt = mysql.format('CALL getAllCFSContainersbyUserId(?,?,?)', [
       userid,
       typeid,
@@ -569,10 +573,10 @@ export class CallProcedureController {
   ): Promise<any> {
     const sqlStmt = mysql.format('CALL procGetOrderDetails(?)', [orderId]);
     const connection = mysql.createConnection(mysqlCreds);
-    return new Promise<any>( (resolve, reject) => {
+    return new Promise<any>((resolve, reject) => {
       const order: any = {};
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      connection.query(sqlStmt, async  (err: any, results: any) => {
+      connection.query(sqlStmt, async (err: any, results: any) => {
         if (err !== null) return reject(err);
         // console.log('Result : ' + results[0].length);
         if (results[0].length > 0) {
@@ -583,27 +587,26 @@ export class CallProcedureController {
           order.sourceName = results[0][0].sourceName;
           order.destinationName = results[0][0].destinationName;
           order.terminal = results[0][0].terminal
-          ? results[0][0].terminal
-          : '';
+            ? results[0][0].terminal
+            : '';
           order.orderRemarks = results[0][0].orderRemarks
-          ? results[0][0].orderRemarks
-          : '';
+            ? results[0][0].orderRemarks
+            : '';
           order.orderStatus = results[0][0].orderStatus
-          ? results[0][0].orderStatus
-          : '';
+            ? results[0][0].orderStatus
+            : '';
           order.orderDate = results[0][0].orderDate;
           order.totalRate = results[0][0].totalRate;
           order.cutOffTime = results[0][0].cutOffTime;
 
-          const subOrd:SubOrder[] = [];
+          const subOrd: SubOrder[] = [];
 
           const subOrders = await this._callProcedureService.GetSubOrdersByOrderId(order.orderId);
-           for (const suborder of subOrders) {
+          for (const suborder of subOrders) {
 
             const subbids: Bid[] = [];
             const subordbids = await this._callProcedureService.GetBidsBySubOrderId(suborder.subOrderId);
-            for (const b of subordbids)
-            {
+            for (const b of subordbids) {
               const bidObj: Bid = {
                 bidSeq: b.bidSeq,
                 exhibitionDate: b.exhibitionDate,
@@ -617,7 +620,7 @@ export class CallProcedureController {
               };
               subbids.push(bidObj);
             }
-            const tripObj =  await this._callProcedureService.GetTripBySubOrderId(suborder.subOrderId);
+            const tripObj = await this._callProcedureService.GetTripBySubOrderId(suborder.subOrderId);
             const subobj: SubOrder = {
               orderId: suborder.orderId,
               subOrderId: suborder.subOrderId,
@@ -629,7 +632,7 @@ export class CallProcedureController {
               SubOrderDate: suborder.SubOrderDate,
               bidAwarded: suborder.bidAwarded,
               bids: subbids,
-              trip:tripObj
+              trip: tripObj
             };
             subOrd.push(subobj);
           }
@@ -912,66 +915,65 @@ export class CallProcedureController {
     // getTripbySubOrderId for Trip of a SubOrder
     const sqlStmt = mysql.format('CALL repTreeViewOrder()');
     const connection = mysql.createConnection(mysqlCreds);
-    return new Promise<any>( (resolve, reject) => {
+    return new Promise<any>((resolve, reject) => {
       const ordObj: OrderDetails[] = [];
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      connection.query(sqlStmt, async  (err: any, results: any) => {
+      connection.query(sqlStmt, async (err: any, results: any) => {
         if (err !== null) return reject(err);
         // console.log('Called' + JSON.stringify(results[0]));
         if (results[0].length > 0) {
           for (const ord of results[0]) {
-            const subOrd:SubOrder[] = [];
+            const subOrd: SubOrder[] = [];
 
-          const subOrders = await this._callProcedureService.GetSubOrdersByOrderId(ord.orderId);
-           for (const suborder of subOrders) {
-            const subbids: Bid[] = [];
+            const subOrders = await this._callProcedureService.GetSubOrdersByOrderId(ord.orderId);
+            for (const suborder of subOrders) {
+              const subbids: Bid[] = [];
 
-            const subordbids = await this._callProcedureService.GetBidsBySubOrderId(suborder.subOrderId);
-            for (const b of subordbids)
-            {
-              const bidObj: Bid = {
-                bidSeq: b.bidSeq,
-                exhibitionDate: b.exhibitionDate,
-                subOrderId: b.subOrderId,
-                bidValue: b.bidValue,
-                biduserStatus: b.biduserStatus,
-                originalRate: b.originalRate
+              const subordbids = await this._callProcedureService.GetBidsBySubOrderId(suborder.subOrderId);
+              for (const b of subordbids) {
+                const bidObj: Bid = {
+                  bidSeq: b.bidSeq,
+                  exhibitionDate: b.exhibitionDate,
+                  subOrderId: b.subOrderId,
+                  bidValue: b.bidValue,
+                  biduserStatus: b.biduserStatus,
+                  originalRate: b.originalRate
+                };
+                subbids.push(bidObj);
+              }
+              const tripObj = await this._callProcedureService.GetTripBySubOrderId(suborder.subOrderId);
+              const subobj: SubOrder = {
+                orderId: suborder.orderId,
+                subOrderId: suborder.subOrderId,
+                subOrderSeq: suborder.subOrderSeq,
+                subOrderTotalMargin: suborder.subOrderTotalMargin,
+                suborderStatus: suborder.suborderStatus,
+                containerMasterName: suborder.containerMasterName,
+                weightDesc: suborder.weightDesc,
+                SubOrderDate: suborder.SubOrderDate,
+                bids: subbids,
+                trip: tripObj
               };
-              subbids.push(bidObj);
+              subOrd.push(subobj);
             }
-            const tripObj =  await this._callProcedureService.GetTripBySubOrderId(suborder.subOrderId);
-            const subobj: SubOrder = {
-              orderId: suborder.orderId,
-              subOrderId: suborder.subOrderId,
-              subOrderSeq: suborder.subOrderSeq,
-              subOrderTotalMargin: suborder.subOrderTotalMargin,
-              suborderStatus: suborder.suborderStatus,
-              containerMasterName: suborder.containerMasterName,
-              weightDesc: suborder.weightDesc,
-              SubOrderDate: suborder.SubOrderDate,
-              bids: subbids,
-              trip:tripObj
-            };
-            subOrd.push(subobj);
+
+
+            const orddetail: OrderDetails = {
+              orderId: ord.orderId,
+              Source: ord.Source,
+              Destination: ord.Destination,
+              Remarks: ord.Remarks,
+              OrderDate: ord.OrderDate,
+              OrderTotal: ord.OrderTotal,
+              orderStatus: ord.orderStatus,
+              subOrders: subOrd
+            }
+
+            ordObj.push(orddetail);
+
           }
-
-
-          const orddetail:OrderDetails = {
-            orderId: ord.orderId,
-            Source: ord.Source,
-            Destination: ord.Destination,
-            Remarks: ord.Remarks,
-            OrderDate: ord.OrderDate,
-            OrderTotal: ord.OrderTotal,
-            orderStatus: ord.orderStatus,
-            subOrders: subOrd
-          }
-
-          ordObj.push(orddetail);
 
         }
-
-      }
         resolve(ordObj);
         connection.end();
       });
@@ -1190,7 +1192,7 @@ export class CallProcedureController {
     if (bidval < lowerLimit) {
       throw new HttpErrors.UnprocessableEntity('Bid Value is too Low');
     }
-    else if(bidval > originalRate){
+    else if (bidval > originalRate) {
       throw new HttpErrors.UnprocessableEntity('Bid Value is too High');
     }
     const sqlStmt = mysql.format('CALL saveBidforTransporter(?,?,?)', [
@@ -1406,7 +1408,7 @@ export class CallProcedureController {
         description: 'Award Bid',
         content: {
           'application/json': {
-            schema: {type: 'array',items: getModelSchemaRef(BidAction)},
+            schema: {type: 'array', items: getModelSchemaRef(BidAction)},
           },
         },
       },
@@ -1448,7 +1450,7 @@ export class CallProcedureController {
         description: 'Award Bid',
         content: {
           'application/json': {
-            schema: {type: 'array',items: getModelSchemaRef(BidAction)},
+            schema: {type: 'array', items: getModelSchemaRef(BidAction)},
           },
         },
       },
@@ -1544,13 +1546,10 @@ export class CallProcedureController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Paymenthistory, {
-            title: 'Filter',
-          }),
         },
       },
     })
-    queryObj: Paymenthistory,
+    queryObj: any,
   ): Promise<AnyObject> {
     // console.log(queryObj);
     const sqlStmt = mysql.format('CALL savePaymentHistory(?,?,?,?)', [
@@ -1559,6 +1558,7 @@ export class CallProcedureController {
       queryObj.isCredit,
       queryObj.amount,
     ]);
+    console.log(queryObj);
     const connection = mysql.createConnection(mysqlCreds);
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
