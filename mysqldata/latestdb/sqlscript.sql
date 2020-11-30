@@ -616,7 +616,7 @@ CREATE TABLE `paymentcreditlimit` (
   `modifiedBy` int DEFAULT NULL,
   `modifiedOn` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`paymentId`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -625,6 +625,7 @@ CREATE TABLE `paymentcreditlimit` (
 
 LOCK TABLES `paymentcreditlimit` WRITE;
 /*!40000 ALTER TABLE `paymentcreditlimit` DISABLE KEYS */;
+INSERT INTO `paymentcreditlimit` VALUES (26,14,'2020-11-30',1000.00,1,'2020-11-30 12:25:39 pm',NULL,NULL),(27,14,'2020-11-30',1000.00,1,'2020-11-30 12:38:11 pm',NULL,NULL),(28,14,'2020-12-01',500.00,1,'2020-11-30 12:49:44 pm',NULL,NULL),(29,14,'2020-11-30',200.00,1,'2020-11-30 12:52:21 pm',NULL,NULL),(30,14,'2020-12-01',100.00,1,'2020-11-30 1:00:56 pm',NULL,NULL);
 /*!40000 ALTER TABLE `paymentcreditlimit` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -658,7 +659,7 @@ CREATE TABLE `paymenthistory` (
   `availableLimitDate` varchar(45) DEFAULT NULL,
   `balanceAmount` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`paymenthistoryId`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -667,7 +668,7 @@ CREATE TABLE `paymenthistory` (
 
 LOCK TABLES `paymenthistory` WRITE;
 /*!40000 ALTER TABLE `paymenthistory` DISABLE KEYS */;
-INSERT INTO `paymenthistory` VALUES (14,14,0,-800,800,'2020-11-29 19:35:43',14,NULL,NULL,1000015,'2020-12-01 00:00:00',800.00,NULL,NULL,NULL,2,NULL,NULL,NULL,NULL,0.00);
+INSERT INTO `paymenthistory` VALUES (14,14,0,-800,800,'2020-11-29 19:35:43',14,NULL,NULL,1000015,'2020-12-01 00:00:00',800.00,NULL,NULL,NULL,2,NULL,NULL,NULL,NULL,0.00),(15,14,1000,1000,0,'2020-11-30 12:25:39',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1000.00,'2020-11-30',NULL,NULL,NULL),(16,14,1000,1000,0,'2020-11-30 12:38:11',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1000.00,'2020-11-30',NULL,NULL,NULL),(17,14,500,500,0,'2020-11-30 12:49:44',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,500.00,'2020-12-01',NULL,NULL,NULL),(18,14,200,200,0,'2020-11-30 12:52:21',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,200.00,'2020-11-30',NULL,NULL,NULL),(19,14,100,100,0,'2020-11-30 13:00:56',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,100.00,'2020-12-01',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `paymenthistory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4686,6 +4687,7 @@ Declare balAmt int default 0;
 Declare cur_outstand int default 0;
 Declare cur_availLimit int default 0;
 Declare cur_bal int default 0;
+Declare cur_credLimit int default 0;
 
 Select creditLimit ,AvailableLimit ,Outstanding,balanceAmount into 
 credLimit,availLimit,outstand,balAmt
@@ -4695,13 +4697,25 @@ order by paymenthistoryId desc limit 1;
 
 If(payment_type = 1) then -- Assign Credit
 
-Insert into transporter.paymenthistory(userId,creditLimit,AvailableLimit,Outstanding,createdOn,createdBy,
-creditAmount,creditDate,paymentType)
-Select userId,creditLimit,creditLimit,0,cast(now() as char),admin_user_Id,creditLimit,creditDate,payment_type
+If(creditLimit = 0) then
+	set cur_credLimit = amount;
+	set cur_availLimit = amount + availLimit;
+    set cur_outstand = case when amount > outstand then 0 else amount - outstand end;
+    set cur_bal = amount - outstand;
+Else
+	Select creditLimit,creditLimit,0,0 into cur_credLimit,cur_availLimit,cur_outstand,cur_bal
 from transporter.paymentcreditlimit where userId = cfs_user_Id
 order by paymentId desc limit 1;
-/*values
-(cfs_user_Id,credLimit,availLimit,outstand,cast(now() as char),admin_user_Id,credLimit,dt_val,payment_type);*/
+End If;    
+
+Insert into transporter.paymenthistory(userId,creditLimit,AvailableLimit,Outstanding,balanceAmount,createdOn,createdBy,
+creditAmount,creditDate,paymentType)
+Select cfs_user_Id,cur_credLimit,cur_availLimit,cur_outstand,cur_bal,cast(now() as char),admin_user_Id,
+amount,dt_val,payment_type;
+/*Select userId,creditLimit,creditLimit,0,cast(now() as char),admin_user_Id,creditLimit,creditDate,payment_type
+from transporter.paymentcreditlimit where userId = cfs_user_Id
+order by paymentId desc limit 1;*/
+
 
 elseif(payment_type = 3) then -- Against Ledger
 
@@ -4724,8 +4738,13 @@ paymentReceivedAmount,paymentReceivedDate,balanceAmount,paymentType)
 Select cfs_user_Id,credLimit,cur_availLimit,cur_outstand,cast(now() as char),admin_user_Id,amount,dt_val,cur_bal
 ,payment_type;
 
+elseif(payment_type = 4) then -- Against Available Limit
 
-
+set cur_availLimit = availLimit + amount;
+Insert into transporter.paymenthistory(userId,creditLimit,AvailableLimit,Outstanding,createdOn,createdBy,
+availableLimitAmount,availableLimitDate,balanceAmount,paymentType)
+Select cfs_user_Id,credLimit,cur_availLimit,outstand,cast(now() as char),admin_user_Id,amount,dt_val,balAmt
+,payment_type;
 
 End If;
 
@@ -5192,4 +5211,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-29 19:37:27
+-- Dump completed on 2020-11-30 15:17:09
