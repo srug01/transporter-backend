@@ -219,7 +219,7 @@ export class CfsUserRegistrationController {
       }
       else
       {
-        cfsUser[0].paymentData = { AvailableLimit :0 , creditLimit: 0 ,Outstanding :0 } as Paymenthistory;
+        cfsUser[0].paymentData = { AvailableLimit :0 , creditLimit: 0 ,Outstanding :0, balanceAmount: 0 } as Paymenthistory;
       }
     }
     else
