@@ -40,7 +40,7 @@ CREATE TABLE `bid` (
   `CutOffTime` datetime DEFAULT NULL,
   `BidScheduleId` int DEFAULT NULL,
   PRIMARY KEY (`bidId`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -49,6 +49,7 @@ CREATE TABLE `bid` (
 
 LOCK TABLES `bid` WRITE;
 /*!40000 ALTER TABLE `bid` DISABLE KEYS */;
+INSERT INTO `bid` VALUES (46,360,NULL,128,0,21,'2020-12-01 23:28:42',0,0,NULL,324,NULL,'BID_ASSIGNED',2,'2020-12-01 23:30:13',4),(47,360,NULL,129,0,21,'2020-12-01 23:28:48',0,0,NULL,324,NULL,'BID_ASSIGNED',2,'2020-12-01 23:30:13',4),(48,360,NULL,131,0,21,'2020-12-01 23:29:01',0,0,NULL,324,NULL,'BID_ASSIGNED',2,'2020-12-01 23:30:13',5),(49,360,NULL,132,0,21,'2020-12-01 23:29:32',0,0,NULL,324,NULL,'BID_ASSIGNED',2,'2020-12-01 23:30:13',5),(50,360,NULL,134,0,21,'2020-12-01 23:29:46',0,0,NULL,324,NULL,'BID_ASSIGNED',2,'2020-12-01 23:30:13',5),(51,360,NULL,135,0,21,'2020-12-01 23:29:58',0,0,NULL,324,NULL,'BID_ASSIGNED',2,'2020-12-01 23:30:13',5);
 /*!40000 ALTER TABLE `bid` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -105,7 +106,7 @@ CREATE TABLE `bidusermapping` (
   `modifiedOn` datetime DEFAULT NULL,
   `bidSeq` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`bidusermappingId`)
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -114,6 +115,7 @@ CREATE TABLE `bidusermapping` (
 
 LOCK TABLES `bidusermapping` WRITE;
 /*!40000 ALTER TABLE `bidusermapping` DISABLE KEYS */;
+INSERT INTO `bidusermapping` VALUES (68,46,21,350,'BID_USER_CONFIRMED',5,21,'2020-12-01 23:28:42',NULL,NULL,'1000015001001'),(69,47,21,340,'BID_USER_CONFIRMED',5,21,'2020-12-01 23:28:48',NULL,NULL,'1000015002001'),(70,48,21,325,'BID_USER_CONFIRMED',5,21,'2020-12-01 23:29:01',NULL,NULL,'1000016001001'),(71,49,21,324,'BID_USER_CONFIRMED',5,21,'2020-12-01 23:29:32',NULL,NULL,'1000016002001'),(72,50,21,360,'BID_USER_CONFIRMED',5,21,'2020-12-01 23:29:46',NULL,NULL,'1000017001001'),(73,51,21,331,'BID_USER_CONFIRMED',5,21,'2020-12-01 23:29:58',NULL,NULL,'1000017002001');
 /*!40000 ALTER TABLE `bidusermapping` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -540,7 +542,7 @@ CREATE TABLE `notification` (
   `assignedToRole` int DEFAULT NULL,
   `assignedToUser` int DEFAULT NULL,
   PRIMARY KEY (`notificationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=126 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -549,7 +551,7 @@ CREATE TABLE `notification` (
 
 LOCK TABLES `notification` WRITE;
 /*!40000 ALTER TABLE `notification` DISABLE KEYS */;
-INSERT INTO `notification` VALUES (1,'orders','CFS User CFS User placed a new Order on 2020-09-01!',2,NULL,4,'2020-08-31 19:08:48',0,1,NULL),(2,'orders','Transporter ALC confirmed a bid on 2020-09-01!',1,NULL,5,'2020-08-31 19:11:07',0,1,NULL),(3,'orders','Transporter ALC confirmed a bid on 2020-09-01!',1,NULL,5,'2020-08-31 19:11:14',0,1,NULL),(4,'orders','Transporter2 ALC confirmed a bid on 2020-09-01!',1,NULL,6,'2020-08-31 19:13:03',0,1,NULL),(5,'orders','Transporter2 ALC confirmed a bid on 2020-09-01!',1,NULL,6,'2020-08-31 19:13:07',0,1,NULL),(6,'orders','Gaurav CFS Super Admin Gaurav CFS Super Admin placed a new Order on 2020-09-01!',3,NULL,9,'2020-08-31 20:40:03',0,1,NULL),(7,'orders','undefined placed a new Order on 2020-09-20!',4,NULL,9,'2020-09-20 06:27:12',0,1,NULL),(8,'orders','undefined placed a new Order on 2020-09-21!',5,NULL,9,'2020-09-20 18:49:53',0,1,NULL),(9,'orders','undefined placed a new Order on 2020-09-21!',6,NULL,9,'2020-09-20 19:08:46',0,1,NULL),(10,'orders','Transporter ALC confirmed a bid on 2020-09-21!',1,NULL,5,'2020-09-20 19:11:05',0,1,NULL),(11,'orders','Transporter ALC confirmed a bid on 2020-09-21!',1,NULL,5,'2020-09-20 19:11:18',0,1,NULL),(12,'orders','Transporter2 ALC confirmed a bid on 2020-09-21!',1,NULL,6,'2020-09-20 19:13:21',0,1,NULL),(13,'orders','Transporter ALC confirmed a bid on 2020-09-21!',1,NULL,5,'2020-09-20 19:33:58',0,1,NULL),(14,'orders','Transporter2 ALC confirmed a bid on 2020-09-21!',1,NULL,6,'2020-09-20 19:34:28',0,1,NULL),(15,'orders','undefined placed a new Order on 2020-09-25!',7,NULL,9,'2020-09-24 20:34:26',0,1,NULL),(16,'orders','undefined placed a new Order on 2020-09-26!',8,NULL,9,'2020-09-25 21:38:52',0,1,NULL),(17,'orders','Transporter ALC confirmed a bid on 2020-09-26!',1,NULL,5,'2020-09-26 15:11:23',0,1,NULL),(18,'orders','Transporter ALC confirmed a bid on 2020-09-26!',1,NULL,5,'2020-09-26 15:15:41',0,1,NULL),(19,'orders','undefined placed a new Order on 2020-09-27!',9,NULL,12,'2020-09-26 18:40:23',0,1,NULL),(20,'orders','Transporter ALC confirmed a bid on 2020-09-27!',1,NULL,5,'2020-09-26 18:43:28',0,1,NULL),(21,'orders','Transporter2 ALC confirmed a bid on 2020-09-27!',1,NULL,6,'2020-09-26 18:56:28',0,1,NULL),(22,'orders','Transporter2 ALC confirmed a bid on 2020-09-27!',1,NULL,6,'2020-09-26 18:59:07',0,1,NULL),(23,'orders','Transporter2 ALC confirmed a bid on 2020-09-27!',1,NULL,6,'2020-09-26 19:08:45',0,1,NULL),(24,'orders','Transporter2 ALC confirmed a bid on 2020-09-27!',1,NULL,6,'2020-09-26 19:10:04',0,1,NULL),(25,'orders','Transporter ALC confirmed a bid on 2020-09-27!',1,NULL,5,'2020-09-26 19:27:27',0,1,NULL),(26,'orders','Transporter2 ALC confirmed a bid on 2020-09-27!',1,NULL,6,'2020-09-26 19:30:05',0,1,NULL),(27,'orders','undefined placed a new Order on 2020-09-28!',10,NULL,12,'2020-09-28 16:37:16',0,1,NULL),(28,'orders','Transporter ALC confirmed a bid on 2020-09-28!',1,NULL,5,'2020-09-28 16:38:34',0,1,NULL),(29,'orders','Transporter2 ALC confirmed a bid on 2020-09-28!',1,NULL,6,'2020-09-28 16:39:16',0,1,NULL),(30,'orders','undefined placed a new Order on 2020-10-08!',11,NULL,9,'2020-10-07 19:44:49',0,1,NULL),(31,'orders','undefined placed a new Order on 2020-10-09!',12,NULL,9,'2020-10-09 04:54:56',0,1,NULL),(32,'orders','undefined placed a new Order on 2020-10-09!',13,NULL,9,'2020-10-09 13:29:18',0,1,NULL),(33,'orders','undefined placed a new Order on 2020-10-09!',14,NULL,9,'2020-10-09 13:32:59',0,1,NULL),(34,'orders','undefined placed a new Order on 2020-10-09!',15,NULL,9,'2020-10-09 13:36:32',0,1,NULL),(35,'orders','undefined placed a new Order on 2020-10-09!',16,NULL,9,'2020-10-09 13:39:29',0,1,NULL),(36,'orders','undefined placed a new Order on 2020-10-09!',17,NULL,9,'2020-10-09 13:40:35',0,1,NULL),(37,'orders','undefined placed a new Order on 2020-10-28!',18,NULL,9,'2020-10-27 19:10:34',0,1,NULL),(38,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-27 19:11:44',0,1,NULL),(39,'orders','Transporter2 ALC confirmed a bid on 2020-10-28!',1,NULL,6,'2020-10-27 19:12:11',0,1,NULL),(40,'orders','undefined placed a new Order on 2020-10-28!',19,NULL,9,'2020-10-28 16:43:44',0,1,NULL),(41,'orders','undefined placed a new Order on 2020-10-28!',20,NULL,9,'2020-10-28 16:44:42',0,1,NULL),(42,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 16:46:54',0,1,NULL),(43,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 16:47:02',0,1,NULL),(44,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 16:47:11',0,1,NULL),(45,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 16:47:17',0,1,NULL),(46,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 16:47:27',0,1,NULL),(47,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 16:48:46',0,1,NULL),(48,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 16:49:05',0,1,NULL),(49,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 16:49:12',0,1,NULL),(50,'orders','Transporter2 ALC confirmed a bid on 2020-10-28!',1,NULL,6,'2020-10-28 16:50:33',0,1,NULL),(51,'orders','Transporter2 ALC confirmed a bid on 2020-10-28!',1,NULL,6,'2020-10-28 16:50:44',0,1,NULL),(52,'orders','Transporter2 ALC confirmed a bid on 2020-10-28!',1,NULL,6,'2020-10-28 16:50:50',0,1,NULL),(53,'orders','Transporter2 ALC confirmed a bid on 2020-10-28!',1,NULL,6,'2020-10-28 16:52:06',0,1,NULL),(54,'orders','Transporter2 ALC confirmed a bid on 2020-10-28!',1,NULL,6,'2020-10-28 16:52:44',0,1,NULL),(55,'orders','undefined placed a new Order on 2020-10-28!',21,NULL,9,'2020-10-28 17:13:55',0,1,NULL),(56,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 17:14:51',0,1,NULL),(57,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 17:15:01',0,1,NULL),(58,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 17:15:12',0,1,NULL),(59,'orders','Transporter2 ALC confirmed a bid on 2020-10-28!',1,NULL,6,'2020-10-28 17:16:02',0,1,NULL),(60,'orders','Transporter2 ALC confirmed a bid on 2020-10-28!',1,NULL,6,'2020-10-28 17:16:13',0,1,NULL),(61,'orders','Transporter2 ALC confirmed a bid on 2020-10-28!',1,NULL,6,'2020-10-28 17:16:24',0,1,NULL),(62,'orders','undefined placed a new Order on 2020-10-28!',22,NULL,4,'2020-10-28 17:19:39',0,1,NULL),(63,'orders','undefined placed a new Order on 2020-10-28!',23,NULL,4,'2020-10-28 17:53:50',0,1,NULL),(64,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 17:56:28',0,1,NULL),(65,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 17:57:17',0,1,NULL),(66,'orders','Transporter2 ALC confirmed a bid on 2020-10-28!',1,NULL,6,'2020-10-28 17:58:05',0,1,NULL),(67,'orders','Transporter2 ALC confirmed a bid on 2020-10-28!',1,NULL,6,'2020-10-28 17:58:23',0,1,NULL),(68,'orders','Transporter Third confirmed a bid on 2020-10-28!',1,NULL,15,'2020-10-28 18:04:13',0,1,NULL),(69,'orders','Transporter Third confirmed a bid on 2020-10-28!',1,NULL,15,'2020-10-28 18:04:19',0,1,NULL),(70,'orders','Transporter Third confirmed a bid on 2020-10-28!',1,NULL,15,'2020-10-28 18:05:31',0,1,NULL),(71,'orders','Transporter Third confirmed a bid on 2020-10-28!',1,NULL,15,'2020-10-28 18:05:36',0,1,NULL),(72,'orders','Transporter Third confirmed a bid on 2020-10-28!',1,NULL,15,'2020-10-28 18:05:39',0,1,NULL),(73,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 18:12:03',0,1,NULL),(74,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 18:12:11',0,1,NULL),(75,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 18:12:17',0,1,NULL),(76,'orders','undefined placed a new Order on 2020-11-03!',1000000,NULL,9,'2020-11-03 17:12:45',0,1,NULL),(77,'orders','undefined placed a new Order on 2020-11-03!',1000001,NULL,9,'2020-11-03 18:17:45',0,1,NULL),(78,'orders','undefined placed a new Order on 2020-11-03!',1000002,NULL,9,'2020-11-03 18:19:12',0,1,NULL),(79,'orders','undefined placed a new Order on 2020-11-03!',1000003,NULL,9,'2020-11-03 18:25:10',0,1,NULL),(80,'orders','undefined placed a new Order on 2020-11-03!',1000004,NULL,9,'2020-11-03 18:26:09',0,1,NULL),(81,'orders','undefined placed a new Order on 2020-11-03!',1000005,NULL,9,'2020-11-03 18:26:58',0,1,NULL),(82,'orders','Transporter ALC confirmed a bid on 2020-11-04!',1,NULL,5,'2020-11-03 19:38:32',0,1,NULL),(83,'orders','Transporter ALC confirmed a bid on 2020-11-04!',1,NULL,5,'2020-11-03 19:38:42',0,1,NULL),(84,'orders','Transporter ALC confirmed a bid on 2020-11-04!',1,NULL,5,'2020-11-03 19:40:04',0,1,NULL),(85,'orders','Transporter2 ALC confirmed a bid on 2020-11-04!',1,NULL,6,'2020-11-03 19:44:21',0,1,NULL),(86,'orders','Transporter2 ALC confirmed a bid on 2020-11-04!',1,NULL,6,'2020-11-03 19:46:29',0,1,NULL),(87,'orders','Transporter2 ALC confirmed a bid on 2020-11-04!',1,NULL,6,'2020-11-03 19:46:54',0,1,NULL),(88,'orders','undefined placed a new Order on 2020-11-08!',1000006,NULL,9,'2020-11-08 08:08:31',0,1,NULL),(89,'orders','New Transporter confirmed a bid on 2020-11-08!',1,NULL,21,'2020-11-08 09:25:35',0,1,NULL),(90,'orders','Transporter Third confirmed a bid on 2020-11-09!',1,NULL,15,'2020-11-09 07:06:29',0,1,NULL),(91,'orders','Transporter Third confirmed a bid on 2020-11-09!',1,NULL,15,'2020-11-09 07:06:37',0,1,NULL),(92,'orders','Transporter Third confirmed a bid on 2020-11-09!',1,NULL,15,'2020-11-09 07:06:43',0,1,NULL),(93,'orders','Transporter Third confirmed a bid on 2020-11-09!',1,NULL,15,'2020-11-09 07:06:56',0,1,NULL),(94,'orders','Transporter Third confirmed a bid on 2020-11-09!',1,NULL,15,'2020-11-09 07:14:28',0,1,NULL),(95,'orders','Transporter Third confirmed a bid on 2020-11-09!',1,NULL,15,'2020-11-09 07:15:39',0,1,NULL),(96,'orders','Transporter Third confirmed a bid on 2020-11-09!',1,NULL,15,'2020-11-09 07:31:09',0,1,NULL),(97,'orders','undefined placed a new Order on 2020-11-10!',1000007,NULL,9,'2020-11-09 20:53:57',0,1,NULL),(98,'orders','New Transporter confirmed a bid on 2020-11-10!',1,NULL,21,'2020-11-09 20:54:30',0,1,NULL),(99,'orders','New Transporter confirmed a bid on 2020-11-10!',1,NULL,21,'2020-11-09 20:54:37',0,1,NULL),(100,'orders','New Transporter confirmed a bid on 2020-11-10!',1,NULL,21,'2020-11-09 20:54:43',0,1,NULL),(101,'orders','Transporter Third confirmed a bid on 2020-11-10!',1,NULL,15,'2020-11-09 20:55:14',0,1,NULL),(102,'orders','Transporter Third confirmed a bid on 2020-11-10!',1,NULL,15,'2020-11-09 20:55:21',0,1,NULL),(103,'orders','Transporter Third confirmed a bid on 2020-11-10!',1,NULL,15,'2020-11-09 20:55:29',0,1,NULL),(104,'orders','undefined placed a new Order on 2020-11-10!',1000008,NULL,10,'2020-11-10 17:44:27',0,1,NULL),(105,'orders','undefined placed a new Order on 2020-11-11!',1000009,NULL,9,'2020-11-11 18:02:36',0,1,NULL),(106,'orders','Transporter Third confirmed a bid on 2020-11-11!',1,NULL,15,'2020-11-11 18:04:38',0,1,NULL),(107,'orders','Transporter Third confirmed a bid on 2020-11-11!',1,NULL,15,'2020-11-11 18:05:29',0,1,NULL),(108,'orders','Transporter Third confirmed a bid on 2020-11-11!',1,NULL,15,'2020-11-11 18:05:37',0,1,NULL),(109,'orders','New Transporter confirmed a bid on 2020-11-11!',1,NULL,21,'2020-11-11 18:06:13',0,1,NULL),(110,'orders','New Transporter confirmed a bid on 2020-11-11!',1,NULL,21,'2020-11-11 18:06:20',0,1,NULL),(111,'orders','New Transporter confirmed a bid on 2020-11-11!',1,NULL,21,'2020-11-11 18:06:30',0,1,NULL),(112,'orders','New Transporter confirmed a bid on 2020-11-11!',1,NULL,21,'2020-11-11 18:06:50',0,1,NULL),(113,'orders','undefined placed a new Order on 2020-11-27!',1000010,NULL,9,'2020-11-26 18:50:54',0,1,NULL),(114,'orders','undefined placed a new Order on 2020-11-29!',1000012,NULL,14,'2020-11-29 10:37:43',0,1,NULL),(115,'orders','undefined placed a new Order on 2020-11-29!',1000013,NULL,14,'2020-11-29 12:48:05',0,1,NULL),(116,'orders','undefined placed a new Order on 2020-11-29!',1000014,NULL,14,'2020-11-29 13:07:04',0,1,NULL),(117,'orders','undefined placed a new Order on 2020-11-29!',1000015,NULL,14,'2020-11-29 14:05:43',0,1,NULL),(118,'orders','undefined placed a new Order on 2020-11-30!',1000016,NULL,14,'2020-11-30 09:49:23',0,1,NULL),(119,'orders','undefined placed a new Order on 2020-11-30!',1000017,NULL,14,'2020-11-30 09:55:04',0,1,NULL);
+INSERT INTO `notification` VALUES (1,'orders','CFS User CFS User placed a new Order on 2020-09-01!',2,NULL,4,'2020-08-31 19:08:48',0,1,NULL),(2,'orders','Transporter ALC confirmed a bid on 2020-09-01!',1,NULL,5,'2020-08-31 19:11:07',0,1,NULL),(3,'orders','Transporter ALC confirmed a bid on 2020-09-01!',1,NULL,5,'2020-08-31 19:11:14',0,1,NULL),(4,'orders','Transporter2 ALC confirmed a bid on 2020-09-01!',1,NULL,6,'2020-08-31 19:13:03',0,1,NULL),(5,'orders','Transporter2 ALC confirmed a bid on 2020-09-01!',1,NULL,6,'2020-08-31 19:13:07',0,1,NULL),(6,'orders','Gaurav CFS Super Admin Gaurav CFS Super Admin placed a new Order on 2020-09-01!',3,NULL,9,'2020-08-31 20:40:03',0,1,NULL),(7,'orders','undefined placed a new Order on 2020-09-20!',4,NULL,9,'2020-09-20 06:27:12',0,1,NULL),(8,'orders','undefined placed a new Order on 2020-09-21!',5,NULL,9,'2020-09-20 18:49:53',0,1,NULL),(9,'orders','undefined placed a new Order on 2020-09-21!',6,NULL,9,'2020-09-20 19:08:46',0,1,NULL),(10,'orders','Transporter ALC confirmed a bid on 2020-09-21!',1,NULL,5,'2020-09-20 19:11:05',0,1,NULL),(11,'orders','Transporter ALC confirmed a bid on 2020-09-21!',1,NULL,5,'2020-09-20 19:11:18',0,1,NULL),(12,'orders','Transporter2 ALC confirmed a bid on 2020-09-21!',1,NULL,6,'2020-09-20 19:13:21',0,1,NULL),(13,'orders','Transporter ALC confirmed a bid on 2020-09-21!',1,NULL,5,'2020-09-20 19:33:58',0,1,NULL),(14,'orders','Transporter2 ALC confirmed a bid on 2020-09-21!',1,NULL,6,'2020-09-20 19:34:28',0,1,NULL),(15,'orders','undefined placed a new Order on 2020-09-25!',7,NULL,9,'2020-09-24 20:34:26',0,1,NULL),(16,'orders','undefined placed a new Order on 2020-09-26!',8,NULL,9,'2020-09-25 21:38:52',0,1,NULL),(17,'orders','Transporter ALC confirmed a bid on 2020-09-26!',1,NULL,5,'2020-09-26 15:11:23',0,1,NULL),(18,'orders','Transporter ALC confirmed a bid on 2020-09-26!',1,NULL,5,'2020-09-26 15:15:41',0,1,NULL),(19,'orders','undefined placed a new Order on 2020-09-27!',9,NULL,12,'2020-09-26 18:40:23',0,1,NULL),(20,'orders','Transporter ALC confirmed a bid on 2020-09-27!',1,NULL,5,'2020-09-26 18:43:28',0,1,NULL),(21,'orders','Transporter2 ALC confirmed a bid on 2020-09-27!',1,NULL,6,'2020-09-26 18:56:28',0,1,NULL),(22,'orders','Transporter2 ALC confirmed a bid on 2020-09-27!',1,NULL,6,'2020-09-26 18:59:07',0,1,NULL),(23,'orders','Transporter2 ALC confirmed a bid on 2020-09-27!',1,NULL,6,'2020-09-26 19:08:45',0,1,NULL),(24,'orders','Transporter2 ALC confirmed a bid on 2020-09-27!',1,NULL,6,'2020-09-26 19:10:04',0,1,NULL),(25,'orders','Transporter ALC confirmed a bid on 2020-09-27!',1,NULL,5,'2020-09-26 19:27:27',0,1,NULL),(26,'orders','Transporter2 ALC confirmed a bid on 2020-09-27!',1,NULL,6,'2020-09-26 19:30:05',0,1,NULL),(27,'orders','undefined placed a new Order on 2020-09-28!',10,NULL,12,'2020-09-28 16:37:16',0,1,NULL),(28,'orders','Transporter ALC confirmed a bid on 2020-09-28!',1,NULL,5,'2020-09-28 16:38:34',0,1,NULL),(29,'orders','Transporter2 ALC confirmed a bid on 2020-09-28!',1,NULL,6,'2020-09-28 16:39:16',0,1,NULL),(30,'orders','undefined placed a new Order on 2020-10-08!',11,NULL,9,'2020-10-07 19:44:49',0,1,NULL),(31,'orders','undefined placed a new Order on 2020-10-09!',12,NULL,9,'2020-10-09 04:54:56',0,1,NULL),(32,'orders','undefined placed a new Order on 2020-10-09!',13,NULL,9,'2020-10-09 13:29:18',0,1,NULL),(33,'orders','undefined placed a new Order on 2020-10-09!',14,NULL,9,'2020-10-09 13:32:59',0,1,NULL),(34,'orders','undefined placed a new Order on 2020-10-09!',15,NULL,9,'2020-10-09 13:36:32',0,1,NULL),(35,'orders','undefined placed a new Order on 2020-10-09!',16,NULL,9,'2020-10-09 13:39:29',0,1,NULL),(36,'orders','undefined placed a new Order on 2020-10-09!',17,NULL,9,'2020-10-09 13:40:35',0,1,NULL),(37,'orders','undefined placed a new Order on 2020-10-28!',18,NULL,9,'2020-10-27 19:10:34',0,1,NULL),(38,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-27 19:11:44',0,1,NULL),(39,'orders','Transporter2 ALC confirmed a bid on 2020-10-28!',1,NULL,6,'2020-10-27 19:12:11',0,1,NULL),(40,'orders','undefined placed a new Order on 2020-10-28!',19,NULL,9,'2020-10-28 16:43:44',0,1,NULL),(41,'orders','undefined placed a new Order on 2020-10-28!',20,NULL,9,'2020-10-28 16:44:42',0,1,NULL),(42,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 16:46:54',0,1,NULL),(43,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 16:47:02',0,1,NULL),(44,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 16:47:11',0,1,NULL),(45,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 16:47:17',0,1,NULL),(46,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 16:47:27',0,1,NULL),(47,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 16:48:46',0,1,NULL),(48,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 16:49:05',0,1,NULL),(49,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 16:49:12',0,1,NULL),(50,'orders','Transporter2 ALC confirmed a bid on 2020-10-28!',1,NULL,6,'2020-10-28 16:50:33',0,1,NULL),(51,'orders','Transporter2 ALC confirmed a bid on 2020-10-28!',1,NULL,6,'2020-10-28 16:50:44',0,1,NULL),(52,'orders','Transporter2 ALC confirmed a bid on 2020-10-28!',1,NULL,6,'2020-10-28 16:50:50',0,1,NULL),(53,'orders','Transporter2 ALC confirmed a bid on 2020-10-28!',1,NULL,6,'2020-10-28 16:52:06',0,1,NULL),(54,'orders','Transporter2 ALC confirmed a bid on 2020-10-28!',1,NULL,6,'2020-10-28 16:52:44',0,1,NULL),(55,'orders','undefined placed a new Order on 2020-10-28!',21,NULL,9,'2020-10-28 17:13:55',0,1,NULL),(56,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 17:14:51',0,1,NULL),(57,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 17:15:01',0,1,NULL),(58,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 17:15:12',0,1,NULL),(59,'orders','Transporter2 ALC confirmed a bid on 2020-10-28!',1,NULL,6,'2020-10-28 17:16:02',0,1,NULL),(60,'orders','Transporter2 ALC confirmed a bid on 2020-10-28!',1,NULL,6,'2020-10-28 17:16:13',0,1,NULL),(61,'orders','Transporter2 ALC confirmed a bid on 2020-10-28!',1,NULL,6,'2020-10-28 17:16:24',0,1,NULL),(62,'orders','undefined placed a new Order on 2020-10-28!',22,NULL,4,'2020-10-28 17:19:39',0,1,NULL),(63,'orders','undefined placed a new Order on 2020-10-28!',23,NULL,4,'2020-10-28 17:53:50',0,1,NULL),(64,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 17:56:28',0,1,NULL),(65,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 17:57:17',0,1,NULL),(66,'orders','Transporter2 ALC confirmed a bid on 2020-10-28!',1,NULL,6,'2020-10-28 17:58:05',0,1,NULL),(67,'orders','Transporter2 ALC confirmed a bid on 2020-10-28!',1,NULL,6,'2020-10-28 17:58:23',0,1,NULL),(68,'orders','Transporter Third confirmed a bid on 2020-10-28!',1,NULL,15,'2020-10-28 18:04:13',0,1,NULL),(69,'orders','Transporter Third confirmed a bid on 2020-10-28!',1,NULL,15,'2020-10-28 18:04:19',0,1,NULL),(70,'orders','Transporter Third confirmed a bid on 2020-10-28!',1,NULL,15,'2020-10-28 18:05:31',0,1,NULL),(71,'orders','Transporter Third confirmed a bid on 2020-10-28!',1,NULL,15,'2020-10-28 18:05:36',0,1,NULL),(72,'orders','Transporter Third confirmed a bid on 2020-10-28!',1,NULL,15,'2020-10-28 18:05:39',0,1,NULL),(73,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 18:12:03',0,1,NULL),(74,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 18:12:11',0,1,NULL),(75,'orders','Transporter ALC confirmed a bid on 2020-10-28!',1,NULL,5,'2020-10-28 18:12:17',0,1,NULL),(76,'orders','undefined placed a new Order on 2020-11-03!',1000000,NULL,9,'2020-11-03 17:12:45',0,1,NULL),(77,'orders','undefined placed a new Order on 2020-11-03!',1000001,NULL,9,'2020-11-03 18:17:45',0,1,NULL),(78,'orders','undefined placed a new Order on 2020-11-03!',1000002,NULL,9,'2020-11-03 18:19:12',0,1,NULL),(79,'orders','undefined placed a new Order on 2020-11-03!',1000003,NULL,9,'2020-11-03 18:25:10',0,1,NULL),(80,'orders','undefined placed a new Order on 2020-11-03!',1000004,NULL,9,'2020-11-03 18:26:09',0,1,NULL),(81,'orders','undefined placed a new Order on 2020-11-03!',1000005,NULL,9,'2020-11-03 18:26:58',0,1,NULL),(82,'orders','Transporter ALC confirmed a bid on 2020-11-04!',1,NULL,5,'2020-11-03 19:38:32',0,1,NULL),(83,'orders','Transporter ALC confirmed a bid on 2020-11-04!',1,NULL,5,'2020-11-03 19:38:42',0,1,NULL),(84,'orders','Transporter ALC confirmed a bid on 2020-11-04!',1,NULL,5,'2020-11-03 19:40:04',0,1,NULL),(85,'orders','Transporter2 ALC confirmed a bid on 2020-11-04!',1,NULL,6,'2020-11-03 19:44:21',0,1,NULL),(86,'orders','Transporter2 ALC confirmed a bid on 2020-11-04!',1,NULL,6,'2020-11-03 19:46:29',0,1,NULL),(87,'orders','Transporter2 ALC confirmed a bid on 2020-11-04!',1,NULL,6,'2020-11-03 19:46:54',0,1,NULL),(88,'orders','undefined placed a new Order on 2020-11-08!',1000006,NULL,9,'2020-11-08 08:08:31',0,1,NULL),(89,'orders','New Transporter confirmed a bid on 2020-11-08!',1,NULL,21,'2020-11-08 09:25:35',0,1,NULL),(90,'orders','Transporter Third confirmed a bid on 2020-11-09!',1,NULL,15,'2020-11-09 07:06:29',0,1,NULL),(91,'orders','Transporter Third confirmed a bid on 2020-11-09!',1,NULL,15,'2020-11-09 07:06:37',0,1,NULL),(92,'orders','Transporter Third confirmed a bid on 2020-11-09!',1,NULL,15,'2020-11-09 07:06:43',0,1,NULL),(93,'orders','Transporter Third confirmed a bid on 2020-11-09!',1,NULL,15,'2020-11-09 07:06:56',0,1,NULL),(94,'orders','Transporter Third confirmed a bid on 2020-11-09!',1,NULL,15,'2020-11-09 07:14:28',0,1,NULL),(95,'orders','Transporter Third confirmed a bid on 2020-11-09!',1,NULL,15,'2020-11-09 07:15:39',0,1,NULL),(96,'orders','Transporter Third confirmed a bid on 2020-11-09!',1,NULL,15,'2020-11-09 07:31:09',0,1,NULL),(97,'orders','undefined placed a new Order on 2020-11-10!',1000007,NULL,9,'2020-11-09 20:53:57',0,1,NULL),(98,'orders','New Transporter confirmed a bid on 2020-11-10!',1,NULL,21,'2020-11-09 20:54:30',0,1,NULL),(99,'orders','New Transporter confirmed a bid on 2020-11-10!',1,NULL,21,'2020-11-09 20:54:37',0,1,NULL),(100,'orders','New Transporter confirmed a bid on 2020-11-10!',1,NULL,21,'2020-11-09 20:54:43',0,1,NULL),(101,'orders','Transporter Third confirmed a bid on 2020-11-10!',1,NULL,15,'2020-11-09 20:55:14',0,1,NULL),(102,'orders','Transporter Third confirmed a bid on 2020-11-10!',1,NULL,15,'2020-11-09 20:55:21',0,1,NULL),(103,'orders','Transporter Third confirmed a bid on 2020-11-10!',1,NULL,15,'2020-11-09 20:55:29',0,1,NULL),(104,'orders','undefined placed a new Order on 2020-11-10!',1000008,NULL,10,'2020-11-10 17:44:27',0,1,NULL),(105,'orders','undefined placed a new Order on 2020-11-11!',1000009,NULL,9,'2020-11-11 18:02:36',0,1,NULL),(106,'orders','Transporter Third confirmed a bid on 2020-11-11!',1,NULL,15,'2020-11-11 18:04:38',0,1,NULL),(107,'orders','Transporter Third confirmed a bid on 2020-11-11!',1,NULL,15,'2020-11-11 18:05:29',0,1,NULL),(108,'orders','Transporter Third confirmed a bid on 2020-11-11!',1,NULL,15,'2020-11-11 18:05:37',0,1,NULL),(109,'orders','New Transporter confirmed a bid on 2020-11-11!',1,NULL,21,'2020-11-11 18:06:13',0,1,NULL),(110,'orders','New Transporter confirmed a bid on 2020-11-11!',1,NULL,21,'2020-11-11 18:06:20',0,1,NULL),(111,'orders','New Transporter confirmed a bid on 2020-11-11!',1,NULL,21,'2020-11-11 18:06:30',0,1,NULL),(112,'orders','New Transporter confirmed a bid on 2020-11-11!',1,NULL,21,'2020-11-11 18:06:50',0,1,NULL),(113,'orders','undefined placed a new Order on 2020-11-27!',1000010,NULL,9,'2020-11-26 18:50:54',0,1,NULL),(114,'orders','undefined placed a new Order on 2020-11-29!',1000012,NULL,14,'2020-11-29 10:37:43',0,1,NULL),(115,'orders','undefined placed a new Order on 2020-11-29!',1000013,NULL,14,'2020-11-29 12:48:05',0,1,NULL),(116,'orders','undefined placed a new Order on 2020-11-29!',1000014,NULL,14,'2020-11-29 13:07:04',0,1,NULL),(117,'orders','undefined placed a new Order on 2020-11-29!',1000015,NULL,14,'2020-11-29 14:05:43',0,1,NULL),(118,'orders','undefined placed a new Order on 2020-11-30!',1000016,NULL,14,'2020-11-30 09:49:23',0,1,NULL),(119,'orders','undefined placed a new Order on 2020-11-30!',1000017,NULL,14,'2020-11-30 09:55:04',0,1,NULL),(120,'orders','New Transporter confirmed a bid on 2020-12-01!',1,NULL,21,'2020-12-01 17:58:43',0,1,NULL),(121,'orders','New Transporter confirmed a bid on 2020-12-01!',1,NULL,21,'2020-12-01 17:58:49',0,1,NULL),(122,'orders','New Transporter confirmed a bid on 2020-12-01!',1,NULL,21,'2020-12-01 17:59:01',0,1,NULL),(123,'orders','New Transporter confirmed a bid on 2020-12-01!',1,NULL,21,'2020-12-01 17:59:32',0,1,NULL),(124,'orders','New Transporter confirmed a bid on 2020-12-01!',1,NULL,21,'2020-12-01 17:59:47',0,1,NULL),(125,'orders','New Transporter confirmed a bid on 2020-12-01!',1,NULL,21,'2020-12-01 17:59:58',0,1,NULL);
 /*!40000 ALTER TABLE `notification` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -610,7 +612,7 @@ CREATE TABLE `paymentcreditlimit` (
   `paymentId` int NOT NULL AUTO_INCREMENT,
   `userId` int NOT NULL,
   `creditDate` varchar(512) DEFAULT NULL,
-  `creditLimit` decimal(10,2) NOT NULL,
+  `creditLimit` decimal(10,0) NOT NULL,
   `createdBy` int NOT NULL,
   `createdOn` varchar(512) DEFAULT NULL,
   `modifiedBy` int DEFAULT NULL,
@@ -625,7 +627,7 @@ CREATE TABLE `paymentcreditlimit` (
 
 LOCK TABLES `paymentcreditlimit` WRITE;
 /*!40000 ALTER TABLE `paymentcreditlimit` DISABLE KEYS */;
-INSERT INTO `paymentcreditlimit` VALUES (33,14,'2020-11-30',1000.00,1,'2020-11-30 3:28:11 pm',NULL,NULL),(34,14,'2020-11-30',500.00,1,'2020-11-30 3:28:31 pm',NULL,NULL);
+INSERT INTO `paymentcreditlimit` VALUES (33,14,'2020-11-30',1000,1,'2020-11-30 3:28:11 pm',NULL,NULL),(34,14,'2020-11-30',500,1,'2020-11-30 3:28:31 pm',NULL,NULL);
 /*!40000 ALTER TABLE `paymentcreditlimit` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -638,26 +640,26 @@ DROP TABLE IF EXISTS `paymenthistory`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `paymenthistory` (
   `paymenthistoryId` int NOT NULL AUTO_INCREMENT,
-  `userId` int NOT NULL,
-  `creditLimit` int NOT NULL,
-  `AvailableLimit` int NOT NULL,
-  `Outstanding` int NOT NULL,
-  `createdOn` varchar(512) NOT NULL,
-  `createdBy` int NOT NULL,
+  `userId` int DEFAULT NULL,
+  `creditLimit` int DEFAULT NULL,
+  `AvailableLimit` int DEFAULT NULL,
+  `Outstanding` int DEFAULT NULL,
+  `createdOn` varchar(512) DEFAULT NULL,
+  `createdBy` int DEFAULT NULL,
   `modifiedBy` int DEFAULT NULL,
   `modifiedOn` varchar(512) DEFAULT NULL,
   `orderId` int DEFAULT NULL,
   `orderDate` varchar(512) DEFAULT NULL,
-  `orderAmount` decimal(10,2) DEFAULT NULL,
+  `orderAmount` decimal(10,0) DEFAULT NULL,
   `paymentReceivedDate` varchar(512) DEFAULT NULL,
-  `paymentReceivedAmount` decimal(10,2) DEFAULT NULL,
+  `paymentReceivedAmount` decimal(10,0) DEFAULT NULL,
   `paymentReceivedId` int DEFAULT NULL,
   `paymentType` int DEFAULT NULL,
-  `creditAmount` decimal(10,2) DEFAULT NULL,
-  `creditDate` varchar(45) DEFAULT NULL,
-  `availableLimitAmount` decimal(10,2) DEFAULT NULL,
-  `availableLimitDate` varchar(45) DEFAULT NULL,
-  `balanceAmount` decimal(10,2) DEFAULT NULL,
+  `creditAmount` decimal(10,0) DEFAULT NULL,
+  `creditDate` varchar(512) DEFAULT NULL,
+  `availableLimitAmount` decimal(10,0) DEFAULT NULL,
+  `availableLimitDate` varchar(512) DEFAULT NULL,
+  `balanceAmount` decimal(10,0) DEFAULT NULL,
   PRIMARY KEY (`paymenthistoryId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -668,7 +670,7 @@ CREATE TABLE `paymenthistory` (
 
 LOCK TABLES `paymenthistory` WRITE;
 /*!40000 ALTER TABLE `paymenthistory` DISABLE KEYS */;
-INSERT INTO `paymenthistory` VALUES (21,14,0,-800,800,'2020-11-30 15:25:03',14,NULL,NULL,1000017,'2020-12-03 00:00:00',800.00,NULL,NULL,NULL,2,NULL,NULL,NULL,NULL,0.00),(22,14,1000,200,0,'2020-11-30 15:28:11',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1000.00,'2020-11-30',NULL,NULL,200.00),(23,14,500,500,0,'2020-11-30 15:28:31',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,500.00,'2020-11-30',NULL,NULL,0.00);
+INSERT INTO `paymenthistory` VALUES (21,14,0,-800,800,'2020-11-30 15:25:03',14,NULL,NULL,1000017,'2020-12-03 00:00:00',800,NULL,NULL,NULL,2,NULL,NULL,NULL,NULL,0),(22,14,1000,200,0,'2020-11-30 15:28:11',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1000,'2020-11-30',NULL,NULL,200),(23,14,500,500,0,'2020-11-30 15:28:31',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,500,'2020-11-30',NULL,NULL,0);
 /*!40000 ALTER TABLE `paymenthistory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -711,7 +713,7 @@ CREATE TABLE `paymentreceived` (
   `paymentreceivedId` int NOT NULL AUTO_INCREMENT,
   `userId` int NOT NULL,
   `receivedDate` varchar(512) NOT NULL,
-  `Amount` decimal(10,2) NOT NULL,
+  `Amount` decimal(10,0) NOT NULL,
   `paymentMode` int NOT NULL,
   `TransactionId` varchar(512) DEFAULT NULL,
   `Remarks` varchar(512) DEFAULT NULL,
@@ -1074,7 +1076,7 @@ CREATE TABLE `suborder` (
 
 LOCK TABLES `suborder` WRITE;
 /*!40000 ALTER TABLE `suborder` DISABLE KEYS */;
-INSERT INTO `suborder` VALUES (128,1000015,400,0,14,'2020-11-29 19:35:43',0,NULL,45,'2',2,360,0,NULL,'SUB_ORDER_PENDING',11,10,'1000015001'),(129,1000015,400,0,14,'2020-11-29 19:35:43',0,NULL,45,'2',2,360,0,NULL,'SUB_ORDER_PENDING',11,10,'1000015002'),(131,1000016,400,0,14,'2020-11-30 15:19:22',0,NULL,46,'2',2,360,0,NULL,'SUB_ORDER_PENDING',11,10,'1000016001'),(132,1000016,400,0,14,'2020-11-30 15:19:22',0,NULL,46,'2',2,360,0,NULL,'SUB_ORDER_PENDING',11,10,'1000016002'),(134,1000017,400,0,14,'2020-11-30 15:25:03',0,NULL,47,'2',2,360,0,NULL,'SUB_ORDER_PENDING',11,10,'1000017001'),(135,1000017,400,0,14,'2020-11-30 15:25:03',0,NULL,47,'2',2,360,0,NULL,'SUB_ORDER_PENDING',11,10,'1000017002');
+INSERT INTO `suborder` VALUES (128,1000015,400,0,14,'2020-11-29 19:35:43',0,NULL,45,'2',2,360,0,NULL,'SUB_ORDER_BID_ASSIGNED',12,10,'1000015001'),(129,1000015,400,0,14,'2020-11-29 19:35:43',0,NULL,45,'2',2,360,0,NULL,'SUB_ORDER_BID_ASSIGNED',12,10,'1000015002'),(131,1000016,400,0,14,'2020-11-30 15:19:22',0,NULL,46,'2',2,360,0,NULL,'SUB_ORDER_BID_ASSIGNED',12,10,'1000016001'),(132,1000016,400,0,14,'2020-11-30 15:19:22',0,NULL,46,'2',2,360,0,NULL,'SUB_ORDER_BID_ASSIGNED',12,10,'1000016002'),(134,1000017,400,0,14,'2020-11-30 15:25:03',0,NULL,47,'2',2,360,0,NULL,'SUB_ORDER_BID_ASSIGNED',12,10,'1000017001'),(135,1000017,400,0,14,'2020-11-30 15:25:03',0,NULL,47,'2',2,360,0,NULL,'SUB_ORDER_BID_ASSIGNED',12,10,'1000017002');
 /*!40000 ALTER TABLE `suborder` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1247,8 +1249,10 @@ CREATE TABLE `trip` (
   `startedBy` int DEFAULT NULL,
   `stoppeddBy` int DEFAULT NULL,
   `tripSeq` varchar(512) DEFAULT NULL,
+  `isInvoiceGenerated` tinyint(1) DEFAULT NULL,
+  `invoiceId` int DEFAULT NULL,
   PRIMARY KEY (`tripId`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1257,6 +1261,7 @@ CREATE TABLE `trip` (
 
 LOCK TABLES `trip` WRITE;
 /*!40000 ALTER TABLE `trip` DISABLE KEYS */;
+INSERT INTO `trip` VALUES (42,128,3,1,NULL,NULL,'TRIP_TRANSPORTER_ASSIGNED',16,NULL,NULL,NULL,21,'2020-12-01 23:30:10',NULL,NULL,NULL,NULL,NULL,350,1,NULL,NULL,NULL,0,NULL),(43,129,3,1,NULL,NULL,'TRIP_TRANSPORTER_ASSIGNED',16,NULL,NULL,NULL,21,'2020-12-01 23:30:10',NULL,NULL,NULL,NULL,NULL,340,1,NULL,NULL,NULL,0,NULL),(44,131,3,1,NULL,NULL,'TRIP_TRANSPORTER_ASSIGNED',16,NULL,NULL,NULL,21,'2020-12-01 23:30:10',NULL,NULL,NULL,NULL,NULL,325,1,NULL,NULL,NULL,0,NULL),(45,132,3,1,NULL,NULL,'TRIP_TRANSPORTER_ASSIGNED',16,NULL,NULL,NULL,21,'2020-12-01 23:30:10',NULL,NULL,NULL,NULL,NULL,324,1,NULL,NULL,NULL,0,NULL),(46,134,3,1,NULL,NULL,'TRIP_TRANSPORTER_ASSIGNED',16,NULL,NULL,NULL,21,'2020-12-01 23:30:10',NULL,NULL,NULL,NULL,NULL,360,1,NULL,NULL,NULL,0,NULL),(47,135,3,1,NULL,NULL,'TRIP_TRANSPORTER_ASSIGNED',16,NULL,NULL,NULL,21,'2020-12-01 23:30:10',NULL,NULL,NULL,NULL,NULL,331,1,NULL,NULL,NULL,0,NULL);
 /*!40000 ALTER TABLE `trip` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -1308,6 +1313,38 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `tripinvoice`
+--
+
+DROP TABLE IF EXISTS `tripinvoice`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tripinvoice` (
+  `invoiceId` int NOT NULL AUTO_INCREMENT,
+  `tripId` int NOT NULL,
+  `invoiceNumber` varchar(512) DEFAULT NULL,
+  `originalamount` decimal(10,0) NOT NULL,
+  `otheramount` decimal(10,0) DEFAULT NULL,
+  `invoiceamount` decimal(10,0) NOT NULL,
+  `remarks` varchar(512) DEFAULT NULL,
+  `createdBy` int DEFAULT NULL,
+  `createdOn` varchar(512) DEFAULT NULL,
+  `modifiedBy` int DEFAULT NULL,
+  `modifiedOn` varchar(512) DEFAULT NULL,
+  PRIMARY KEY (`invoiceId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tripinvoice`
+--
+
+LOCK TABLES `tripinvoice` WRITE;
+/*!40000 ALTER TABLE `tripinvoice` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tripinvoice` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `truck`
@@ -3585,6 +3622,65 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `getTripInvoicebyId` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getTripInvoicebyId`(in invoice_Id int)
+BEGIN
+
+Select ti.*,
+ concat(dusr.firstName ,' ',dusr.lastName) as DriverName,
+vhl.vehicleNumber,t.tripId,
+concat(usr.firstName ,' ',usr.lastName) TransporterName,
+ cm.containerMasterName TransporterContainer,wm.weightDesc TransporterWeight,
+ c.containerMasterName OrderContainer,w.weightDesc Orderweight, t.tripstatus,
+case 
+    When ord.masterTypeId = 4 then 
+    (Select p.portName from portmaster p  where p.portMasterId = ord.sourceId)
+    When ord.masterTypeId = 2 then 
+    (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
+    When ord.masterTypeId = 3 then 
+    (Select y.yardName from yardmaster y where y.yardMasterId = ord.sourceId)
+    When ord.masterTypeId = 1 then 
+    (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.sourceId)
+    end  sourceName,
+    case 
+    When ord.masterTypeId = 4 then 
+    (Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
+    When ord.masterTypeId = 2 then 
+    (Select p.portName from portmaster p  where p.portMasterId = ord.destinationId)
+    When ord.masterTypeId = 3 then 
+	(Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
+    When ord.masterTypeId = 1 then 
+    (Select y.yardName from yardmaster y where y.yardMasterId = ord.destinationId)
+    end as destinationName
+ from
+transporter.tripinvoice ti
+Inner Join transporter.trip t on ti.tripId = t.tripId
+Inner join transporter.suborder subo on t.subOrderId = subo.subOrderId
+Inner Join transporter.order ord on subo.orderId = ord.orderId
+left outer join transporter.vehiclemaster vhl on vhl.vehicleMasterId = t.assignedVehicle
+left outer join transporter.driver dusr on dusr.driverId = t.assignedDriver
+left outer join transporter.weightmaster wm on wm.weightMasterId = vhl.vehiclecapacity
+left outer join transporter.containermaster cm on cm.containerMasterId = vhl.vehicletype
+left outer join transporter.containermaster c on subo.containerType = c.containerMasterId
+left outer join transporter.weightmaster w on subo.containerWeightType = w.weightMasterId
+where ti.invoiceId = invoice_Id; 
+
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `GetTripsbyId` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -4094,8 +4190,8 @@ where bid_rank = 1) um on um.bidid= bid.bidId
   
   -- inserting the confirmed order details to trip
   insert into transporter.trip
-(subOrderId,sourceId,destinationId,tripstatus,tripStatusId,createdBy,createdOn,bidValue,isActive)
-SELECT subo.subOrderId, ord.sourceId, ord.destinationId, 'TRIP_TRANSPORTER_ASSIGNED',16, userId, now(), bum.bidValue,1
+(subOrderId,sourceId,destinationId,tripstatus,tripStatusId,createdBy,createdOn,bidValue,isActive,isInvoiceGenerated)
+SELECT subo.subOrderId, ord.sourceId, ord.destinationId, 'TRIP_TRANSPORTER_ASSIGNED',16, userId, now(), bum.bidValue,1,0
 FROM transporter.bidusermapping bum
 inner join transporter.bid bd on bd.bidId = bum.bidId
 inner join transporter.suborder subo on subo.subOrderId= bd.subOrderId
@@ -5211,4 +5307,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-30 15:49:33
+-- Dump completed on 2020-12-02  2:31:57

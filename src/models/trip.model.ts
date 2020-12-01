@@ -132,6 +132,18 @@ export class Trip extends Entity {
   })
   tripSeq?: string;
 
+  @property({
+    type: 'boolean',
+  })
+  isInvoiceGenerated?: boolean;
+
+  @property({
+    type: 'number',
+  })
+  invoiceId?: number;
+
+
+
   // Define well-known properties here
 
   // Indexer property to allow additional data

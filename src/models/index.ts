@@ -61,3 +61,4 @@ export * from './zone-master.model';
 
 export * from './payment-type.model';
 export * from './paymenthistory-filter.model';
+export * from './tripinvoice.model';

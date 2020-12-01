@@ -44,6 +44,7 @@ export async function migrate(args: string[]) {
       'TransporterRegistration',
       'Truck',
       'Trip',
+      'Tripinvoice',
       'Vehicle',
       'VehicleMaster',
       'Vehicletransportermapping',
