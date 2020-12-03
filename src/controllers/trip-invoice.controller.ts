@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Count,
   CountSchema,
@@ -8,6 +9,7 @@ import {
 } from '@loopback/repository';
 import {
   del, get,
+
   getModelSchemaRef, param,
 
 
@@ -61,6 +63,54 @@ export class TripInvoiceController {
     } as Trip;
     const updateTrip = await this.tripRepository.updateById(trip.tripId, trip);
     return trinvoice;
+  }
+
+
+  @post('/generatetripinvoices', {
+    responses: {
+      '200': {
+        description: 'Tripinvoices',
+        content: {'application/json': {schema: {type: 'array',}}},
+      },
+    },
+  })
+  async createinvoices(
+    @requestBody({
+      content: {
+        'application/json' : {schema:{type: 'array',}},
+      },
+    })
+    tripinvoice: any,
+  ): Promise<any> {
+
+    const obj = "success";
+    // eslint-disable-next-line @typescript-eslint/prefer-for-of
+    for(let i=0; i < tripinvoice.length;i++)
+    {
+      if(tripinvoice[i].invoiceId === 0)
+      {
+      const tripInvoiceObj = {
+        tripId: tripinvoice[i].tripId,
+        invoiceNumber: "",
+        originalamount: tripinvoice[i].BidValue,
+        otheramount: tripinvoice[i].billedAmount === null? 0 : tripinvoice[i].billedAmount,
+        invoiceamount: (tripinvoice[i].BidValue) + (tripinvoice[i].billedAmount === null? 0 : tripinvoice[i].billedAmount),
+        remarks: "",
+        createdBy: tripinvoice[i].createdBy,
+        createdOn: tripinvoice[i].createdOn
+      } as Tripinvoice
+      const trinvoice = await  this.tripinvoiceRepository.create(tripInvoiceObj);
+    const trip = {
+      isInvoiceGenerated : true,
+      invoiceId: trinvoice.getId(),
+      tripId:trinvoice.tripId
+    } as Trip;
+    const updateTrip = await this.tripRepository.updateById(trip.tripId, trip);
+
+    }
+  }
+
+    return JSON.stringify(obj);
   }
 
   @get('/tripinvoices/count', {

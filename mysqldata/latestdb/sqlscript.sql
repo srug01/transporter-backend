@@ -1261,7 +1261,7 @@ CREATE TABLE `trip` (
 
 LOCK TABLES `trip` WRITE;
 /*!40000 ALTER TABLE `trip` DISABLE KEYS */;
-INSERT INTO `trip` VALUES (42,128,3,1,NULL,NULL,'TRIP_TRANSPORTER_ASSIGNED',16,NULL,NULL,NULL,21,'2020-12-01 23:30:10',NULL,NULL,NULL,NULL,NULL,350,1,NULL,NULL,NULL,0,NULL),(43,129,3,1,NULL,NULL,'TRIP_TRANSPORTER_ASSIGNED',16,NULL,NULL,NULL,21,'2020-12-01 23:30:10',NULL,NULL,NULL,NULL,NULL,340,1,NULL,NULL,NULL,0,NULL),(44,131,3,1,NULL,NULL,'TRIP_TRANSPORTER_ASSIGNED',16,NULL,NULL,NULL,21,'2020-12-01 23:30:10',NULL,NULL,NULL,NULL,NULL,325,1,NULL,NULL,NULL,0,NULL),(45,132,3,1,NULL,NULL,'TRIP_TRANSPORTER_ASSIGNED',16,NULL,NULL,NULL,21,'2020-12-01 23:30:10',NULL,NULL,NULL,NULL,NULL,324,1,NULL,NULL,NULL,0,NULL),(46,134,3,1,NULL,NULL,'TRIP_TRANSPORTER_ASSIGNED',16,NULL,NULL,NULL,21,'2020-12-01 23:30:10',NULL,NULL,NULL,NULL,NULL,360,1,NULL,NULL,NULL,0,NULL),(47,135,3,1,NULL,NULL,'TRIP_TRANSPORTER_ASSIGNED',16,NULL,NULL,NULL,21,'2020-12-01 23:30:10',NULL,NULL,NULL,NULL,NULL,331,1,NULL,NULL,NULL,0,NULL);
+INSERT INTO `trip` VALUES (42,128,3,1,NULL,NULL,'TRIP_TRANSPORTER_ASSIGNED',16,NULL,NULL,NULL,21,'2020-12-01 23:30:10',NULL,NULL,NULL,NULL,NULL,350,1,NULL,NULL,NULL,1,4),(43,129,3,1,NULL,NULL,'TRIP_TRANSPORTER_ASSIGNED',16,NULL,NULL,NULL,21,'2020-12-01 23:30:10',NULL,NULL,NULL,NULL,NULL,340,1,NULL,NULL,NULL,1,5),(44,131,3,1,NULL,NULL,'TRIP_TRANSPORTER_ASSIGNED',16,NULL,NULL,NULL,21,'2020-12-01 23:30:10',NULL,NULL,NULL,NULL,NULL,325,1,NULL,NULL,NULL,1,6),(45,132,3,1,NULL,NULL,'TRIP_TRANSPORTER_ASSIGNED',16,NULL,NULL,NULL,21,'2020-12-01 23:30:10',NULL,NULL,NULL,NULL,NULL,324,1,NULL,NULL,NULL,1,7),(46,134,3,1,NULL,NULL,'TRIP_TRANSPORTER_ASSIGNED',16,NULL,NULL,NULL,21,'2020-12-01 23:30:10',NULL,NULL,NULL,NULL,NULL,360,1,NULL,NULL,NULL,1,8),(47,135,3,1,NULL,NULL,'TRIP_TRANSPORTER_ASSIGNED',16,NULL,NULL,NULL,21,'2020-12-01 23:30:10',NULL,NULL,NULL,NULL,NULL,331,1,NULL,NULL,NULL,0,NULL);
 /*!40000 ALTER TABLE `trip` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -1334,7 +1334,7 @@ CREATE TABLE `tripinvoice` (
   `modifiedBy` int DEFAULT NULL,
   `modifiedOn` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`invoiceId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1343,6 +1343,7 @@ CREATE TABLE `tripinvoice` (
 
 LOCK TABLES `tripinvoice` WRITE;
 /*!40000 ALTER TABLE `tripinvoice` DISABLE KEYS */;
+INSERT INTO `tripinvoice` VALUES (4,42,'',350,0,350,'',21,'2020-12-01T18:00:10.000Z',NULL,NULL),(5,43,'',340,0,340,'',21,'2020-12-01T18:00:10.000Z',NULL,NULL),(6,44,'',325,0,325,'',21,'2020-12-01T18:00:10.000Z',NULL,NULL),(7,45,'',324,0,324,'',21,'2020-12-01T18:00:10.000Z',NULL,NULL),(8,46,'',360,0,360,'',21,'2020-12-01T18:00:10.000Z',NULL,NULL);
 /*!40000 ALTER TABLE `tripinvoice` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2586,7 +2587,7 @@ case
 	(Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
     When ord.masterTypeId = 1 then 
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.destinationId)
-    end as destinationName
+    end as destinationName,0,0,0,ifnull(t.isInvoiceGenerated,0) as isInvoiceGenerated,ifnull(t.invoiceId,0) as invoiceId
 from transporter.trip t
 Inner Join transporter.suborder so on t.subOrderId = so.subOrderId
 Inner Join transporter.order ord on so.orderId = ord.orderId
@@ -2626,7 +2627,7 @@ case
 	(Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
     When ord.masterTypeId = 1 then 
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.destinationId)
-    end as destinationName
+    end as destinationName,0,0,0,ifnull(t.isInvoiceGenerated,0) as isInvoiceGenerated,ifnull(t.invoiceId,0) as invoiceId
 from transporter.trip t
 Inner Join transporter.suborder so on t.subOrderId = so.subOrderId
 Inner Join transporter.order ord on so.orderId = ord.orderId
@@ -2666,7 +2667,7 @@ case
 	(Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
     When ord.masterTypeId = 1 then 
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.destinationId)
-    end as destinationName
+    end as destinationName,0,0,0,ifnull(t.isInvoiceGenerated,0) as isInvoiceGenerated,ifnull(t.invoiceId,0) as invoiceId
 from transporter.trip t
 Inner Join transporter.suborder so on t.subOrderId = so.subOrderId
 Inner Join transporter.order ord on so.orderId = ord.orderId
@@ -2707,7 +2708,7 @@ case
 	(Select cm.cfsName from cfsmaster cm where cm.cfsMasterId =  ord.destinationId)
     When ord.masterTypeId = 1 then 
     (Select y.yardName from yardmaster y where y.yardMasterId = ord.destinationId)
-    end as destinationName
+    end as destinationName,subo.subOrderTotal,subo.subOrderTotalMargin,t.BidValue,ifnull(t.isInvoiceGenerated,0) as isInvoiceGenerated,ifnull(t.invoiceId,0) as invoiceId
 from transporter.trip t
 Inner join transporter.suborder subo on t.subOrderId = subo.subOrderId
 Inner Join transporter.order ord on subo.orderId = ord.orderId
@@ -3672,6 +3673,7 @@ left outer join transporter.weightmaster wm on wm.weightMasterId = vhl.vehicleca
 left outer join transporter.containermaster cm on cm.containerMasterId = vhl.vehicletype
 left outer join transporter.containermaster c on subo.containerType = c.containerMasterId
 left outer join transporter.weightmaster w on subo.containerWeightType = w.weightMasterId
+left outer join transporter.user usr on usr.userId = t.createdBy
 where ti.invoiceId = invoice_Id; 
 
 
@@ -5307,4 +5309,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-02  2:31:57
+-- Dump completed on 2020-12-04  0:31:35
