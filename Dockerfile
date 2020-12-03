@@ -2,6 +2,7 @@
 FROM node:10-slim
 
 # Set to a non-root built-in user `node`
+RUN adduser -D node
 USER node
 
 # Create app directory (with user `node`)
