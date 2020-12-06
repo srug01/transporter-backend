@@ -85,7 +85,7 @@ export class Trip extends Entity {
   @property({
     type: 'date',
   })
-  modifiedOn?: Date;
+  modifiedOn?: string;
 
   @property({
     type: 'string',

@@ -1,25 +1,19 @@
 import {Entity, model, property} from '@loopback/repository';
 
 @model()
-export class Tripinvoice extends Entity {
+export class Orderinvoice extends Entity {
   @property({
     type: 'number',
     id: true,
     generated: true,
   })
-  invoiceId?: number;
+  orderInvoiceId?: number;
 
   @property({
     type: 'number',
     required: true,
   })
-  tripId: number;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  subOrderId: number;
+  orderId: number;
 
   @property({
     type: 'string',
@@ -39,6 +33,7 @@ export class Tripinvoice extends Entity {
 
   @property({
     type: 'number',
+    default: 0,
     mysql: {
       dataType: 'decimal',
       precision: 10,
@@ -49,14 +44,14 @@ export class Tripinvoice extends Entity {
 
   @property({
     type: 'number',
-    required: true,
+    default: 0,
     mysql: {
       dataType: 'decimal',
       precision: 10,
       scale: 2
     }
   })
-  invoiceamount: number;
+  invoiceamount?: number;
 
   @property({
     type: 'string',
@@ -65,14 +60,15 @@ export class Tripinvoice extends Entity {
 
   @property({
     type: 'number',
+    required: true,
   })
-  createdBy?: number;
+  createdBy: number;
 
   @property({
     type: 'string',
-
+    required: true,
   })
-  createdOn?: string;
+  createdOn: string;
 
   @property({
     type: 'number',
@@ -84,13 +80,14 @@ export class Tripinvoice extends Entity {
   })
   modifiedOn?: string;
 
-  constructor(data?: Partial<Tripinvoice>) {
+
+  constructor(data?: Partial<Orderinvoice>) {
     super(data);
   }
 }
 
-export interface TripinvoiceRelations {
+export interface OrderinvoiceRelations {
   // describe navigational properties here
 }
 
-export type TripinvoiceWithRelations = Tripinvoice & TripinvoiceRelations;
+export type OrderinvoiceWithRelations = Orderinvoice & OrderinvoiceRelations;

@@ -91,6 +91,7 @@ export class TripInvoiceController {
       {
       const tripInvoiceObj = {
         tripId: tripinvoice[i].tripId,
+        subOrderId:  tripinvoice[i].subOrderId,
         invoiceNumber: "",
         originalamount: tripinvoice[i].BidValue,
         otheramount: tripinvoice[i].billedAmount === null? 0 : tripinvoice[i].billedAmount,

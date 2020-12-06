@@ -60,3 +60,4 @@ export * from './zone-master.controller';
 
 export * from './payment-type.controller';
 export * from './trip-invoice.controller';
+export * from './orderinvoice.controller';

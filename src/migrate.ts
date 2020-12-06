@@ -29,6 +29,7 @@ export async function migrate(args: string[]) {
       'MileageMaster',
       'Notification',
       'Order',
+      'Orderinvoice',
       'PaymentCreditLimit',
       'PaymentMode',
       'Paymentreceived',

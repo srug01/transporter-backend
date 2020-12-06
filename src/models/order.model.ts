@@ -132,7 +132,15 @@ export class Order extends Entity {
   })
   timeslotMasterId?: number;
 
+  @property({
+    type: 'boolean',
+  })
+  isInvoiceGenerated?: boolean;
 
+  @property({
+    type: 'number',
+  })
+  orderInvoiceId?: number;
 
 
   @hasMany(() => Container)

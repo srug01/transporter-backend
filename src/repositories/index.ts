@@ -47,3 +47,4 @@ export * from './zone-master.repository';
 
 export * from './payment-type.repository';
 export * from './tripinvoice.repository';
+export * from './orderinvoice.repository';
