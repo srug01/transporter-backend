@@ -83,8 +83,8 @@ export class TransporterRegistrationController {
     },
   })
   async find(
-    // @param.filter(TransporterRegistration) filter?: Filter<TransporterRegistration>,
-    @param.filter(TransporterRegistration) filter: Filter<TransporterRegistration> = {where : {and:[ {isActive: true}, {isVerified: true}]}},
+     @param.filter(TransporterRegistration) filter?: Filter<TransporterRegistration>,
+    // @param.filter(TransporterRegistration) filter: Filter<TransporterRegistration> = {where : {and:[ {isActive: true}, {isVerified: true}]}},
   ): Promise<TransporterRegistration[]> {
     return this.transporterRegistrationRepository.find(filter);
   }

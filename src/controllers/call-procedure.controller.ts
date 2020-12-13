@@ -1506,14 +1506,14 @@ export class CallProcedureController {
       content: {
         'application/json': {
           schema: getModelSchemaRef(FourParamObj, {
-            title: 'Filter',
+            title: 'getUsersList',
           }),
         },
       },
     })
     queryObj: FourParamObj,
   ): Promise<AnyObject> {
-    // console.log(queryObj);
+    //  console.log(queryObj);
     const sqlStmt = mysql.format('CALL getUsersListDetails(?,?,?,?)', [
       queryObj.varOne,
       queryObj.varTwo,
