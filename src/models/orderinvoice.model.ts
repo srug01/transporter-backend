@@ -65,6 +65,11 @@ export class Orderinvoice extends Entity {
   createdBy: number;
 
   @property({
+    type: 'number',
+  })
+  createdFor?: number;
+
+  @property({
     type: 'string',
     required: true,
   })

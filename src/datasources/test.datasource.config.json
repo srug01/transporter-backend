@@ -2,7 +2,7 @@
     "name": "test",
     "connector": "mysql",
     "url": "",
-    "host": "172.105.252.237",
+    "host": "localhost",
     "port": 3306,
     "user": "root",
     "password": "root",

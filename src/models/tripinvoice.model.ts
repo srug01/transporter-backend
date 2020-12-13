@@ -69,6 +69,11 @@ export class Tripinvoice extends Entity {
   createdBy?: number;
 
   @property({
+    type: 'number',
+  })
+  createdFor?: number;
+
+  @property({
     type: 'string',
 
   })

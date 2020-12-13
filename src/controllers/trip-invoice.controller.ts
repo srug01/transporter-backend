@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import {authenticate, AuthenticationBindings} from '@loopback/authentication';
+import {inject} from '@loopback/core';
 import {
   Count,
   CountSchema,
@@ -24,6 +26,7 @@ import {
 } from '@loopback/rest';
 import {Trip, Tripinvoice} from '../models';
 import {TripinvoiceRepository, TripRepository} from '../repositories';
+import {MyUserProfile} from '../types';
 
 export class TripInvoiceController {
   constructor(
@@ -31,6 +34,9 @@ export class TripInvoiceController {
     public tripinvoiceRepository : TripinvoiceRepository,
     @repository(TripRepository)
     public tripRepository: TripRepository,
+    @inject(AuthenticationBindings.CURRENT_USER)
+    public currentUser: MyUserProfile,
+
 
   ) {}
 
@@ -74,6 +80,7 @@ export class TripInvoiceController {
       },
     },
   })
+  @authenticate('jwt')
   async createinvoices(
     @requestBody({
       content: {
@@ -81,9 +88,11 @@ export class TripInvoiceController {
       },
     })
     tripinvoice: any,
+
   ): Promise<any> {
 
     const obj = "success";
+
     // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for(let i=0; i < tripinvoice.length;i++)
     {
@@ -97,7 +106,8 @@ export class TripInvoiceController {
         otheramount: tripinvoice[i].billedAmount === null? 0 : tripinvoice[i].billedAmount,
         invoiceamount: (tripinvoice[i].BidValue) + (tripinvoice[i].billedAmount === null? 0 : tripinvoice[i].billedAmount),
         remarks: "",
-        createdBy: tripinvoice[i].createdBy,
+        createdBy: parseInt(this.currentUser.userId,10),
+        createdFor:  tripinvoice[i].createdBy,
         createdOn: tripinvoice[i].createdOn
       } as Tripinvoice
       const trinvoice = await  this.tripinvoiceRepository.create(tripInvoiceObj);
