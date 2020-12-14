@@ -91,12 +91,14 @@ export class TripInvoiceController {
 
   ): Promise<any> {
 
-    const obj = "success";
+    let obj = "Trip(s) not Completed with SubOrder(s) : ";
 
     // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for(let i=0; i < tripinvoice.length;i++)
     {
-      if(tripinvoice[i].invoiceId === 0)
+      if(tripinvoice[i].tripStatusId === 20)
+      {
+      if(tripinvoice[i].invoiceId === 0 )
       {
       const tripInvoiceObj = {
         tripId: tripinvoice[i].tripId,
@@ -119,6 +121,14 @@ export class TripInvoiceController {
     const updateTrip = await this.tripRepository.updateById(trip.tripId, trip);
 
     }
+  }
+  else{
+    obj = obj + tripinvoice[i].subOrderId + ",";
+  }
+  }
+  if(obj.length === 0)
+  {
+    obj = "Success";
   }
 
     return JSON.stringify(obj);
