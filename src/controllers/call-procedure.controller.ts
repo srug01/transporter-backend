@@ -1607,7 +1607,7 @@ export class CallProcedureController {
   @post('/generateorderinvoices', {
     responses: {
       '200': {
-        description: 'save Permissions',
+        description: 'Save Order Invoices',
         content: {
           'application/json': {
             schema: {type: 'array', items: getModelSchemaRef(ThreeparamObj)},
@@ -1622,19 +1622,20 @@ export class CallProcedureController {
       content: {
         'application/json': {
           schema: getModelSchemaRef(ThreeparamObj, {
-            title: 'Filter',
+            title: 'generateorderinvoices',
           }),
         },
       },
     })
     queryObj: ThreeparamObj,
   ): Promise<AnyObject> {
-    console.log(queryObj);
+
     const sqlStmt = mysql.format('CALL saveOrderInvoices(?,?,?)', [
-      queryObj.varOne = JSON.stringify(queryObj.varOne),
+      queryObj.varOne,
       queryObj.varTwo ,
       queryObj.varThree,
     ]);
+    console.log(queryObj);
     const connection = mysql.createConnection(mysqlCreds);
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
