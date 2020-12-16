@@ -141,7 +141,15 @@ export class Trip extends Entity {
     type: 'number',
   })
   invoiceId?: number;
+  @property({
+    type: 'boolean',
+  })
+  transporterInvoiceGenerated?: boolean;
 
+  @property({
+    type: 'number',
+  })
+  transporterInvoiceId?: number;
 
 
   // Define well-known properties here

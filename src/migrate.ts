@@ -43,6 +43,7 @@ export async function migrate(args: string[]) {
       'SubOrder',
       'Timeslotmaster',
       'TransporterRegistration',
+      'TransporterInvoice',
       'Truck',
       'Trip',
       'Tripinvoice',

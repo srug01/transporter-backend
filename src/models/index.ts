@@ -63,3 +63,4 @@ export * from './payment-type.model';
 export * from './paymenthistory-filter.model';
 export * from './tripinvoice.model';
 export * from './orderinvoice.model';
+export * from './transporter-invoice.model';
