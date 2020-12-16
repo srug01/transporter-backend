@@ -92,7 +92,7 @@ export class TripInvoiceController {
   ): Promise<any> {
 
     let obj = "Trip(s) not Completed with SubOrder(s) : ";
-
+    let cnt = 0;
     // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for(let i=0; i < tripinvoice.length;i++)
     {
@@ -100,6 +100,12 @@ export class TripInvoiceController {
       {
       if(tripinvoice[i].invoiceId === 0 )
       {
+        let cfsId = 0;
+        if(tripinvoice[i].masterTypeId === 1 || tripinvoice[i].masterTypeId === 2)
+          cfsId = tripinvoice[i].sourceId;
+        else
+          cfsId = tripinvoice[i].destinationId;
+
       const tripInvoiceObj = {
         tripId: tripinvoice[i].tripId,
         subOrderId:  tripinvoice[i].subOrderId,
@@ -109,7 +115,7 @@ export class TripInvoiceController {
         invoiceamount: (tripinvoice[i].BidValue) + (tripinvoice[i].billedAmount === null? 0 : tripinvoice[i].billedAmount),
         remarks: "",
         createdBy: parseInt(this.currentUser.userId,10),
-        createdFor:  tripinvoice[i].createdBy,
+        createdFor:  cfsId,
         createdOn: tripinvoice[i].createdOn
       } as Tripinvoice
       const trinvoice = await  this.tripinvoiceRepository.create(tripInvoiceObj);
@@ -124,9 +130,10 @@ export class TripInvoiceController {
   }
   else{
     obj = obj + tripinvoice[i].subOrderId + ",";
+    cnt += 1;
   }
   }
-  if(obj.length === 0)
+  if(cnt === 0)
   {
     obj = "Success";
   }
