@@ -1,28 +1,39 @@
+import {authenticate, AuthenticationBindings} from '@loopback/authentication';
+import {inject} from '@loopback/core';
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+  del, get,
+  getModelSchemaRef, param,
+
+
+  patch, post,
+
+
+
+
   put,
-  del,
-  requestBody,
+
+  requestBody
 } from '@loopback/rest';
-import {TransporterInvoice} from '../models';
-import {TransporterInvoiceRepository} from '../repositories';
+import {TransporterInvoice, Trip} from '../models';
+import {TransporterInvoiceRepository, TripRepository} from '../repositories';
+import {MyUserProfile} from '../types';
 
 export class TransporterInvoiceController {
   constructor(
     @repository(TransporterInvoiceRepository)
     public transporterInvoiceRepository : TransporterInvoiceRepository,
+    @repository(TripRepository)
+    public tripRepository: TripRepository,
+    @inject(AuthenticationBindings.CURRENT_USER)
+    public currentUser: MyUserProfile,
   ) {}
 
   @post('/transporter-invoices', {
@@ -47,6 +58,71 @@ export class TransporterInvoiceController {
     transporterInvoice: Omit<TransporterInvoice, 'transporterInvoiceId'>,
   ): Promise<TransporterInvoice> {
     return this.transporterInvoiceRepository.create(transporterInvoice);
+  }
+
+  @post('/generatetransportertripinvoices', {
+    responses: {
+      '200': {
+        description: 'Tripinvoices',
+        content: {'application/json': {schema: {type: 'array',}}},
+      },
+    },
+  })
+  @authenticate('jwt')
+  async createtransporterinvoices(
+    @requestBody({
+      content: {
+        'application/json' : {schema:{type: 'array',}},
+      },
+    })
+    tripinvoice: any,
+
+  ): Promise<any> {
+
+    let obj = "Trip(s) not Completed with SubOrder(s) : ";
+    let cnt = 0;
+    // eslint-disable-next-line @typescript-eslint/prefer-for-of
+    for(let i=0; i < tripinvoice.length;i++)
+    {
+      if(tripinvoice[i].tripStatusId === 20)
+      {
+      if(tripinvoice[i].transporterInvoiceId === 0 )
+      {
+
+
+      const transtripInvoiceObj = {
+        tripId: tripinvoice[i].tripId,
+        subOrderId:  tripinvoice[i].subOrderId,
+        invoiceNumber: "",
+        originalamount: tripinvoice[i].BidValue,
+        otheramount: tripinvoice[i].billedAmount === null? 0 : tripinvoice[i].billedAmount,
+        invoiceamount: (tripinvoice[i].BidValue) + (tripinvoice[i].billedAmount === null? 0 : tripinvoice[i].billedAmount),
+        remarks: "",
+        createdBy: parseInt(this.currentUser.userId,10),
+        createdFor:  1,
+        createdOn: tripinvoice[i].createdOn
+      } as TransporterInvoice
+      const trinvoice = await  this.transporterInvoiceRepository.create(transtripInvoiceObj);
+    const trip = {
+      transporterInvoiceGenerated : true,
+      transporterInvoiceId: trinvoice.getId(),
+      tripId:trinvoice.tripId
+    } as Trip;
+    const updateTrip = await this.tripRepository.updateById(trip.tripId, trip);
+
+    }
+  }
+  else{
+    obj = obj + tripinvoice[i].subOrderId + ",";
+    cnt += 1;
+  }
+  }
+  if(cnt === 0)
+  {
+    obj = "Success";
+  }
+
+    return JSON.stringify(obj);
   }
 
   @get('/transporter-invoices/count', {
