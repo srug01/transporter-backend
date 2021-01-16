@@ -1,24 +1,29 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+  del, get,
+  getModelSchemaRef, param,
+
+
+  patch, post,
+
+
+
+
   put,
-  del,
-  requestBody,
+
+  requestBody
 } from '@loopback/rest';
 import {StatusDetails} from '../models';
 import {StatusDetailsRepository} from '../repositories';
-
+@authenticate('jwt')
 export class StatusDetailsController {
   constructor(
     @repository(StatusDetailsRepository)

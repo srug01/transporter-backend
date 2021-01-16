@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import {authenticate} from '@loopback/authentication';
 import {inject} from '@loopback/core';
 import {
   Count,
@@ -6,7 +7,7 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
   del,
@@ -16,14 +17,14 @@ import {
   patch,
   post,
   put,
-  requestBody,
+  requestBody
 } from '@loopback/rest';
 import {CallProcedureServiceBindings} from '../keys';
 import {Order, Truck} from '../models';
 import {ContainerRepository, OrderRepository} from '../repositories';
 import {Container} from './../models/container.model';
 import {CallProcedureService} from './../services/call-procedure.service';
-
+@authenticate('jwt')
 export class OrderController {
   constructor(
     @repository(OrderRepository)

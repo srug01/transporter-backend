@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -22,7 +23,7 @@ import {
 } from '@loopback/rest';
 import {PortTerminalMaster} from '../models';
 import {PortTerminalMasterRepository} from '../repositories';
-
+@authenticate('jwt')
 export class PortTerminalMasterController {
   constructor(
     @repository(PortTerminalMasterRepository)

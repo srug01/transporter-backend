@@ -1,10 +1,11 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
   del,
@@ -14,11 +15,11 @@ import {
   patch,
   post,
   put,
-  requestBody,
+  requestBody
 } from '@loopback/rest';
 import {Trip} from '../models';
 import {TripRepository} from '../repositories';
-
+@authenticate('jwt')
 export class TripController {
   constructor(
     @repository(TripRepository)

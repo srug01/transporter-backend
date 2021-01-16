@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {inject} from '@loopback/core';
 import {
   Count,
@@ -5,7 +6,7 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
   del,
@@ -15,7 +16,7 @@ import {
   patch,
   post,
   put,
-  requestBody,
+  requestBody
 } from '@loopback/rest';
 import {toJSON} from '@loopback/testlab';
 import {pick} from 'lodash';
@@ -24,10 +25,10 @@ import {Driver, Drivertransportermapping, User} from '../models';
 import {
   DriverRepository,
   DrivertransportermappingRepository,
-  UserRepository,
+  UserRepository
 } from '../repositories';
 import {MyUserService} from '../services/user-service';
-
+@authenticate('jwt')
 export class DriversController {
   constructor(
     @repository(DriverRepository)

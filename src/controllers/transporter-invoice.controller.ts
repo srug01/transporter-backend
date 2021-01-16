@@ -25,7 +25,7 @@ import {
 import {TransporterInvoice, Trip} from '../models';
 import {TransporterInvoiceRepository, TripRepository} from '../repositories';
 import {MyUserProfile} from '../types';
-
+@authenticate('jwt')
 export class TransporterInvoiceController {
   constructor(
     @repository(TransporterInvoiceRepository)

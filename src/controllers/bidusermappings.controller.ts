@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -22,6 +23,7 @@ import {BidRepository, BidusermappingRepository} from '../repositories';
 const mysql = require('mysql');
 const db = require('mysql-promise')();
 const mysqlCreds = require('../datasources/test.datasource.config.json');
+@authenticate('jwt')
 export class BidusermappingsController {
   constructor(
     @repository(BidusermappingRepository)
@@ -259,12 +261,18 @@ export class BidusermappingsController {
     @param.path.string('bidId') bidId: number,
   ): Promise<Bidusermapping> {
     const sqlStmt = mysql.format('CALL GetBidDetailsByBidId(?)', [bidId]);
-
+    const connection = mysql.createConnection(mysqlCreds);
     return new Promise<Bidusermapping>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      db.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+      connection.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
+        connection.end();
       });
     });
   }
@@ -285,12 +293,18 @@ export class BidusermappingsController {
     @param.path.string('user_Id') user_Id: number,
   ): Promise<Bidusermapping> {
     const sqlStmt = mysql.format('CALL GetBidsbyUserId(?)', [user_Id]);
-
+    const connection = mysql.createConnection(mysqlCreds);
     return new Promise<Bidusermapping>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      db.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+      connection.query(sqlStmt, function (err: any, results: any) {
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
+        connection.end();
       });
     });
   }

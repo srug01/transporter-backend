@@ -97,7 +97,7 @@ interface OrderDetails {
 const mysql = require('mysql');
 // const db = require('mysql-promise')({multipleStatements: true});
 const mysqlCreds = require('../datasources/test.datasource.config.json');
-
+@authenticate('jwt')
 export class CallProcedureController {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public connection: any;
@@ -129,7 +129,11 @@ export class CallProcedureController {
     return new Promise<Product>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       db.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
       });
     });
@@ -170,8 +174,13 @@ export class CallProcedureController {
     return new Promise<LocationMaster>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -201,8 +210,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -229,8 +243,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -257,8 +276,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -297,8 +321,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -334,8 +363,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -362,8 +396,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -390,8 +429,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -418,8 +462,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -466,8 +515,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -494,8 +548,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -522,8 +581,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -550,8 +614,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -579,7 +648,11 @@ export class CallProcedureController {
       const order: any = {};
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, async (err: any, results: any) => {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         // console.log('Result : ' + results[0].length);
         if (results[0].length > 0) {
 
@@ -652,6 +725,7 @@ export class CallProcedureController {
           }*/
         }
         resolve(order);
+        results = null;
         connection.end();
       });
     });
@@ -677,7 +751,11 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       db.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
       });
     });
@@ -703,7 +781,11 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       db.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
       });
     });
@@ -727,8 +809,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -755,7 +842,11 @@ export class CallProcedureController {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
       db.query(sqlStmt, function (err: any, results: Dashboard) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         const JsonData = JSON.stringify(results);
         const obj = JSON.parse(JsonData);
         const data: Dashboard = new Dashboard();
@@ -921,7 +1012,11 @@ export class CallProcedureController {
       const ordObj: OrderDetails[] = [];
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, async (err: any, results: any) => {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         // console.log('Called' + JSON.stringify(results[0]));
         if (results[0].length > 0) {
           for (const ord of results[0]) {
@@ -977,6 +1072,7 @@ export class CallProcedureController {
 
         }
         resolve(ordObj);
+        results = null;
         connection.end();
       });
     });
@@ -1024,8 +1120,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -1071,8 +1172,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -1112,8 +1218,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -1156,8 +1267,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -1206,8 +1322,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -1237,8 +1358,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -1279,8 +1405,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -1321,8 +1452,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -1349,8 +1485,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -1394,8 +1535,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -1439,8 +1585,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -1481,8 +1632,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -1524,8 +1680,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -1569,8 +1730,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -1597,8 +1763,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -1640,8 +1811,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -1668,8 +1844,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });
@@ -1696,8 +1877,13 @@ export class CallProcedureController {
     return new Promise<any>(function (resolve, reject) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connection.query(sqlStmt, function (err: any, results: any) {
-        if (err !== null) return reject(err);
+        if (err !== null)
+        {
+          connection.end();
+          return reject(err);
+        }
         resolve(results[0]);
+        results = null;
         connection.end();
       });
     });

@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -22,7 +23,7 @@ import {
 } from '@loopback/rest';
 import {TransporterRegistration} from '../models';
 import {TransporterRegistrationRepository} from '../repositories';
-
+@authenticate('jwt')
 export class TransporterRegistrationController {
   constructor(
     @repository(TransporterRegistrationRepository)

@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -21,7 +22,7 @@ import {
   Paymenthistory
 } from '../models';
 import {CfsUserRegistrationRepository} from '../repositories';
-
+@authenticate('jwt')
 export class CfsUserRegistrationPaymentCreditLimitController {
   constructor(
     @repository(CfsUserRegistrationRepository) protected cfsUserRegistrationRepository: CfsUserRegistrationRepository,

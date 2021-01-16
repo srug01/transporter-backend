@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {inject} from '@loopback/core';
 import {
   Count,
@@ -21,7 +22,7 @@ import {CallProcedureServiceBindings} from '../keys';
 import {Bid} from '../models';
 import {BidRepository} from '../repositories';
 import {CallProcedureService} from './../services/call-procedure.service';
-
+@authenticate('jwt')
 export class BidController {
   constructor(
     @repository(BidRepository)
@@ -38,6 +39,7 @@ export class BidController {
       },
     },
   })
+  
   async create(
     @requestBody({
       content: {

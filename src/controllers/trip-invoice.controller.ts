@@ -27,7 +27,7 @@ import {
 import {Trip, Tripinvoice} from '../models';
 import {TripinvoiceRepository, TripRepository} from '../repositories';
 import {MyUserProfile} from '../types';
-
+@authenticate('jwt')
 export class TripInvoiceController {
   constructor(
     @repository(TripinvoiceRepository)

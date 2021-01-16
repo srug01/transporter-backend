@@ -1,9 +1,10 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
   Filter,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
   del,
@@ -13,14 +14,14 @@ import {
   param,
   patch,
   post,
-  requestBody,
+  requestBody
 } from '@loopback/rest';
 import {
   ContainerMaster,
-  WeightMaster,
+  WeightMaster
 } from '../models';
 import {ContainerMasterRepository} from '../repositories';
-
+@authenticate('jwt')
 export class ContainerMasterWeightMasterController {
   constructor(
     @repository(ContainerMasterRepository) protected containerMasterRepository: ContainerMasterRepository,

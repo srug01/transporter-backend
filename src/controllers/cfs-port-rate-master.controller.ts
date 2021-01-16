@@ -1,4 +1,5 @@
 /* eslint-disable no-shadow */
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -20,7 +21,7 @@ import {
 } from '@loopback/rest';
 import {CfsPortRateMaster} from '../models';
 import {CfsPortRateMasterRepository} from '../repositories';
-
+@authenticate('jwt')
 export class CfsPortRateMasterController {
   constructor(
     @repository(CfsPortRateMasterRepository)

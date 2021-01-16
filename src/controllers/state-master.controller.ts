@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -28,7 +29,7 @@ import {
 } from '@loopback/rest';
 import {StateMaster} from '../models';
 import {StateMasterRepository} from '../repositories';
-
+@authenticate('jwt')
 export class StateMasterController {
   constructor(
     @repository(StateMasterRepository)

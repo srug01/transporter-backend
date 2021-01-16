@@ -1,24 +1,29 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+  del, get,
+  getModelSchemaRef, param,
+
+
+  patch, post,
+
+
+
+
   put,
-  del,
-  requestBody,
+
+  requestBody
 } from '@loopback/rest';
 import {MasterType} from '../models';
 import {MasterTypeRepository} from '../repositories';
-
+@authenticate('jwt')
 export class MasterTypeController {
   constructor(
     @repository(MasterTypeRepository)

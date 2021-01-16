@@ -1,9 +1,10 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
   Filter,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
   del,
@@ -13,11 +14,11 @@ import {
   param,
   patch,
   post,
-  requestBody,
+  requestBody
 } from '@loopback/rest';
 import {LocationMaster, StateMaster} from '../models';
 import {StateMasterRepository} from '../repositories';
-
+@authenticate('jwt')
 export class StateMasterLocationMasterController {
   constructor(
     @repository(StateMasterRepository)

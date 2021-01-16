@@ -1,9 +1,10 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
   Filter,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
   del,
@@ -13,14 +14,14 @@ import {
   param,
   patch,
   post,
-  requestBody,
+  requestBody
 } from '@loopback/rest';
 import {
   Container,
-  Truck,
+  Truck
 } from '../models';
 import {ContainerRepository} from '../repositories';
-
+@authenticate('jwt')
 export class ContainerTruckController {
   constructor(
     @repository(ContainerRepository) protected containerRepository: ContainerRepository,

@@ -1,24 +1,29 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+  del, get,
+  getModelSchemaRef, param,
+
+
+  patch, post,
+
+
+
+
   put,
-  del,
-  requestBody,
+
+  requestBody
 } from '@loopback/rest';
 import {Paymenthistory} from '../models';
 import {PaymenthistoryRepository} from '../repositories';
-
+@authenticate('jwt')
 export class PaymenthistoryController {
   constructor(
     @repository(PaymenthistoryRepository)

@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -18,7 +19,7 @@ import {
 } from '@loopback/rest';
 import {LocationMaster} from '../models';
 import {LocationMasterRepository} from '../repositories';
-
+@authenticate('jwt')
 export class LocationMasterController {
   constructor(
     @repository(LocationMasterRepository)

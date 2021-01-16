@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {inject} from '@loopback/core';
 import {
   Count,
@@ -24,7 +25,7 @@ import {UserServiceBindings} from '../keys';
 import {CfsUserRegistration, PaymentCreditLimit, Paymenthistory, Paymentreceived, User} from '../models';
 import {CfsUserRegistrationRepository, UserRepository, UserroleRepository} from '../repositories';
 import {MyUserService} from '../services/user-service';
-
+@authenticate('jwt')
 export class CfsUserRegistrationController {
   constructor(
     @inject(UserServiceBindings.USER_SERVICE)
